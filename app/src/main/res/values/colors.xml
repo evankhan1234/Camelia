@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#49d1ba</color>
+    <color name="colorPrimaryDark">#49d1ba</color>
+    <color name="colorAccent">#49d1ba</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="gray_black">#444444</color>
+    <color name="hint_text_color_new">#787886</color>
+    <color name="text_color_new">#0b1038</color>
+    <color name="gradient_strong">#80AAAAAA</color>
+    <color name="gradient_weak">#00555555</color>
+    <color name="accept">#85C34E</color>
+    <color name="transparent">#00000000</color>
+</resources>
