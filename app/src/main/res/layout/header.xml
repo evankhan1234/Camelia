@@ -9,6 +9,7 @@
 
     <RelativeLayout
 
+
         android:id="@+id/rlt_header"
         android:layout_width="match_parent"
         android:layout_height="250px"
@@ -136,6 +137,100 @@
         android:background="@drawable/gradient_color_top"
         android:visibility="gone" />
 
+    <RelativeLayout
 
+        android:id="@+id/rlt_header_status_details"
+        android:layout_width="match_parent"
+        android:layout_height="250px"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/btn_header_status_back"
+            android:layout_width="126px"
+            android:layout_height="135px"
+            android:layout_marginLeft="10px"
+            android:layout_marginTop="52px"
+            android:background="@color/transparent"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:paddingBottom="3px"
+
+            android:stateListAnimator="@null"
+            android:visibility="visible"
+            app:srcCompat="@drawable/back" />
+
+
+        <TextView
+            android:id="@+id/details_status_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6px"
+            android:gravity="center"
+            android:letterSpacing="0.1"
+            android:lines="1"
+            android:maxLines="1"
+            android:paddingLeft="120px"
+            android:paddingRight="120px"
+            android:tag="46"
+            android:text="Details"
+            android:textColor="@color/black"
+            android:textSize="46px" />
+
+        <LinearLayout
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/btn_1"
+                android:layout_width="126px"
+                android:layout_height="135px"
+                android:layout_marginLeft="10px"
+                android:layout_marginTop="52px"
+                android:background="@color/transparent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingBottom="3px"
+
+                android:stateListAnimator="@null"
+                android:visibility="visible"
+                app:srcCompat="@drawable/user_icon" />
+            <ImageButton
+                android:id="@+id/btn_2"
+                android:layout_width="126px"
+                android:layout_height="135px"
+                android:layout_marginLeft="10px"
+                android:layout_marginTop="52px"
+                android:background="@color/transparent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingBottom="3px"
+
+                android:stateListAnimator="@null"
+                android:visibility="visible"
+                app:srcCompat="@drawable/file" />
+            <ImageButton
+                android:id="@+id/btn_3"
+                android:layout_width="126px"
+                android:layout_height="135px"
+                android:layout_marginLeft="10px"
+                android:layout_marginTop="52px"
+                android:background="@color/transparent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingBottom="3px"
+
+                android:stateListAnimator="@null"
+                android:visibility="visible"
+                app:srcCompat="@drawable/icon" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_header_status_details"
+        android:layout_width="match_parent"
+        android:layout_height="5px"
+        android:layout_below="@+id/rlt_header_details"
+        android:layout_marginTop="-1px"
+        android:background="@drawable/gradient_color_top"
+        android:visibility="gone" />
 
 </LinearLayout>

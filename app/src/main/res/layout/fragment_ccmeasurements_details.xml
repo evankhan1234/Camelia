@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+
+    tools:context=".Fragment.CCMeasurementsDetailsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_marginRight="30px"
+        android:layout_marginLeft="30px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:visibility="gone"
+            android:layout_width="400px"
+
+            android:layout_height="120px"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="45px"
+            android:tag="45"
+            android:layout_marginTop="50px"
+            android:background="@drawable/status_reject"
+            android:paddingTop="30px"
+            android:text="Natural"
+            android:textColor="@color/white" />
+        <TextView
+            android:layout_width="400px"
+
+            android:layout_height="120px"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="45px"
+            android:tag="45"
+
+            android:background="@drawable/status_accepted"
+            android:paddingTop="30px"
+            android:text="Natural"
+            android:textColor="@color/white" />
+        <TextView
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textSize="45px"
+            android:tag="45"
+
+            android:layout_marginTop="50px"
+            android:paddingTop="30px"
+            android:text="Did you know the word 'essay' is derived from a Latin word 'exagium', which roughly translates to presenting one's case? So essays are a short piece of writing ...Did you know the word 'essay' is derived from a Latin word 'exagium', which roughly translates to presenting one's case? So essays are a short piece of writing ..."
+            android:textColor="@color/gray_black" />
+
+        <Button
+            android:hint="Edit"
+            android:tag="55"
+            android:textSize="55px"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="60px"
+            android:backgroundTint="@color/reject"
+            android:background="@drawable/capsule_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:hint="Finish"
+            android:tag="55"
+            android:textSize="55px"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="30px"
+            android:backgroundTint="#2196F3"
+            android:background="@drawable/capsule_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

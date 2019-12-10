@@ -46,11 +46,13 @@ public class CCUserHomeActivity extends AppCompatActivity {
 
     private RelativeLayout rlt_header;
     private RelativeLayout rlt_header_details;
+    private RelativeLayout rlt_header_status_details;
     private TextView details_title;
     private View view_header_details;
+    private View view_header_status_details;
     private ImageButton btn_header_back_;
     private ImageButton btn_header_back;
-    private ImageButton btn_header_application;
+    private ImageButton btn_header_status_back;
     private ImageButton btn_header_sync;
     private ImageButton btn_header_application_create;
     private LinearLayout linear;
@@ -84,6 +86,9 @@ public class CCUserHomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        btn_header_status_back = findViewById(R.id.btn_header_status_back);
+        rlt_header_status_details = findViewById(R.id.rlt_header_status_details);
+        view_header_status_details = findViewById(R.id.view_header_status_details);
         btn_close_drawer = findViewById(R.id.btn_close_drawer);
         btn_header_back = findViewById(R.id.btn_header_back);
         title = findViewById(R.id.title);
@@ -113,6 +118,12 @@ public class CCUserHomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 drawer_layout.openDrawer(GravityCompat.START);
                 drawer_layout.closeDrawer(GravityCompat.START);
+            }
+        });
+        btn_header_status_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -276,6 +287,9 @@ public class CCUserHomeActivity extends AppCompatActivity {
 
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
+
+        rlt_header_status_details.setVisibility(View.GONE);
+        view_header_status_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);
 
 
@@ -290,7 +304,8 @@ public class CCUserHomeActivity extends AppCompatActivity {
 
         afterClickTabItem(Constant.FRAG_DASHBOARD, null);
 
-
+        rlt_header_status_details.setVisibility(View.GONE);
+        view_header_status_details.setVisibility(View.GONE);
         title.setText("Dashboard");
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
@@ -302,7 +317,8 @@ public class CCUserHomeActivity extends AppCompatActivity {
     public void btn_member_status_clicked(View view) {
 
         Log.e(TAG, "Home Button Clicked");
-
+        rlt_header_status_details.setVisibility(View.GONE);
+        view_header_status_details.setVisibility(View.GONE);
         setUpFooter(MEMBER_STATUS_BTN);
         //show the initial home page
         afterClickTabItem(Constant.FRAG_MEMBER_STATUS, null);
@@ -319,7 +335,8 @@ public class CCUserHomeActivity extends AppCompatActivity {
     public void btn_summary_clicked(View view) {
 
         Log.e(TAG, "Home Button Clicked");
-
+        rlt_header_status_details.setVisibility(View.GONE);
+        view_header_status_details.setVisibility(View.GONE);
         setUpFooter(MEMBER_SUMMARY_BTN);
         //show the initial home page
         afterClickTabItem(Constant.FRAG_MEMBER_SUMMARY, null);
@@ -329,6 +346,37 @@ public class CCUserHomeActivity extends AppCompatActivity {
         view_header_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);
         title.setVisibility(View.VISIBLE);
+
+    }
+    public void ShowText(String name) {
+        details_title.setText(name);
+    }
+    public void showHeaderDetail(String titles) {
+
+        if (titles.equals("no")) {
+            rlt_header.setVisibility(View.VISIBLE);
+            // / rlt_header_details.setVisibility(View.VISIBLE);
+            //view_header_details.setVisibility(View.VISIBLE);
+
+            title.setVisibility(View.VISIBLE);
+        } else if (titles.equals("status")) {
+            rlt_header.setVisibility(View.GONE);
+            rlt_header_details.setVisibility(View.GONE);
+            view_header_details.setVisibility(View.GONE);
+            rlt_header_status_details.setVisibility(View.VISIBLE);
+            view_header_status_details.setVisibility(View.VISIBLE);
+           // btn_header_application_create.setVisibility(View.VISIBLE);
+            title.setVisibility(View.GONE);
+        } else if (titles.equals("Measurements")) {
+            rlt_header.setVisibility(View.GONE);
+            rlt_header_details.setVisibility(View.VISIBLE);
+            view_header_details.setVisibility(View.VISIBLE);
+//            btn_header_application_create.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
+            rlt_header_status_details.setVisibility(View.GONE);
+            view_header_status_details.setVisibility(View.GONE);
+        }
+
 
     }
 }

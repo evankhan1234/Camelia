@@ -13,4 +13,10 @@
     <color name="accept">#85C34E</color>
     <color name="transparent">#00000000</color>
     <color name="light_gray">#dbdbdb</color>
+    <color name="reject">#DB3738</color>
+    <color name="panding">#797979</color>
+
+    <color name="processing">#F6BA14</color>
+    <color name="date_color">#399DF9</color>
+    <color name="orange">#EC8D4D</color>
 </resources>
