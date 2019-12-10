@@ -27,9 +27,9 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
 
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
-    private TabLayout tabLayout;
+    public static TabLayout tabLayout;
     //This is our viewPager
-    private ViewPager viewPager;
+    public static ViewPager viewPager;
     View view;
 
 

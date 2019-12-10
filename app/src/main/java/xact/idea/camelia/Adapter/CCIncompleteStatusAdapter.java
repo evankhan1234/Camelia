@@ -18,6 +18,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
@@ -26,10 +27,13 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
 
     private Activity mActivity = null;
     //  private List<Department> messageEntities;
+
+    private UccMemberClickListener uccMemberClickListener;
     int row_index = 0;
 
-    public CCIncompleteStatusAdapter(Activity activity) {
+    public CCIncompleteStatusAdapter(Activity activity,UccMemberClickListener uccMemberClickListeners) {
         mActivity = activity;
+        uccMemberClickListener=uccMemberClickListeners;
         //Toast.makeText(mActivity, "sdfsdf", Toast.LENGTH_SHORT).show();
         //messageEntities = messageEntitie;
         //mClick = mClicks;
@@ -77,7 +81,13 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         holder.text_date.setText(Html.fromHtml(date));
         holder.text_village.setText(Html.fromHtml(village));
         holder.text_block.setText(Html.fromHtml(block));
-
+        holder.img_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uccMemberClickListener.onItemClick(position);
+                //Toast.makeText(mActivity, messageEntities.get(position).FullName, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -89,6 +99,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     public class CCIncompleteStatusListiewHolder extends RecyclerView.ViewHolder {
 
         private ImageView img_avatar;
+        private ImageView img_next;
         private TextView text_agent;
         private TextView text_name;
         private TextView text_phone_number;
@@ -101,6 +112,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         public CCIncompleteStatusListiewHolder(View itemView) {
             super(itemView);
 
+            img_next = itemView.findViewById(R.id.img_next);
             img_avatar = itemView.findViewById(R.id.img_avatar);
             text_agent = itemView.findViewById(R.id.text_agent);
             text_name = itemView.findViewById(R.id.text_name);
