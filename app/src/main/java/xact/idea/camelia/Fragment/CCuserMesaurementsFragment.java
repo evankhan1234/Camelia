@@ -26,6 +26,11 @@ public class CCuserMesaurementsFragment extends Fragment {
     CorrectSizeUtil correctSizeUtil;
     View view;
     CardView card_waist;
+    CardView card_whr;
+    CardView card_bmi;
+    CardView card_fasting;
+    CardView card_random;
+    CardView card_blood;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,6 +49,11 @@ public class CCuserMesaurementsFragment extends Fragment {
 
     private void initView() {
         card_waist=view.findViewById(R.id.card_waist);
+        card_whr=view.findViewById(R.id.card_whr);
+        card_bmi=view.findViewById(R.id.card_bmi);
+        card_fasting=view.findViewById(R.id.card_fasting);
+        card_random=view.findViewById(R.id.card_random);
+        card_blood=view.findViewById(R.id.card_blood);
         card_waist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,14 +61,109 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
-                Fragment f = new CCMeasurementsDetailsFragment();
+                Fragment f = new CCWaistWidthFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
                 transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-                ((CCUserHomeActivity) getActivity()).ShowText("Measurements Status");
+                ((CCUserHomeActivity) getActivity()).ShowText("Waist Width");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+        });
+
+        card_whr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction;
+                transaction = getChildFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Id",2);
+                Fragment f = new CCWHRFragment();
+                f.setArguments(bundle);
+                transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.addToBackStack(f.getClass().getSimpleName());
+                transaction.commit();
+                // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+                ((CCUserHomeActivity) getActivity()).ShowText("WHR");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+        });
+
+        card_bmi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction;
+                transaction = getChildFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Id",2);
+                Fragment f = new CCBMIFragment();
+                f.setArguments(bundle);
+                transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.addToBackStack(f.getClass().getSimpleName());
+                transaction.commit();
+                // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+                ((CCUserHomeActivity) getActivity()).ShowText("BMI");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+        });
+
+        card_blood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction;
+                transaction = getChildFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Id",2);
+                Fragment f = new CCBloodPressureFragment();
+                f.setArguments(bundle);
+                transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.addToBackStack(f.getClass().getSimpleName());
+                transaction.commit();
+                // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+                ((CCUserHomeActivity) getActivity()).ShowText("Blood Pressure");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+        });
+
+        card_fasting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction;
+                transaction = getChildFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Id",2);
+                Fragment f = new CCFastingGlucosreFragment();
+                f.setArguments(bundle);
+                transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.addToBackStack(f.getClass().getSimpleName());
+                transaction.commit();
+                // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+                ((CCUserHomeActivity) getActivity()).ShowText("Fasting Glucose");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+        });
+
+        card_random.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction transaction;
+                transaction = getChildFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Id",2);
+                Fragment f = new CCRandomGlucoseFragment();
+                f.setArguments(bundle);
+                transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.addToBackStack(f.getClass().getSimpleName());
+                transaction.commit();
+                // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+                ((CCUserHomeActivity) getActivity()).ShowText("Random Glucose");
                 ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }
         });

@@ -6,10 +6,13 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,10 @@ import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Collections;
+import java.util.List;
+
+import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCDashboardAdapter;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.R;
@@ -68,6 +75,8 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
         viewPager.setAdapter(adapter);
         tabLayout.setOnTabSelectedListener(this);
         //Adding onTabSelectedListener to swipe views
+        Fragment f = getVisibleFragment();
+        Log.e("a", "aa" + f);
     }
 
     @Override
@@ -84,5 +93,43 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+    public int handle(){
+        Fragment fq = getVisibleFragment();
+        Log.e("DFDf1","SDfds"+fq);
 
+        int handle = ((CompleteFragment) fq).handle();
+        int handles= ((IncompleteFragment) fq).handle();
+
+     //   Log.e("DFDf1","SDfds"+getChildFragmentManager().findFragmentByTag(IncompleteFragment.class.getSimpleName()));
+//        Log.e("11","SDfds"+getChildFragmentManager().findFragmentByTag(CompleteFragment.class.getSimpleName()));
+//         Log.e("11","SDfds"+getFragmentManager().findFragmentByTag(CompleteFragment.class.getSimpleName()));
+////        Log.e("DFDf2","SDfds"+getChildFragmentManager().findFragmentByTag(IncompleteFragment.class.getSimpleName()));
+//        if (getChildFragmentManager().findFragmentByTag(CompleteFragment.class.getSimpleName()) != null) {
+//            CompleteFragment f = (CompleteFragment) getChildFragmentManager()
+//                    .findFragmentByTag(CompleteFragment.class.getSimpleName());
+//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+//            transaction.remove(f);
+//            transaction.commit();
+//            getChildFragmentManager().popBackStack();
+//
+//
+//            return 2;
+//
+//        }
+        return 0;
+    }
+    public Fragment getVisibleFragment() {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        Collections.reverse(fragments);
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null && fragment.isVisible())
+                    Log.e("ggsdf","fds"+Fragment.class.getName());
+                    return fragment;
+            }
+        }
+        return null;
+    }
 }
