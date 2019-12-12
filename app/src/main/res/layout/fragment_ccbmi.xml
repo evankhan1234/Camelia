@@ -1,14 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".Fragment.CCBMIFragment">
+    tools:context=".Fragment.CCWaistWidthFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_marginRight="50px"
+        android:layout_marginLeft="50px"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout android:orientation="vertical"
+                android:paddingRight="10px"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:tag="35"
+                    android:textStyle="bold"
+                    android:textSize="35px"
+                    android:textAlignment="center"
+                    android:textColor="#000"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8px"
+                    android:text="Date"/>
+                <EditText
+                    android:textColor="#000"
+                    android:textAlignment="center"
+                    android:focusable="false"
+                    android:tag="35"
 
-</FrameLayout>
+                    android:drawableRight="@drawable/ic_date_vector_dark"
+                    android:textSize="35px" android:id="@+id/edit_date" android:background="@drawable/input_bg" android:padding="25px" android:layout_width="match_parent" android:layout_height="120px" android:layout_marginBottom="10px" android:text="12-12-2019" android:ems="10" android:inputType="textPersonName"/>
+            </LinearLayout>
+            <LinearLayout android:orientation="vertical" android:paddingLeft="10px" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
+
+                <TextView
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:tag="35"
+                    android:textSize="35px"
+                    android:id="@+id/textView47"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8px"
+                    android:text="Time"
+                    android:textColor="#000" />
+
+                <EditText
+
+                    android:drawableRight="@drawable/time"
+                    android:textColor="#000"
+                    android:textAlignment="center"
+                    android:focusable="false"
+                    android:tag="35"
+                    android:textSize="35px" android:id="@+id/edit_retail_code" android:background="@drawable/input_bg" android:padding="25px" android:layout_width="match_parent" android:layout_height="120px" android:layout_marginBottom="10px" android:text="03:35:46 AM" android:ems="10" android:inputType="textPersonName"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:layout_marginTop="20px"
+            android:textSize="35px"
+            android:tag="35"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:id="@+id/textView49"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8px"
+            android:text="Height in ft"/>
+        <EditText
+            android:textSize="35px"
+            android:tag="35"
+            android:id="@+id/edit_waist_circum"
+            android:background="@drawable/input_bg"
+            android:padding="25px"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_marginBottom="10px"
+            android:hint="ft"
+            android:ems="10"
+            android:inputType="phone"/>
+        <TextView
+            android:layout_marginTop="20px"
+            android:textSize="35px"
+            android:tag="35"
+            android:textStyle="bold"
+            android:textColor="#000"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8px"
+            android:text="Height in inch"/>
+        <EditText
+            android:textSize="35px"
+            android:tag="35"
+            android:id="@+id/edit_hp_circum"
+            android:background="@drawable/input_bg"
+            android:padding="25px"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_marginBottom="10px"
+            android:hint="mmHg"
+            android:ems="10"
+            android:inputType="phone"/>
+        <TextView
+            android:layout_marginTop="20px"
+            android:textSize="35px"
+            android:tag="35"
+            android:textStyle="bold"
+            android:textColor="#000"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8px"
+            android:text="Weight in kg"/>
+        <EditText
+            android:textSize="35px"
+            android:tag="35"
+            android:id="@+id/edit_whr"
+            android:background="@drawable/input_bg"
+            android:padding="25px"
+            android:layout_width="match_parent"
+            android:layout_height="120px"
+            android:layout_marginBottom="10px"
+            android:hint="kg"
+            android:ems="10"
+            android:inputType="phone"/>
+        <Button
+
+            android:backgroundTint="#000"
+            android:tag="35"
+            android:textSize="35px"
+            android:textColor="#fff"
+            android:id="@+id/create"
+            android:background="@drawable/capsule_button"
+            android:paddingTop="25px"
+            android:paddingBottom="25px"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:layout_marginTop="10px"
+            android:layout_marginBottom="25px"
+            android:text="Done"
+            android:fontFamily="sans-serif"
+            android:stateListAnimator="@null" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

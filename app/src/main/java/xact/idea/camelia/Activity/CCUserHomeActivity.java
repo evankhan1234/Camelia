@@ -124,8 +124,22 @@ public class CCUserHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                back();
             }
         });
+    }
+
+    private void back() {
+        Fragment f = getVisibleFragment();
+        Log.e("frag", "frag" + f);
+        if (f != null) {
+            if (f instanceof CCUserMemberStatusFragment) {
+
+                ((CCUserMemberStatusFragment) f).getVisibleFragment();
+                int handle = ((CCUserMemberStatusFragment) f).handle();
+
+            }
+        }
     }
 
     @Override

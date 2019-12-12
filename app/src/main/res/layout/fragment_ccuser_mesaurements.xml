@@ -64,6 +64,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_whr"
                         android:layout_width="0dp"
                         android:layout_height="450px"
                         android:layout_weight="1"
@@ -103,6 +104,7 @@
                     android:weightSum="2">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_fasting"
                         android:layout_width="0dp"
                         android:layout_height="450px"
                         android:layout_weight="1"
@@ -135,6 +137,8 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_random"
+
                         android:layout_width="0dp"
                         android:layout_height="450px"
                         android:layout_weight="1"
@@ -174,6 +178,8 @@
                     android:weightSum="2">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_blood"
+
                         android:layout_width="0dp"
                         android:layout_height="450px"
                         android:layout_weight="1"
@@ -206,6 +212,8 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/card_bmi"
+
                         android:layout_width="0dp"
                         android:layout_height="450px"
                         android:layout_weight="1"
