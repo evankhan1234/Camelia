@@ -44,19 +44,19 @@ public class CompleteFragment extends Fragment {
         Log.e("evan","SDfds"+getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()));
 //        Log.e("DFDf1","SDfds"+getFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()));
 //        Log.e("DFDf2","SDfds"+getChildFragmentManager().findFragmentByTag(IncompleteFragment.class.getSimpleName()));
-        if (getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()) != null) {
-            CCMemberStausDetailsFragment f = (CCMemberStausDetailsFragment) getChildFragmentManager()
-                    .findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName());
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
-            transaction.remove(f);
-            transaction.commit();
-            getChildFragmentManager().popBackStack();
-
-
-            return 2;
-
-        }
+//        if (getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()) != null) {
+//            CCMemberStausDetailsFragment f = (CCMemberStausDetailsFragment) getChildFragmentManager()
+//                    .findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName());
+//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+//            transaction.remove(f);
+//            transaction.commit();
+//            getChildFragmentManager().popBackStack();
+//
+//
+//            return 2;
+//
+//        }
         return 0;
     }
     public Fragment getVisibleFragment() {

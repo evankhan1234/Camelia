@@ -14,6 +14,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -97,26 +98,50 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
         Fragment fq = getVisibleFragment();
         Log.e("DFDf1","SDfds"+fq);
 
-        int handle = ((CompleteFragment) fq).handle();
-        int handles= ((IncompleteFragment) fq).handle();
 
-     //   Log.e("DFDf1","SDfds"+getChildFragmentManager().findFragmentByTag(IncompleteFragment.class.getSimpleName()));
-//        Log.e("11","SDfds"+getChildFragmentManager().findFragmentByTag(CompleteFragment.class.getSimpleName()));
-//         Log.e("11","SDfds"+getFragmentManager().findFragmentByTag(CompleteFragment.class.getSimpleName()));
-////        Log.e("DFDf2","SDfds"+getChildFragmentManager().findFragmentByTag(IncompleteFragment.class.getSimpleName()));
-//        if (getChildFragmentManager().findFragmentByTag(CompleteFragment.class.getSimpleName()) != null) {
-//            CompleteFragment f = (CompleteFragment) getChildFragmentManager()
-//                    .findFragmentByTag(CompleteFragment.class.getSimpleName());
-//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
-//            transaction.remove(f);
-//            transaction.commit();
-//            getChildFragmentManager().popBackStack();
-//
-//
-//            return 2;
-//
-//        }
+        if (getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()) != null) {
+            CCMemberStausDetailsFragment f = (CCMemberStausDetailsFragment) getChildFragmentManager()
+                    .findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName());
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+            transaction.remove(f);
+            transaction.commit();
+            getChildFragmentManager().popBackStack();
+            CCUserMemberStatusFragment.tabLayout.setVisibility(View.VISIBLE);
+            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event)
+                {
+                    return false;
+                }
+            });
+
+            return 2;
+
+        }
+        return 0;
+    }
+    public  int handels(){
+        Fragment fq = getVisibleFragment();
+        Log.e("DFDf1","SDfds"+fq);
+        Fragment fragment= getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName());
+
+        if (fragment instanceof CCMemberStausDetailsFragment){
+            int handle=     ((CCMemberStausDetailsFragment) fragment).handle();
+            CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
+            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event)
+                {
+                    return true;
+                }
+            });
+            return handle;
+        }
+
+
         return 0;
     }
     public Fragment getVisibleFragment() {
@@ -131,5 +156,30 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
             }
         }
         return null;
+    }
+
+    public void data(int position){
+        FragmentTransaction transaction;
+        transaction = getChildFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putInt("Id",position);
+        Fragment f = new CCMemberStausDetailsFragment();
+        f.setArguments(bundle);
+        transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+        transaction.add(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
+        transaction.addToBackStack(f.getClass().getSimpleName());
+        transaction.commit();
+        CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
+        CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return true;
+            }
+        });
+        // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+        ((CCUserHomeActivity) getActivity()).ShowText("Details");
+        ((CCUserHomeActivity) getActivity()).showHeaderDetail("status");
     }
 }

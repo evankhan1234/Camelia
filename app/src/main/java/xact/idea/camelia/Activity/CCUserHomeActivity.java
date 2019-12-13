@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
+import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserDashBoardFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCUserMemberSummaryFragment;
@@ -127,18 +128,64 @@ public class CCUserHomeActivity extends AppCompatActivity {
                 back();
             }
         });
+        btn_header_back_.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                backForDetails();
+            }
+        });
     }
 
     private void back() {
+       // Toast.makeText(mContext, "dsfdsf", Toast.LENGTH_SHORT).show();
         Fragment f = getVisibleFragment();
         Log.e("frag", "frag" + f);
         if (f != null) {
             if (f instanceof CCUserMemberStatusFragment) {
 
-                ((CCUserMemberStatusFragment) f).getVisibleFragment();
+
                 int handle = ((CCUserMemberStatusFragment) f).handle();
 
+                if (handle==2){
+                    showHeaderDetail("main");
+                }
+
             }
+//            else if (f instanceof CCMemberStausDetailsFragment){
+//
+//                int handle = ((CCMemberStausDetailsFragment) f).handle();
+//
+//                if (handle==2){
+//                    showHeaderDetail("status");
+//                }
+//            }
+        }
+    }
+    private void backForDetails() {
+        // Toast.makeText(mContext, "dsfdsf", Toast.LENGTH_SHORT).show();
+        Fragment f = getVisibleFragment();
+        Log.e("frag", "frag" + f);
+        if (f != null) {
+
+            if (f instanceof CCUserMemberStatusFragment) {
+
+
+                int handle = ((CCUserMemberStatusFragment) f).handels();
+
+                if (handle==2){
+                    showHeaderDetail("status");
+                }
+
+            }
+//            else if (f instanceof CCMemberStausDetailsFragment){
+//
+//                int handle = ((CCMemberStausDetailsFragment) f).handle();
+//
+//                if (handle==2){
+//                    showHeaderDetail("status");
+//                }
+//            }
         }
     }
 
@@ -365,14 +412,31 @@ public class CCUserHomeActivity extends AppCompatActivity {
     public void ShowText(String name) {
         details_title.setText(name);
     }
+
+    public void openStatusDetails(int position) {
+       Fragment fragment= getSupportFragmentManager().findFragmentByTag(CCUserMemberStatusFragment.class.getSimpleName());
+
+        if (fragment instanceof CCUserMemberStatusFragment){
+            ((CCUserMemberStatusFragment) fragment).data(position);
+        }
+
+    }
+
     public void showHeaderDetail(String titles) {
 
-        if (titles.equals("no")) {
+        if (titles.equals("main")) {
             rlt_header.setVisibility(View.VISIBLE);
             // / rlt_header_details.setVisibility(View.VISIBLE);
             //view_header_details.setVisibility(View.VISIBLE);
 
             title.setVisibility(View.VISIBLE);
+            rlt_header_details.setVisibility(View.GONE);
+            view_header_details.setVisibility(View.GONE);
+//            btn_header_application_create.setVisibility(View.GONE);
+
+            rlt_header_status_details.setVisibility(View.GONE);
+            view_header_status_details.setVisibility(View.GONE);
+
         } else if (titles.equals("status")) {
             rlt_header.setVisibility(View.GONE);
             rlt_header_details.setVisibility(View.GONE);
