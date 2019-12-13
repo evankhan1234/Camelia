@@ -6,16 +6,21 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.Collections;
+import java.util.List;
 
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleStatusDetailsAdapter;
@@ -77,8 +82,76 @@ public class CCMemberStausDetailsFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //EmployeeStaus();
 
+
+    }
+    public int handle(){
+        Fragment fq = getVisibleFragment();
+        Log.e("ww","SDfds"+fq);
+
+        int handle=     ((CCuserMesaurementsFragment) fq).handle();
+        Log.e("handle123","handle"+handle);
+        if (handle==3)
+        {
+            ((CCUserHomeActivity) getActivity()).ShowText("Measurements");
+            ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            Log.e("evankhan","handle"+handle);
+            CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
+            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event)
+                {
+                    return true;
+                }
+            });
+            return handle;
+
+        }
+        else {
+
+            if (getChildFragmentManager().findFragmentByTag(CCuserMesaurementsFragment.class.getSimpleName()) != null)
+            {
+                CCuserMesaurementsFragment f = (CCuserMesaurementsFragment) getChildFragmentManager()
+                        .findFragmentByTag(CCuserMesaurementsFragment.class.getSimpleName());
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+                transaction.remove(f);
+                transaction.commit();
+                getChildFragmentManager().popBackStack();
+                CCUserMemberStatusFragment.tabLayout.setVisibility(View.VISIBLE);
+                CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+                {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        return false;
+                    }
+                });
+
+                return 2;
+
+            }
+
+
+        }
+
+
+        return 0;
+
+    }
+    public Fragment getVisibleFragment() {
+        FragmentManager fragmentManager = getChildFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        Collections.reverse(fragments);
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null && fragment.isVisible())
+                    Log.e("ggsdf","fds"+Fragment.class.getName());
+                return fragment;
+            }
+        }
+        return null;
     }
 
 }

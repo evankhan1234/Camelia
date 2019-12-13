@@ -49,28 +49,28 @@ public class IncompleteFragment extends Fragment {
     private UccMemberClickListener clickListener = new UccMemberClickListener() {
         @Override
         public void onItemClick(int position) {
-            FragmentTransaction transaction;
-            transaction = getChildFragmentManager().beginTransaction();
-            Bundle bundle = new Bundle();
-            bundle.putInt("Id",position);
-            Fragment f = new CCMemberStausDetailsFragment();
-            f.setArguments(bundle);
-            transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-            transaction.add(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
-            transaction.addToBackStack(f.getClass().getSimpleName());
-            transaction.commit();
-            CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
-            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
-            {
-                @Override
-                public boolean onTouch(View v, MotionEvent event)
-                {
-                    return true;
-                }
-            });
-           // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-            ((CCUserHomeActivity) getActivity()).ShowText("Details");
-            ((CCUserHomeActivity) getActivity()).showHeaderDetail("status");
+//            FragmentTransaction transaction;
+//            transaction = getChildFragmentManager().beginTransaction();
+//            Bundle bundle = new Bundle();
+//            bundle.putInt("Id",position);
+//            Fragment f = new CCMemberStausDetailsFragment();
+//            f.setArguments(bundle);
+//            transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+//            transaction.add(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
+//            transaction.addToBackStack(f.getClass().getSimpleName());
+//            transaction.commit();
+//            CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
+//            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+//            {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event)
+//                {
+//                    return true;
+//                }
+//            });
+//           // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+//            ((CCUserHomeActivity) getActivity()).ShowText("Details");
+            ((CCUserHomeActivity) getActivity()).openStatusDetails(position);
         }
     };
     @Override
