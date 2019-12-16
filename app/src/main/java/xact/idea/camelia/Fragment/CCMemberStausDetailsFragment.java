@@ -25,6 +25,7 @@ import java.util.List;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleStatusDetailsAdapter;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
+import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
@@ -76,7 +77,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
     }
     private  void display() {
 
-        mAdapters = new CCIncompleStatusDetailsAdapter(mActivity);
+        mAdapters = new CCIncompleStatusDetailsAdapter(mActivity,clickListener);
         try {
             rcv_customer.setAdapter(mAdapters);
         } catch (Exception e) {
@@ -87,33 +88,14 @@ public class CCMemberStausDetailsFragment extends Fragment {
     }
     public int handle(){
         Fragment fq = getVisibleFragment();
-        Log.e("ww","SDfds"+fq);
 
-        int handle=     ((CCuserMesaurementsFragment) fq).handle();
-        Log.e("handle123","handle"+handle);
-        if (handle==3)
-        {
-            ((CCUserHomeActivity) getActivity()).ShowText("Measurements");
-            ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
-            Log.e("evankhan","handle"+handle);
-            CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
-            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+        Fragment fragment= getChildFragmentManager().findFragmentByTag(CCMeasurementsDetailsFragment.class.getSimpleName());
+
+        if (fragment instanceof CCMeasurementsDetailsFragment){
+            if (getChildFragmentManager().findFragmentByTag(CCMeasurementsDetailsFragment.class.getSimpleName()) != null)
             {
-                @Override
-                public boolean onTouch(View v, MotionEvent event)
-                {
-                    return true;
-                }
-            });
-            return handle;
-
-        }
-        else {
-
-            if (getChildFragmentManager().findFragmentByTag(CCuserMesaurementsFragment.class.getSimpleName()) != null)
-            {
-                CCuserMesaurementsFragment f = (CCuserMesaurementsFragment) getChildFragmentManager()
-                        .findFragmentByTag(CCuserMesaurementsFragment.class.getSimpleName());
+                CCMeasurementsDetailsFragment f = (CCMeasurementsDetailsFragment) getChildFragmentManager()
+                        .findFragmentByTag(CCMeasurementsDetailsFragment.class.getSimpleName());
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
                 transaction.remove(f);
@@ -132,9 +114,57 @@ public class CCMemberStausDetailsFragment extends Fragment {
                 return 2;
 
             }
-
-
         }
+        else{
+            int handle=     ((CCuserMesaurementsFragment) fq).handle();
+            Log.e("handle123","handle"+handle);
+            if (handle==3)
+            {
+                ((CCUserHomeActivity) getActivity()).ShowText("Measurements");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                Log.e("evankhan","handle"+handle);
+                CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
+                CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+                {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        return true;
+                    }
+                });
+                return handle;
+
+            }
+            else {
+
+                if (getChildFragmentManager().findFragmentByTag(CCuserMesaurementsFragment.class.getSimpleName()) != null)
+                {
+                    CCuserMesaurementsFragment f = (CCuserMesaurementsFragment) getChildFragmentManager()
+                            .findFragmentByTag(CCuserMesaurementsFragment.class.getSimpleName());
+                    FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+                    transaction.remove(f);
+                    transaction.commit();
+                    getChildFragmentManager().popBackStack();
+                    CCUserMemberStatusFragment.tabLayout.setVisibility(View.VISIBLE);
+                    CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+                    {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event)
+                        {
+                            return false;
+                        }
+                    });
+
+                    return 2;
+
+                }
+
+
+            }
+        }
+
+
 
 
         return 0;
@@ -153,5 +183,23 @@ public class CCMemberStausDetailsFragment extends Fragment {
         }
         return null;
     }
+    private UccMemberClickListener clickListener = new UccMemberClickListener() {
+        @Override
+        public void onItemClick(int position) {
+            FragmentTransaction transaction;
+            transaction = getChildFragmentManager().beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putInt("Id",2);
+            Fragment f = new CCMeasurementsDetailsFragment();
+            f.setArguments(bundle);
+            transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+            transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+            transaction.addToBackStack(f.getClass().getSimpleName());
+            transaction.commit();
+            // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+            ((CCUserHomeActivity) getActivity()).ShowText("Measurements Status");
+            ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+        }
+    };
 
 }
