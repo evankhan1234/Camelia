@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:id="@+id/linear"
-        android:layout_width="match_parent"
+        android:layout_width="800px"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
 
             card_view:cardBackgroundColor="#FFFFFF"
-            card_view:cardCornerRadius="5dp"
+            card_view:cardCornerRadius="15dp"
 
             card_view:cardElevation="1dp"
             card_view:cardUseCompatPadding="true">
@@ -48,21 +48,9 @@
                     android:orientation="horizontal">
 
 
-                    <TextView
 
-                        android:id="@+id/text_name"
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40px"
-
-                        android:tag="45"
-                        android:text="Weight"
-                        android:textColor="#000"
-                        android:textSize="45px" />
 
                     <TextView
-                        android:visibility="gone"
                         android:textAlignment="center"
                         android:minWidth="250px"
                         android:id="@+id/text_weight_number"
@@ -83,14 +71,14 @@
                 </LinearLayout>
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/text_agent"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="125px"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginLeft="40px"
-                    android:layout_marginTop="25px"
+                    android:layout_marginTop="15px"
                     android:tag="55"
 
                     android:text="20.26 "
@@ -106,7 +94,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:visibility="gone"
                         android:id="@+id/text_date"
                         android:layout_width="wrap_content"
 
@@ -127,20 +114,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/text_normal_range"
-                        android:layout_width="wrap_content"
-
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40px"
-
-                        android:tag="40"
-                        android:text="Normal Range: 18.5-24.99"
-                        android:textColor="#6A6B6B"
-                        android:textSize="40px" />
                 </LinearLayout>
                 <TextView
-                    android:visibility="gone"
                     android:textAlignment="center"
                     android:layout_alignParentRight="true"
                     android:layout_below="@id/linears3"
@@ -160,24 +135,6 @@
 
                     android:textColor="@color/white"
                     android:textSize="40px" />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_below="@+id/text_weight_analysis"
-
-                    android:id="@+id/rcl_this_customer_list"
-
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10px"
-                    android:layout_marginBottom="0px"
-
-
-                    android:nestedScrollingEnabled="false"
-
-
-                    >
-
-                </androidx.recyclerview.widget.RecyclerView>
                 <View
                     android:layout_below="@+id/text_weight_analysis"
                     android:layout_width="wrap_content"

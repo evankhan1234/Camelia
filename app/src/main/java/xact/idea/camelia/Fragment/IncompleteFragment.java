@@ -1,8 +1,6 @@
 package xact.idea.camelia.Fragment;
 
 import android.app.Activity;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,13 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import xact.idea.camelia.Activity.CCUserHomeActivity;
-import xact.idea.camelia.Activity.MainActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
