@@ -1,7 +1,6 @@
-package xact.idea.camelia.Adapter;
+package xact.idea.camelia.Adapter.HHAdapter;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,34 +8,33 @@ import android.widget.Button;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
 
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
-public class CCDashboardAdapter extends RecyclerView.Adapter<CCDashboardAdapter.CCDashboardListiewHolder> {
+public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboardListiewHolder> {
 
 
     private Activity mActivity = null;
     int row_index = 0;
- 
-    public CCDashboardAdapter(Activity activity) {
+
+    public HHListAdapter(Activity activity) {
         mActivity = activity;
 
     }
 
 
     @Override
-    public CCDashboardAdapter.CCDashboardListiewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_cc_dashboard_item, null);
+    public HHListAdapter.CCDashboardListiewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_hh_list_item, null);
         CorrectSizeUtil.getInstance(mActivity).correctSize(view);
 
 
-        return new CCDashboardAdapter.CCDashboardListiewHolder(view);
+        return new HHListAdapter.CCDashboardListiewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final CCDashboardAdapter.CCDashboardListiewHolder holder, final int position) {
+    public void onBindViewHolder(final HHListAdapter.CCDashboardListiewHolder holder, final int position) {
 
     }
 

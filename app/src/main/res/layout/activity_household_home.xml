@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rlt_root"
+        tools:context=".Activity.MainActivity">
+
+        <RelativeLayout
+            android:layout_marginTop="-15px"
+            android:id="@+id/header_rtl_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <include layout="@layout/header" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/rlt_footer"
+            android:layout_below="@+id/header_rtl_root"/>
+
+
+        <RelativeLayout
+            android:id="@+id/rlt_footer"
+            android:layout_width="match_parent"
+            android:layout_height="176px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:visibility="visible">
+
+            <include layout="@layout/footer_layout_household" />
+
+            <View
+                android:id="@+id/tp"
+                android:layout_width="match_parent"
+                android:layout_height="5px"
+                android:background="@drawable/gradient_color_bottom" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:layout_below="@+id/text"
+            android:layout_marginTop="20px"
+            android:visibility="gone"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/progress_bar"
+            android:background="@android:color/transparent" />
+    </RelativeLayout>
+    <include layout="@layout/nav_drawer_cc_layout" />
+
+</androidx.drawerlayout.widget.DrawerLayout>
