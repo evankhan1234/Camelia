@@ -3,17 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="xact.idea.camelia">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/img_background"
         android:label="@string/app_name"
         android:roundIcon="@drawable/img_background"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Activity.CCUserHomeActivity"></activity>
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
+        <activity android:name=".Activity.Household.HouseholdHomeActivity"></activity>
+        <activity android:name=".Activity.Household.HouseHoldActivity" />
+        <activity android:name=".Activity.CCUserHomeActivity" />
         <activity
             android:name=".Activity.CCUserActivity"
             android:screenOrientation="portrait" />
@@ -33,5 +33,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

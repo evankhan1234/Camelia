@@ -14,9 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:tabGravity="fill"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
 
-        android:background="#2AA30E"
+        android:background="#E48E0F"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 

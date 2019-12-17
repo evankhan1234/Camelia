@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Fragment.CCuserMesaurementsFragment;
 import xact.idea.camelia.Interface.UccMemberClickListener;
-import xact.idea.camelia.Interface.aa;
+
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
