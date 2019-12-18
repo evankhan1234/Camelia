@@ -92,26 +92,17 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
     }
     public int handle(){
         Fragment fq = getVisibleFragment();
-        Log.e("DFDf1","SDfds"+fq);
+        Log.e("aaa","bbb"+fq);
 
 
-        if (getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()) != null) {
-            CCMemberStausDetailsFragment f = (CCMemberStausDetailsFragment) getChildFragmentManager()
-                    .findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName());
+        if (getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName()) != null) {
+            HHMembersFragment f = (HHMembersFragment) getChildFragmentManager()
+                    .findFragmentByTag(HHMembersFragment.class.getSimpleName());
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
             transaction.remove(f);
             transaction.commit();
             getChildFragmentManager().popBackStack();
-            CCUserMemberStatusFragment.tabLayout.setVisibility(View.VISIBLE);
-            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
-            {
-                @Override
-                public boolean onTouch(View v, MotionEvent event)
-                {
-                    return false;
-                }
-            });
 
             return 2;
 

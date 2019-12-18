@@ -178,14 +178,6 @@ public class CCUserHomeActivity extends AppCompatActivity {
                 }
 
             }
-//            else if (f instanceof CCMemberStausDetailsFragment){
-//
-//                int handle = ((CCMemberStausDetailsFragment) f).handle();
-//
-//                if (handle==2){
-//                    showHeaderDetail("status");
-//                }
-//            }
         }
     }
 

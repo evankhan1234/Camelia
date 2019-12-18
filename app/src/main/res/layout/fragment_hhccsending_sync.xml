@@ -1,14 +1,210 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HouseHoldFragment.HHCCSendingSyncFragment">
+    android:background="@color/white"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:layout_marginTop="20px"
+                android:layout_below="@+id/rlt_header"
+                android:id="@+id/filter"
+
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edit_start_date"
+                    android:focusable="false"
+                    android:drawableLeft="@drawable/ic_date_vector_dark"
+                    android:drawablePadding="15px"
+                    android:paddingLeft="20px"
+                    android:hint="Start Date"
+                    android:layout_marginLeft="30px"
+                    android:background="@drawable/border"
+
+                    android:layout_width="400px"
+                    android:layout_height="100px"/>
+                <EditText
+                    android:id="@+id/edit_end_date"
+                    android:drawableLeft="@drawable/ic_date_vector_dark"
+                    android:drawablePadding="15px"
+                    android:paddingLeft="20px"
+                    android:hint="End Date"
+                    android:layout_marginLeft="40px"
+                    android:background="@drawable/border"
+                    android:focusable="false"
+                    android:layout_width="400px"
+                    android:layout_height="100px"/>
+                <Button
+                    android:layout_marginLeft="20px"
+                    android:tag="45"
+                    android:textSize="45px"
+
+                    android:id="@+id/btn_yes"
+                    android:background="@drawable/capsule_button"
+                    android:layout_marginRight="40px"
+                    android:hint="Show"
+                    android:textColorHint="#fff"
+                    android:layout_width="200px"
+                    android:layout_height="100px" />
+            </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10px"
+
+                android:id="@+id/card_vi1ew"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginLeft="20px"
+
+                android:layout_marginRight="20px"
+
+                card_view:cardBackgroundColor="#FFFFFF"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_marginTop="50px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50px"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                        <ImageView
+                            android:id="@+id/img1"
+                            android:src="@drawable/member_status_on"
+                            android:layout_width="150px"
+                            android:layout_height="100px" />
+
+                        <TextView
+                            android:tag="50"
+                            android:textSize="50px"
+                            android:textColor="@color/gray_black"
+                            android:layout_marginTop="15px"
+                            android:layout_toRightOf="@+id/img1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Members"
+                            />
+                        <TextView
+                            android:textStyle="bold"
+                            android:tag="50"
+                            android:textSize="50px"
+                            android:textColor="@color/gray_black"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="15px"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="972"
+                            />
+
+                    </RelativeLayout>
+
+
+
+
+
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+
+                android:layout_marginTop="10px"
+
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginLeft="20px"
+
+                android:layout_marginRight="20px"
+
+                card_view:cardBackgroundColor="#FFFFFF"
+                card_view:cardCornerRadius="5dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true">
+
+                <EditText
+
+
+
+                    android:drawablePadding="25px"
+                    android:id="@+id/edit_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="140px"
+                    android:background="@null"
+                    android:inputType="text|textNoSuggestions"
+                    android:drawableLeft="@drawable/icon_search"
+                    android:hint="Please enter a search word"
+                    android:paddingLeft="40px"
+                    android:paddingTop="20px"
+                    android:paddingBottom="20px"
+                    android:textColorHint="#4D6A6B6B" />
+
+
+            </androidx.cardview.widget.CardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_below="@id/card_view"
+
+                android:layout_marginTop="10px"
+
+
+                android:nestedScrollingEnabled="false"
+                android:id="@+id/rcl_this_customer_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+
+                android:layout_marginBottom="0px"
+
+
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="180px"
+            android:layout_height="181px"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="39px"
+            android:layout_marginBottom="10px"
+            android:visibility="gone"
+            android:alpha="1.5"
+            android:id="@+id/btn_measurements_new"
+            android:src="@drawable/ic_add_black_24dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rlt_detail_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+</RelativeLayout>

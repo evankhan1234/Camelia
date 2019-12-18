@@ -30,6 +30,7 @@ import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCUserMemberSummaryFragment;
 import xact.idea.camelia.HouseHoldFragment.HHCCSendingFragment;
 import xact.idea.camelia.HouseHoldFragment.HHDashboardFragment;
+import xact.idea.camelia.HouseHoldFragment.HHListFragment;
 import xact.idea.camelia.HouseHoldFragment.HHMembersFragment;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Constant;
@@ -121,18 +122,12 @@ public class HouseholdHomeActivity extends AppCompatActivity {
                 drawer_layout.closeDrawer(GravityCompat.START);
             }
         });
-        btn_header_status_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-              //  back();
-            }
-        });
         btn_header_back_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-             //   backForDetails();
+             backForDetails();
             }
         });
     }
@@ -144,6 +139,24 @@ public class HouseholdHomeActivity extends AppCompatActivity {
             drawer.closeDrawer(GravityCompat.START);
         } else {
 
+        }
+    }
+    private void backForDetails() {
+        // Toast.makeText(mContext, "dsfdsf", Toast.LENGTH_SHORT).show();
+        Fragment f = getVisibleFragment();
+        Log.e("frag111", "frag" + f);
+        if (f != null) {
+
+            if (f instanceof HHListFragment) {
+
+
+                int handle = ((HHListFragment) f).handels();
+
+                if (handle==2){
+                    showHeaderDetail("main");
+                }
+
+            }
         }
     }
     private void setFooter(String value) {
@@ -201,7 +214,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
 
                 break;
             case Constant.FRAG_MEMBER_STATUS:
-                newFrag = new HHMembersFragment();
+                newFrag = new HHListFragment();
 
 
                 break;
@@ -289,7 +302,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         //show the initial home page
 
 
-        startActivity(new Intent(HouseholdHomeActivity.this, CCUserActivity.class));
+        startActivity(new Intent(HouseholdHomeActivity.this, HouseHoldActivity.class));
         finish();
 
         rlt_header_details.setVisibility(View.GONE);
