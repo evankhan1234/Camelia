@@ -1,14 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/rlt_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HouseHoldFragment.HHCreateSurveyFragment">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    >
+    <ScrollView
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="#F9F9F9"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:drawableLeft="@drawable/ic_date_vector_dark"
+                    android:id="@+id/text_date_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="60px"
+                    android:drawablePadding="18px"
+                    android:tag="50"
+                    android:text="19-11-2019"
+                    android:textColor="@color/black"
+                    android:textSize="50px"
+                    android:textStyle="bold" />
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="60px"
+                    android:layout_marginLeft="50px"
+                    android:tag="50"
+                    android:text="Safe Drinking Water"
+                    android:textColor="@color/black"
+                    android:textSize="50px"
+                    android:textStyle="bold" />
+                <RadioGroup
+                    android:layout_marginLeft="30px"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30px"
+
+                    android:orientation="horizontal"
+
+                    android:id="@+id/radioDrinkingWater"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <RadioButton
+                        android:layout_weight="1"
+
+                        android:layout_marginRight="20px"
+                        android:tag="45"
+                        android:textSize="45px"
+                        android:id="@+id/radioDrinkingYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                       />
+
+                    <RadioButton
+                        android:checked="true"
+                        android:layout_weight="1"
+                        android:tag="45"
+                        android:textSize="45px"
+                        android:layout_marginLeft="50px"
+                        android:id="@+id/radioDrinkingNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+
+                </RadioGroup>
+                <Spinner
+
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="gone"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="40px"
+
+                    android:id="@+id/spinner_drinking_water"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="60px"
+                    android:layout_marginLeft="50px"
+                    android:tag="50"
+                    android:text="Sanitary Latrine"
+                    android:textColor="@color/black"
+                    android:textSize="50px"
+                    android:textStyle="bold" />
+                <RadioGroup
+                    android:layout_marginLeft="30px"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30px"
+
+                    android:orientation="horizontal"
+
+                    android:id="@+id/radioSanitaryLatrine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <RadioButton
+                        android:layout_weight="1"
+
+                        android:layout_marginRight="20px"
+                        android:tag="45"
+                        android:textSize="45px"
+                        android:id="@+id/radioSanitaryLatrineYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        />
+
+                    <RadioButton
+                        android:checked="true"
+                        android:layout_weight="1"
+                        android:tag="45"
+                        android:textSize="45px"
+                        android:layout_marginLeft="50px"
+                        android:id="@+id/radioSanitaryLatrineNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+
+                </RadioGroup>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="60px"
+                    android:layout_marginLeft="50px"
+                    android:tag="50"
+                    android:text="Bondho Chula"
+                    android:textColor="@color/black"
+                    android:textSize="50px"
+                    android:textStyle="bold" />
+                <RadioGroup
+                    android:layout_marginLeft="30px"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30px"
+
+                    android:orientation="horizontal"
+
+                    android:id="@+id/radioBondhoChula"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <RadioButton
+                        android:layout_weight="1"
+
+                        android:layout_marginRight="20px"
+                        android:tag="45"
+                        android:textSize="45px"
+                        android:id="@+id/radioBondhoChulaYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                         />
+
+                    <RadioButton
+                        android:checked="true"
+                        android:layout_weight="1"
+                        android:tag="45"
+                        android:textSize="45px"
+                        android:layout_marginLeft="50px"
+                        android:id="@+id/radioBondhoChulaNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+
+                </RadioGroup>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="60px"
+                    android:layout_marginLeft="50px"
+                    android:tag="50"
+                    android:text="Biomass Fuel"
+                    android:textColor="@color/black"
+                    android:textSize="50px"
+                    android:textStyle="bold" />
+                <RadioGroup
+                    android:layout_marginLeft="30px"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30px"
+
+                    android:orientation="horizontal"
+
+                    android:id="@+id/radioBiomassFuel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <RadioButton
+                        android:layout_weight="1"
+
+                        android:layout_marginRight="20px"
+                        android:tag="45"
+                        android:textSize="45px"
+                        android:id="@+id/radioBiomassFuelYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yes"
+                        />
+
+                    <RadioButton
+                        android:checked="true"
+                        android:layout_weight="1"
+                        android:tag="45"
+                        android:textSize="45px"
+                        android:layout_marginLeft="50px"
+                        android:id="@+id/radioBiomassFuelNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No" />
+
+                </RadioGroup>
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="gone"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="40px"
+
+                    android:id="@+id/spinner_customer"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <Button
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+
+                    android:backgroundTint="#000"
+                    android:tag="35"
+                    android:textSize="35px"
+                    android:textColor="#fff"
+                    android:id="@+id/create"
+                    android:background="@drawable/capsule_button"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="150px"
+                    android:layout_marginTop="40px"
+                    android:layout_marginBottom="25px"
+                    android:text="Done"
+                    android:fontFamily="sans-serif"
+                    android:stateListAnimator="@null" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

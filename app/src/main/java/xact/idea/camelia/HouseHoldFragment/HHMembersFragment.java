@@ -25,6 +25,7 @@ import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.ViewPager.HHMemberPager;
 import xact.idea.camelia.ViewPager.Pager;
@@ -92,21 +93,42 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
     }
     public int handle(){
         Fragment fq = getVisibleFragment();
-        Log.e("aaa","bbb"+fq);
+        Log.e("fragment1","fragment"+fq);
 
-
-        if (getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName()) != null) {
-            HHMembersFragment f = (HHMembersFragment) getChildFragmentManager()
-                    .findFragmentByTag(HHMembersFragment.class.getSimpleName());
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
-            transaction.remove(f);
-            transaction.commit();
-            getChildFragmentManager().popBackStack();
-
-            return 2;
-
+        Fragment fragment= getChildFragmentManager().findFragmentByTag(HHMemberListFragment.class.getSimpleName());
+        Fragment fragment1= getChildFragmentManager().findFragmentByTag(HHSurveysListFragment.class.getSimpleName());
+        Log.e("fragment1","fragment1"+fragment1);
+        if (fq instanceof HHMemberListFragment){
+            ((HHMemberListFragment) fragment).handle();
+            return 3;
         }
+
+        else if (fq instanceof HHSurveysListFragment) {
+            ((HHSurveysListFragment) fq).handle();
+
+            return 3;
+
+
+
+
+
+            }
+
+
+
+
+//        if (getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName()) != null) {
+//            HHMembersFragment f = (HHMembersFragment) getChildFragmentManager()
+//                    .findFragmentByTag(HHMembersFragment.class.getSimpleName());
+//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+//            transaction.remove(f);
+//            transaction.commit();
+//            getChildFragmentManager().popBackStack();
+//
+//            return 2;
+//
+//        }
         return 0;
     }
     public  int handels(){
