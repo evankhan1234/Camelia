@@ -28,6 +28,7 @@ import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCWaistWidthFragment;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 
@@ -94,20 +95,62 @@ public class HHListFragment extends Fragment {
     public  int handels(){
         Fragment fq = getVisibleFragment();
         Log.e("DFDf1","SDfds"+fq);
+        Fragment fragment= getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName());
        // Fragment fragment= getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName());
 
-        if (getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName()) != null) {
-            HHMembersFragment f = (HHMembersFragment) getChildFragmentManager()
-                    .findFragmentByTag(HHMembersFragment.class.getSimpleName());
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
-            transaction.remove(f);
-            transaction.commit();
-            getChildFragmentManager().popBackStack();
+        if (fragment instanceof HHMembersFragment){
+          //  boolean t
+            int handlle =   ((HHMembersFragment) fragment).handle();
 
-            return 2;
+            if (handlle==3){
 
+//                if (getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName()) != null) {
+//                    HHMembersFragment f = (HHMembersFragment) getChildFragmentManager()
+//                            .findFragmentByTag(HHMembersFragment.class.getSimpleName());
+//                    FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//                    transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+//                    transaction.remove(f);
+//                    transaction.commit();
+//                    getChildFragmentManager().popBackStack();
+//
+//                    return 2;
+//                }
+                if (Constant.code.equals("home")){
+                    if (getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName()) != null) {
+                        HHMembersFragment f = (HHMembersFragment) getChildFragmentManager()
+                                .findFragmentByTag(HHMembersFragment.class.getSimpleName());
+                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                        transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+                        transaction.remove(f);
+                        transaction.commit();
+                        getChildFragmentManager().popBackStack();
+
+                        return 2;
+                    }
+                }
+                else if (Constant.code.equals("are")) {
+//                    if (getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName()) != null) {
+//                        HHMembersFragment f = (HHMembersFragment) getChildFragmentManager()
+//                                .findFragmentByTag(HHMembersFragment.class.getSimpleName());
+//                        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//                        transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+//                        transaction.remove(f);
+//                        transaction.commit();
+//                        getChildFragmentManager().popBackStack();
+//
+//                        return 2;
+
+
+                Constant.code="home";
+            }
+
+
+
+                }
+
+            return 0;
         }
+
 
 
 

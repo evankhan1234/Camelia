@@ -81,7 +81,7 @@ public class HHMemberListFragment extends Fragment {
                 transaction.commit();
                 getChildFragmentManager().popBackStack();
 
-                return 2;
+                return 3;
 
             }
 
