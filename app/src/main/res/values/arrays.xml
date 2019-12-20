@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="district_choices">
+        <item>Bo</item>
+        <item>Bombali</item>
+        <item>Bonthe</item>
+        <item>Falaba</item>
+        <item>Kailahun</item>
+        <item>Kambia</item>
+        <item>Karene</item>
+        <item>Kenema</item>
+        <item>Koinadugu</item>
+        <item>Kono</item>
+        <item>Moyamba</item>
+        <item>Port Loko</item>
+        <item>Pujehun</item>
+        <item>Tonkolili</item>
+        <item>Western Urban</item>
+        <item>Western Rural</item>
+    </array>
+    <array name="group_step">
+        <item>Group Coverage</item>
+        <item>Group Basic</item>
+        <item>Group Share</item>
+        <item>Group Loan</item>
+        <item>Group Social Fund </item>
+
+    </array>
+    <array name="member_step">
+        <item>Group Member</item>
+        <item>Group Member Other</item>
+
+    </array>
+    <array name="meeting_steps">
+        <item>Last Meeting Summary</item>
+        <item>Attendance</item>
+        <item>Social Fund Contribute</item>
+        <item>Share Purchase</item>
+        <item>Loan Repayment</item>
+        <item>Late Attendance with Fine</item>
+        <item>Loan  Disburse</item>
+        <item>Social Fund Expense</item>
+        <item>Metting Summary(Finalization)</item>
+    </array>
+
+</resources>

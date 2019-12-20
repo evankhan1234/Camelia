@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">Camelia</string>
+    <string name="tubewell">Tubewell</string>
+    <string name="filter_water">Filter Water</string>
+    <string name="tap_water">Tap Water</string>
+    <string name="boil_water">Boil Water</string>
+    <string name="chlorine_water">Chlorine Water</string>
+    <string name="kath">Kath</string>
+    <string name="patkhori">Pathkhori</string>
+    <string name="gobor">Gobor</string>
+    <string name="kura">Kura Bhusi</string>
+    <string name="alchocol">Alcohol Jalani</string>
+    <string name="fosol">Bojro Fosol</string>
+    <string name="kerosin_chula">Kerosin Chula</string>
+    <string name="electric_chula">Electric Chula</string>
+    <string name="land_fill_gas">Land Filed Gas</string>
+    <string name="ittadi">Ittadi</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

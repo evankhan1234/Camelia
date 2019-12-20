@@ -11,10 +11,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
-        <activity android:name=".Activity.Household.HouseholdHomeActivity"></activity>
-        <activity android:name=".Activity.Household.HouseHoldActivity" />
-        <activity android:name=".Activity.CCUserHomeActivity" />
         <activity
+            android:screenOrientation="portrait"
+            android:name=".Activity.Household.HouseholdHomeActivity"></activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".Activity.Household.HouseHoldActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".Activity.CCUserHomeActivity" />
+        <activity
+
             android:name=".Activity.CCUserActivity"
             android:screenOrientation="portrait" />
         <activity

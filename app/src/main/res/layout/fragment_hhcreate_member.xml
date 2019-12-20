@@ -1,14 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HouseHoldFragment.HHCreateMemberFragment">
+    android:background="@color/white"
+    android:id="@+id/rlt_root"
+>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/header_rtl_roots"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:visibility="visible">
 
-</FrameLayout>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/header_rtl_root"
+        android:layout_below="@+id/header_rtl_roots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5px"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/lnl_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <include layout="@layout/step" />
+                <include layout="@layout/step" />
+                <include layout="@layout/step" />
+                <include layout="@layout/step" />
+                <include layout="@layout/step" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
+
+    <xact.idea.camelia.View.CustomViewPager
+        android:layout_marginTop="30px"
+        android:layout_above="@+id/rlt_footer"
+        android:layout_below="@+id/header_rtl_root"
+        android:id="@+id/vpg_home_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/rlt_footer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10px"
+        android:visibility="visible">
+        <View
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="5px"/>
+
+
+        <Button
+            android:layout_marginTop="30px"
+            android:background="@drawable/capsule_button"
+            android:backgroundTint="@color/black"
+
+            android:textColor="@color/white"
+            android:visibility="visible"
+            android:id="@+id/btn_back"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="18dp"
+
+            android:layout_centerVertical="true"
+            android:text="Back"
+            android:gravity="center"
+            android:layout_width="350px"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_marginTop="30px"
+            android:backgroundTint="@color/black"
+            android:background="@drawable/capsule_button"
+            android:textColor="@color/white"
+            android:id="@+id/btn_next"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18sp"
+            android:layout_alignParentRight="true"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="Next"
+            android:layout_width="350px"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</RelativeLayout>

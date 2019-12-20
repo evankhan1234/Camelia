@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:orientation="horizontal">
+
+
+    <TextView
+        android:textColor="@color/white"
+        android:paddingTop="5dp"
+        android:textAlignment="center"
+        android:background="@drawable/green_circle_drawable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:id="@+id/step_no" />
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:textColor="#000"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/title" />
+
+    <View
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="5px"
+        android:layout_below="@+id/rlt_header"
+        android:layout_marginTop="1dp"
+        android:background="#B9B4B4" />
+
+</LinearLayout>
