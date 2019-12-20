@@ -243,7 +243,7 @@
                     android:background="@drawable/test"
                     android:layout_marginTop="40px"
 
-                    android:id="@+id/spinner_customer"
+                    android:id="@+id/spinner_biomas"
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
