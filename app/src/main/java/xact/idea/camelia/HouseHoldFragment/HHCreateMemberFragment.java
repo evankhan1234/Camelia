@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,13 +33,14 @@ public class HHCreateMemberFragment extends Fragment {
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
-    public CustomViewPager vpg_home;
+    public static CustomViewPager vpg_home;
     public static ViewPagerAdapter mPagerAdapter = null;
     LinearLayout lnl_category;
     HorizontalScrollView horizontalScrollView;
-    Button btn_back;
-    Button btn_next;
+    static Button btn_back;
+    static Button btn_next;
     String[] categories;
+    Message message = null;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +68,7 @@ public class HHCreateMemberFragment extends Fragment {
             categories = getResources().getStringArray(R.array.group_step);
             for (int i = 0; i < lnl_category.getChildCount(); i++) {
                 LinearLayout rlt = (LinearLayout) lnl_category.getChildAt(i);
-                TextView step_no = (TextView) rlt.findViewById(R.id.step_no);
+                TextView step_no =  rlt.findViewById(R.id.step_no);
                 final TextView title = rlt.findViewById(R.id.title);
                 step_no.setText("" + (i + 1));
                 title.setText("" + categories[i]);
@@ -82,20 +84,27 @@ public class HHCreateMemberFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (vpg_home.getCurrentItem() == 0) {
-
+                    message = new Message();
+                    message.what = 0;
+                    HHMyselfFragment.handler.sendMessage(message);
                 } else if (vpg_home.getCurrentItem() == 1) {
-
-
+                    message = new Message();
+                    message.what = 1;
+                    HHMedicineFragment.handler.sendMessage(message);
+                    btn_back.setVisibility(View.VISIBLE);
                     // vpg_home.setCurrentItem(vpg_home.getCurrentItem() + 1);
                 } else if (vpg_home.getCurrentItem() == 2) {
-
-                    btn_back.setVisibility(View.VISIBLE);
-                } else if (vpg_home.getCurrentItem() == 3) {
-                    btn_back.setVisibility(View.VISIBLE);
-                } else if (vpg_home.getCurrentItem() == 4) {
-
+                    message = new Message();
+                    message.what = 2;
+                    HHHabitFragment.handler.sendMessage(message);
                     btn_back.setVisibility(View.VISIBLE);
                 }
+//                else if (vpg_home.getCurrentItem() == 3) {
+//                    btn_back.setVisibility(View.VISIBLE);
+//                } else if (vpg_home.getCurrentItem() == 4) {
+//
+//                    btn_back.setVisibility(View.VISIBLE);
+//                }
 
                 btn_back.setVisibility(View.VISIBLE);
             }
@@ -103,37 +112,40 @@ public class HHCreateMemberFragment extends Fragment {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                message = new Message();
                 if (vpg_home.getCurrentItem() == 1) {
-
+                    message.what = 0;
+                    HHMedicineFragment.handler.sendMessage(message);
 
                     btn_back.setVisibility(View.GONE);
                     // vpg_home.setCurrentItem(vpg_home.getCurrentItem() + 1);
                 } else if (vpg_home.getCurrentItem() == 2) {
-
-                    btn_back.setVisibility(View.VISIBLE);
-                } else if (vpg_home.getCurrentItem() == 3) {
-
-                    btn_back.setVisibility(View.VISIBLE);
-                } else if (vpg_home.getCurrentItem() == 4) {
-
+                    message.what = 1;
+                    HHHabitFragment.handler.sendMessage(message);
                     btn_back.setVisibility(View.VISIBLE);
                 }
+//                else if (vpg_home.getCurrentItem() == 3) {
+//
+//                    btn_back.setVisibility(View.VISIBLE);
+//                } else if (vpg_home.getCurrentItem() == 4) {
+//
+//                    btn_back.setVisibility(View.VISIBLE);
+//                }
                 vpg_home.setCurrentItem(vpg_home.getCurrentItem() - 1);
             }
         });
         setStepValue(0);
     }
-    public void nextPage(int pos) {
+    public static void nextPage(int pos) {
         vpg_home.setCurrentItem(pos);
     }
 
-    public void nextPages(int pos) {
+    public static void nextPages(int pos) {
         btn_next.setText("Complete");
         vpg_home.setCurrentItem(pos);
     }
 
-    public void prevPage(int pos) {
+    public static void prevPage(int pos) {
         btn_next.setText("Next");
         vpg_home.setCurrentItem(pos);
     }
@@ -176,10 +188,10 @@ public class HHCreateMemberFragment extends Fragment {
     private void initPager() {
         mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         mPagerAdapter.addFragment(new HHMyselfFragment(), "");
-        mPagerAdapter.addFragment(new HHFamilyDiseaseFragment(), "");
+     //   mPagerAdapter.addFragment(new HHFamilyDiseaseFragment(), "");
         mPagerAdapter.addFragment(new HHMedicineFragment(), "");
         mPagerAdapter.addFragment(new HHHabitFragment(), "");
-        mPagerAdapter.addFragment(new HHReasonFragment(), "");
+     //   mPagerAdapter.addFragment(new HHReasonFragment(), "");
         // mPagerAdapter.addFragment(new ReviewFragment(), "");
         vpg_home.beginFakeDrag();
         // vpg_home.setOffscreenPageLimit(5);

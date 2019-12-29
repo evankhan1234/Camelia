@@ -81,7 +81,7 @@
             android:layout_marginRight="39px"
             android:layout_marginBottom="10px"
             android:alpha="1.5"
-            android:id="@+id/btn_measurements_new"
+            android:id="@+id/btn_new"
             android:src="@drawable/ic_add_black_24dp" />
     </RelativeLayout>
     <RelativeLayout

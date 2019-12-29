@@ -1,14 +1,1417 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    android:id="@+id/rlt_root"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HouseHoldFragment.HHHabitFragment">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    <ScrollView
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="#F9F9F9"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical"
+                >
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you currently smoke?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="40px"
+
+                    android:id="@+id/spinner_smoke"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_smoke"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many sticks do you smoke per day?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_no_smoke"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you currently consume betel nut, zorda, gul, sada pata, khoyer?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_jorda"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_jorda"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Does anybody surround you (at home or workplace) smoke?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_workplace"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_workplace"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Did you ever consume alcohol? (or in last 30 days)"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_alcohol"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_alcohol"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How many days in a typical week you consume fruits? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_fruits"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How many servings of fruits you take in one of those days? (use show card)"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_card"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How many days in a typical week you consume vegetables? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_vegetables"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How many servings of vegetables you take in one of those days? (use show card)"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_vegetables_card"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How much salt do you buy for your family in a month?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_salt_month"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you take extra salt while taking meal?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_salt_meal"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many days are you taking salt ?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_extra_salt"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you do any vigorous intensity activity that causes large increase in breathing or heart rate for at least 10 minutes? (use show card)"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_heart_show_card"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="If yes, what are the activities, please tell?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <CheckBox
+                        android:id="@+id/checkBoxHeaveyLoad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Carrying or lifting Heavy load"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxDigging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Digging"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxFurniture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Loading furniture, shovelling sand"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxPickingCrops"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Picking crops"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxCuttingTrees"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Cutting trees/Sawing hardwood"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxBreakUpPaddy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Break up the paddy in pile"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxDrivingRickshaw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Driving rickshaw, van, four wheel"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxFishing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Fishing with nets"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxPlouging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Ploughing"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxHeaveyConstructionWork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Construction work"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxHeaveyGoods"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Carrying heavy goods"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxHeaveyGoodsHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Carrying heavy goods on head"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxSoldDigging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Soil digging"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxWashing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Washing heavy clothes"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxStepping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Stepping Stairs"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxOthers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Others"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="In a typical week on how many days do you do such activities? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_typical_week"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
+                        android:tag="40"
+                        android:text="How much time do you spend doing those activities on a typical day?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_typical_day"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you do any moderate intensity activity that causes small increases in breathing or heart rate for at least 10 minutes? (use show card)"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_heart_show_moderate_card"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="If yes, what are the activities, please tell?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <CheckBox
+                        android:id="@+id/checkBoxHouseHoldWork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Household work (sweeping, mopping, washing dishes, ironing etc.)"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxGardening"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Gardening"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxMilkingCows"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Milking cows"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxCultivatingLand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Cultivating land"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxPlantingHarvest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Planting and harvesting crops"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxWeavingCloth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Weaving cloth"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxWashingCloths"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Washing cloths, brushing carpets"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxRearing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Rearing and Tending animals"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxMixingCement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Masonry or mixing cement"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxWoodWork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Woodwork(chiselling/sawing softwood)"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxDrawingWater"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Drawing water"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxCarryingLightWeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Carrying light weight"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxWashingCloths1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Washing clothes"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxGardening1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Gardening"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxMilkingCows1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Milking cows"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxRoping"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Roping seeds/harvesting"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxFarming"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Farming"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxParlour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Working on parlour"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxCloth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Weaving cloth"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxHouseHoldWork1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Household work (sweeping, mopping, washing dishes, ironing etc.)"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxOthers1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Others"
+                        />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="In a typical week on how many days do you do such activities? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_typical_week_moderate"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
+                        android:tag="40"
+                        android:text="How much time do you spend doing those activities on a typical day?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_typical_day_moderate"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Hours and Minute"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you do any vigorous intensity recreational activities that causes small increase in breathing or heart rate for at least 10  inutes? (use show card)"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_recreational_activities"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="If yes, what are the activities, please tell?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <CheckBox
+                        android:id="@+id/checkBoxRunning"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Running"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxBadminton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Badminton"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxSwimming"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Fast swimming"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxHockey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Hockey"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxHadudu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Hadudu"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxVolleyball"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Volleyball"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxTenis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Washing cloths, brushing carpets"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxOthers_recreational"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Others"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="In a typical week on how many days do you do such activities? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_typical_week_recreational"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
+                        android:tag="40"
+                        android:text="How much time do you spend doing those activities on a typical day?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_typical_day__recreational"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Hours and Minute"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you do any moderate intensity recreational activities that causes small increase in breathing or heart rate for at least 10  inutes? (use show card)"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_moderate_recreational_activities"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="If yes, what are the activities, please tell?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <CheckBox
+                        android:id="@+id/checkBoxFastWalking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Fast walking"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxJogging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Jogging"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxCycling"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Cycling"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxCricket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Cricket"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxYoga"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Yoga"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxAerobics"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Aerobics"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Exercise with instruments"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxOthersDancing"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Dancing"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxOthers_mderate_recreational"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Others"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="In a typical week on how many days do you do such activities? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_typical_week_moderate_recreational"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
+                        android:tag="40"
+                        android:text="How much time do you spend doing those activities on a typical day?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_typical_day__moderate_recreational"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Hours and Minute"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you spend your time in reclining activities (sitting, lying, gossiping, reading, watching TV) in a day?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="30px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="40px"
+
+                    android:id="@+id/spinner_reclining"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How much time do you spend doing those reclining activities on a typical day?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_reclining"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Hours and Minute"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100px"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
