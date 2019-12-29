@@ -5,8 +5,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,11 @@ import android.view.ViewGroup;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
-public class HHHabitFragment extends Fragment {
+public class HHHabitFragment extends Fragment implements Handler.Callback{
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
-
+    public  static Handler handler;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,10 +33,36 @@ public class HHHabitFragment extends Fragment {
         correctSizeUtil.correctSize(view);
         initView();
         // display();
+        handler = new Handler(this);
         return view;
     }
 
     private void initView() {
     }
+    private boolean isChecked() {
+//        if (Utils.isEmpty(etLocationDescriptio.getText().toString())) {
+//            ((NewGroupActivty) mActivity).showTitleAlertDialog(getResources().getString(R.string.err_title), mActivity.getResources().getString(R.string.please_enter) + " Location Description", null);
+//            return false;
+//        }
 
+
+        return true;
+    }
+    private void saveData(){
+
+        if (isChecked()){
+          //  HHCreateMemberFragment.nextPage(1);
+        }
+    }
+
+    @Override
+    public boolean handleMessage(@NonNull Message message) {
+        if(message.what==2)
+        {
+            saveData();
+        }else {
+            HHCreateMemberFragment.prevPage(1);
+        }
+        return false;
+    }
 }

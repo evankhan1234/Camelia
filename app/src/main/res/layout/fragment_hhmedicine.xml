@@ -1,14 +1,1074 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/rlt_root"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HouseHoldFragment.HHMedicineFragment">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    >
+    <ScrollView
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="#F9F9F9"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical"
+                >
+
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you have diabetes?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="40px"
+
+                    android:id="@+id/spinner_diabetis"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_smoke"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How do you control this disease?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <CheckBox
+                        android:id="@+id/checkBoxFoodHabit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Food Habit"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxMouthMedicine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Mouth Medicine"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxInsulin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Insulin"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxExercise"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Exercise"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="No one"
+                        />
+
+
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the medicine name?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you have high blood pressure?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_blood_pressure"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_blood"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How do you control this disease?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <CheckBox
+                        android:id="@+id/checkBoxFoodHabit_blood_pressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Food Habit"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxMouthMedicine_blood_pressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Mouth Medicine"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxExercise_blood_pressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Exercise"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxNo_blood_pressure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="No one"
+                        />
+
+
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the medicine name?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_blood_pressure"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you have heart disease or ever had heart attack?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_heart_attack"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_heart_attack"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How do you control this disease?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <CheckBox
+                        android:id="@+id/checkBoxFoodHabit_heart_attack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Food Habit"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxMouthMedicine_heart_attack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Mouth Medicine"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxExercise_heart_attack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="Exercise"
+                        />
+                    <CheckBox
+                        android:id="@+id/checkBoxNo_heart_attack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:text="No one"
+                        />
+
+
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the medicine name?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_heart_attack"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Did you ever had brain stroke?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_brain_stroke"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_heart_brain_stroke"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How do you control this disease? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_brain_stroke_disease"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the medicine name?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_brain_stroke"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Are you suffering from any chronic lung diseases?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_lung"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_lung_disease"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How do you control this disease? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_control_lung_disease"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the medicine name?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_lung_disease"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you have asthma ?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_ashma"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_ashma"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How do you control this disease? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_control_name_ashma"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the medicine name?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine__name_ashma"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Are you suffering from any chronic kidney disease?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_kidney"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_kidney_disease"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How do you control this disease? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_control_name_kidney_disease"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the medicine name?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_kidney_disease"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Are you suffering from any cancer?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_cancer"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_cancer"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How do you control this disease? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_control_name_cancer"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the medicine name?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_cancer"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+                    android:layout_marginRight="50px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Are you suffering from any mental disorders?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_mental_disorder"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="How many years are you suffering?"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_yes_mental_disorder"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Month"
+                        android:ems="10"
+                        android:inputType="number"/>
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="How do you control this disease? "
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_mental_disorder"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Do you know the treatment you have taken?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_medicine_name_mental_disorder"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100px"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

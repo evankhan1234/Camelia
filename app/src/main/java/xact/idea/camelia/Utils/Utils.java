@@ -51,5 +51,9 @@ public  class Utils {
         long tmp = Math.round(value);
         return (double) tmp / factor;
     }
-
+    public static boolean isEmpty(String emptyCheckValue) {
+        if (emptyCheckValue != null && !emptyCheckValue.trim().isEmpty() && !emptyCheckValue.equals(Constant.NULL) && emptyCheckValue.trim().length() > 0)
+            return false;
+        else return true;
+    }
 }

@@ -1,14 +1,359 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/rlt_root"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HouseHoldFragment.HHMyselfFragment">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    >
+    <ScrollView
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:background="#F9F9F9"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical"
+                >
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="60px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="National Id"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+                <EditText
+                    android:layout_marginTop="30px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="35"
+                    android:textSize="35px"
+                    android:id="@+id/edit_national_id"
+                    android:background="@drawable/input_bg"
+                    android:padding="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="120px"
+                    android:layout_marginBottom="10px"
+                    android:hint="National Id"
+                    android:ems="10"
+                    android:inputType="number"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Mobile Number"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+                <EditText
+                    android:layout_marginTop="50px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="35"
+                    android:textSize="35px"
+                    android:id="@+id/edit_address"
+                    android:background="@drawable/input_bg"
+                    android:padding="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="120px"
+                    android:layout_marginBottom="10px"
+                    android:hint="Mobile Number"
+                    android:ems="10"
+                    android:inputType="phone"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Full Name"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+                <EditText
+                    android:layout_marginTop="30px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="35"
+                    android:textSize="35px"
+                    android:id="@+id/edit_name"
+                    android:background="@drawable/input_bg"
+                    android:padding="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="120px"
+                    android:layout_marginBottom="10px"
+                    android:hint="Full Name"
+                    android:ems="10"
+                    android:inputType="textPostalAddress"/>
+                <LinearLayout
+                    android:layout_marginTop="30px"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_weight="1"
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="Birthday Date"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_weight="1"
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="Age"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginTop="30px"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_weight="1"
+
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_birthday_date"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="0dp"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Birthday Date"
+                        android:ems="10"
+                        android:focusable="false"
+                       />
+                    <EditText
+                        android:layout_weight="1"
+
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_ge"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="0dp"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Age"
+                        android:ems="10"
+                        android:focusable="false"
+                        />
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Sex"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_sex"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Religion"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_religion"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Education"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_education"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Maritial Status"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_martial_status"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Occupation"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_occupation"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Blood Group"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_blood_group"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Living Status"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_living_status"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100px"/>
+             
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

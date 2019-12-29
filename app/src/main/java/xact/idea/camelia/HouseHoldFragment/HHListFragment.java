@@ -16,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class HHListFragment extends Fragment {
     View view;
     HHListAdapter mAdapters;
     RecyclerView rcl_this_customer_list;
+    FloatingActionButton btn_new;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,10 +59,29 @@ public class HHListFragment extends Fragment {
 
 
     private void initView() {
+        btn_new =  view.findViewById(R.id.btn_new);
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);
+        btn_new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction;
+                transaction = getChildFragmentManager().beginTransaction();
+                Bundle bundle = new Bundle();
+                bundle.putInt("Id",2);
+                Fragment f = new HHCreateHouseholdFragment();
+                f.setArguments(bundle);
+                transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+                transaction.add(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
+                transaction.addToBackStack(f.getClass().getSimpleName());
+                transaction.commit();
+                // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+                ((HouseholdHomeActivity) getActivity()).ShowText("Create Household");
+                ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+        });
     }
     private  void display() {
 
@@ -96,7 +118,9 @@ public class HHListFragment extends Fragment {
         Fragment fq = getVisibleFragment();
         Log.e("DFDf1","SDfds"+fq);
         Fragment fragment= getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName());
+        Fragment fragment1= getChildFragmentManager().findFragmentByTag(HHCreateHouseholdFragment.class.getSimpleName());
        // Fragment fragment= getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName());
+        Log.e("fragment1","fragment1"+fragment1);
 
         if (fragment instanceof HHMembersFragment){
           //  boolean t
@@ -128,7 +152,8 @@ public class HHListFragment extends Fragment {
                         return 2;
                     }
                 }
-                else if (Constant.code.equals("are")) {
+                else if (Constant.code.equals("are"))
+                {
 //                    if (getChildFragmentManager().findFragmentByTag(HHMembersFragment.class.getSimpleName()) != null) {
 //                        HHMembersFragment f = (HHMembersFragment) getChildFragmentManager()
 //                                .findFragmentByTag(HHMembersFragment.class.getSimpleName());
@@ -142,16 +167,30 @@ public class HHListFragment extends Fragment {
 
 
                 Constant.code="home";
+                }
+
+
+
             }
 
-
-
-                }
 
             return 0;
         }
 
+        if (fq instanceof HHCreateHouseholdFragment)
+        {
+            if (getChildFragmentManager().findFragmentByTag(HHCreateHouseholdFragment.class.getSimpleName()) != null) {
+                HHCreateHouseholdFragment f = (HHCreateHouseholdFragment) getChildFragmentManager()
+                        .findFragmentByTag(HHCreateHouseholdFragment.class.getSimpleName());
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
+                transaction.remove(f);
+                transaction.commit();
+                getChildFragmentManager().popBackStack();
 
+                return 2;
+            }
+        }
 
 
         return 0;

@@ -20,11 +20,11 @@
         <item>Western Rural</item>
     </array>
     <array name="group_step">
-        <item>Group Coverage</item>
-        <item>Group Basic</item>
-        <item>Group Share</item>
-        <item>Group Loan</item>
-        <item>Group Social Fund </item>
+        <item>Myself Information</item>
+        <item>Medicine Information</item>
+        <item>Habit  Information</item>
+
+
 
     </array>
     <array name="member_step">
