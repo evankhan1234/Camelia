@@ -50,6 +50,8 @@
 
                     android:layout_height="130px"/>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearDiabetis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -71,7 +73,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_yes_smoke"
+                        android:id="@+id/edit_diabetis_month"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
@@ -82,6 +84,8 @@
                         android:inputType="number"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearDiabetisCheckbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -140,6 +144,15 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_diabetis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -164,6 +177,7 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -189,6 +203,8 @@
 
                     android:layout_height="130px"/>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_blood_pressure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -221,6 +237,8 @@
                         android:inputType="number"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_blood_pressure_check_box"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -271,6 +289,16 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_blood"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -295,6 +323,7 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <TextView
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
@@ -321,6 +350,8 @@
                     android:layout_height="130px"/>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_heart_attack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -353,6 +384,8 @@
                         android:inputType="number"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_heart_attack_check_box"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -403,6 +436,15 @@
 
 
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_heart_attack"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -427,6 +469,8 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+
+                </LinearLayout>
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -454,6 +498,8 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_brain_stroke"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -485,6 +531,13 @@
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_brain_stroke_control"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -498,6 +551,9 @@
                     android:textSize="40px"
                     android:textStyle="bold" />
 
+
+
+
                 <Spinner
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
@@ -509,6 +565,16 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_brain_stroke"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -533,6 +599,8 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+
+                </LinearLayout>
                 <TextView
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
@@ -561,6 +629,8 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_lung_disease"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -592,6 +662,16 @@
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_control_lung"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -616,6 +696,17 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_lung"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -640,6 +731,7 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -667,6 +759,8 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_ashma"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -698,6 +792,16 @@
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_control_ashma"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -722,6 +826,17 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_ashma"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -746,6 +861,7 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <TextView
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
@@ -772,6 +888,8 @@
                     android:layout_height="130px"/>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_kidney"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -803,6 +921,16 @@
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_control_kidney"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -827,6 +955,17 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_kidney"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -851,6 +990,7 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -877,6 +1017,8 @@
                     android:layout_height="130px"/>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_cancer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -908,6 +1050,16 @@
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_control_cancer"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -932,6 +1084,17 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linear_medicine_cancer"
+                    android:visibility="gone"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -956,6 +1119,7 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <TextView
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
@@ -983,6 +1147,8 @@
                     android:layout_height="130px"/>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_mental_disorder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1014,6 +1180,16 @@
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_control_mental_disorder"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -1038,6 +1214,17 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_medicine_mental_disorder"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -1058,10 +1245,11 @@
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
-                    android:id="@+id/spinner_medicine_name_mental_disorder"
+                    android:id="@+id/spinner_medicine_name_mental_disorders"
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="100px"/>

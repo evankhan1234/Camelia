@@ -37,7 +37,7 @@ public class HHCreateMemberFragment extends Fragment {
     public static ViewPagerAdapter mPagerAdapter = null;
     LinearLayout lnl_category;
     HorizontalScrollView horizontalScrollView;
-    static Button btn_back;
+    public static Button btn_back;
     static Button btn_next;
     String[] categories;
     Message message = null;
@@ -87,17 +87,18 @@ public class HHCreateMemberFragment extends Fragment {
                     message = new Message();
                     message.what = 0;
                     HHMyselfFragment.handler.sendMessage(message);
+                    //btn_back.setVisibility(View.VISIBLE);
                 } else if (vpg_home.getCurrentItem() == 1) {
                     message = new Message();
                     message.what = 1;
                     HHMedicineFragment.handler.sendMessage(message);
-                    btn_back.setVisibility(View.VISIBLE);
+                   // btn_back.setVisibility(View.VISIBLE);
                     // vpg_home.setCurrentItem(vpg_home.getCurrentItem() + 1);
                 } else if (vpg_home.getCurrentItem() == 2) {
                     message = new Message();
                     message.what = 2;
                     HHHabitFragment.handler.sendMessage(message);
-                    btn_back.setVisibility(View.VISIBLE);
+                  //  btn_back.setVisibility(View.VISIBLE);
                 }
 //                else if (vpg_home.getCurrentItem() == 3) {
 //                    btn_back.setVisibility(View.VISIBLE);
@@ -106,7 +107,7 @@ public class HHCreateMemberFragment extends Fragment {
 //                    btn_back.setVisibility(View.VISIBLE);
 //                }
 
-                btn_back.setVisibility(View.VISIBLE);
+                //btn_back.setVisibility(View.VISIBLE);
             }
         });
         btn_back.setOnClickListener(new View.OnClickListener() {

@@ -69,7 +69,7 @@
                     android:layout_marginLeft="50px"
                     android:tag="35"
                     android:textSize="35px"
-                    android:id="@+id/edit_address"
+                    android:id="@+id/edit_mobile_number"
                     android:background="@drawable/input_bg"
                     android:padding="25px"
                     android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_ge"
+                        android:id="@+id/edit_age"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="0dp"
@@ -347,6 +347,43 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                <LinearLayout
+                    android:id="@+id/linear_edit_death"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="60px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="Date of Death"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+
+                        android:layout_marginTop="30px"
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_date_of_death"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Date of Death"
+                        android:ems="10"
+                        android:inputType="number"/>
+
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="100px"/>
