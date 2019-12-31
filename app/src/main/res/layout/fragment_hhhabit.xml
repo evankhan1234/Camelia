@@ -51,28 +51,32 @@
 
                     android:layout_height="130px"/>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_smoke"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <TextView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginTop="50px"
                         android:layout_marginLeft="50px"
+                        android:layout_marginTop="50px"
                         android:tag="40"
                         android:text="How many years?"
                         android:textColor="@color/black"
                         android:textSize="40px"
                         android:textStyle="bold" />
+
                     <EditText
                         android:layout_marginTop="30px"
                         android:layout_marginRight="50px"
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_yes_smoke"
+                        android:id="@+id/edit_smoke_years"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
@@ -83,6 +87,8 @@
                         android:inputType="number"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_smoke_per_day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -104,7 +110,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_no_smoke"
+                        android:id="@+id/edit_smoke_stick"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
@@ -140,6 +146,8 @@
 
                     android:layout_height="130px"/>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/lineat_jorda"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -161,7 +169,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_yes_jorda"
+                        android:id="@+id/edit_jorda"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
@@ -196,6 +204,8 @@
 
                     android:layout_height="130px"/>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_workplace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -217,7 +227,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_yes_workplace"
+                        android:id="@+id/edit_workplace"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
@@ -252,6 +262,8 @@
 
                     android:layout_height="130px"/>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_alcohol"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -273,7 +285,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_yes_alcohol"
+                        android:id="@+id/edit_alcohol"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
@@ -327,7 +339,7 @@
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
-                    android:id="@+id/spinner_card"
+                    android:id="@+id/spinner_fruits_card"
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
@@ -430,6 +442,8 @@
 
                     android:layout_height="130px"/>
                 <LinearLayout
+                    android:id="@+id/linear_taking_meal"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -490,6 +504,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/linear_heart_show_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -635,6 +650,14 @@
                         />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_heart_show_card_typical_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
                 <TextView
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
@@ -660,7 +683,10 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_heart_show_card_activities"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -733,6 +759,8 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_heart_show_moderate_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -918,6 +946,16 @@
                         />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/linear_heart_show_moderate_card_typical"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+
+
+
                 <TextView
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
@@ -943,7 +981,9 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/linear_heart_show_card_day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1018,6 +1058,8 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_recreational_activities"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1100,6 +1142,14 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_recreational_activities_typical"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
                 <TextView
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
@@ -1125,7 +1175,10 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_recreational_activities_typical_day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1148,7 +1201,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_typical_day__recreational"
+                        android:id="@+id/edit_typical_day_recreational"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
@@ -1192,7 +1245,7 @@
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
-                    android:id="@+id/spinner_moderate_recreational_activities"
+                    android:id="@+id/spinner_moderate_intensity_recreational_activities"
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
@@ -1200,6 +1253,8 @@
 
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_moderate_intensity_recreational_activities"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1280,7 +1335,7 @@
                         android:text="Dancing"
                         />
                     <CheckBox
-                        android:id="@+id/checkBoxOthers_mderate_recreational"
+                        android:id="@+id/checkBoxOthers_moderate_recreational_others"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="50px"
@@ -1289,6 +1344,15 @@
                         />
 
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_moderate_intensity_recreational_activities_typical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
 
                 <TextView
                     android:layout_marginRight="50px"
@@ -1315,7 +1379,10 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_moderate_intensity_recreational_activities_typical_day"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1338,7 +1405,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_typical_day__moderate_recreational"
+                        android:id="@+id/edit_typical_day_moderate_recreational"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
@@ -1362,7 +1429,7 @@
                     android:textStyle="bold" />
 
                 <Spinner
-                    android:layout_marginLeft="30px"
+                    android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
                     android:visibility="visible"
                     android:background="@drawable/test"
@@ -1373,6 +1440,8 @@
 
                     android:layout_height="130px"/>
                 <LinearLayout
+
+                    android:id="@+id/linear_reclining"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
