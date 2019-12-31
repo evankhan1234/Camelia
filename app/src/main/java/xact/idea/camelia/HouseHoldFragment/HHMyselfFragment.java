@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,14 +146,14 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         maritalArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, maritalArrayList);
         maritalArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_martial_status.setAdapter(maritalArrayAdapter);
-        edit_birthday_date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dFragment = new DatePickerFromFragment();
-
-                dFragment.show(getFragmentManager(), "Date Picker");
-            }
-        });
+//        edit_birthday_date.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DialogFragment dFragment = new DatePickerFromFragment();
+//
+//                dFragment.show(getFragmentManager(), "Date Picker");
+//            }
+//        });
 
         spinner_living_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -169,6 +171,41 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        edit_age.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if (charSequence.toString()!=null){
+
+                    int years= 0;
+                    try {
+                        years = Integer.parseInt(charSequence.toString());
+                        Calendar today = Calendar.getInstance();
+
+                        int total=today.get(Calendar.YEAR)-years;
+
+                        edit_birthday_date.setText("01-01-" + total);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        edit_birthday_date.setText("");
+                    }
+
+
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
 
             }
         });
@@ -235,7 +272,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String formattedDate = formatter.format(chosenDate);
             EditText startTime2 = (EditText) getActivity().findViewById(R.id.edit_birthday_date);
-            startTime2.setText(formattedDate);
+            edit_birthday_date.setText(formattedDate);
 
             int age = today.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
 

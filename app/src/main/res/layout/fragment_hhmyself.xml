@@ -120,7 +120,7 @@
 
                         android:layout_marginLeft="50px"
                         android:tag="40"
-                        android:text="Birthday Date"
+                        android:text="Age"
                         android:textColor="@color/black"
                         android:textSize="40px"
                         android:textStyle="bold" />
@@ -133,7 +133,7 @@
 
                         android:layout_marginLeft="50px"
                         android:tag="40"
-                        android:text="Age"
+                        android:text="Birthday Date"
                         android:textColor="@color/black"
                         android:textSize="40px"
                         android:textStyle="bold" />
@@ -151,7 +151,7 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_birthday_date"
+                        android:id="@+id/edit_age"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="0dp"
@@ -159,7 +159,7 @@
                         android:layout_marginBottom="10px"
                         android:hint="Birthday Date"
                         android:ems="10"
-                        android:focusable="false"
+                      android:inputType="number"
                        />
                     <EditText
                         android:layout_weight="1"
@@ -168,7 +168,8 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:id="@+id/edit_age"
+                        android:id="@+id/edit_birthday_date"
+
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="0dp"
