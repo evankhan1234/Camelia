@@ -157,7 +157,7 @@
                         android:layout_width="0dp"
                         android:layout_height="120px"
                         android:layout_marginBottom="10px"
-                        android:hint="Birthday Date"
+                        android:hint="Age"
                         android:ems="10"
                       android:inputType="number"
                        />
@@ -175,7 +175,7 @@
                         android:layout_width="0dp"
                         android:layout_height="120px"
                         android:layout_marginBottom="10px"
-                        android:hint="Age"
+                        android:hint="Birthday Date"
                         android:ems="10"
                         android:focusable="false"
                         />
