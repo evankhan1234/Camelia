@@ -25,7 +25,11 @@ import java.util.ArrayList;
 
 import xact.idea.camelia.Model.DropDownModel.FruitsCardModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsModel;
+import xact.idea.camelia.Model.DropDownModel.ModerateModel;
+import xact.idea.camelia.Model.DropDownModel.ModerateRecreationalModel;
 import xact.idea.camelia.Model.DropDownModel.SaltModel;
+import xact.idea.camelia.Model.DropDownModel.TypicalVigorousModel;
+import xact.idea.camelia.Model.DropDownModel.TypicalVigorousRecreationModel;
 import xact.idea.camelia.Model.DropDownModel.VegetableModel;
 import xact.idea.camelia.Model.DropDownModel.VegetablesCardModel;
 import xact.idea.camelia.Model.DropDownModel.YesNoModel;
@@ -70,6 +74,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     Spinner spinner_smoke;
     Spinner spinner_moderate_intensity_recreational_activities;
     Spinner spinner_typical_week_recreational;
+    Spinner spinner_typical_week_moderate_recreational;
     Spinner spinner_alcohol;
     Spinner spinner_jorda;
     Spinner spinner_workplace;
@@ -156,6 +161,10 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     ArrayAdapter<YesNoModel> yesNoArrayAdapterModerateRecreationalHeart;
     ArrayAdapter<YesNoModel> yesNoArrayAdapterVigorousRecreationalHeart;
     ArrayAdapter<YesNoModel> yesNoArrayAdapterReclinig;
+    ArrayAdapter<ModerateModel> yesNoArrayAdapterModerate;
+    ArrayAdapter<ModerateRecreationalModel> yesNoArrayAdapterModerateRecreational;
+    ArrayAdapter<TypicalVigorousModel> yesNoArrayAdapterTypicalVigorous;
+    ArrayAdapter<TypicalVigorousRecreationModel> yesNoArrayAdapterTypicalVigorousRecreation;
 
     ArrayList<YesNoModel> yesNoArrayListForSmoke= new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForJorda = new ArrayList<>();
@@ -172,6 +181,10 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     ArrayList<YesNoModel> yesNoArrayListForModerateRecreationalHeartt= new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForVigorousRecreationalHeart= new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForReclinig= new ArrayList<>();
+    ArrayList<ModerateModel> yesNoArrayListForModerate= new ArrayList<>();
+    ArrayList<ModerateRecreationalModel> yesNoArrayListForModerateRecreational= new ArrayList<>();
+    ArrayList<TypicalVigorousModel> yesNoArrayListForTypicalVigorous= new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListForTypicalVigorousRecreation= new ArrayList<>();
 
 
     @Override
@@ -199,6 +212,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCycling = view.findViewById(R.id.checkBoxCycling);
         linear_reclining = view.findViewById(R.id.linear_reclining);
         edit_yes_reclining = view.findViewById(R.id.edit_yes_reclining);
+        spinner_typical_week_moderate_recreational = view.findViewById(R.id.spinner_typical_week_moderate_recreational);
         checkBoxCricket = view.findViewById(R.id.checkBoxCricket);
         checkBoxYoga = view.findViewById(R.id.checkBoxYoga);
         spinner_reclining = view.findViewById(R.id.spinner_reclining);
@@ -308,6 +322,10 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         yesNoArrayListForVigorousRecreationalHeart= Utils.getyesNoList();
         yesNoArrayListForSaltBuy= Utils.getSaltModelList();
         yesNoArrayListForTakingSalt= Utils.getyesNoList();
+        yesNoArrayListForModerate= Utils.getModerateModelList();
+        yesNoArrayListForModerateRecreational= Utils.getModerateRecreationalModelList();
+        yesNoArrayListForTypicalVigorous= Utils.getTypicalVigorousModelList();
+        yesNoArrayListForTypicalVigorousRecreation= Utils.getTypicalVigorousRecreationModelList();
         initDiabetisSpinner();
         initJordaSpinner();
         initWorkstationSpinner();
@@ -323,6 +341,10 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         initRecreationalActivitiesSpinner();
         initModerateRecreationalActivitiesSpinner();
         initRecilingSpinner();
+        initVigiriousTypicalSpinner();
+        initModerateRecreationalTypicalSpinner();
+        initVigriousRecreationalTypicalSpinner();
+        initModerateTypicalSpinner();
 
     }
     private void initDiabetisSpinner() {
@@ -710,6 +732,80 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+
+            }
+        });
+    }
+    private void initVigiriousTypicalSpinner() {
+        yesNoArrayAdapterTypicalVigorous =new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForTypicalVigorous);
+        yesNoArrayAdapterTypicalVigorous.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week.setAdapter(yesNoArrayAdapterTypicalVigorous);
+
+        spinner_typical_week.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListForTypicalVigorous.get(position).getId());
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+        });
+    }
+    private void initModerateTypicalSpinner() {
+        yesNoArrayAdapterModerate= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerate);
+        yesNoArrayAdapterModerate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate.setAdapter(yesNoArrayAdapterModerate);
+
+        spinner_typical_week_moderate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListForModerate.get(position).getId());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    private void initVigriousRecreationalTypicalSpinner() {
+        yesNoArrayAdapterTypicalVigorousRecreation= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForTypicalVigorousRecreation);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListForTypicalVigorousRecreation.get(position).getId());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    private void initModerateRecreationalTypicalSpinner() {
+        yesNoArrayAdapterModerateRecreational= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerateRecreational);
+        yesNoArrayAdapterModerateRecreational.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational.setAdapter(yesNoArrayAdapterModerateRecreational);
+
+        spinner_typical_week_moderate_recreational.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListForModerateRecreational.get(position).getId());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });

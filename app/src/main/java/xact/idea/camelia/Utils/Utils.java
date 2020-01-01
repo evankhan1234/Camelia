@@ -17,10 +17,14 @@ import xact.idea.camelia.Model.DropDownModel.FruitsCardModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsModel;
 import xact.idea.camelia.Model.DropDownModel.LivingStatusModel;
 import xact.idea.camelia.Model.DropDownModel.MaritialStatusModel;
+import xact.idea.camelia.Model.DropDownModel.ModerateModel;
+import xact.idea.camelia.Model.DropDownModel.ModerateRecreationalModel;
 import xact.idea.camelia.Model.DropDownModel.OccupationModel;
 import xact.idea.camelia.Model.DropDownModel.ReligionModel;
 import xact.idea.camelia.Model.DropDownModel.SaltModel;
 import xact.idea.camelia.Model.DropDownModel.SexModel;
+import xact.idea.camelia.Model.DropDownModel.TypicalVigorousModel;
+import xact.idea.camelia.Model.DropDownModel.TypicalVigorousRecreationModel;
 import xact.idea.camelia.Model.DropDownModel.VegetableModel;
 import xact.idea.camelia.Model.DropDownModel.VegetablesCardModel;
 import xact.idea.camelia.Model.DropDownModel.YesNoModel;
@@ -82,6 +86,106 @@ public class Utils {
         sexModelArrayList.add(sexModelFemale);
         sexModelArrayList.add(sexModelOthers);
         return sexModelArrayList;
+
+    }
+    public static ArrayList<ModerateModel> getModerateModelList() {
+        ArrayList<ModerateModel> fruitsModelArrayList = new ArrayList<>();
+
+        ModerateModel fruitsModelNo0 = new ModerateModel("0 Day/Week", 1);
+        ModerateModel fruitsModelNo1 = new ModerateModel("1 Day/Week", 2);
+        ModerateModel fruitsModelNo2 = new ModerateModel("2 Day/Week", 3);
+        ModerateModel fruitsModelNo3 = new ModerateModel("3 Day/Week", 4);
+        ModerateModel fruitsModelNo4 = new ModerateModel("4 Day/Week", 5);
+        ModerateModel fruitsModelNo5 = new ModerateModel("5 Day/Week", 6);
+        ModerateModel fruitsModelNo6 = new ModerateModel("6 Day/Week", 7);
+        ModerateModel fruitsModelNo7 = new ModerateModel("7 Day/Week", 8);
+
+        fruitsModelArrayList.add(fruitsModelNo0);
+        fruitsModelArrayList.add(fruitsModelNo1);
+        fruitsModelArrayList.add(fruitsModelNo2);
+        fruitsModelArrayList.add(fruitsModelNo3);
+        fruitsModelArrayList.add(fruitsModelNo4);
+        fruitsModelArrayList.add(fruitsModelNo5);
+        fruitsModelArrayList.add(fruitsModelNo6);
+        fruitsModelArrayList.add(fruitsModelNo7);
+
+
+        return fruitsModelArrayList;
+
+    }
+    public static ArrayList<ModerateRecreationalModel> getModerateRecreationalModelList() {
+        ArrayList<ModerateRecreationalModel> fruitsModelArrayList = new ArrayList<>();
+
+        ModerateRecreationalModel fruitsModelNo0 = new ModerateRecreationalModel("0 Day/Week", 1);
+        ModerateRecreationalModel fruitsModelNo1 = new ModerateRecreationalModel("1 Day/Week", 2);
+        ModerateRecreationalModel fruitsModelNo2 = new ModerateRecreationalModel("2 Day/Week", 3);
+        ModerateRecreationalModel fruitsModelNo3 = new ModerateRecreationalModel("3 Day/Week", 4);
+        ModerateRecreationalModel fruitsModelNo4 = new ModerateRecreationalModel("4 Day/Week", 5);
+        ModerateRecreationalModel fruitsModelNo5 = new ModerateRecreationalModel("5 Day/Week", 6);
+        ModerateRecreationalModel fruitsModelNo6 = new ModerateRecreationalModel("6 Day/Week", 7);
+        ModerateRecreationalModel fruitsModelNo7 = new ModerateRecreationalModel("7 Day/Week", 8);
+
+        fruitsModelArrayList.add(fruitsModelNo0);
+        fruitsModelArrayList.add(fruitsModelNo1);
+        fruitsModelArrayList.add(fruitsModelNo2);
+        fruitsModelArrayList.add(fruitsModelNo3);
+        fruitsModelArrayList.add(fruitsModelNo4);
+        fruitsModelArrayList.add(fruitsModelNo5);
+        fruitsModelArrayList.add(fruitsModelNo6);
+        fruitsModelArrayList.add(fruitsModelNo7);
+
+
+        return fruitsModelArrayList;
+
+    }
+    public static ArrayList<TypicalVigorousModel> getTypicalVigorousModelList() {
+        ArrayList<TypicalVigorousModel> fruitsModelArrayList = new ArrayList<>();
+
+        TypicalVigorousModel fruitsModelNo0 = new TypicalVigorousModel("0 Day/Week", 1);
+        TypicalVigorousModel fruitsModelNo1 = new TypicalVigorousModel("1 Day/Week", 2);
+        TypicalVigorousModel fruitsModelNo2 = new TypicalVigorousModel("2 Day/Week", 3);
+        TypicalVigorousModel fruitsModelNo3 = new TypicalVigorousModel("3 Day/Week", 4);
+        TypicalVigorousModel fruitsModelNo4 = new TypicalVigorousModel("4 Day/Week", 5);
+        TypicalVigorousModel fruitsModelNo5 = new TypicalVigorousModel("5 Day/Week", 6);
+        TypicalVigorousModel fruitsModelNo6 = new TypicalVigorousModel("6 Day/Week", 7);
+        TypicalVigorousModel fruitsModelNo7 = new TypicalVigorousModel("7 Day/Week", 8);
+
+        fruitsModelArrayList.add(fruitsModelNo0);
+        fruitsModelArrayList.add(fruitsModelNo1);
+        fruitsModelArrayList.add(fruitsModelNo2);
+        fruitsModelArrayList.add(fruitsModelNo3);
+        fruitsModelArrayList.add(fruitsModelNo4);
+        fruitsModelArrayList.add(fruitsModelNo5);
+        fruitsModelArrayList.add(fruitsModelNo6);
+        fruitsModelArrayList.add(fruitsModelNo7);
+
+
+        return fruitsModelArrayList;
+
+    }
+    public static ArrayList<TypicalVigorousRecreationModel> getTypicalVigorousRecreationModelList() {
+        ArrayList<TypicalVigorousRecreationModel> fruitsModelArrayList = new ArrayList<>();
+
+        TypicalVigorousRecreationModel fruitsModelNo0 = new TypicalVigorousRecreationModel("0 Day/Week", 1);
+        TypicalVigorousRecreationModel fruitsModelNo1 = new TypicalVigorousRecreationModel("1 Day/Week", 2);
+        TypicalVigorousRecreationModel fruitsModelNo2 = new TypicalVigorousRecreationModel("2 Day/Week", 3);
+        TypicalVigorousRecreationModel fruitsModelNo3 = new TypicalVigorousRecreationModel("3 Day/Week", 4);
+        TypicalVigorousRecreationModel fruitsModelNo4 = new TypicalVigorousRecreationModel("4 Day/Week", 5);
+        TypicalVigorousRecreationModel fruitsModelNo5 = new TypicalVigorousRecreationModel("5 Day/Week", 6);
+        TypicalVigorousRecreationModel fruitsModelNo6 = new TypicalVigorousRecreationModel("6 Day/Week", 7);
+        TypicalVigorousRecreationModel fruitsModelNo7 = new TypicalVigorousRecreationModel("7 Day/Week", 8);
+
+        fruitsModelArrayList.add(fruitsModelNo0);
+        fruitsModelArrayList.add(fruitsModelNo1);
+        fruitsModelArrayList.add(fruitsModelNo2);
+        fruitsModelArrayList.add(fruitsModelNo3);
+        fruitsModelArrayList.add(fruitsModelNo4);
+        fruitsModelArrayList.add(fruitsModelNo5);
+        fruitsModelArrayList.add(fruitsModelNo6);
+        fruitsModelArrayList.add(fruitsModelNo7);
+
+
+        return fruitsModelArrayList;
 
     }
 
