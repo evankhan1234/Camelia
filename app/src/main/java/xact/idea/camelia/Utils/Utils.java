@@ -3,11 +3,16 @@ package xact.idea.camelia.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -32,6 +37,7 @@ import xact.idea.camelia.R;
 
 
 public class Utils {
+    private static CustomProgressDialog sPdLoading = null;
     //    public static void showInfoDialog(final Context mContext) {
 //
 //        final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
@@ -62,6 +68,69 @@ public class Utils {
 //        });
 //        infoDialog.show();
 //    }
+    public static void dismissLoadingProgress() {
+
+
+        if (CustomProgressDialog.sPdCount <= 1) {
+            if (sPdLoading != null && sPdLoading.isShowing())
+                sPdLoading.dismiss();
+            CustomProgressDialog.sPdCount--;
+        } else {
+            CustomProgressDialog.sPdCount--;
+        }
+    }
+    public static boolean broadcastIntent(Context context,View view) {
+        // registerReceiver(myReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED) {
+            //we are connected to a network
+            Snackbar snackbar = Snackbar
+                    .make(view, "Connected Mobile Network", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return  true;
+        }
+        else  if ( connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED){
+            Snackbar snackbar = Snackbar
+                    .make(view, "Connected WIFI Network", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return  true;
+        }
+        else if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() != NetworkInfo.State.CONNECTED && connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() != NetworkInfo.State.CONNECTED){
+
+            return  false;
+        }
+
+        return  false;
+    }
+    public static void showLoadingProgress(final Context context) {
+
+        if (CustomProgressDialog.sPdCount <= 0) {
+            CustomProgressDialog.sPdCount = 0;
+            sPdLoading = null;
+            try {
+                sPdLoading = new CustomProgressDialog(context, R.style.CustomDialogTheme);
+                if (!sPdLoading.isShowing())
+                    sPdLoading.show();
+                if (Build.VERSION.SDK_INT > 10) {
+                    LayoutInflater inflator = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View loadingV = inflator.inflate(R.layout.layout_dialog_spinner, null);
+                    CorrectSizeUtil.getInstance((Activity) context).correctSize(loadingV);
+                    sPdLoading.setContentView(loadingV);
+                } else {
+                    String message = "Loading...";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            CustomProgressDialog.sPdCount++;
+        } else {
+            CustomProgressDialog.sPdCount++;
+        }
+
+
+    }
     public static double rounded(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
