@@ -105,7 +105,7 @@
                     android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
                     android:tag="40"
-                    android:text="Union"
+                    android:text="Unions"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
