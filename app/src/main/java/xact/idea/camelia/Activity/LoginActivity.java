@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -77,24 +78,28 @@ public class LoginActivity extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     IRetrofitApi mService;
     RelativeLayout rlt_root;
+    LinearLayout layoutq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mService=Common.getApiXact();
         CorrectSizeUtil.getInstance(this).correctSize();
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.rlt_root));
         sign_in = findViewById(R.id.sign_in);
         show_pass = findViewById(R.id.show_pass);
         edit_text_email = findViewById(R.id.edit_text_email);
         edit_text_password = findViewById(R.id.edit_text_password);
+        layoutq = findViewById(R.id.layoutq);
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Utils.broadcastIntent(LoginActivity.this, rlt_root)) {
+                if (Utils.broadcastIntent(LoginActivity.this, layoutq)) {
                     showLoadingProgress(LoginActivity.this);
 
-                    if (!edit_text_email.getText().toString().equals("") && !edit_text_password.getText().toString().equals("")) {
+                    if (!edit_text_email.getText().toString().equals("") && !edit_text_password.getText().toString().equals(""))
+                    {
 
                         AuthPost authPost = new AuthPost();
                         authPost.email = edit_text_email.getText().toString();
@@ -105,10 +110,15 @@ public class LoginActivity extends AppCompatActivity {
 
                             Auth login = Common.authRepository.getAuth(authPost.email,  authPost.password);
                             if (login != null) {
-                                SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.TYPE_USER_ID, login.user_id + "");
-                                //SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.TYPE_USER_NAME, login.CUSTOMER_NAME + "");
-                                startActivity(new Intent(LoginActivity.this, HouseHoldActivity.class));
-                                finish();
+                                if (login.role_code.equals("hh")){
+                                    startActivity(new Intent(LoginActivity.this, HouseHoldActivity.class));
+                                    finish();
+                                }
+                                else {
+                                    startActivity(new Intent(LoginActivity.this, CCUserActivity.class));
+                                    finish();
+                                }
+
                             } else {
                                 Toast.makeText(LoginActivity.this, "Username and Password Incorrect", Toast.LENGTH_SHORT).show();
                                 dismissLoadingProgress();
@@ -119,26 +129,47 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void accept(AuthResponse loginEntity) throws Exception {
                                     Log.e("ff", "dgg" + new Gson().toJson(loginEntity));
-                                    if (loginEntity.status_code==200){
+                                    Log.e("message", "message" + loginEntity.message);
+                                    if (loginEntity.status_code==200)
+                                    {
 
-                                        SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.TYPE_USER_ID, loginEntity.data.profile.user_id + "");
-                                      //  SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.TYPE_USER_NAME, loginEntity.data.CUSTOMER_NAME + "");
+                                        SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.TYPE_USER_ID, loginEntity.data.user_id + "");
+                                        SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.USER_ROLE, loginEntity.data.role_code + "");
 
 
                                         Auth login = new Auth();
-                                        login.AuthId = loginEntity.data.profile.id;
-                                        login.address = loginEntity.data.profile.address;
-                                        login.user_id = loginEntity.data.profile.user_id;
+                                        login.user_id = loginEntity.data.user_id;
+                                        login.role_code = loginEntity.data.role_code;
+                                        login.user_role = Integer.parseInt(loginEntity.data.user_role);
+                                        login.role_name = loginEntity.data.role_name;
+                                        login.email = loginEntity.data.user_email;
+                                        login.fullname = loginEntity.data.fullname;
+                                        login.password = edit_text_password.getText().toString();
                                         login.city = loginEntity.data.profile.city;
+                                        login.address = loginEntity.data.profile.address;
                                         login.dob = loginEntity.data.profile.dob;
                                         login.gender = loginEntity.data.profile.gender;
                                         login.image = loginEntity.data.profile.image;
                                         login.phone = loginEntity.data.profile.phone;
-
+                                        login.division = loginEntity.data.working_area.division;
+                                        login.district = loginEntity.data.working_area.district;
+                                        login.upazila = loginEntity.data.working_area.upazila;
+                                        login.union = loginEntity.data.working_area.union;
+                                        login.block = loginEntity.data.working_area.block;
+                                        login.ward = loginEntity.data.working_area.ward;
+                                        login.village = loginEntity.data.working_area.village;
                                         Common.authRepository.insertToAuth(login);
-                                        startActivity(new Intent(LoginActivity.this, HouseHoldActivity.class));
-                                        finish();
-                                        dismissLoadingProgress();
+                                        if (loginEntity.data.role_code.equals("hh")){
+                                            startActivity(new Intent(LoginActivity.this, HouseHoldActivity.class));
+                                            finish();
+                                            dismissLoadingProgress();
+                                        }
+                                        else {
+                                            startActivity(new Intent(LoginActivity.this, CCUserActivity.class));
+                                            finish();
+                                            dismissLoadingProgress();
+                                        }
+
                                     }
                                     else {
 
@@ -174,21 +205,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        sign_in.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (edit_text_email.getText().toString().equals("evankhan1234@gmail.com")) {
-                    Intent i = new Intent(LoginActivity.this, HouseHoldActivity.class);
-                    startActivity(i);
-                    finish();
-                } else {
-                    Intent i = new Intent(LoginActivity.this, CCUserActivity.class);
-                    startActivity(i);
-                    finish();
-                }
 
-            }
-        });
         edit_text_password.addTextChangedListener(new
 
                                                           TextWatcher() {

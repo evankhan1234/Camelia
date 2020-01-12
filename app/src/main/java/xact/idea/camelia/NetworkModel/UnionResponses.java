@@ -4,11 +4,13 @@ import androidx.room.ColumnInfo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class UnionResponses extends ApiResponses {
     @SerializedName("total_record")
     public String total_record;
     @SerializedName("data")
-    public Data data;
+    public ArrayList<Data> data;
 
     public class Data {
 
@@ -24,8 +26,8 @@ public class UnionResponses extends ApiResponses {
         public String union_name_bn;
         @SerializedName("union_shortname_en")
         public String union_shortname_en;
-        @SerializedName("division_shortname_bn")
-        public String division_shortname_bn;
+        @SerializedName("union_shortname_bn")
+        public String union_shortname_bn;
         @SerializedName("union_code")
         public String union_code;
         @SerializedName("note_en")

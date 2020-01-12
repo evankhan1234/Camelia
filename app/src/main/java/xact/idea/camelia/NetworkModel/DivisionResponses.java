@@ -4,11 +4,13 @@ import androidx.room.ColumnInfo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class DivisionResponses extends ApiResponses{
     @SerializedName("total_record")
     public String total_record;
     @SerializedName("data")
-    public Data data;
+    public ArrayList<Data> data;
 
     public class Data {
         @SerializedName("id")

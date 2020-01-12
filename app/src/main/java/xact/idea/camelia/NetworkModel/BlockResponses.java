@@ -4,20 +4,22 @@ import androidx.room.ColumnInfo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class BlockResponses extends ApiResponses {
     @SerializedName("total_record")
     public String total_record;
     @SerializedName("data")
-    public Data data;
+    public ArrayList<Data> data;
 
     public class Data {
-        @SerializedName("total_record")
+        @SerializedName("id")
         public int id;
-        @SerializedName("total_record")
+        @SerializedName("block_name_en")
         public String block_name_en;
-        @SerializedName("total_record")
+        @SerializedName("block_name_bn")
         public String block_name_bn;
-        @SerializedName("total_record")
+        @SerializedName("block_shortname_en")
         public String block_shortname_en;
         @SerializedName("block_shortname_bn")
         public String block_shortname_bn;

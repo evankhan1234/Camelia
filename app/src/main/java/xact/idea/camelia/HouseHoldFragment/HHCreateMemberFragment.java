@@ -195,6 +195,7 @@ public class HHCreateMemberFragment extends Fragment {
      //   mPagerAdapter.addFragment(new HHReasonFragment(), "");
         // mPagerAdapter.addFragment(new ReviewFragment(), "");
         vpg_home.beginFakeDrag();
+        vpg_home.setOffscreenPageLimit(5);
         // vpg_home.setOffscreenPageLimit(5);
         vpg_home.setAdapter(mPagerAdapter);
 

@@ -5,7 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "StudyClassResponses")
+@Entity(tableName = "StudyClass")
 public class StudyClass {
     @NonNull
     @PrimaryKey(autoGenerate = true)
