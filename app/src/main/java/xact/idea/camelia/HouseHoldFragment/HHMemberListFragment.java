@@ -75,14 +75,7 @@ public class HHMemberListFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 HHMembersFragment.tabLayout.setVisibility(View.GONE);
-                HHMembersFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
-                {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event)
-                    {
-                        return true;
-                    }
-                });
+            
                 ((HouseholdHomeActivity) getActivity()).ShowText("New Member");
                 ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }

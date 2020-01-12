@@ -12,7 +12,7 @@ public class Block {
     @ColumnInfo(name = "id")
     public int id;
     @ColumnInfo(name = "BlockId")
-    public int DivisionId;
+    public int BlockId;
     @ColumnInfo(name = "block_name_en")
     public String block_name_en;
     @ColumnInfo(name = "block_name_bn")

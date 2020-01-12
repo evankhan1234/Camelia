@@ -21,8 +21,8 @@ public class Unions {
     public String union_name_bn;
     @ColumnInfo(name = "union_shortname_en")
     public String union_shortname_en;
-    @ColumnInfo(name = "division_shortname_bn")
-    public String division_shortname_bn;
+    @ColumnInfo(name = "union_shortname_bn")
+    public String union_shortname_bn;
     @ColumnInfo(name = "union_code")
     public String union_code;
     @ColumnInfo(name = "note_en")

@@ -12,7 +12,7 @@ public class BloodGroup {
     @ColumnInfo(name = "id")
     public int id;
     @ColumnInfo(name = "BloodId")
-    public int DivisionId;
+    public int BloodId;
     @ColumnInfo(name = "blood_group_name_en")
     public String blood_group_name_en;
     @ColumnInfo(name = "blood_group_name_bn")

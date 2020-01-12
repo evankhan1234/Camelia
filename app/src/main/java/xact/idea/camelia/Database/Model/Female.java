@@ -13,10 +13,10 @@ public class Female {
     public int id;
     @ColumnInfo(name = "FemaleId")
     public int FemaleId;
-    @ColumnInfo(name = "blood_group_name_en")
-    public String blood_group_name_en;
-    @ColumnInfo(name = "blood_group_name_bn")
-    public String blood_group_name_bn;
+    @ColumnInfo(name = "gender_name_en")
+    public String gender_name_en;
+    @ColumnInfo(name = "gender_name_bn")
+    public String gender_name_bn;
     @ColumnInfo(name = "note_en")
     public String note_en;
     @ColumnInfo(name = "note_bn")

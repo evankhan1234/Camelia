@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
+
+import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
 
 public class SpalashActivity extends AppCompatActivity {
 
@@ -32,9 +35,16 @@ public class SpalashActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         } else {
-            Intent i = new Intent(SpalashActivity.this, MainActivity.class);
-            startActivity(i);
-            finish();
+            if (SharedPreferenceUtil.getUserRole(SpalashActivity.this).equals("hh")){
+                startActivity(new Intent(SpalashActivity.this, HouseHoldActivity.class));
+                finish();
+            }
+            else {
+                startActivity(new Intent(SpalashActivity.this, CCUserActivity.class));
+                finish();
+
+            }
+
         }
 
     }
