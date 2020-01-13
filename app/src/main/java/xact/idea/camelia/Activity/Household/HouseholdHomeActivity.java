@@ -141,7 +141,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
 
         }
     }
-    private void backForDetails() {
+    public void backForDetails() {
         // Toast.makeText(mContext, "dsfdsf", Toast.LENGTH_SHORT).show();
         Fragment f = getVisibleFragment();
         Log.e("frag111", "frag" + f);

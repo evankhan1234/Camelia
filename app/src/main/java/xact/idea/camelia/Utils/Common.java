@@ -8,9 +8,16 @@ import xact.idea.camelia.Database.Repository.BloodGroupRepository;
 import xact.idea.camelia.Database.Repository.DistrictRepository;
 import xact.idea.camelia.Database.Repository.DivisionRepository;
 import xact.idea.camelia.Database.Repository.FemaleRepository;
+import xact.idea.camelia.Database.Repository.HouseholdRepository;
 import xact.idea.camelia.Database.Repository.MaritialStatusRepository;
+import xact.idea.camelia.Database.Repository.MeasurementsRepository;
+import xact.idea.camelia.Database.Repository.MedicineRepository;
+import xact.idea.camelia.Database.Repository.MemberHabitRepository;
+import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
+import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
 import xact.idea.camelia.Database.Repository.StudyClassRepository;
+import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
@@ -31,6 +38,14 @@ public abstract class Common {
     public static UnionRepository unionRepository;
     public static UpazilaRepository upazilaRepository;
     public static WardRepository wardRepository;
+    public static HouseholdRepository householdRepository;
+    public static MeasurementsRepository measurementsRepository;
+    public static MedicineRepository medicineRepository;
+    public static MemberHabitRepository memberHabitRepository;
+    public static MemberMedicineRepository memberMedicineRepository;
+    public static MemberMyselfRepository memberMyselfRepository;
+    public static SurveyRepository surveyRepository;
+
     public static final String BASE_URL_XACT = "http://demo.xactidea.com/camelia/api/";
 
     public static IRetrofitApi getApiXact() {

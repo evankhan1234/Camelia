@@ -1,0 +1,26 @@
+package xact.idea.camelia.Database.DataSourcesInterface;
+
+import java.util.List;
+
+import io.reactivex.Flowable;
+import xact.idea.camelia.Database.Model.MemberMyself;
+
+public interface IMemberMyselfDatasources {
+    Flowable<List<MemberMyself>> getMemberMyselfItems();
+
+    Flowable<List<MemberMyself>> getMemberMyselfItemById(int MemberMyselfItemId);
+
+    MemberMyself getMemberMyself(String MemberMyselfItem);
+
+    void emptyMemberMyself();
+
+    int size();
+
+    MemberMyself getMemberMyselfNo(String MemberMyselfItem);
+
+    void insertToMemberMyself(MemberMyself... MemberMyself);
+
+    void updateMemberMyself(MemberMyself... MemberMyself);
+
+    void deleteMemberMyself(MemberMyself... MemberMyself);
+}

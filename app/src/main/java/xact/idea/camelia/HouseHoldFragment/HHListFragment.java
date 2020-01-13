@@ -17,25 +17,33 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
+import xact.idea.camelia.Database.Model.HouseHold;
+import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCWaistWidthFragment;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 
 public class HHListFragment extends Fragment {
-
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
@@ -52,7 +60,7 @@ public class HHListFragment extends Fragment {
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
         initView();
-         display();
+
         return view;
     }
 
@@ -84,13 +92,20 @@ public class HHListFragment extends Fragment {
         });
     }
     private  void display() {
+        compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+            @Override
+            public void accept(List<HouseHold> houseHolds) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(houseHolds));
+                mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
+                try {
+                    rcl_this_customer_list.setAdapter(mAdapters);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-        mAdapters = new HHListAdapter(mActivity,clickListener);
-        try {
-            rcl_this_customer_list.setAdapter(mAdapters);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            }
+        }));
+
         //EmployeeStaus();
 
     }
@@ -207,5 +222,22 @@ public class HHListFragment extends Fragment {
             }
         }
         return null;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        display();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        compositeDisposable.clear();
     }
 }

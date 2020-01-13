@@ -23,9 +23,16 @@ import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
 import xact.idea.camelia.Database.DataSource.DistrictDataSources;
 import xact.idea.camelia.Database.DataSource.DivisionDataSources;
 import xact.idea.camelia.Database.DataSource.FemaleDataSources;
+import xact.idea.camelia.Database.DataSource.HouseholdDataSources;
 import xact.idea.camelia.Database.DataSource.MaritialStatusDataSources;
+import xact.idea.camelia.Database.DataSource.MeasurementsDataSources;
+import xact.idea.camelia.Database.DataSource.MedicineDatasources;
+import xact.idea.camelia.Database.DataSource.MemberHabitDataSources;
+import xact.idea.camelia.Database.DataSource.MemberMedicineDataSources;
+import xact.idea.camelia.Database.DataSource.MemberMyselfDataSources;
 import xact.idea.camelia.Database.DataSource.OccupationDataSources;
 import xact.idea.camelia.Database.DataSource.StudyClassDatasources;
+import xact.idea.camelia.Database.DataSource.SurveyDataSources;
 import xact.idea.camelia.Database.DataSource.UnionDataSources;
 import xact.idea.camelia.Database.DataSource.UpazilaDatasources;
 import xact.idea.camelia.Database.DataSource.WardDatasources;
@@ -47,9 +54,16 @@ import xact.idea.camelia.Database.Repository.BloodGroupRepository;
 import xact.idea.camelia.Database.Repository.DistrictRepository;
 import xact.idea.camelia.Database.Repository.DivisionRepository;
 import xact.idea.camelia.Database.Repository.FemaleRepository;
+import xact.idea.camelia.Database.Repository.HouseholdRepository;
 import xact.idea.camelia.Database.Repository.MaritialStatusRepository;
+import xact.idea.camelia.Database.Repository.MeasurementsRepository;
+import xact.idea.camelia.Database.Repository.MedicineRepository;
+import xact.idea.camelia.Database.Repository.MemberHabitRepository;
+import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
+import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
 import xact.idea.camelia.Database.Repository.StudyClassRepository;
+import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
@@ -553,6 +567,13 @@ public class HouseHoldActivity extends AppCompatActivity {
         Common.unionRepository = UnionRepository.getInstance(UnionDataSources.getInstance(Common.mainDatabase.unionDao()));
         Common.upazilaRepository = UpazilaRepository.getInstance(UpazilaDatasources.getInstance(Common.mainDatabase.upazilaDao()));
         Common.wardRepository = WardRepository.getInstance(WardDatasources.getInstance(Common.mainDatabase.wardDao()));
+        Common.householdRepository = HouseholdRepository.getInstance(HouseholdDataSources.getInstance(Common.mainDatabase.householdDao()));
+        Common.measurementsRepository = MeasurementsRepository.getInstance(MeasurementsDataSources.getInstance(Common.mainDatabase.measurementsDao()));
+        Common.medicineRepository = MedicineRepository.getInstance(MedicineDatasources.getInstance(Common.mainDatabase.medicineDao()));
+        Common.memberHabitRepository = MemberHabitRepository.getInstance(MemberHabitDataSources.getInstance(Common.mainDatabase.memberHabitDao()));
+        Common.memberMedicineRepository = MemberMedicineRepository.getInstance(MemberMedicineDataSources.getInstance(Common.mainDatabase.memberMedicineDao()));
+        Common.memberMyselfRepository = MemberMyselfRepository.getInstance(MemberMyselfDataSources.getInstance(Common.mainDatabase.memberMyselfDao()));
+        Common.surveyRepository = SurveyRepository.getInstance(SurveyDataSources.getInstance(Common.mainDatabase.surveyDao()));
     }
 
     @Override

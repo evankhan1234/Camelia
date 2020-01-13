@@ -26,8 +26,8 @@ public class AuthResponse extends ApiResponses {
         public String  role_code;
         @SerializedName("profile")
         public Profile profile;
-        @SerializedName("working_area")
-        public WorkingArea working_area;
+        @SerializedName("workingarea")
+        public WorkingArea workingarea;
         public class Profile{
             @SerializedName("id")
             public String  id;
@@ -47,18 +47,18 @@ public class AuthResponse extends ApiResponses {
 
         }
         public class WorkingArea{
-            @SerializedName("division")
-            public String  division;
-            @SerializedName("district")
-            public String  district;
-            @SerializedName("upazila")
-            public String  upazila;
-            @SerializedName("union")
-            public String  union;
-            @SerializedName("block")
-            public String  block;
-            @SerializedName("ward")
-            public String  ward;
+            @SerializedName("division_code")
+            public String  division_code;
+            @SerializedName("district_code")
+            public String  district_code;
+            @SerializedName("upazila_code")
+            public String  upazila_code;
+            @SerializedName("union_code")
+            public String  union_code;
+            @SerializedName("block_code")
+            public String  block_code;
+            @SerializedName("ward_code")
+            public String  ward_code;
             @SerializedName("village")
             public String  village;
 
