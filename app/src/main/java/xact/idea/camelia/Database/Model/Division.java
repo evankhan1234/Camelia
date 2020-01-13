@@ -30,4 +30,9 @@ public class Division {
     @ColumnInfo(name = "status")
     public String status;
 
+    @Override
+    public String toString() {
+        return division_name_en;
+
+    }
 }

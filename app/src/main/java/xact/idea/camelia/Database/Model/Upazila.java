@@ -34,8 +34,7 @@ public class Upazila {
 
     @Override
     public String toString() {
-        return "Upazila{" +
-                "upazila_name_en='" + upazila_name_en + '\'' +
-                '}';
+        return  upazila_name_en ;
+
     }
 }

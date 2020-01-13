@@ -249,6 +249,7 @@
                     android:textStyle="bold" />
 
                 <EditText
+                    android:focusable="false"
                     android:id="@+id/edit_unique_id"
                     android:layout_width="match_parent"
                     android:layout_height="120px"

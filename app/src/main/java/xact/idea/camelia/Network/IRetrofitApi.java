@@ -11,6 +11,7 @@ import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
+import xact.idea.camelia.NetworkModel.MedicineResponses;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UnionResponses;
@@ -40,6 +41,8 @@ public interface IRetrofitApi {
     io.reactivex.Observable<WardResponses> getWard();
     @GET("setupdata/block")
     io.reactivex.Observable<BlockResponses> getBlock();
+    @GET("medicines")
+    io.reactivex.Observable<MedicineResponses> getMedicines();
     @POST("user/login")
     io.reactivex.Observable<AuthResponse> Login(@Body AuthPost authPost);
 }
