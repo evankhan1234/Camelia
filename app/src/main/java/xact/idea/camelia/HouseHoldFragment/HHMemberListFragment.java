@@ -75,7 +75,7 @@ public class HHMemberListFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 HHMembersFragment.tabLayout.setVisibility(View.GONE);
-            
+
                 ((HouseholdHomeActivity) getActivity()).ShowText("New Member");
                 ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }

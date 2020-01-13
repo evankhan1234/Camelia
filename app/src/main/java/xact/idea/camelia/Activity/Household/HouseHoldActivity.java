@@ -17,6 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
 import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
@@ -43,6 +44,7 @@ import xact.idea.camelia.Database.Model.District;
 import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
 import xact.idea.camelia.Database.Model.MaritialStatus;
+import xact.idea.camelia.Database.Model.Medicine;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.StudyClass;
 import xact.idea.camelia.Database.Model.Unions;
@@ -74,6 +76,7 @@ import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
+import xact.idea.camelia.NetworkModel.MedicineResponses;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UnionResponses;
@@ -244,9 +247,47 @@ public class HouseHoldActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
+        if (Common.medicineRepository.size() < 1) {
+            if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                loadMedicine();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+    }
+    private void loadMedicine() {
+        showLoadingProgress(HouseHoldActivity.this);
+        compositeDisposable.add(mService.getMedicines().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MedicineResponses>() {
+            @Override
+            public void accept(MedicineResponses medicineResponses) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(medicineResponses));
+                for (MedicineResponses.Data wards : medicineResponses.data) {
+                    Medicine medicine = new Medicine();
+                    medicine.MedicineId = wards.id;
+                    medicine.group_type_id = wards.group_type_id;
+                    medicine.Name = wards.name;
+                    medicine.short_name = wards.short_name;
+                    medicine.note = wards.note;
+                    medicine.status = wards.status;
+                    medicine.disease = wards.disease;
+                    medicine.group_id = wards.group_type.id;
+                    medicine.group_name = wards.group_type.name;
+                    medicine.group_note = wards.group_type.note;
+                    medicine.short_name = wards.group_type.short_name;
+                    Common.medicineRepository.insertToMedicine(medicine);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
 
     }
-
     private void loadStudyClass() {
         showLoadingProgress(HouseHoldActivity.this);
         compositeDisposable.add(mService.getStudyClass().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<StudyClassResponses>() {

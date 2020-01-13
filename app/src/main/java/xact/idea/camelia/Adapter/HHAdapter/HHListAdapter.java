@@ -62,8 +62,9 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
                     }
                 });
         holder.text_khana_head.setText(Html.fromHtml(head));
-        holder.text_no.setText(Html.fromHtml(head));
+        holder.text_no.setText(Html.fromHtml(String.valueOf(houseHolds.get(position).MemberId)));
         holder.text_phone_number.setText(Html.fromHtml(number));
+        holder.text_head.setText(Html.fromHtml(houseHolds.get(position).VillageName));
         holder.img_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

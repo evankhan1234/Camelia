@@ -29,4 +29,9 @@ public class Block {
     public String note_bn;
     @ColumnInfo(name = "status")
     public String status;
+    @Override
+    public String toString() {
+        return block_name_en;
+
+    }
 }

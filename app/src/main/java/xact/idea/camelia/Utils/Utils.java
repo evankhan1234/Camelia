@@ -79,6 +79,11 @@ public class Utils {
             CustomProgressDialog.sPdCount--;
         }
     }
+    public static boolean isNullOrEmpty(String str) {
+        if(str != null && !str.isEmpty())
+            return false;
+        return true;
+    }
     public static boolean broadcastIntent(Context context,View view) {
         // registerReceiver(myReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
@@ -312,11 +317,11 @@ public class Utils {
 
     public static ArrayList<MaritialStatusModel> getMaritialStatusList() {
         ArrayList<MaritialStatusModel> sexModelArrayList = new ArrayList<>();
-        MaritialStatusModel maritialStatusUnmarried = new MaritialStatusModel("Male", 1);
-        MaritialStatusModel maritialStatusMarried = new MaritialStatusModel("Female", 2);
-        MaritialStatusModel maritialStatusDivorced = new MaritialStatusModel("Others", 99);
-        MaritialStatusModel maritialStatusWidow = new MaritialStatusModel("Others", 99);
-        MaritialStatusModel maritialStatusWidower = new MaritialStatusModel("Others", 99);
+        MaritialStatusModel maritialStatusUnmarried = new MaritialStatusModel("Unmarried", 1);
+        MaritialStatusModel maritialStatusMarried = new MaritialStatusModel("Married", 2);
+        MaritialStatusModel maritialStatusDivorced = new MaritialStatusModel("Divorced", 3);
+        MaritialStatusModel maritialStatusWidow = new MaritialStatusModel("Widow", 4);
+        MaritialStatusModel maritialStatusWidower = new MaritialStatusModel("Widower", 5);
         sexModelArrayList.add(maritialStatusUnmarried);
         sexModelArrayList.add(maritialStatusMarried);
         sexModelArrayList.add(maritialStatusDivorced);

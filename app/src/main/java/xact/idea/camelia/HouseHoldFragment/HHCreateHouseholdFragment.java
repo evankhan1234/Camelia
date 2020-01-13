@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -46,6 +50,7 @@ import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
+import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.showLoadingProgress;
 
 
@@ -72,7 +77,7 @@ public class HHCreateHouseholdFragment extends Fragment {
     ArrayAdapter<Unions> unionArrayAdapter;
     ArrayAdapter<Ward> wardArrayAdapter;
     ArrayAdapter<Block> blockArrayAdapter;
-    ArrayList<Division> divisionList= new ArrayList<>();
+    List<Division> divisionList= new ArrayList<>();
     List<District> districtyList= new ArrayList<>();
     List<Unions> unionList= new ArrayList<>();
     List<Ward> wardList= new ArrayList<>();
@@ -100,7 +105,14 @@ public class HHCreateHouseholdFragment extends Fragment {
         initView();
         // display();
         load();
-        initalizeSpinner();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                initalizeSpinner();
+            }
+        }, 300);
+
         return view;
     }
 
@@ -122,133 +134,88 @@ public class HHCreateHouseholdFragment extends Fragment {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HouseHold houseHold= new HouseHold();
-                houseHold.MemberId=100000000;
-                houseHold.BlockId=BlockId;
-                houseHold.DistrictId=DistrictId;
-                houseHold.DivisionId=DivisionId;
-                houseHold.UpazilaId=UpazilaId;
-                houseHold.UnionId=UnionId;
-                houseHold.WordId=WardId;
-                houseHold.HH=Integer.parseInt(edit_household.getText().toString());
-                houseHold.SHH=Integer.parseInt(edit_sub_household.getText().toString());
-                houseHold.UniqueId=Integer.parseInt(edit_unique_id.getText().toString());
-                houseHold.VillageName=edit_village.getText().toString();
-                houseHold.FamilyIncome=Double.parseDouble(edit_household_income.getText().toString());
-                houseHold.FamilyMember=Integer.parseInt(edit_family_memeber.getText().toString());
-                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = new Date(System.currentTimeMillis());
-                String currentDate = formatter.format(date);
-                houseHold.DateValue=currentDate;
-                houseHold.Date=date;
-              //  houseHold.Birthdate=ed;
+                if (isNullOrEmpty(edit_household.getText().toString()) && isNullOrEmpty(edit_sub_household.getText().toString()) && isNullOrEmpty(edit_family_memeber.getText().toString()) && isNullOrEmpty(edit_household_income.getText().toString())){
+                    Toast.makeText(mActivity, "Please insert all field", Toast.LENGTH_SHORT).show();
 
-                Common.householdRepository.insertToHouseHold(houseHold);
-                ((HouseholdHomeActivity) getActivity()).backForDetails();
+                }
+                else {
+
+                    HouseHold houseHold= new HouseHold();
+                    houseHold.MemberId=100000000;
+                    houseHold.BlockId=BlockId;
+                    houseHold.DistrictId=DistrictId;
+                    houseHold.DivisionId=DivisionId;
+                    houseHold.UpazilaId=UpazilaId;
+                    houseHold.UnionId=UnionId;
+                    houseHold.WordId=WardId;
+                    houseHold.HH=Integer.parseInt(edit_household.getText().toString());
+                    houseHold.SHH=Integer.parseInt(edit_sub_household.getText().toString());
+                    houseHold.UniqueId=Integer.parseInt(edit_unique_id.getText().toString());
+                    houseHold.VillageName=edit_village.getText().toString();
+                    houseHold.FamilyIncome=Double.parseDouble(edit_household_income.getText().toString());
+                    houseHold.FamilyMember=Integer.parseInt(edit_family_memeber.getText().toString());
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    houseHold.DateValue=currentDate;
+                    houseHold.Date=date;
+                    //  houseHold.Birthdate=ed;
+
+                    Common.householdRepository.insertToHouseHold(houseHold);
+                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+
+                    Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+        edit_household.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String val=DivisionId+""+DistrictId+""+UpazilaId+""+WardId+""+BlockId+""+edit_sub_household.getText().toString();
+                edit_unique_id.setText(val+s.toString());
+            }
+        });
+        edit_sub_household.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String val=DivisionId+""+DistrictId+""+UpazilaId+""+WardId+""+BlockId+""+edit_household.getText().toString();
+                edit_unique_id.setText(val+s.toString());
             }
         });
 
 
     }
 
-    private void initalizeSpinner() {
-        String s= SharedPreferenceUtil.getUserRole(mActivity);
-        auth=Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
-
-//        if (auth.division==null || auth.division.equals("")){
-//
-//            spinner_division.setFocusable(false);
-//        }
-//        else {
-//            spinner_division.setFocusable(true);
-//
-//        }
-//        if (auth.district==null || auth.district.equals("")){
-//            spinner_district.setFocusable(false);
-//
-//        }
-//        else {
-//            spinner_district.setFocusable(true);
-//
-//        }
-//        if (auth.upazila==null || auth.upazila.equals("")){
-//            spinner_upazila.setFocusable(false);
-//
-//        }
-//        else {
-//            spinner_upazila.setFocusable(true);
-//
-//        }
-//        if (auth.union==null || auth.union.equals("")){
-//            spinner_union.setFocusable(false);
-//
-//        }
-//        else {
-//            spinner_union.setFocusable(true);
-//
-//        }
-//        if (auth.ward==null || auth.ward.equals("")){
-//            spinner_ward.setFocusable(false);
-//
-//        }
-//        else {
-//            spinner_ward.setFocusable(true);
-//
-//        }
-//        if (auth.block==null || auth.block.equals("")){
-//            spinner_block.setFocusable(false);
-//
-//        }
-//        else {
-//            spinner_block.setFocusable(true);
-//
-//        }
-
-
-
-        districtArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, districtyList);
-        districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_district.setAdapter(districtArrayAdapter);
-
-        blockArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, blockList);
-        blockArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_block.setAdapter(blockArrayAdapter);
-
-
-        unionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, unionList);
-        unionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_union.setAdapter(unionArrayAdapter);
-
-
-        upazilaArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, upazilaList);
-        upazilaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_upazila.setAdapter(upazilaArrayAdapter);
-
-
-        wardArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, wardList);
-        wardArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_ward.setAdapter(wardArrayAdapter);
-
-
-
-        spinner_division.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("sp_water", "" + divisionList.get(position).DivisionId);
-                DivisionId=divisionList.get(position).DivisionId;
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+    private void listener(){
         spinner_district.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + districtyList.get(position).DistrictId);
                 DistrictId=districtyList.get(position).DistrictId;
-
+                Log.e("wwwww2", "wwwww" + DistrictId);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -258,9 +225,9 @@ public class HHCreateHouseholdFragment extends Fragment {
         spinner_upazila.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("sp_water", "" + upazilaList.get(position).UpazilaId);
-                UpazilaId=upazilaList.get(position).UpazilaId;
 
+                UpazilaId=upazilaList.get(position).UpazilaId;
+                Log.e("wwwww3", "wwwww" + upazilaList.get(position).UpazilaId);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -306,6 +273,114 @@ public class HHCreateHouseholdFragment extends Fragment {
 
             }
         });
+        spinner_division.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                DivisionId=divisionList.get(position).DivisionId;
+                Log.e("wwwww1", "wwwww" + DivisionId);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    private void initalizeSpinner() {
+        String s= SharedPreferenceUtil.getUserRole(mActivity);
+        auth=Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
+
+        if (auth.division==null || auth.division.equals("")){
+
+            spinner_division.setEnabled(true);
+        }
+        else {
+            spinner_division.setEnabled(false);
+
+        }
+        if (auth.district==null || auth.district.equals("")){
+            spinner_district.setEnabled(true);
+
+        }
+        else {
+            spinner_district.setEnabled(false);
+
+        }
+        if (auth.upazila==null || auth.upazila.equals("")){
+            spinner_upazila.setEnabled(true);
+
+        }
+        else {
+            spinner_upazila.setEnabled(false);
+
+        }
+        if (auth.union==null || auth.union.equals("")){
+            spinner_union.setEnabled(true);
+
+        }
+        else {
+            spinner_union.setEnabled(false);
+
+        }
+        if (auth.ward==null || auth.ward.equals("")){
+            spinner_ward.setEnabled(true);
+
+        }
+        else {
+            spinner_ward.setEnabled(false);
+
+        }
+        if (auth.block==null || auth.block.equals("")){
+            spinner_block.setEnabled(true);
+
+        }
+        else {
+            spinner_block.setEnabled(false);
+
+        }
+        if (auth.village==null || auth.village.equals("")){
+
+            edit_village.setFocusable(true);
+
+        }
+        else {
+            edit_village.setFocusable(false);
+            edit_village.setText(auth.village);
+
+        }
+        divisionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, divisionList);
+        divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_division.setAdapter(divisionArrayAdapter);
+
+
+        districtArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, districtyList);
+        districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_district.setAdapter(districtArrayAdapter);
+
+        blockArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, blockList);
+        blockArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_block.setAdapter(blockArrayAdapter);
+
+
+        unionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, unionList);
+        unionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_union.setAdapter(unionArrayAdapter);
+
+
+        upazilaArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, upazilaList);
+        upazilaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_upazila.setAdapter(upazilaArrayAdapter);
+
+
+        wardArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, wardList);
+        wardArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_ward.setAdapter(wardArrayAdapter);
+
+        listener();
+
+
+
     }
     private  void load() {
         showLoadingProgress(mActivity);
@@ -313,63 +388,61 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void accept(List<Division> customers) throws Exception {
                 Log.e("Division","Division"+new Gson().toJson(customers));
-                divisionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, customers);
-                divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_division.setAdapter(divisionArrayAdapter);
-              //  divisionList=customers;
+                  divisionList=customers;
+
                 dismissLoadingProgress();
- 
+
             }
         }));
-//        compositeDisposable.add(Common.districtRepository.getDistrictItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<District>>() {
-//            @Override
-//            public void accept(List<District> customers) throws Exception {
-//                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-//                districtyList=customers;
-//                dismissLoadingProgress();
+        compositeDisposable.add(Common.districtRepository.getDistrictItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<District>>() {
+            @Override
+            public void accept(List<District> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                districtyList=customers;
+                dismissLoadingProgress();
+
+            }
+        }));
 //
-//            }
-//        }));
-//
-//        compositeDisposable.add(Common.upazilaRepository.getUpazilaItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Upazila>>() {
-//            @Override
-//            public void accept(List<Upazila> customers) throws Exception {
-//                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-//                upazilaList=customers;
-//                dismissLoadingProgress();
-//
-//            }
-//        }));
-//
-//        compositeDisposable.add(Common.unionRepository.getUnionItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Unions>>() {
-//            @Override
-//            public void accept(List<Unions> customers) throws Exception {
-//                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-//                unionList=customers;
-//                dismissLoadingProgress();
-//            }
-//        }));
-//
-//        compositeDisposable.add(Common.wardRepository.getWardItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Ward>>() {
-//            @Override
-//            public void accept(List<Ward> customers) throws Exception {
-//                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-//                wardList=customers;
-//                dismissLoadingProgress();
-//
-//            }
-//        }));
-//
-//        compositeDisposable.add(Common.blockRepository.getBlockItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Block>>() {
-//            @Override
-//            public void accept(List<Block> customers) throws Exception {
-//                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-//                blockList=customers;
-//                dismissLoadingProgress();
-//
-//
-//            }
-//        }));
+        compositeDisposable.add(Common.upazilaRepository.getUpazilaItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Upazila>>() {
+            @Override
+            public void accept(List<Upazila> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                upazilaList=customers;
+                dismissLoadingProgress();
+
+            }
+        }));
+
+        compositeDisposable.add(Common.unionRepository.getUnionItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Unions>>() {
+            @Override
+            public void accept(List<Unions> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                unionList=customers;
+                dismissLoadingProgress();
+            }
+        }));
+
+        compositeDisposable.add(Common.wardRepository.getWardItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Ward>>() {
+            @Override
+            public void accept(List<Ward> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                wardList=customers;
+                dismissLoadingProgress();
+
+            }
+        }));
+
+        compositeDisposable.add(Common.blockRepository.getBlockItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Block>>() {
+            @Override
+            public void accept(List<Block> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                blockList=customers;
+                dismissLoadingProgress();
+
+
+            }
+        }));
 
     }
 
