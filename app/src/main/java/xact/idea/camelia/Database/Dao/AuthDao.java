@@ -22,7 +22,7 @@ public interface AuthDao {
     @Query("SELECT * FROM Auth WHERE email=:Username AND password=:Password")
     Auth getAuth(String Username,String Password);
 
-    @Query("SELECT * FROM Auth WHERE AuthId=:AuthItem")
+    @Query("SELECT * FROM Auth WHERE role_code=:AuthItem")
     Auth getAuthNo(String AuthItem);
 
     @Query("Select Count(id)  FROM Auth")

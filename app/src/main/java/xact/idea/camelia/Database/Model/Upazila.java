@@ -31,4 +31,11 @@ public class Upazila {
     public String note_bn;
     @ColumnInfo(name = "status")
     public String status;
+
+    @Override
+    public String toString() {
+        return "Upazila{" +
+                "upazila_name_en='" + upazila_name_en + '\'' +
+                '}';
+    }
 }

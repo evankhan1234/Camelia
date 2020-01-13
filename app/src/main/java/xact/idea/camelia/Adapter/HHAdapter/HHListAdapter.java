@@ -18,7 +18,10 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -29,10 +32,12 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
     private Activity mActivity = null;
     int row_index = 0;
     private UccMemberClickListener uccMemberClickListener;
-    public HHListAdapter(Activity activity,UccMemberClickListener uccMemberClickListeners) {
+    List<HouseHold> houseHolds;
+
+    public HHListAdapter(Activity activity,List<HouseHold> houseHold,UccMemberClickListener uccMemberClickListeners) {
         mActivity = activity;
         uccMemberClickListener=uccMemberClickListeners;
-
+        houseHolds=houseHold;
     }
 
 
@@ -57,6 +62,7 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
                     }
                 });
         holder.text_khana_head.setText(Html.fromHtml(head));
+        holder.text_no.setText(Html.fromHtml(head));
         holder.text_phone_number.setText(Html.fromHtml(number));
         holder.img_next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +75,7 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
 
     @Override
     public int getItemCount() {
-        return 20;
+        return houseHolds.size();
     }
 
     public class CCDashboardListiewHolder extends RecyclerView.ViewHolder {

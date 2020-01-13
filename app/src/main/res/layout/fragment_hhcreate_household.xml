@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rlt_root"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    >
+    android:background="@color/white">
+
     <ScrollView
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F9F9F9"
-        >
+        android:background="#F9F9F9">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -21,8 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
 
                 <TextView
@@ -30,8 +29,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
                     android:tag="40"
                     android:text="Division"
                     android:textColor="@color/black"
@@ -39,23 +38,24 @@
                     android:textStyle="bold" />
 
                 <Spinner
-                    android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
-                    android:layout_marginTop="30px"
-
                     android:id="@+id/spinner_division"
                     android:layout_width="match_parent"
+                    android:layout_height="130px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
 
-                    android:layout_height="130px"/>
+                    android:layout_marginRight="50px"
+                    android:background="@drawable/test"
+
+                    android:visibility="visible" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
                     android:tag="40"
                     android:text="District"
                     android:textColor="@color/black"
@@ -63,23 +63,24 @@
                     android:textStyle="bold" />
 
                 <Spinner
-                    android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
-                    android:layout_marginTop="30px"
-
                     android:id="@+id/spinner_district"
                     android:layout_width="match_parent"
+                    android:layout_height="130px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
 
-                    android:layout_height="130px"/>
+                    android:layout_marginRight="50px"
+                    android:background="@drawable/test"
+
+                    android:visibility="visible" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="50px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="50px"
                     android:tag="40"
                     android:text="Upazila"
                     android:textColor="@color/black"
@@ -87,23 +88,24 @@
                     android:textStyle="bold" />
 
                 <Spinner
-                    android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
-                    android:layout_marginTop="30px"
-
                     android:id="@+id/spinner_upazila"
                     android:layout_width="match_parent"
+                    android:layout_height="130px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
 
-                    android:layout_height="130px"/>
+                    android:layout_marginRight="50px"
+                    android:background="@drawable/test"
+
+                    android:visibility="visible" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
                     android:tag="40"
                     android:text="Unions"
                     android:textColor="@color/black"
@@ -111,47 +113,49 @@
                     android:textStyle="bold" />
 
                 <Spinner
-                    android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
-                    android:layout_marginTop="30px"
-
                     android:id="@+id/spinner_union"
                     android:layout_width="match_parent"
+                    android:layout_height="130px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
 
-                    android:layout_height="130px"/>
+                    android:layout_marginRight="50px"
+                    android:background="@drawable/test"
+
+                    android:visibility="visible" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
                     android:tag="40"
-                    android:text="Word"
+                    android:text="Ward"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
 
                 <Spinner
+                    android:id="@+id/spinner_ward"
+                    android:layout_width="match_parent"
+                    android:layout_height="130px"
                     android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
-                    android:id="@+id/spinner_word"
-                    android:layout_width="match_parent"
+                    android:layout_marginRight="50px"
+                    android:background="@drawable/test"
 
-                    android:layout_height="130px"/>
+                    android:visibility="visible" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
                     android:tag="40"
                     android:text="Block"
                     android:textColor="@color/black"
@@ -159,172 +163,219 @@
                     android:textStyle="bold" />
 
                 <Spinner
-                    android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
-                    android:layout_marginTop="30px"
-
                     android:id="@+id/spinner_block"
                     android:layout_width="match_parent"
+                    android:layout_height="130px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
 
-                    android:layout_height="130px"/>
+                    android:layout_marginRight="50px"
+                    android:background="@drawable/test"
+
+                    android:visibility="visible" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="60px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="60px"
                     android:tag="40"
                     android:text="Household"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+
                 <EditText
-                    android:layout_marginTop="30px"
-                    android:layout_marginRight="50px"
-                    android:layout_marginLeft="50px"
-                    android:tag="35"
-                    android:textSize="35px"
                     android:id="@+id/edit_household"
-                    android:background="@drawable/input_bg"
-                    android:padding="25px"
                     android:layout_width="match_parent"
                     android:layout_height="120px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
+                    android:layout_marginRight="50px"
                     android:layout_marginBottom="10px"
-                    android:hint="Household"
+                    android:background="@drawable/input_bg"
                     android:ems="10"
-                    android:inputType="number"/>
+                    android:maxLength="4"
+                    android:hint="Household"
+                    android:inputType="number"
+                    android:padding="25px"
+                    android:tag="35"
+                    android:textSize="35px" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="60px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="60px"
                     android:tag="40"
                     android:text="Sub-Household"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+
                 <EditText
-                    android:layout_marginTop="30px"
-                    android:layout_marginRight="50px"
-                    android:layout_marginLeft="50px"
-                    android:tag="35"
-                    android:textSize="35px"
                     android:id="@+id/edit_sub_household"
-                    android:background="@drawable/input_bg"
-                    android:padding="25px"
                     android:layout_width="match_parent"
                     android:layout_height="120px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
+                    android:layout_marginRight="50px"
                     android:layout_marginBottom="10px"
-                    android:hint="Sub-Household"
+                    android:background="@drawable/input_bg"
                     android:ems="10"
-                    android:inputType="number"/>
+                    android:maxLength="2"
+
+                    android:hint="Sub-Household"
+                    android:inputType="number"
+                    android:padding="25px"
+                    android:tag="35"
+                    android:textSize="35px" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="60px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="60px"
+                    android:tag="40"
+                    android:text="Unique ID"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_unique_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="120px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginBottom="10px"
+                    android:background="@drawable/input_bg"
+                    android:ems="10"
+                    android:hint="Village"
+                    android:inputType="text"
+                    android:padding="25px"
+                    android:tag="35"
+                    android:textSize="35px" />
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="60px"
                     android:tag="40"
                     android:text="Village"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+
                 <EditText
-                    android:layout_marginTop="30px"
-                    android:layout_marginRight="50px"
-                    android:layout_marginLeft="50px"
-                    android:tag="35"
-                    android:textSize="35px"
-                    android:id="@+id/edit_national_id"
-                    android:background="@drawable/input_bg"
-                    android:padding="25px"
+                    android:id="@+id/edit_village"
                     android:layout_width="match_parent"
                     android:layout_height="120px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
+                    android:layout_marginRight="50px"
                     android:layout_marginBottom="10px"
-                    android:hint="Village"
+                    android:background="@drawable/input_bg"
                     android:ems="10"
-                    android:inputType="text"/>
+                    android:hint="Village"
+                    android:inputType="text"
+                    android:padding="25px"
+                    android:tag="35"
+                    android:textSize="35px" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="60px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="60px"
                     android:tag="40"
                     android:text="No. of family member"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+
                 <EditText
-                    android:layout_marginTop="30px"
-                    android:layout_marginRight="50px"
-                    android:layout_marginLeft="50px"
-                    android:tag="35"
-                    android:textSize="35px"
                     android:id="@+id/edit_family_memeber"
-                    android:background="@drawable/input_bg"
-                    android:padding="25px"
                     android:layout_width="match_parent"
                     android:layout_height="120px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
+                    android:layout_marginRight="50px"
                     android:layout_marginBottom="10px"
-                    android:hint="No. of family member"
+                    android:background="@drawable/input_bg"
                     android:ems="10"
-                    android:inputType="number"/>
+                    android:maxLength="2"
+
+                    android:hint="No. of family member"
+                    android:inputType="number"
+                    android:padding="25px"
+                    android:tag="35"
+                    android:textSize="35px" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:layout_marginTop="60px"
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="60px"
                     android:tag="40"
                     android:text="Household Income"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+
                 <EditText
-                    android:layout_marginTop="30px"
-                    android:layout_marginRight="50px"
-                    android:layout_marginLeft="50px"
-                    android:tag="35"
-                    android:textSize="35px"
                     android:id="@+id/edit_household_income"
-                    android:background="@drawable/input_bg"
-                    android:padding="25px"
                     android:layout_width="match_parent"
                     android:layout_height="120px"
-                    android:layout_marginBottom="10px"
-                    android:hint="Household Income"
-                    android:ems="10"
-                    android:inputType="number"/>
-                <Button
                     android:layout_marginLeft="50px"
+                    android:layout_marginTop="30px"
                     android:layout_marginRight="50px"
-
-                    android:backgroundTint="#000"
+                    android:layout_marginBottom="10px"
+                    android:background="@drawable/input_bg"
+                    android:ems="10"
+                    android:hint="Household Income"
+                    android:inputType="number"
+                    android:padding="25px"
                     android:tag="35"
-                    android:textSize="35px"
-                    android:textColor="#fff"
+                    android:maxLength="6"
+                    android:textSize="35px" />
+
+                <Button
                     android:id="@+id/create"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="150px"
+                    android:layout_marginLeft="50px"
+                    android:layout_marginTop="40px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginBottom="25px"
                     android:background="@drawable/capsule_button"
 
-                    android:layout_width="match_parent"
-                    android:layout_height="150px"
-                    android:layout_marginTop="40px"
-                    android:layout_marginBottom="25px"
-                    android:text="Done"
+                    android:backgroundTint="#000"
                     android:fontFamily="sans-serif"
-                    android:stateListAnimator="@null" />
+                    android:stateListAnimator="@null"
+                    android:tag="35"
+                    android:text="Done"
+                    android:textColor="#fff"
+                    android:textSize="35px" />
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="100px"/>
+                    android:layout_height="100px" />
 
             </LinearLayout>
 
