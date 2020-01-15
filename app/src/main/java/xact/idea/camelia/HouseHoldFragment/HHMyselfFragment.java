@@ -21,11 +21,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,8 +37,30 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
+import xact.idea.camelia.Activity.LoginActivity;
+import xact.idea.camelia.Database.Model.Auth;
+import xact.idea.camelia.Database.Model.Block;
+import xact.idea.camelia.Database.Model.BloodGroup;
+import xact.idea.camelia.Database.Model.District;
+import xact.idea.camelia.Database.Model.Division;
+import xact.idea.camelia.Database.Model.Female;
+import xact.idea.camelia.Database.Model.HouseHold;
+import xact.idea.camelia.Database.Model.MaritialStatus;
+import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Database.Model.Occupation;
+import xact.idea.camelia.Database.Model.StudyClass;
+import xact.idea.camelia.Database.Model.Unions;
+import xact.idea.camelia.Database.Model.Upazila;
+import xact.idea.camelia.Database.Model.Ward;
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
 import xact.idea.camelia.Model.DropDownModel.EducationModel;
 import xact.idea.camelia.Model.DropDownModel.LivingStatusModel;
@@ -42,21 +68,32 @@ import xact.idea.camelia.Model.DropDownModel.MaritialStatusModel;
 import xact.idea.camelia.Model.DropDownModel.OccupationModel;
 import xact.idea.camelia.Model.DropDownModel.ReligionModel;
 import xact.idea.camelia.Model.DropDownModel.SexModel;
+import xact.idea.camelia.Model.DropDownModel.YesNoModel;
+import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
+
+import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
+import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
+import static xact.idea.camelia.Utils.Utils.showLoadingProgress;
 
 
 public class HHMyselfFragment extends Fragment implements Handler.Callback{
-
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
     public  static Handler handler;
-    EditText edit_date_of_death;
+    static   EditText edit_date_of_death;
     EditText edit_national_id;
     EditText edit_mobile_number;
     EditText edit_name;
+    RadioButton radioAge;
+    RadioButton radioBirthdate;
+    static EditText edit_birthday_date_again;
     static   EditText edit_birthday_date;
     static EditText edit_age;
     Spinner spinner_sex;
@@ -67,21 +104,39 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     Spinner spinner_blood_group;
     Spinner spinner_living_status;
     LinearLayout linear_edit_death;
+    LinearLayout linear_age;
+    LinearLayout linear_birthdate;
+    Spinner spinner_head;
 
-    ArrayAdapter<SexModel> sexArrayAdapter;
+    ArrayAdapter<Female> sexArrayAdapter;
+    ArrayAdapter<YesNoModel> headArrayAdapter;
     ArrayAdapter<ReligionModel> religionArrayAdapter;
-    ArrayAdapter<OccupationModel> occupationArrayAdapter;
-    ArrayAdapter<EducationModel> educationArrayAdapter;
-    ArrayAdapter<BloodGroupModel> bloodGroupArrayAdapter;
+    ArrayAdapter<Occupation> occupationArrayAdapter;
+    ArrayAdapter<StudyClass> educationArrayAdapter;
+    ArrayAdapter<BloodGroup> bloodGroupArrayAdapter;
     ArrayAdapter<LivingStatusModel> livingGroupArrayAdapter;
-    ArrayAdapter<MaritialStatusModel> maritalArrayAdapter;
-    ArrayList<SexModel> sexArrayList= new ArrayList<>();
+    ArrayAdapter<MaritialStatus> maritalArrayAdapter;
+    List<Female> sexArrayList= new ArrayList<>();
     ArrayList<ReligionModel> religionArrayList= new ArrayList<>();
     ArrayList<OccupationModel> occupationArrayList= new ArrayList<>();
     ArrayList<EducationModel> educationArrayList= new ArrayList<>();
     ArrayList<BloodGroupModel> bloodGroupArrayList= new ArrayList<>();
     ArrayList<LivingStatusModel> livingGroupArrayList= new ArrayList<>();
     ArrayList<MaritialStatusModel> maritalArrayList= new ArrayList<>();
+    ArrayList<YesNoModel> headArrayList= new ArrayList<>();
+    List<StudyClass> studyClassResponses= new ArrayList<>();
+    List<MaritialStatus> maritialStatuses= new ArrayList<>();
+    List<Female> femaleList= new ArrayList<>();
+    List<Occupation> occupationModels= new ArrayList<>();
+    List<BloodGroup> bloodGroups= new ArrayList<>();
+    int headId;
+    int bloodGroupId;
+    int genderId;
+    int studyId;
+    int maritialId;
+    int livingId;
+    int religionId;
+    int occupationId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,18 +148,24 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         correctSizeUtil.correctSize(view);
         handler = new Handler(this);
         initView();
+
+        load();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                initalizeSpinner();
+            }
+        }, 300);
         // display();
         return view;
     }
-
-    private void initView() {
-        sexArrayList=Utils.getSexList();
-        religionArrayList=Utils.getReligionList();
-        occupationArrayList=Utils.getOccupationList();
-        educationArrayList=Utils.getEducationList();
-        bloodGroupArrayList=Utils.getBloodGroupList();
-        livingGroupArrayList=Utils.getLivingStatusList();
-        maritalArrayList=Utils.getMaritialStatusList();
+    private  void initView(){
+        linear_birthdate=view.findViewById(R.id.linear_birthdate);
+        radioAge=view.findViewById(R.id.radioAge);
+        linear_age=view.findViewById(R.id.linear_age);
+        radioBirthdate=view.findViewById(R.id.radioBirthdate);
+        edit_birthday_date_again=view.findViewById(R.id.edit_birthday_date_again);
         linear_edit_death=view.findViewById(R.id.linear_edit_death);
         edit_date_of_death=view.findViewById(R.id.edit_date_of_death);
         edit_national_id=view.findViewById(R.id.edit_national_id);
@@ -119,23 +180,40 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_occupation=view.findViewById(R.id.spinner_occupation);
         spinner_blood_group=view.findViewById(R.id.spinner_blood_group);
         spinner_living_status=view.findViewById(R.id.spinner_living_status);
+        spinner_head=view.findViewById(R.id.spinner_head);
+    }
 
-        sexArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, sexArrayList);
+    private void initalizeSpinner() {
+       // sexArrayList= Utils.getSexList();
+        headArrayList=Utils.getyesNoList();
+        religionArrayList=Utils.getReligionList();
+        occupationArrayList=Utils.getOccupationList();
+        educationArrayList=Utils.getEducationList();
+        bloodGroupArrayList=Utils.getBloodGroupList();
+        livingGroupArrayList=Utils.getLivingStatusList();
+        maritalArrayList=Utils.getMaritialStatusList();
+
+
+        headArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, headArrayList);
+        headArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_head.setAdapter(headArrayAdapter);
+
+        sexArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, femaleList);
         sexArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_sex.setAdapter(sexArrayAdapter);
         religionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, religionArrayList);
         religionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_religion.setAdapter(religionArrayAdapter);
 
-        occupationArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, occupationArrayList);
+        occupationArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, occupationModels);
         occupationArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_occupation.setAdapter(occupationArrayAdapter);
-        educationArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, educationArrayList);
+        educationArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, studyClassResponses);
         educationArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_education.setAdapter(educationArrayAdapter);
 
 
-        bloodGroupArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, bloodGroupArrayList);
+        bloodGroupArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, bloodGroups);
         bloodGroupArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_blood_group.setAdapter(bloodGroupArrayAdapter);
         livingGroupArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, livingGroupArrayList);
@@ -143,22 +221,128 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_living_status.setAdapter(livingGroupArrayAdapter);
 
 
-        maritalArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, maritalArrayList);
+        maritalArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, maritialStatuses);
         maritalArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_martial_status.setAdapter(maritalArrayAdapter);
-//        edit_birthday_date.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                DialogFragment dFragment = new DatePickerFromFragment();
-//
-//                dFragment.show(getFragmentManager(), "Date Picker");
-//            }
-//        });
+        edit_birthday_date_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dFragment = new DatePickerFromFragment();
 
+                dFragment.show(getFragmentManager(), "Date Picker");
+            }
+        });
+        edit_date_of_death.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dFragment = new DatePickerDeadFragment();
+
+                dFragment.show(getFragmentManager(), "Date Picker");
+            }
+        });
+        radioAge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linear_age.setVisibility(View.VISIBLE);
+                linear_birthdate.setVisibility(View.GONE);
+            }
+        });
+        radioBirthdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linear_age.setVisibility(View.GONE);
+                linear_birthdate.setVisibility(View.VISIBLE);
+            }
+        });
+        spinner_head.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + headArrayList.get(position).getId());
+                headId=headArrayList.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               // Log.e("sp_water", "" + sexArrayList.get(position).getId());
+                genderId=sexArrayList.get(position).FemaleId;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_education.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+             //   Log.e("sp_water", "" + sexArrayList.get(position).getId());
+                studyId=studyClassResponses.get(position).StudyClassId;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_religion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            //    Log.e("sp_water", "" + headArrayList.get(position).getId());
+                religionId=religionArrayList.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_martial_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + headArrayList.get(position).getId());
+                maritialId=maritialStatuses.get(position).MaritialId;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_occupation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + headArrayList.get(position).getId());
+                occupationId=occupationModels.get(position).OccupationId;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinner_blood_group.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Log.e("sp_water", "" + headArrayList.get(position).getId());
+                bloodGroupId=bloodGroups.get(position).BloodId;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         spinner_living_status.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + livingGroupArrayList.get(position).getId());
+                livingId= livingGroupArrayList.get(position).getId();
                 if (livingGroupArrayList.get(position).getId()==1){
                     linear_edit_death.setVisibility(View.VISIBLE);
                 }
@@ -212,11 +396,31 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 
     }
     private boolean isChecked() {
-        if (Utils.isEmpty(edit_birthday_date.getText().toString())) {
-            Toast.makeText(mActivity, "Please fill birthday date", Toast.LENGTH_SHORT).show();
-            return false;
+        if(radioBirthdate.isChecked())
+        {
+            // is checked
         }
-        else if (Utils.isEmpty(edit_national_id.getText().toString())) {
+        else
+        {
+            if(radioAge.isChecked())
+            {
+                // is checked
+            }
+            else
+            {
+
+                Toast.makeText(mActivity, "Please fill birthday date", Toast.LENGTH_SHORT).show();
+                // not checked
+                return false;
+            }
+            // not checked
+        }
+//        if (Utils.isEmpty(edit_birthday_date.getText().toString())) {
+//            Toast.makeText(mActivity, "Please fill birthday date", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//        else
+         if (Utils.isEmpty(edit_national_id.getText().toString())) {
             Toast.makeText(mActivity, "Please fill national id", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -231,8 +435,35 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     private void saveData(){
 
         if (isChecked()){
-            HHCreateMemberFragment.nextPage(1);
-            HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
+
+            try {
+                MemberMyself memberMyself = new MemberMyself();
+                memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
+                memberMyself.MobileNumber= edit_national_id.getText().toString();
+                memberMyself.FullName= edit_name.getText().toString();
+                if (isNullOrEmpty(edit_birthday_date.getText().toString())){
+                    memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
+                }
+                else {
+                    memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
+                }
+                Date date = new Date(System.currentTimeMillis());
+                memberMyself.CreatedDate=date;
+                memberMyself.GenderId=genderId;
+                memberMyself.BloodGroupId=bloodGroupId;
+                memberMyself.ReligionId=religionId;
+                memberMyself.StudyId=studyId;
+                memberMyself.MaritialId=maritialId;
+                memberMyself.OccupationId=occupationId;
+                memberMyself.LivingId=livingId;
+                memberMyself.HouseHeadId=headId;
+                Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+
+                HHCreateMemberFragment.nextPage(1);
+                HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -271,18 +502,116 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             Date chosenDate = cal.getTime();
             DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String formattedDate = formatter.format(chosenDate);
-            EditText startTime2 = (EditText) getActivity().findViewById(R.id.edit_birthday_date);
-            edit_birthday_date.setText(formattedDate);
-
-            int age = today.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
-
-            if (today.get(Calendar.DAY_OF_YEAR) < cal.get(Calendar.DAY_OF_YEAR)){
-                age--;
-            }
-
-            Integer ageInt = new Integer(age);
-            String ageS = ageInt.toString();
-            edit_age.setText(ageS);
+            edit_birthday_date_again.setText(formattedDate);
         }
+    }
+    public static class DatePickerDeadFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+            try {
+                calendar.setTime(sdf.parse(edit_birthday_date.getText().toString()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(), this, year, month, day);
+
+            return dpd;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            Calendar today = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(0);
+            cal.set(year, month, day, 0, 0, 0);
+            Date chosenDate = cal.getTime();
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            String formattedDate = formatter.format(chosenDate);
+            edit_date_of_death.setText(formattedDate);
+        }
+    }
+    private  void load() {
+        showLoadingProgress(mActivity);
+        compositeDisposable.add(Common.studyClassRepository.getStudyClassItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<StudyClass>>() {
+            @Override
+            public void accept(List<StudyClass> customers) throws Exception {
+                Log.e("Division","Division"+new Gson().toJson(customers));
+                studyClassResponses=customers;
+
+                dismissLoadingProgress();
+
+            }
+        }));
+        compositeDisposable.add(Common.maritialStatusRepository.getMaritialStatusItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MaritialStatus>>() {
+            @Override
+            public void accept(List<MaritialStatus> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                maritialStatuses=customers;
+                dismissLoadingProgress();
+
+            }
+        }));
+//
+        compositeDisposable.add(Common.femaleRepository.getFemaleItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Female>>() {
+            @Override
+            public void accept(List<Female> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                femaleList=customers;
+                dismissLoadingProgress();
+
+            }
+        }));
+
+        compositeDisposable.add(Common.occupationRepository.getOccupationItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Occupation>>() {
+            @Override
+            public void accept(List<Occupation> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                occupationModels=customers;
+                dismissLoadingProgress();
+            }
+        }));
+        compositeDisposable.add(Common.bloodGroupRepository.getBloodGroupItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<BloodGroup>>() {
+            @Override
+            public void accept(List<BloodGroup> customers) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                bloodGroups=customers;
+                dismissLoadingProgress();
+            }
+        }));
+
+        compositeDisposable.add(Common.femaleRepository.getFemaleItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Female>>() {
+            @Override
+            public void accept(List<Female> customers) throws Exception {
+                Log.e("Division","Division"+new Gson().toJson(customers));
+                sexArrayList=customers;
+
+                dismissLoadingProgress();
+
+            }
+        }));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+      //  Log.e("loadload","size"+divisionList.size());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        compositeDisposable.clear();
     }
 }

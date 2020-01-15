@@ -32,7 +32,7 @@ public class HouseHold {
     @ColumnInfo(name = "SHH")
     public int SHH;
     @ColumnInfo(name = "UniqueId")
-    public int UniqueId;
+    public String UniqueId;
     @ColumnInfo(name = "FamilyMember")
     public int FamilyMember;
     @ColumnInfo(name = "FamilyIncome")

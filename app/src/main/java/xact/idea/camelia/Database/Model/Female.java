@@ -23,4 +23,9 @@ public class Female {
     public String note_bn;
     @ColumnInfo(name = "status")
     public String status;
+    @Override
+    public String toString() {
+        return gender_name_en;
+
+    }
 }
