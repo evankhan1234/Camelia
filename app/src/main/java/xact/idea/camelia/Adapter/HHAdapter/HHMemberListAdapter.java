@@ -14,7 +14,10 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
@@ -23,10 +26,10 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
 
     private Activity mActivity = null;
     int row_index = 0;
-
-    public HHMemberListAdapter(Activity activity) {
+    List<MemberMyself> memberMyselfes;
+    public HHMemberListAdapter(Activity activity, List<MemberMyself> memberMyselfe) {
         mActivity = activity;
-
+        memberMyselfes=memberMyselfe;
     }
 
 
@@ -52,7 +55,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
 
     @Override
     public int getItemCount() {
-        return 20;
+        return memberMyselfes.size();
     }
 
     public class CCDashboardListiewHolder extends RecyclerView.ViewHolder {

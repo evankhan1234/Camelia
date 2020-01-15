@@ -23,4 +23,9 @@ public class StudyClass {
     public String note_bn;
     @ColumnInfo(name = "status")
     public String status;
+    @Override
+    public String toString() {
+        return class_name_en;
+
+    }
 }

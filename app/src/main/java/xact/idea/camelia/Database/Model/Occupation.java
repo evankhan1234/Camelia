@@ -23,4 +23,10 @@ public class Occupation {
     public String note_bn;
     @ColumnInfo(name = "status")
     public String status;
+
+    @Override
+    public String toString() {
+        return occupation_name_en;
+
+    }
 }

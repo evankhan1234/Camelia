@@ -11,26 +11,40 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHMemberListAdapter;
+import xact.idea.camelia.Database.Model.HouseHold;
+import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Fragment.CCMeasurementsDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCuserMesaurementsFragment;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.CustomDialog;
 
 
 public class HHMemberListFragment extends Fragment {
@@ -40,6 +54,7 @@ public class HHMemberListFragment extends Fragment {
     HHMemberListAdapter mAdapters;
     RecyclerView rcl_this_customer_list;
     FloatingActionButton btn_member_new;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +79,64 @@ public class HHMemberListFragment extends Fragment {
         btn_member_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showInfoDialog();
+
+            }
+        });
+    }
+    private  void display() {
+        compositeDisposable.add(Common.memberMyselfRepository.getMemberMyselfItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
+            @Override
+            public void accept(List<MemberMyself> memberMyselfes) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));
+                mAdapters = new HHMemberListAdapter(mActivity,memberMyselfes);
+                try {
+                    rcl_this_customer_list.setAdapter(mAdapters);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }));
+
+        //EmployeeStaus();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        display();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        compositeDisposable.clear();
+    }
+    public void showInfoDialog() {
+
+        final CustomDialog infoDialog = new CustomDialog(mActivity, R.style.CustomDialogTheme);
+        LayoutInflater inflator = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.layout_agreement, null);
+
+        infoDialog.setContentView(v);
+        infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
+        TextView tv_info = infoDialog.findViewById(R.id.tv_info);
+        Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
+        Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+        CorrectSizeUtil.getInstance(mActivity).correctSize(main_root);
+        tv_info.setMovementMethod(new ScrollingMovementMethod());
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 FragmentTransaction transaction;
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
@@ -78,19 +151,18 @@ public class HHMemberListFragment extends Fragment {
 
                 ((HouseholdHomeActivity) getActivity()).ShowText("New Member");
                 ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                infoDialog.dismiss();
+
+
             }
         });
-    }
-    private  void display() {
-
-        mAdapters = new HHMemberListAdapter(mActivity);
-        try {
-            rcl_this_customer_list.setAdapter(mAdapters);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //EmployeeStaus();
-
+        btn_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                infoDialog.dismiss();
+            }
+        });
+        infoDialog.show();
     }
     public int handle(){
         Fragment fragment= getChildFragmentManager().findFragmentByTag(HHMemberListFragment.class.getSimpleName());
