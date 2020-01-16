@@ -84,7 +84,7 @@
                         android:inputType="number"/>
                 </LinearLayout>
                 <LinearLayout
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/linearDiabetisCheckbox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,6 +102,7 @@
                         android:textSize="40px"
                         android:textStyle="bold" />
                     <CheckBox
+
                         android:id="@+id/checkBoxFoodHabit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -177,9 +178,22 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_diabetis"
 
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                               />
 
                             <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
                                 android:layout_marginRight="180px"
 
                                 android:layout_marginTop="10px"

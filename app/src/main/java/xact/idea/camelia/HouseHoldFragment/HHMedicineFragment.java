@@ -15,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -56,6 +58,7 @@ import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
 import static xact.idea.camelia.Utils.Utils.isEmpty;
+import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 
 
 public class HHMedicineFragment extends Fragment implements Handler.Callback {
@@ -145,7 +148,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     ArrayAdapter<YesNoModel> yesNoArrayAdapterKidney;
     ArrayAdapter<YesNoModel> yesNoArrayAdapterCancer;
     ArrayAdapter<YesNoModel> yesNoArrayAdapterMental;
-    ArrayList<String> arrayList = new ArrayList<>();
+    static ArrayList<String> arrayList = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForDiabetis = new ArrayList<>();
      List<Medicine> medicineArrayList = new ArrayList<>();
      List<String> medicineArrayListName = new ArrayList<>();
@@ -158,7 +161,9 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     ArrayList<YesNoModel> yesNoArrayListForCancer = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForMental = new ArrayList<>();
     String medicineDiabetis;
-    RecyclerView rcl_this_medicine_diabetis;
+    static RecyclerView rcl_this_medicine_diabetis;
+    String diabetisControl;
+    static TextView text_diabetis;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -192,7 +197,16 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
             hs.addAll(arrayList);
             arrayList.clear();
             arrayList.addAll(hs);
+            if (arrayList.size()>0){
+                text_diabetis.setVisibility(View.GONE);
+                rcl_this_medicine_diabetis.setVisibility(View.VISIBLE);
+            }
+            else {
+                rcl_this_medicine_diabetis.setVisibility(View.GONE);
+                text_diabetis.setVisibility(View.VISIBLE);
+            }
             mTagAddAdapters.notifyDataSetChanged();
+
 
         }
     };
@@ -209,6 +223,9 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 //        if (str != null && str.length() > 0 && str.charAt(str.length() - 1) == ',') {
 //            str = str.substring(0, str.length() - 1);
 //        }
+
+
+        text_diabetis = view.findViewById(R.id.text_diabetis);
         spinner_medicine_name_mental_disorder = view.findViewById(R.id.spinner_medicine_name_mental_disorder);
         spinner_medicine_name_mental_disorders = view.findViewById(R.id.spinner_medicine_name_mental_disorders);
         linear_control_mental_disorder = view.findViewById(R.id.linear_control_mental_disorder);
@@ -285,6 +302,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
        // rcl_this_medicine_diabetis.setLayoutManager(new GridLayoutManager(mActivity, 2));
         //lm.setStackFromEnd(true);
         rcl_this_medicine_diabetis.setLayoutManager(lm);
+       // onEditorAction(ed);
 
         mTagAddAdapters = new MedicineRemoveOrAdd(mActivity, arrayList);
 
@@ -321,6 +339,207 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 //showInfoDialog();
             }
         });
+
+        checkboxClickListener();
+    }
+
+    public static void  Show(){
+        if (arrayList.size()>0){
+            text_diabetis.setVisibility(View.GONE);
+            rcl_this_medicine_diabetis.setVisibility(View.VISIBLE);
+        }
+        else {
+            rcl_this_medicine_diabetis.setVisibility(View.GONE);
+            text_diabetis.setVisibility(View.VISIBLE);
+        }
+    }
+    private void checkboxClickListener() {
+        checkBoxFoodHabit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFoodHabit.isChecked()){
+                    checkBoxFoodHabit.setChecked(false);
+                }
+                else{
+                    checkBoxFoodHabit.setChecked(true);
+                }
+                checkBox(checkBoxFoodHabit);
+//                if (checkBoxFoodHabit.isChecked()){
+//
+//                    if(isEmpty(diabetisControl)){
+//                        diabetisControl="1";
+//                    }
+//                    else {
+//                        medicineDiabetis+=","+ "1";
+//                    }
+//                }
+//                else {
+//                    if(isEmpty(diabetisControl)){
+//                        diabetisControl="1";
+//                    }
+//                    else {
+//                        medicineDiabetis.replace(",1","");
+//                    }
+//
+//                }
+
+            }
+        });
+        checkBoxMouthMedicine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxMouthMedicine.isChecked()){
+                    checkBoxMouthMedicine.setChecked(false);
+                }
+                else{
+                    checkBoxMouthMedicine.setChecked(true);
+                }
+                checkBox(checkBoxMouthMedicine);
+//                if (checkBoxFoodHabit.isChecked()){
+//
+//                    if(isEmpty(diabetisControl)){
+//                        diabetisControl="3";
+//                    }
+//                    else {
+//                        medicineDiabetis+=","+ "3";
+//                    }
+//                }
+//                else {
+//                    medicineDiabetis.replace(",3","");
+//                }
+
+            }
+        });
+        checkBoxExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxExercise.isChecked()){
+                    checkBoxExercise.setChecked(false);
+                }
+                else{
+                    checkBoxExercise.setChecked(true);
+                }
+                checkBox(checkBoxExercise);
+//                if (checkBoxFoodHabit.isChecked()){
+//
+//                    if(isEmpty(diabetisControl)){
+//                        diabetisControl="2";
+//                    }
+//                    else {
+//                        medicineDiabetis+=","+ "2";
+//                    }
+//                }
+//                else {
+//                    medicineDiabetis.replace(",2","");
+//                }
+
+            }
+        });
+        checkBoxInsulin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxInsulin.isChecked()){
+                    checkBoxInsulin.setChecked(false);
+                }
+                else{
+                    checkBoxInsulin.setChecked(true);
+                }
+                checkBox(checkBoxInsulin);
+                Log.e("fsf","c"+diabetis());
+//
+//                if (checkBoxInsulin.isChecked()){
+//
+//                    if(isEmpty(diabetisControl)){
+//                        diabetisControl="4";
+//                    }
+//                    else {
+//                        medicineDiabetis+=","+ "4";
+//                    }
+//                }
+//                else {
+//                    medicineDiabetis.replace(",4","");
+//                }
+
+            }
+        });
+        checkBoxNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxNo.isChecked()){
+                    checkBoxNo.setChecked(false);
+                }
+                else{
+                    checkBoxNo.setChecked(true);
+                }
+
+                checkBox(checkBoxNo);
+
+//                if (checkBoxNo.isChecked()){
+//
+//                    if(isEmpty(diabetisControl)){
+//                        diabetisControl="5";
+//                    }
+//                    else {
+//                        medicineDiabetis+=","+ "5";
+//                    }
+//                }
+//                else {
+//                    medicineDiabetis.replace(",5","");
+//                }
+
+            }
+        });
+    }
+
+
+   private boolean isChecked(int pos)
+    {
+        if(pos==1&&checkBoxFoodHabit.isChecked())
+        return  true;
+        if(pos==2&&checkBoxExercise.isChecked())
+        return  true;
+        if(pos==3&&checkBoxMouthMedicine.isChecked())
+        return  true;
+        if(pos==4&&checkBoxInsulin.isChecked())
+        return  true;
+        if(pos==5&&checkBoxNo.isChecked())
+        return  true;
+
+
+
+        return  false;
+    }
+
+    private String diabetis(){
+        String ageList="";
+        for(int i=0;i<6;i++)
+        {
+            if(isChecked(i)) {
+                if(isNullOrEmpty(ageList))
+                    ageList = String.valueOf((i));
+                else
+                    ageList = ageList + "," + (i) + "";
+            }
+        }
+
+        if(ageList.length()>0)
+        {        return  ageList;
+
+        }
+        else
+        {
+            return  "";
+        }
+
+
+    }
+    private void checkBox(CheckBox checkBox){
+        { if(!checkBox.isChecked())
+            checkBox.setChecked(true);
+        else if(checkBox.isChecked())
+            checkBox.setChecked(false);
+        }
+
     }
 
     private void load(){

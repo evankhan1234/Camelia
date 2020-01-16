@@ -16,9 +16,11 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,6 +29,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -77,6 +80,7 @@ import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
+import static xact.idea.camelia.Utils.Utils.hideSoftKeyboard;
 import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.showLoadingProgress;
 
@@ -181,7 +185,9 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_blood_group=view.findViewById(R.id.spinner_blood_group);
         spinner_living_status=view.findViewById(R.id.spinner_living_status);
         spinner_head=view.findViewById(R.id.spinner_head);
+
     }
+
 
     private void initalizeSpinner() {
        // sexArrayList= Utils.getSexList();
@@ -192,6 +198,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         bloodGroupArrayList=Utils.getBloodGroupList();
         livingGroupArrayList=Utils.getLivingStatusList();
         maritalArrayList=Utils.getMaritialStatusList();
+        //hideSoftKeyboard(mActivity,edit_national_id);
 
 
         headArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, headArrayList);
@@ -395,6 +402,9 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         });
 
     }
+    public void show(){
+
+    }
     private boolean isChecked() {
         if(radioBirthdate.isChecked())
         {
@@ -432,6 +442,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 
         return true;
     }
+
     private void saveData(){
 
         if (isChecked()){

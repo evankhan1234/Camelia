@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -12,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import xact.idea.camelia.HouseHoldFragment.HHMedicineFragment;
+import xact.idea.camelia.HouseHoldFragment.HHMyselfFragment;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
@@ -46,6 +49,7 @@ public class MedicineRemoveOrAdd extends RecyclerView.Adapter<MedicineRemoveOrAd
             public void onClick(View view) {
                 messageEntities.remove(position);
                 notifyDataSetChanged();
+                HHMedicineFragment.Show();
             }
         });
 
@@ -60,13 +64,13 @@ public class MedicineRemoveOrAdd extends RecyclerView.Adapter<MedicineRemoveOrAd
 
     public class TagListiewHolder extends RecyclerView.ViewHolder {
         private TextView mButtonTagList = null;
-        private AppCompatImageButton mButtonSelectImage = null;
+        private ImageButton mButtonSelectImage = null;
 
 
         public TagListiewHolder(View itemView) {
             super(itemView);
             mButtonTagList = (TextView) itemView.findViewById(R.id.btn_tag);
-            mButtonSelectImage = (AppCompatImageButton) itemView.findViewById(R.id.btn_select_image);
+            mButtonSelectImage = (ImageButton) itemView.findViewById(R.id.btn_select_image);
 
 
         }
