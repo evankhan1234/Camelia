@@ -164,6 +164,9 @@
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
                                 android:tag="52"
+                                android:maxLines="2"
+                                android:layout_marginLeft="15px"
+                                android:layout_marginRight="10px"
                                 android:text="Household Members"
                                 android:textColor="@color/white"
                                 android:textSize="52px" />

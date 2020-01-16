@@ -145,7 +145,7 @@
 
                 </LinearLayout>
                 <LinearLayout
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/linear_medicine_diabetis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -166,10 +166,60 @@
                     android:textSize="40px"
                     android:textStyle="bold" />
 
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_medicine_diabetis"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_medicine_diabetis"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                                />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
+
                 <Spinner
+
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 

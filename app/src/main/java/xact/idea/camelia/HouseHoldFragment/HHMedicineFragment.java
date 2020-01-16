@@ -2,11 +2,15 @@ package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Message;
@@ -20,9 +24,22 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Adapter.HHAdapter.MedicineRemoveOrAdd;
+import xact.idea.camelia.Database.Model.Female;
+import xact.idea.camelia.Database.Model.Medicine;
+import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
 import xact.idea.camelia.Model.DropDownModel.EducationModel;
 import xact.idea.camelia.Model.DropDownModel.LivingStatusModel;
@@ -32,15 +49,22 @@ import xact.idea.camelia.Model.DropDownModel.ReligionModel;
 import xact.idea.camelia.Model.DropDownModel.SexModel;
 import xact.idea.camelia.Model.DropDownModel.YesNoModel;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SpinnerForMedicine;
 import xact.idea.camelia.Utils.Utils;
+
+import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
+import static xact.idea.camelia.Utils.Utils.isEmpty;
 
 
 public class HHMedicineFragment extends Fragment implements Handler.Callback {
-
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
+    private MedicineRemoveOrAdd mTagAddAdapters = null;
     View view;
+    TextView text_medicine_diabetis;
     Spinner spinner_medicine_name_heart_attack;
     Spinner spinner_medicine_name_brain_stroke_disease;
     Spinner spinner_diabetis;
@@ -87,7 +111,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     LinearLayout linear_medicine_mental_disorder;
     LinearLayout linear_medicine_heart_attack;
     LinearLayout linear_control_kidney;
-
+    SpinnerForMedicine spinnerForMedicine;
     LinearLayout linear_medicine_ashma;
     LinearLayout linear_control_ashma;
     EditText edit_diabetis_month;
@@ -121,8 +145,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     ArrayAdapter<YesNoModel> yesNoArrayAdapterKidney;
     ArrayAdapter<YesNoModel> yesNoArrayAdapterCancer;
     ArrayAdapter<YesNoModel> yesNoArrayAdapterMental;
-
+    ArrayList<String> arrayList = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForDiabetis = new ArrayList<>();
+     List<Medicine> medicineArrayList = new ArrayList<>();
+     List<String> medicineArrayListName = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForBloodPressure = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForHeartAttack = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForBrainStroke = new ArrayList<>();
@@ -131,6 +157,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     ArrayList<YesNoModel> yesNoArrayListForKidney = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForCancer = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForMental = new ArrayList<>();
+    String medicineDiabetis;
+    RecyclerView rcl_this_medicine_diabetis;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -143,16 +171,51 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         correctSizeUtil.correctSize(view);
         handler = new Handler(this);
         initView();
+        load();
         // display();
         return view;
     }
+    UccMemberClickListener bookItemInterface = new UccMemberClickListener() {
+        @Override
+        public void onItemClick(int position) {
 
+            spinnerForMedicine.closeSpinerDialog();
+            if(isEmpty(medicineDiabetis)){
+                medicineDiabetis=medicineArrayList.get(position).Name;
+            }
+            else {
+                medicineDiabetis+=","+ medicineArrayList.get(position).Name;
+            }
+          //  text_medicine_diabetis.setText(medicineDiabetis);
+            arrayList.add(medicineArrayList.get(position).Name);
+            HashSet hs = new HashSet();
+            hs.addAll(arrayList);
+            arrayList.clear();
+            arrayList.addAll(hs);
+            mTagAddAdapters.notifyDataSetChanged();
+
+        }
+    };
     private void initView() {
+//        StringBuilder tag = new StringBuilder();
+//        for (String s : arrayList) {
+//            tag.append(s + ",");
+//
+//        }
+//
+//        String str = tag.toString();
+//
+//
+//        if (str != null && str.length() > 0 && str.charAt(str.length() - 1) == ',') {
+//            str = str.substring(0, str.length() - 1);
+//        }
         spinner_medicine_name_mental_disorder = view.findViewById(R.id.spinner_medicine_name_mental_disorder);
         spinner_medicine_name_mental_disorders = view.findViewById(R.id.spinner_medicine_name_mental_disorders);
         linear_control_mental_disorder = view.findViewById(R.id.linear_control_mental_disorder);
         linear_medicine_mental_disorder = view.findViewById(R.id.linear_medicine_mental_disorder);
         edit_yes_mental_disorder = view.findViewById(R.id.edit_yes_mental_disorder);
+        text_medicine_diabetis = view.findViewById(R.id.text_medicine_diabetis);
+        rcl_this_medicine_diabetis = view.findViewById(R.id.rcl_this_medicine_diabetis);
         linear_mental_disorder = view.findViewById(R.id.linear_mental_disorder);
         linear_control_kidney = view.findViewById(R.id.linear_control_kidney);
         linear_medicine_heart_attack = view.findViewById(R.id.linear_medicine_heart_attack);
@@ -217,7 +280,16 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         linear_cancer = view.findViewById(R.id.linear_cancer);
         edit_yes_cancer = view.findViewById(R.id.edit_yes_cancer);
         spinner_medicine_control_name_kidney_disease = view.findViewById(R.id.spinner_medicine_control_name_kidney_disease);
+        LinearLayoutManager lm = new LinearLayoutManager(mActivity);
+        lm.setOrientation(LinearLayoutManager.VERTICAL);
+       // rcl_this_medicine_diabetis.setLayoutManager(new GridLayoutManager(mActivity, 2));
+        //lm.setStackFromEnd(true);
+        rcl_this_medicine_diabetis.setLayoutManager(lm);
 
+        mTagAddAdapters = new MedicineRemoveOrAdd(mActivity, arrayList);
+
+        // mTagAddAdapters.onViewAttachedToWindow();
+        rcl_this_medicine_diabetis.setAdapter(mTagAddAdapters);
         yesNoArrayListForDiabetis = Utils.getyesNoList();
         yesNoArrayListForBloodPressure = Utils.getyesNoList();
         yesNoArrayListForHeartAttack = Utils.getyesNoList();
@@ -227,6 +299,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         yesNoArrayListForKidney = Utils.getyesNoList();
         yesNoArrayListForCancer = Utils.getyesNoList();
         yesNoArrayListForMental = Utils.getyesNoList();
+
         initDiabetisSpinner();
         initBloodPressureSpinner();
         initHeartAttackSpinner();
@@ -236,8 +309,36 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         initKidneySpinner();
         initCancerSpinner();
         initMentalDisorderSpinner();
+
+        text_medicine_diabetis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//
+
+
+                spinnerForMedicine = new SpinnerForMedicine(mActivity, medicineArrayListName, "Select Medicine",bookItemInterface);
+                spinnerForMedicine.showSpinerDialog();
+                //showInfoDialog();
+            }
+        });
     }
 
+    private void load(){
+        compositeDisposable.add(Common.medicineRepository.getMedicineItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Medicine>>() {
+            @Override
+            public void accept(List<Medicine> customers) throws Exception {
+                Log.e("Division","Division"+new Gson().toJson(customers));
+                medicineArrayList=customers;
+
+                for (Medicine medicine:customers){
+                    medicineArrayListName.add(medicine.Name);
+                }
+
+                dismissLoadingProgress();
+
+            }
+        }));
+    }
     private void initDiabetisSpinner() {
         yesNoArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForDiabetis);
         yesNoArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -515,5 +616,16 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
             HHCreateMemberFragment.prevPage(0);
         }
         return false;
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        compositeDisposable.clear();
     }
 }
