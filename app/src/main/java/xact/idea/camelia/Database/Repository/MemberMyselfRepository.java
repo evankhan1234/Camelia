@@ -40,12 +40,17 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
+    public int maxValue() {
+        return IMemberMyselfDatasources.maxValue();
+    }
+
+    @Override
     public int size() {
         return IMemberMyselfDatasources.size();
     }
 
     @Override
-    public MemberMyself getMemberMyselfNo(String MemberMyselfItem) {
+    public MemberMyself getMemberMyselfNo(int MemberMyselfItem) {
         return IMemberMyselfDatasources.getMemberMyselfNo(MemberMyselfItem);
     }
 

@@ -41,12 +41,17 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     }
 
     @Override
+    public int maxValue() {
+        return MemberMyselfDao.maxValue();
+    }
+
+    @Override
     public int size() {
         return MemberMyselfDao.value();
     }
 
     @Override
-    public MemberMyself getMemberMyselfNo(String MemberMyselfItem) {
+    public MemberMyself getMemberMyselfNo(int MemberMyselfItem) {
         return MemberMyselfDao.getMemberMyselfNo(MemberMyselfItem);
     }
 

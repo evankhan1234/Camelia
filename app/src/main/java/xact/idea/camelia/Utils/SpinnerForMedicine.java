@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import xact.idea.camelia.Adapter.HHAdapter.MedicineListAdapter;
+import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 
@@ -39,12 +40,13 @@ public class SpinnerForMedicine implements Filterable {
     MedicineListAdapter mAdapters;
     String values;
     String types;
-    UccMemberClickListener uccMemberClickListener;
+    MedicineInterface uccMemberClickListener;
 
-    public SpinnerForMedicine(Activity activity, List<String> items, String dialogTitle, UccMemberClickListener uccMemberClickListeners) {
+    public SpinnerForMedicine(Activity activity, List<String> items, String dialogTitle, MedicineInterface uccMemberClickListeners,String type) {
         this.items = items;
         this.context = activity;
         this.dTitle = dialogTitle;
+        this.types = type;
         this.uccMemberClickListener = uccMemberClickListeners;
     }
 
@@ -72,7 +74,7 @@ public class SpinnerForMedicine implements Filterable {
         LinearLayoutManager lm = new LinearLayoutManager(context);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);
-        mAdapters = new MedicineListAdapter(context, items, uccMemberClickListener);
+        mAdapters = new MedicineListAdapter(context, items, uccMemberClickListener,types);
 
         rcl_this_customer_list.setAdapter(mAdapters);
 

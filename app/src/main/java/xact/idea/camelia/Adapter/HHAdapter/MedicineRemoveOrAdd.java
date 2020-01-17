@@ -23,11 +23,12 @@ public class MedicineRemoveOrAdd extends RecyclerView.Adapter<MedicineRemoveOrAd
 
     private Activity mActivity = null;
     private ArrayList<String> messageEntities;
+    String types;
 
-    public MedicineRemoveOrAdd(Activity activity, ArrayList<String> messageEntitie) {
+    public MedicineRemoveOrAdd(Activity activity, ArrayList<String> messageEntitie,String type) {
         mActivity = activity;
         messageEntities = messageEntitie;
-
+        types=type;
     }
 
 
@@ -43,15 +44,106 @@ public class MedicineRemoveOrAdd extends RecyclerView.Adapter<MedicineRemoveOrAd
     @Override
     public void onBindViewHolder(MedicineRemoveOrAdd.TagListiewHolder holder, final int position) {
 
-        holder.mButtonTagList.setText(messageEntities.get(position));
-        holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                messageEntities.remove(position);
-                notifyDataSetChanged();
-                HHMedicineFragment.Show();
-            }
-        });
+        if (types.equals("D")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.Show();
+                }
+            });
+        }
+        else if (types.equals("B")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.ShowBloodPressure();
+                }
+            });
+        }
+        else if (types.equals("Heart")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.ShowHeartAttack();
+                }
+            });
+        }
+        else if (types.equals("Brain")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.ShowBrainStroke();
+                }
+            });
+        }
+        else if (types.equals("Lung")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.ShowLungDisease();
+                }
+            });
+        }
+        else if (types.equals("Ashma")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.ShowAshma();
+                }
+            });
+        }
+        else if (types.equals("Kidney")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.ShowKidney();
+                }
+            });
+        }
+        else if (types.equals("Cancer")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.ShowCancer();
+                }
+            });
+        } else if (types.equals("Mental")){
+            holder.mButtonTagList.setText(messageEntities.get(position));
+            holder.mButtonSelectImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    messageEntities.remove(position);
+                    notifyDataSetChanged();
+                    HHMedicineFragment.ShowMentalDisorder();
+                }
+            });
+        }
+
+
 
 
     }
