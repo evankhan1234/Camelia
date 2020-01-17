@@ -13,10 +13,10 @@ public interface IMemberMyselfDatasources {
     MemberMyself getMemberMyself(String MemberMyselfItem);
 
     void emptyMemberMyself();
-
+    int maxValue();
     int size();
 
-    MemberMyself getMemberMyselfNo(String MemberMyselfItem);
+    MemberMyself getMemberMyselfNo(int MemberMyselfItem);
 
     void insertToMemberMyself(MemberMyself... MemberMyself);
 

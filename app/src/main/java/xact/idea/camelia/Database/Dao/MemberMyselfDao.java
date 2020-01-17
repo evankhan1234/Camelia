@@ -20,9 +20,11 @@ public interface MemberMyselfDao {
     @Query("SELECT * FROM MemberMyself WHERE id=:MemberMyselfItem")
     MemberMyself getMemberMyself(String MemberMyselfItem);
     @Query("SELECT * FROM MemberMyself WHERE id=:MemberMyselfItem")
-    MemberMyself getMemberMyselfNo(String MemberMyselfItem);
+    MemberMyself getMemberMyselfNo(int MemberMyselfItem);
     @Query("Select Count(id)  FROM MemberMyself")
     int value();
+    @Query("Select Max(id)  FROM MemberMyself")
+    int maxValue();
     @Query("DELETE  FROM MemberMyself")
     void emptyMemberMyself();
     @Insert

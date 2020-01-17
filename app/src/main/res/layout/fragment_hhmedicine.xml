@@ -375,11 +375,72 @@
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_bloodPressure"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_blood_pressure"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_blood_Pressure"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                            />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
                 <Spinner
+
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
@@ -521,11 +582,71 @@
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_heart_attack_text"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_heart_attack"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_heart_attack"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                            />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
                 <Spinner
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
@@ -651,11 +772,71 @@
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_brain_stroke_text"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_brain_stroke"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_brain_stroke"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                            />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
                 <Spinner
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
@@ -783,11 +964,71 @@
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_lung_disease_text"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_lung_disease"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_lung_disease"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                            />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
                 <Spinner
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
@@ -913,11 +1154,71 @@
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_ashma_text"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_ashma"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_ashma"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                            />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
                 <Spinner
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
@@ -1042,11 +1343,71 @@
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_kidney_text"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_kidney"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_kidney"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                            />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
                 <Spinner
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
@@ -1171,11 +1532,71 @@
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_cancer_text"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_cancer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_cancer"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                            />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
                 <Spinner
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
@@ -1301,11 +1722,71 @@
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:background="@drawable/background_layout"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginRight="50px"
 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/text_mental_disorders_text"
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:layout_marginTop="50px"
+                                android:layout_marginLeft="50px"
+                                android:tag="40"
+                                android:text="Select"
+                                android:textColor="@color/black"
+                                android:textSize="40px"
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:visibility="gone"
+                                android:layout_marginRight="180px"
+
+                                android:layout_marginTop="10px"
+                                android:maxHeight="150px"
+
+                                android:nestedScrollingEnabled="false"
+                                android:id="@+id/rcl_this_mental_disorders"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="0px"/>
+                            <TextView
+
+                                android:layout_alignParentRight="true"
+
+                                android:layout_marginTop="30px"
+                                android:textColor="#666"
+                                android:tag="40"
+                                android:textSize="40px"
+                                android:id="@+id/text_mental_disorders"
+                                android:background="@drawable/text_back"
+                                android:padding="25px"
+                                android:layout_width="120px"
+                                android:layout_height="120px"
+                                android:layout_marginBottom="10px"
+                                android:text=""
+                                android:ems="10"
+                                android:inputType="textPostalAddress"/>
+
+                            />
+                        </RelativeLayout>
+
+
+
+                    </LinearLayout>
                 <Spinner
                     android:layout_marginLeft="50px"
                     android:layout_marginRight="50px"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
