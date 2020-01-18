@@ -22,6 +22,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import xact.idea.camelia.Database.Model.HouseHold;
+import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -31,10 +32,10 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
 
     private Activity mActivity = null;
     int row_index = 0;
-    private UccMemberClickListener uccMemberClickListener;
+    private MedicineInterface uccMemberClickListener;
     List<HouseHold> houseHolds;
 
-    public HHListAdapter(Activity activity,List<HouseHold> houseHold,UccMemberClickListener uccMemberClickListeners) {
+    public HHListAdapter(Activity activity,List<HouseHold> houseHold,MedicineInterface uccMemberClickListeners) {
         mActivity = activity;
         uccMemberClickListener=uccMemberClickListeners;
         houseHolds=houseHold;
@@ -68,7 +69,7 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
         holder.img_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uccMemberClickListener.onItemClick(position);
+                uccMemberClickListener.postion(position,houseHolds.get(position).UniqueId);
             }
         });
 

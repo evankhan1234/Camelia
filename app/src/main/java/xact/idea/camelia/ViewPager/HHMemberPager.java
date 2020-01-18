@@ -3,6 +3,7 @@ package xact.idea.camelia.ViewPager;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -25,12 +26,14 @@ public class HHMemberPager extends FragmentStatePagerAdapter {
     //integer to count number of tabs
     int tabCount;
     Activity activity;
+    String unique;
 
     //Constructor to the class
-    public HHMemberPager(FragmentManager fm, int tabCount) {
+    public HHMemberPager(FragmentManager fm, int tabCount,String uniqueId) {
         super(fm);
         //Initializing tab count
         this.tabCount= tabCount;
+        this.unique= uniqueId;
 
     }
 
@@ -40,12 +43,12 @@ public class HHMemberPager extends FragmentStatePagerAdapter {
         //Returning the current tabs
         switch (position) {
             case 0:
-
-                HHMemberListFragment tab1 = new HHMemberListFragment();
+                Log.e("UniqueId","uniquKey"+unique);
+                HHMemberListFragment tab1 = new HHMemberListFragment(unique);
 
                 return tab1;
             case 1:
-                HHSurveysListFragment tab2 = new HHSurveysListFragment();
+                HHSurveysListFragment tab2 = new HHSurveysListFragment(unique);
                 return tab2;
 
             default:

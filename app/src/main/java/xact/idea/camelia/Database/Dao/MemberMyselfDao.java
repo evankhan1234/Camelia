@@ -17,7 +17,7 @@ public interface MemberMyselfDao {
     Flowable<List<MemberMyself>> getMemberMyselfItems();
     @Query("SELECT * FROM MemberMyself WHERE id=:MemberMyselfId")
     Flowable<List<MemberMyself>> getMemberMyselfItemById(int MemberMyselfId);
-    @Query("SELECT * FROM MemberMyself WHERE id=:MemberMyselfItem")
+    @Query("SELECT * FROM MemberMyself WHERE MobileNumber=:MemberMyselfItem")
     MemberMyself getMemberMyself(String MemberMyselfItem);
     @Query("SELECT * FROM MemberMyself WHERE id=:MemberMyselfItem")
     MemberMyself getMemberMyselfNo(int MemberMyselfItem);

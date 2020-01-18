@@ -35,6 +35,7 @@ import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCWaistWidthFragment;
+import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
@@ -109,13 +110,15 @@ public class HHListFragment extends Fragment {
         //EmployeeStaus();
 
     }
-    private UccMemberClickListener clickListener = new UccMemberClickListener() {
+    private MedicineInterface clickListener = new MedicineInterface() {
         @Override
-        public void onItemClick(int position) {
+        public void postion(int position,String Type) {
+
+            Log.e("UniqueId","Type"+Type);
             FragmentTransaction transaction;
             transaction = getChildFragmentManager().beginTransaction();
             Bundle bundle = new Bundle();
-            bundle.putInt("Id",2);
+            bundle.putString("Id",Type);
             Fragment f = new HHMembersFragment();
             f.setArguments(bundle);
             transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);

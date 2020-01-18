@@ -55,6 +55,12 @@ public class HHMemberListFragment extends Fragment {
     RecyclerView rcl_this_customer_list;
     FloatingActionButton btn_member_new;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+    String uniqueId;
+
+    public HHMemberListFragment(String unique){
+        uniqueId=unique;
+        Log.e("UniqueId","uniquKey"+unique);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -140,7 +146,7 @@ public class HHMemberListFragment extends Fragment {
                 FragmentTransaction transaction;
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
-                bundle.putInt("Id",2);
+                bundle.putString("Id",uniqueId);
                 Fragment f = new HHCreateMemberFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);

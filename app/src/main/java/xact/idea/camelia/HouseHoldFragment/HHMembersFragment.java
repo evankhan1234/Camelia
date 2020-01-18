@@ -39,6 +39,7 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
     public static TabLayout tabLayout;
     //This is our viewPager
     public static ViewPager viewPager;
+    String uniquKey;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +50,12 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            uniquKey = bundle.getString("Id", "");
+            Log.e("UniqueId","uniquKey"+uniquKey);
+        }
         initView();
         // display();
         return view;
@@ -67,9 +74,10 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
         viewPager = view. findViewById(R.id.pager);
 
         //Creating our pager adapter
-        HHMemberPager adapter = new HHMemberPager(getChildFragmentManager(), tabLayout.getTabCount());
+        HHMemberPager adapter = new HHMemberPager(getChildFragmentManager(), tabLayout.getTabCount(),uniquKey);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         //Adding adapter to pager
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
         tabLayout.setOnTabSelectedListener(this);
         //Adding onTabSelectedListener to swipe views

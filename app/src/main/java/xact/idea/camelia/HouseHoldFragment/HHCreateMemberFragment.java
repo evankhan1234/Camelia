@@ -40,6 +40,7 @@ public class HHCreateMemberFragment extends Fragment {
     public static Button btn_back;
     static Button btn_next;
     String[] categories;
+    String uniquKey;
     Message message = null;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -51,6 +52,12 @@ public class HHCreateMemberFragment extends Fragment {
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
+
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            uniquKey = bundle.getString("Id", "");
+            Log.e("UniqueId","uniquKey"+uniquKey);
+        }
         initView();
         // display();
         return view;
@@ -138,6 +145,7 @@ public class HHCreateMemberFragment extends Fragment {
         setStepValue(0);
     }
     public static void nextPage(int pos) {
+
         vpg_home.setCurrentItem(pos);
     }
 
@@ -188,14 +196,14 @@ public class HHCreateMemberFragment extends Fragment {
     }
     private void initPager() {
         mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        mPagerAdapter.addFragment(new HHMyselfFragment(), "");
+        mPagerAdapter.addFragment(new HHMyselfFragment(uniquKey), "");
      //   mPagerAdapter.addFragment(new HHFamilyDiseaseFragment(), "");
         mPagerAdapter.addFragment(new HHMedicineFragment(), "");
         mPagerAdapter.addFragment(new HHHabitFragment(), "");
      //   mPagerAdapter.addFragment(new HHReasonFragment(), "");
         // mPagerAdapter.addFragment(new ReviewFragment(), "");
-        vpg_home.beginFakeDrag();
-        vpg_home.setOffscreenPageLimit(5);
+       // vpg_home.beginFakeDrag();
+        vpg_home.setOffscreenPageLimit(3);
         // vpg_home.setOffscreenPageLimit(5);
         vpg_home.setAdapter(mPagerAdapter);
 
