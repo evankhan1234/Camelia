@@ -20,11 +20,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -97,6 +99,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     Spinner spinner_medicine_name_control_lung_disease;
     Spinner spinner_medicine_name_blood_pressure;
     LinearLayout linear_cancer;
+    RelativeLayout relativeLayout;
     LinearLayout linear_medicine_cancer;
     LinearLayout linear_medicine_lung;
     LinearLayout linear_kidney;
@@ -466,7 +469,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     private void initView() {
 
 
-
+        relativeLayout=view.findViewById(R.id.relative);
         spinner_medicine_control_name_cancer = view.findViewById(R.id.spinner_medicine_control_name_cancer);
         checkBoxMouthMedicine_heart_attack = view.findViewById(R.id.checkBoxMouthMedicine_heart_attack);
         rcl_this_mental_disorders = view.findViewById(R.id.rcl_this_mental_disorders);
@@ -625,7 +628,16 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         initMentalDisorderSpinner();
 
         initSubSpinner();
-
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the input method manager
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                // Hide the soft keyboard
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+            }
+        });
         text_medicine_diabetis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1470,9 +1482,20 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     private void saveData() {
 
         if (isChecked()) {
+
+
+
             StringBuilder tag = new StringBuilder();
             for (String s : arrayList) {
-                tag.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tag.append(medicine.MedicineId + ",");
+                    }
+                }
+
+
+
 
             }
 
@@ -1486,7 +1509,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             StringBuilder tagBlood = new StringBuilder();
             for (String s : arrayListBlood) {
-                tagBlood.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagBlood.append(medicine.MedicineId + ",");
+                    }
+                }
 
             }
 
@@ -1500,7 +1528,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             StringBuilder tagHeartAttack= new StringBuilder();
             for (String s : arrayListHeart) {
-                tagHeartAttack.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagHeartAttack.append(medicine.MedicineId + ",");
+                    }
+                }
 
             }
 
@@ -1513,7 +1546,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             StringBuilder tagBrainStroke= new StringBuilder();
             for (String s : arrayListHeart) {
-                tagBrainStroke.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagBrainStroke.append(medicine.MedicineId + ",");
+                    }
+                }
 
             }
 
@@ -1526,7 +1564,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             StringBuilder tagLung= new StringBuilder();
             for (String s : arrayListLung) {
-                tagLung.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagLung.append(medicine.MedicineId + ",");
+                    }
+                }
 
             }
 
@@ -1539,7 +1582,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             StringBuilder tagAshma= new StringBuilder();
             for (String s : arrayListAshma) {
-                tagAshma.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagAshma.append(medicine.MedicineId + ",");
+                    }
+                }
 
             }
 
@@ -1552,7 +1600,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             StringBuilder tagKidney= new StringBuilder();
             for (String s : arrayListKidney) {
-                tagKidney.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagKidney.append(medicine.MedicineId + ",");
+                    }
+                }
 
             }
 
@@ -1564,7 +1617,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
             }
             StringBuilder tagCancer= new StringBuilder();
             for (String s : arrayListCancer) {
-                tagCancer.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagCancer.append(medicine.MedicineId + ",");
+                    }
+                }
 
             }
 
@@ -1576,7 +1634,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
             }
             StringBuilder tagMental= new StringBuilder();
             for (String s : arrayListCancer) {
-                tagMental.append(s + ",");
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagMental.append(medicine.MedicineId + ",");
+                    }
+                }
 
             }
 
@@ -1593,53 +1656,311 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
             MemberMyself memberMyself=Common.memberMyselfRepository.getMemberMyselfNo(id);
             memberMedicine.MemberMyselfPhoneNumber=memberMyself.MobileNumber;
 
-            memberMedicine.DiabetisYesNo=diabetisYesNo;
-            memberMedicine.DiabetisSufferingYear=Integer.parseInt(edit_diabetis_month.getText().toString());
-            memberMedicine.DiabetisControlDisease=diabetis();
-            memberMedicine.DiabetisMedicineName=str;
+            MemberMedicine memberMedicine1=Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MobileNumber);
 
-            memberMedicine.BloodPressureYesNo=bloodPressureYesNo;
-            memberMedicine.DiabetisSufferingYear=Integer.parseInt(edit_yes_blood.getText().toString());
-            memberMedicine.DiabetisControlDisease=bloodGroups();
-            memberMedicine.DiabetisMedicineName=strBlood;
+            if (memberMedicine1==null){
+                memberMedicine.DiabetisYesNo=diabetisYesNo;
+                if (diabetisYesNo==2){
 
-            memberMedicine.HeartAttackYesNo=heartAttackYesNo;
-            memberMedicine.HeartAttackSufferingYear=Integer.parseInt(edit_yes_heart_attack.getText().toString());
-            memberMedicine.HeartAttackControlDisease=heartAttack();
-            memberMedicine.HeartAttackMedicineName=strHeartAttack;
+                }
+                else{
+                    try {
+                        memberMedicine.DiabetisSufferingYear=Integer.parseInt(edit_diabetis_month.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.DiabetisSufferingYear=0;
+                    }
+                    memberMedicine.DiabetisControlDisease=diabetis();
+                    memberMedicine.DiabetisMedicineName=str;
+                }
 
-            memberMedicine.BrainStrokeYesNo=brainStrokeYesNo;
-            memberMedicine.BrainStrokeSufferingYear=Integer.parseInt(edit_yes_heart_brain_stroke.getText().toString());
-            memberMedicine.BrainStrokeControlDisease=String.valueOf(controlDiseaseBrainStroke);
-            memberMedicine.BrainStrokeMedicineName=strBrainStrok;
 
-            memberMedicine.LungYesNo=lungYesNo;
-            memberMedicine.LungSufferingYear=Integer.parseInt(edit_yes_lung_disease.getText().toString());
-            memberMedicine.LungControlDisease=String.valueOf(controlDiseaseLungDisease);
-            memberMedicine.LungMedicineName=strLung;
+                memberMedicine.BloodPressureYesNo=bloodPressureYesNo;
+                if (bloodPressureYesNo==2){
 
-            memberMedicine.AshmaYesNo=ashmaYesNo;
-            memberMedicine.AshmaSufferingYear=Integer.parseInt(edit_yes_ashma.getText().toString());
-            memberMedicine.AshmaControlDisease=String.valueOf(controlDiseaseAshma);
-            memberMedicine.AshmaMedicineName=strAshma;
+                }
+                else{
+                    try {
+                        memberMedicine.BloodPressureSufferingYear=Integer.parseInt(edit_yes_blood.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.BloodPressureSufferingYear=0;
+                    }
+                    memberMedicine.BloodPressureControlDisease=bloodGroups();
+                    memberMedicine.BloodPressureMedicineName=strBlood;
+                }
 
-            memberMedicine.KidneyYesNo=kidneyYesNo;
-            memberMedicine.KidneySufferingYear=Integer.parseInt(edit_yes_kidney_disease.getText().toString());
-            memberMedicine.KidneyControlDisease=String.valueOf(controlDiseaseKidney);
-            memberMedicine.KidneyMedicineName=strKidney;
 
-            memberMedicine.CancerYesNo=cancerYesNo;
-            memberMedicine.CancerSufferingYear=Integer.parseInt(edit_yes_cancer.getText().toString());
-            memberMedicine.CancerControlDisease=String.valueOf(controlDiseaseCancer);
-            memberMedicine.KidneyMedicineName=strKidney;
+                memberMedicine.HeartAttackYesNo=heartAttackYesNo;
+                if (heartAttackYesNo==2){
 
-            memberMedicine.MentalYesNo=mentalDisorderYesNo;
-            memberMedicine.MentalSufferingYear=Integer.parseInt(edit_yes_mental_disorder.getText().toString());
-            memberMedicine.MentalControlDisease=String.valueOf(controlDiseaseMentalDisorder);
-            memberMedicine.MentalMedicineName=strMental;
+                }
+                else{
+                    try {
+                        memberMedicine.HeartAttackSufferingYear=Integer.parseInt(edit_yes_heart_attack.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.HeartAttackSufferingYear=0;
+                    }
+                    memberMedicine.HeartAttackControlDisease=heartAttack();
+                    memberMedicine.HeartAttackMedicineName=strHeartAttack;
+                }
 
-            Common.memberMedicineRepository.insertToMemberMedicine(memberMedicine);
-            HHCreateMemberFragment.nextPage(2);
+
+                memberMedicine.BrainStrokeYesNo=brainStrokeYesNo;
+                if (brainStrokeYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.BrainStrokeSufferingYear=Integer.parseInt(edit_yes_heart_brain_stroke.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.BrainStrokeSufferingYear=0;
+                    }
+                    memberMedicine.BrainStrokeControlDisease=String.valueOf(controlDiseaseBrainStroke);
+                    memberMedicine.BrainStrokeMedicineName=strBrainStrok;
+                }
+
+
+                memberMedicine.LungYesNo=lungYesNo;
+                if (lungYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.LungSufferingYear=Integer.parseInt(edit_yes_lung_disease.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.LungSufferingYear=0;
+                    }
+                    memberMedicine.LungControlDisease=String.valueOf(controlDiseaseLungDisease);
+                    memberMedicine.LungMedicineName=strLung;
+                }
+
+
+                memberMedicine.AshmaYesNo=ashmaYesNo;
+                if (ashmaYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.AshmaSufferingYear=Integer.parseInt(edit_yes_ashma.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.AshmaSufferingYear=0;
+                    }
+                    memberMedicine.AshmaControlDisease=String.valueOf(controlDiseaseAshma);
+                    memberMedicine.AshmaMedicineName=strAshma;
+                }
+
+
+                memberMedicine.KidneyYesNo=kidneyYesNo;
+                if (kidneyYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.KidneySufferingYear=Integer.parseInt(edit_yes_kidney_disease.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.KidneySufferingYear=0;
+                    }
+                    memberMedicine.KidneyControlDisease=String.valueOf(controlDiseaseKidney);
+                    memberMedicine.KidneyMedicineName=strKidney;
+                }
+
+
+                memberMedicine.CancerYesNo=cancerYesNo;
+                if (cancerYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.CancerSufferingYear=Integer.parseInt(edit_yes_cancer.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.CancerSufferingYear=0;
+                    }
+                    memberMedicine.CancerControlDisease=String.valueOf(controlDiseaseCancer);
+                    memberMedicine.CancerMedicineName=strCancer;
+                }
+
+
+                memberMedicine.MentalYesNo=mentalDisorderYesNo;
+                if (mentalDisorderYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.MentalSufferingYear=Integer.parseInt(edit_yes_mental_disorder.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.MentalSufferingYear=0;
+                    }
+                    memberMedicine.MentalControlDisease=String.valueOf(controlDiseaseMentalDisorder);
+                    memberMedicine.MentalMedicineName=strMental;
+                }
+
+
+
+                Log.e("fullstring","data"+new Gson().toJson(memberMedicine));
+
+                Common.memberMedicineRepository.insertToMemberMedicine(memberMedicine);
+            }
+            else{
+                memberMedicine.id=memberMedicine1.id;
+                memberMedicine.DiabetisYesNo=diabetisYesNo;
+                if (diabetisYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.DiabetisSufferingYear=Integer.parseInt(edit_diabetis_month.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.DiabetisSufferingYear=0;
+                    }
+                    memberMedicine.DiabetisControlDisease=diabetis();
+                    memberMedicine.DiabetisMedicineName=str;
+                }
+
+
+                memberMedicine.BloodPressureYesNo=bloodPressureYesNo;
+                if (bloodPressureYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.BloodPressureSufferingYear=Integer.parseInt(edit_yes_blood.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.BloodPressureSufferingYear=0;
+                    }
+                    memberMedicine.BloodPressureControlDisease=bloodGroups();
+                    memberMedicine.BloodPressureMedicineName=strBlood;
+                }
+
+
+                memberMedicine.HeartAttackYesNo=heartAttackYesNo;
+                if (heartAttackYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.HeartAttackSufferingYear=Integer.parseInt(edit_yes_heart_attack.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.HeartAttackSufferingYear=0;
+                    }
+                    memberMedicine.HeartAttackControlDisease=heartAttack();
+                    memberMedicine.HeartAttackMedicineName=strHeartAttack;
+                }
+
+
+                memberMedicine.BrainStrokeYesNo=brainStrokeYesNo;
+                if (brainStrokeYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.BrainStrokeSufferingYear=Integer.parseInt(edit_yes_heart_brain_stroke.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.BrainStrokeSufferingYear=0;
+                    }
+                    memberMedicine.BrainStrokeControlDisease=String.valueOf(controlDiseaseBrainStroke);
+                    memberMedicine.BrainStrokeMedicineName=strBrainStrok;
+                }
+
+
+                memberMedicine.LungYesNo=lungYesNo;
+                if (lungYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.LungSufferingYear=Integer.parseInt(edit_yes_lung_disease.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.LungSufferingYear=0;
+                    }
+                    memberMedicine.LungControlDisease=String.valueOf(controlDiseaseLungDisease);
+                    memberMedicine.LungMedicineName=strLung;
+                }
+
+
+                memberMedicine.AshmaYesNo=ashmaYesNo;
+                if (ashmaYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.AshmaSufferingYear=Integer.parseInt(edit_yes_ashma.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.AshmaSufferingYear=0;
+                    }
+                    memberMedicine.AshmaControlDisease=String.valueOf(controlDiseaseAshma);
+                    memberMedicine.AshmaMedicineName=strAshma;
+                }
+
+
+                memberMedicine.KidneyYesNo=kidneyYesNo;
+                if (kidneyYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.KidneySufferingYear=Integer.parseInt(edit_yes_kidney_disease.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.KidneySufferingYear=0;
+                    }
+                    memberMedicine.KidneyControlDisease=String.valueOf(controlDiseaseKidney);
+                    memberMedicine.KidneyMedicineName=strKidney;
+                }
+
+
+                memberMedicine.CancerYesNo=cancerYesNo;
+                if (cancerYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.CancerSufferingYear=Integer.parseInt(edit_yes_cancer.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.CancerSufferingYear=0;
+                    }
+                    memberMedicine.CancerControlDisease=String.valueOf(controlDiseaseCancer);
+                    memberMedicine.CancerMedicineName=strCancer;
+                }
+
+
+                memberMedicine.MentalYesNo=mentalDisorderYesNo;
+                if (mentalDisorderYesNo==2){
+
+                }
+                else{
+                    try {
+                        memberMedicine.MentalSufferingYear=Integer.parseInt(edit_yes_mental_disorder.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberMedicine.MentalSufferingYear=0;
+                    }
+                    memberMedicine.MentalControlDisease=String.valueOf(controlDiseaseMentalDisorder);
+                    memberMedicine.MentalMedicineName=strMental;
+                }
+
+
+                Log.e("fullstring","data"+new Gson().toJson(memberMedicine));
+
+                Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
+            }
+
+
+            HHCreateMemberFragment.nextPages(2);
         }
     }
 

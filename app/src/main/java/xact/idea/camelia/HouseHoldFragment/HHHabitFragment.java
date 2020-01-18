@@ -14,15 +14,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 
+import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
+import xact.idea.camelia.Database.Model.MemberHabit;
+import xact.idea.camelia.Database.Model.MemberMedicine;
+import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Model.DropDownModel.FruitsCardModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsModel;
 import xact.idea.camelia.Model.DropDownModel.ModerateModel;
@@ -34,8 +40,11 @@ import xact.idea.camelia.Model.DropDownModel.VegetableModel;
 import xact.idea.camelia.Model.DropDownModel.VegetablesCardModel;
 import xact.idea.camelia.Model.DropDownModel.YesNoModel;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.Utils;
+
+import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 
 public class HHHabitFragment extends Fragment implements Handler.Callback {
     Activity mActivity;
@@ -85,7 +94,6 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     EditText edit_smoke_stick;
     EditText edit_jorda;
     EditText edit_typical_day_moderate_recreational;
-    EditText edit_typical_day__recreational;
     EditText edit_typical_day_moderate;
     EditText edit_workplace;
     EditText edit_typical_day;
@@ -135,6 +143,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     CheckBox checkBoxHockey;
     CheckBox checkBoxHadudu;
     CheckBox checkBoxVolleyball;
+    CheckBox checkBoxFootbal;
     CheckBox checkBoxTenis;
     CheckBox checkBoxOthers_recreational;
     CheckBox checkBoxFastWalking;
@@ -186,6 +195,26 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     ArrayList<TypicalVigorousModel> yesNoArrayListForTypicalVigorous= new ArrayList<>();
     ArrayList<TypicalVigorousRecreationModel> yesNoArrayListForTypicalVigorousRecreation= new ArrayList<>();
 
+    int smokeYesNo;
+    int jordaYesNo;
+    int workplaceYesNo;
+    int alcoholYesNo;
+    int typicalFruits;
+    int fruitsShowCard;
+    int typicalVegetables;
+    int vegetablesShowCard;
+    int saltyBuy;
+    int takingSalt;
+    int vigorousIntensity;
+    int vigorousIntensityTypical;
+    int vigorousIntensityRecreational;
+    int vigorousIntensityRecreationalTypical;
+    int moderateIntensityRecreational;
+    int moderateIntensityRecreationalTypical;
+    int moderateIntensity;
+    int moderateIntensityTypical;
+    int recliningActivities;
+   RelativeLayout relativeLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -203,6 +232,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     }
 
     private void initView() {
+        relativeLayout=view.findViewById(R.id.relative);
         linear_moderate_intensity_recreational_activities_typical = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical);
         checkBoxFastWalking = view.findViewById(R.id.checkBoxFastWalking);
         linear_moderate_intensity_recreational_activities_typical_day = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day);
@@ -229,6 +259,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         spinner_moderate_intensity_recreational_activities = view.findViewById(R.id.spinner_moderate_intensity_recreational_activities);
         linear_moderate_intensity_recreational_activities = view.findViewById(R.id.linear_moderate_intensity_recreational_activities);
         checkBoxVolleyball = view.findViewById(R.id.checkBoxVolleyball);
+        checkBoxFootbal = view.findViewById(R.id.checkBoxFootbal);
         checkBoxHadudu = view.findViewById(R.id.checkBoxHadudu);
         checkBoxHockey = view.findViewById(R.id.checkBoxHockey);
         checkBoxSwimming = view.findViewById(R.id.checkBoxSwimming);
@@ -345,8 +376,690 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         initModerateRecreationalTypicalSpinner();
         initVigriousRecreationalTypicalSpinner();
         initModerateTypicalSpinner();
+        initVigiorosIntensityClickListener();
+        initModerateIntensityClickListener();
+        initVigiorosIntensityRecreationClickListener();
+        initModerateIntensityRecreationClickListener();
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the input method manager
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                // Hide the soft keyboard
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+            }
+        });
+    }
+
+    private void initModerateIntensityRecreationClickListener() {
+
+        checkBoxOthers_moderate_recreational_others.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthers_moderate_recreational_others.isChecked()) {
+                    checkBoxOthers_moderate_recreational_others.setChecked(false);
+                } else {
+                    checkBoxOthers_moderate_recreational_others.setChecked(true);
+                }
+                checkBox(checkBoxOthers_moderate_recreational_others);
+            }
+        });
+        checkBoxFastWalking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFastWalking.isChecked()) {
+                    checkBoxFastWalking.setChecked(false);
+                } else {
+                    checkBoxFastWalking.setChecked(true);
+                }
+                checkBox(checkBoxFastWalking);
+            }
+        });
+        checkBoxJogging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxJogging.isChecked()) {
+                    checkBoxJogging.setChecked(false);
+                } else {
+                    checkBoxJogging.setChecked(true);
+                }
+                checkBox(checkBoxJogging);
+            }
+        });
+        checkBoxCycling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCycling.isChecked()) {
+                    checkBoxCycling.setChecked(false);
+                } else {
+                    checkBoxCycling.setChecked(true);
+                }
+                checkBox(checkBoxCycling);
+            }
+        });
+        checkBoxCricket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCricket.isChecked()) {
+                    checkBoxCricket.setChecked(false);
+                } else {
+                    checkBoxCricket.setChecked(true);
+                }
+                checkBox(checkBoxCricket);
+            }
+        });
+
+        checkBoxYoga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxYoga.isChecked()) {
+                    checkBoxYoga.setChecked(false);
+                } else {
+                    checkBoxYoga.setChecked(true);
+                }
+                checkBox(checkBoxYoga);
+            }
+        });
+        checkBoxAerobics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxAerobics.isChecked()) {
+                    checkBoxAerobics.setChecked(false);
+                } else {
+                    checkBoxAerobics.setChecked(true);
+                }
+                checkBox(checkBoxAerobics);
+            }
+        });
+        checkBoxExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxExercise.isChecked()) {
+                    checkBoxExercise.setChecked(false);
+                } else {
+                    checkBoxExercise.setChecked(true);
+                }
+                checkBox(checkBoxExercise);
+            }
+        });
+        checkBoxOthersDancing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthersDancing.isChecked()) {
+                    checkBoxOthersDancing.setChecked(false);
+                } else {
+                    checkBoxOthersDancing.setChecked(true);
+                }
+                checkBox(checkBoxOthersDancing);
+            }
+        });
+    }
+
+    private void initVigiorosIntensityRecreationClickListener() {
+
+        checkBoxFootbal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFootbal.isChecked()) {
+                    checkBoxFootbal.setChecked(false);
+                } else {
+                    checkBoxFootbal.setChecked(true);
+                }
+                checkBox(checkBoxFootbal);
+            }
+        });
+        checkBoxRunning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxRunning.isChecked()) {
+                    checkBoxRunning.setChecked(false);
+                } else {
+                    checkBoxRunning.setChecked(true);
+                }
+                checkBox(checkBoxRunning);
+            }
+        });
+        checkBoxBadminton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxBadminton.isChecked()) {
+                    checkBoxBadminton.setChecked(false);
+                } else {
+                    checkBoxBadminton.setChecked(true);
+                }
+                checkBox(checkBoxBadminton);
+            }
+        });
+        checkBoxSwimming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxSwimming.isChecked()) {
+                    checkBoxSwimming.setChecked(false);
+                } else {
+                    checkBoxSwimming.setChecked(true);
+                }
+                checkBox(checkBoxSwimming);
+            }
+        });
+        checkBoxHockey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHockey.isChecked()) {
+                    checkBoxHockey.setChecked(false);
+                } else {
+                    checkBoxHockey.setChecked(true);
+                }
+                checkBox(checkBoxHockey);
+            }
+        });
+
+
+        checkBoxHadudu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHadudu.isChecked()) {
+                    checkBoxHadudu.setChecked(false);
+                } else {
+                    checkBoxHadudu.setChecked(true);
+                }
+                checkBox(checkBoxHadudu);
+            }
+        });
+        checkBoxVolleyball.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxVolleyball.isChecked()) {
+                    checkBoxVolleyball.setChecked(false);
+                } else {
+                    checkBoxVolleyball.setChecked(true);
+                }
+                checkBox(checkBoxVolleyball);
+            }
+        });
+        checkBoxTenis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxTenis.isChecked()) {
+                    checkBoxTenis.setChecked(false);
+                } else {
+                    checkBoxTenis.setChecked(true);
+                }
+                checkBox(checkBoxTenis);
+            }
+        });
+        checkBoxOthers_recreational.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthers_recreational.isChecked()) {
+                    checkBoxOthers_recreational.setChecked(false);
+                } else {
+                    checkBoxOthers_recreational.setChecked(true);
+                }
+                checkBox(checkBoxOthers_recreational);
+            }
+        });
+    }
+
+    private void initModerateIntensityClickListener() {
+
+
+
+
+        checkBoxHouseHoldWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHouseHoldWork.isChecked()) {
+                    checkBoxHouseHoldWork.setChecked(false);
+                } else {
+                    checkBoxHouseHoldWork.setChecked(true);
+                }
+                checkBox(checkBoxHouseHoldWork);
+            }
+        });
+        checkBoxGardening.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxGardening.isChecked()) {
+                    checkBoxGardening.setChecked(false);
+                } else {
+                    checkBoxGardening.setChecked(true);
+                }
+                checkBox(checkBoxGardening);
+            }
+        });
+        checkBoxMilkingCows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxMilkingCows.isChecked()) {
+                    checkBoxMilkingCows.setChecked(false);
+                } else {
+                    checkBoxMilkingCows.setChecked(true);
+                }
+                checkBox(checkBoxMilkingCows);
+            }
+        });
+        checkBoxCultivatingLand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCultivatingLand.isChecked()) {
+                    checkBoxCultivatingLand.setChecked(false);
+                } else {
+                    checkBoxCultivatingLand.setChecked(true);
+                }
+                checkBox(checkBoxCultivatingLand);
+            }
+        });
+        checkBoxPlantingHarvest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxPlantingHarvest.isChecked()) {
+                    checkBoxPlantingHarvest.setChecked(false);
+                } else {
+                    checkBoxPlantingHarvest.setChecked(true);
+                }
+                checkBox(checkBoxPlantingHarvest);
+            }
+        });
+        checkBoxWeavingCloth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWeavingCloth.isChecked()) {
+                    checkBoxWeavingCloth.setChecked(false);
+                } else {
+                    checkBoxWeavingCloth.setChecked(true);
+                }
+                checkBox(checkBoxWeavingCloth);
+            }
+        });
+
+
+
+        checkBoxWashingCloths.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWashingCloths.isChecked()) {
+                    checkBoxWashingCloths.setChecked(false);
+                } else {
+                    checkBoxWashingCloths.setChecked(true);
+                }
+                checkBox(checkBoxWashingCloths);
+            }
+        });
+
+
+        checkBoxRearing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxRearing.isChecked()) {
+                    checkBoxRearing.setChecked(false);
+                } else {
+                    checkBoxRearing.setChecked(true);
+                }
+                checkBox(checkBoxRearing);
+            }
+        });
+
+        checkBoxMixingCement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxMixingCement.isChecked()) {
+                    checkBoxMixingCement.setChecked(false);
+                } else {
+                    checkBoxMixingCement.setChecked(true);
+                }
+                checkBox(checkBoxMixingCement);
+            }
+        });
+
+        checkBoxWoodWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWoodWork.isChecked()) {
+                    checkBoxWoodWork.setChecked(false);
+                } else {
+                    checkBoxWoodWork.setChecked(true);
+                }
+                checkBox(checkBoxWoodWork);
+            }
+        });
+
+        checkBoxDrawingWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxDrawingWater.isChecked()) {
+                    checkBoxDrawingWater.setChecked(false);
+                } else {
+                    checkBoxDrawingWater.setChecked(true);
+                }
+                checkBox(checkBoxDrawingWater);
+            }
+        });
+
+        checkBoxCarryingLightWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCarryingLightWeight.isChecked()) {
+                    checkBoxCarryingLightWeight.setChecked(false);
+                } else {
+                    checkBoxCarryingLightWeight.setChecked(true);
+                }
+                checkBox(checkBoxCarryingLightWeight);
+            }
+        });
+
+        checkBoxWashingCloths1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWashingCloths1.isChecked()) {
+                    checkBoxWashingCloths1.setChecked(false);
+                } else {
+                    checkBoxWashingCloths1.setChecked(true);
+                }
+                checkBox(checkBoxWashingCloths1);
+            }
+        });
+
+        checkBoxGardening1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxGardening1.isChecked()) {
+                    checkBoxGardening1.setChecked(false);
+                } else {
+                    checkBoxGardening1.setChecked(true);
+                }
+                checkBox(checkBoxGardening1);
+            }
+        });
+
+
+        checkBoxMilkingCows1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxMilkingCows1.isChecked()) {
+                    checkBoxMilkingCows1.setChecked(false);
+                } else {
+                    checkBoxMilkingCows1.setChecked(true);
+                }
+                checkBox(checkBoxMilkingCows1);
+            }
+        });
+        checkBoxMilkingCows1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxMilkingCows1.isChecked()) {
+                    checkBoxMilkingCows1.setChecked(false);
+                } else {
+                    checkBoxMilkingCows1.setChecked(true);
+                }
+                checkBox(checkBoxMilkingCows1);
+            }
+        });
+        checkBoxRoping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxRoping.isChecked()) {
+                    checkBoxRoping.setChecked(false);
+                } else {
+                    checkBoxRoping.setChecked(true);
+                }
+                checkBox(checkBoxRoping);
+            }
+        });
+        checkBoxFarming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFarming.isChecked()) {
+                    checkBoxFarming.setChecked(false);
+                } else {
+                    checkBoxFarming.setChecked(true);
+                }
+                checkBox(checkBoxFarming);
+            }
+        });
+        checkBoxParlour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxParlour.isChecked()) {
+                    checkBoxParlour.setChecked(false);
+                } else {
+                    checkBoxParlour.setChecked(true);
+                }
+                checkBox(checkBoxParlour);
+            }
+        });
+        checkBoxCloth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCloth.isChecked()) {
+                    checkBoxCloth.setChecked(false);
+                } else {
+                    checkBoxCloth.setChecked(true);
+                }
+                checkBox(checkBoxCloth);
+            }
+        });
+        checkBoxHouseHoldWork1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHouseHoldWork1.isChecked()) {
+                    checkBoxHouseHoldWork1.setChecked(false);
+                } else {
+                    checkBoxHouseHoldWork1.setChecked(true);
+                }
+                checkBox(checkBoxHouseHoldWork1);
+            }
+        });
+        checkBoxOthers1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthers1.isChecked()) {
+                    checkBoxOthers1.setChecked(false);
+                } else {
+                    checkBoxOthers1.setChecked(true);
+                }
+                checkBox(checkBoxOthers1);
+            }
+        });
 
     }
+
+    private void initVigiorosIntensityClickListener() {
+
+
+
+        checkBoxHeaveyLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHeaveyLoad.isChecked()) {
+                    checkBoxHeaveyLoad.setChecked(false);
+                } else {
+                    checkBoxHeaveyLoad.setChecked(true);
+                }
+                checkBox(checkBoxHeaveyLoad);
+            }
+        });
+        checkBoxDigging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxDigging.isChecked()) {
+                    checkBoxDigging.setChecked(false);
+                } else {
+                    checkBoxDigging.setChecked(true);
+                }
+                checkBox(checkBoxDigging);
+            }
+        });
+        checkBoxFurniture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFurniture.isChecked()) {
+                    checkBoxFurniture.setChecked(false);
+                } else {
+                    checkBoxFurniture.setChecked(true);
+                }
+                checkBox(checkBoxFurniture);
+            }
+        });
+        checkBoxPickingCrops.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxPickingCrops.isChecked()) {
+                    checkBoxPickingCrops.setChecked(false);
+                } else {
+                    checkBoxPickingCrops.setChecked(true);
+                }
+                checkBox(checkBoxPickingCrops);
+            }
+        });
+        checkBoxCuttingTrees.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCuttingTrees.isChecked()) {
+                    checkBoxCuttingTrees.setChecked(false);
+                } else {
+                    checkBoxCuttingTrees.setChecked(true);
+                }
+                checkBox(checkBoxCuttingTrees);
+            }
+        });
+        checkBoxBreakUpPaddy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxBreakUpPaddy.isChecked()) {
+                    checkBoxBreakUpPaddy.setChecked(false);
+                } else {
+                    checkBoxBreakUpPaddy.setChecked(true);
+                }
+                checkBox(checkBoxBreakUpPaddy);
+            }
+        });
+
+
+
+        checkBoxDrivingRickshaw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxDrivingRickshaw.isChecked()) {
+                    checkBoxDrivingRickshaw.setChecked(false);
+                } else {
+                    checkBoxDrivingRickshaw.setChecked(true);
+                }
+                checkBox(checkBoxDrivingRickshaw);
+            }
+        });
+
+
+        checkBoxFishing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFishing.isChecked()) {
+                    checkBoxFishing.setChecked(false);
+                } else {
+                    checkBoxFishing.setChecked(true);
+                }
+                checkBox(checkBoxFishing);
+            }
+        });
+
+        checkBoxPlouging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxPlouging.isChecked()) {
+                    checkBoxPlouging.setChecked(false);
+                } else {
+                    checkBoxPlouging.setChecked(true);
+                }
+                checkBox(checkBoxPlouging);
+            }
+        });
+
+        checkBoxHeaveyConstructionWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHeaveyConstructionWork.isChecked()) {
+                    checkBoxHeaveyConstructionWork.setChecked(false);
+                } else {
+                    checkBoxHeaveyConstructionWork.setChecked(true);
+                }
+                checkBox(checkBoxHeaveyConstructionWork);
+            }
+        });
+
+        checkBoxHeaveyGoods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHeaveyGoods.isChecked()) {
+                    checkBoxHeaveyGoods.setChecked(false);
+                } else {
+                    checkBoxHeaveyGoods.setChecked(true);
+                }
+                checkBox(checkBoxHeaveyGoods);
+            }
+        });
+
+        checkBoxHeaveyGoodsHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHeaveyGoodsHead.isChecked()) {
+                    checkBoxHeaveyGoodsHead.setChecked(false);
+                } else {
+                    checkBoxHeaveyGoodsHead.setChecked(true);
+                }
+                checkBox(checkBoxHeaveyGoodsHead);
+            }
+        });
+
+        checkBoxSoldDigging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxSoldDigging.isChecked()) {
+                    checkBoxSoldDigging.setChecked(false);
+                } else {
+                    checkBoxSoldDigging.setChecked(true);
+                }
+                checkBox(checkBoxSoldDigging);
+            }
+        });
+
+        checkBoxWashing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWashing.isChecked()) {
+                    checkBoxWashing.setChecked(false);
+                } else {
+                    checkBoxWashing.setChecked(true);
+                }
+                checkBox(checkBoxWashing);
+            }
+        });
+
+
+        checkBoxStepping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxStepping.isChecked()) {
+                    checkBoxStepping.setChecked(false);
+                } else {
+                    checkBoxStepping.setChecked(true);
+                }
+                checkBox(checkBoxStepping);
+            }
+        });
+        checkBoxOthers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthers.isChecked()) {
+                    checkBoxOthers.setChecked(false);
+                } else {
+                    checkBoxOthers.setChecked(true);
+                }
+                checkBox(checkBoxOthers);
+            }
+        });
+
+    }
+
     private void initDiabetisSpinner() {
         yesNoArrayAdapterForSmoke = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForSmoke);
         yesNoArrayAdapterForSmoke.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -356,6 +1069,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForSmoke.get(position).getId());
+                smokeYesNo=yesNoArrayListForSmoke.get(position).getId();
                 if (yesNoArrayListForSmoke.get(position).getId() == 1) {
                     linear_smoke.setVisibility(View.VISIBLE);
                     linear_smoke_per_day.setVisibility(View.VISIBLE);
@@ -383,6 +1097,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForJorda.get(position).getId());
+                jordaYesNo=yesNoArrayListForJorda.get(position).getId();
                 if (yesNoArrayListForJorda.get(position).getId() == 1) {
                     lineat_jorda.setVisibility(View.VISIBLE);
 
@@ -410,6 +1125,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForWorkplace.get(position).getId());
+                workplaceYesNo=yesNoArrayListForWorkplace.get(position).getId();
                 if (yesNoArrayListForWorkplace.get(position).getId() == 1) {
                     linear_workplace.setVisibility(View.VISIBLE);
 
@@ -437,6 +1153,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForAlcohol.get(position).getId());
+                alcoholYesNo=yesNoArrayListForAlcohol.get(position).getId();
                 if (yesNoArrayListForAlcohol.get(position).getId() == 1) {
                     linear_alcohol.setVisibility(View.VISIBLE);
 
@@ -464,6 +1181,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForFruits.get(position).getId());
+                typicalFruits=yesNoArrayListForFruits.get(position).getId();
 //                if (yesNoArrayListForFruits.get(position).getId() == 1) {
 //                    linear_f.setVisibility(View.VISIBLE);
 //
@@ -491,6 +1209,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForFruitsCard.get(position).getId());
+                fruitsShowCard=yesNoArrayListForFruitsCard.get(position).getId();
 
             }
 
@@ -509,6 +1228,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVegetables.get(position).getId());
+                typicalVegetables=yesNoArrayListForVegetables.get(position).getId();
 
             }
 
@@ -527,6 +1247,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVegetablesCard.get(position).getId());
+                vegetablesShowCard=yesNoArrayListForVegetablesCard.get(position).getId();
 
             }
 
@@ -545,6 +1266,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForSaltBuy.get(position).getId());
+                saltyBuy=yesNoArrayListForSaltBuy.get(position).getId();
 
             }
 
@@ -563,6 +1285,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForTakingSalt.get(position).getId());
+                takingSalt=yesNoArrayListForTakingSalt.get(position).getId();
 
                 if (yesNoArrayListForTakingSalt.get(position).getId() == 1) {
                     linear_taking_meal.setVisibility(View.VISIBLE);
@@ -589,6 +1312,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVigorousIntensityHeart.get(position).getId());
+                vigorousIntensity=yesNoArrayListForVigorousIntensityHeart.get(position).getId();
 
                 if (yesNoArrayListForTakingSalt.get(position).getId() == 1) {
                     linear_heart_show_card.setVisibility(View.VISIBLE);
@@ -621,6 +1345,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForModerateIntensityHeart.get(position).getId());
+                moderateIntensity=yesNoArrayListForModerateIntensityHeart.get(position).getId();
 
                 if (yesNoArrayListForModerateIntensityHeart.get(position).getId() == 1) {
                     linear_heart_show_moderate_card.setVisibility(View.VISIBLE);
@@ -653,7 +1378,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVigorousRecreationalHeart.get(position).getId());
-
+                vigorousIntensityRecreational=yesNoArrayListForVigorousRecreationalHeart.get(position).getId();
                 if (yesNoArrayListForVigorousRecreationalHeart.get(position).getId() == 1) {
                     linear_recreational_activities.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical.setVisibility(View.VISIBLE);
@@ -685,7 +1410,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForModerateRecreationalHeartt.get(position).getId());
-
+                moderateIntensityRecreational=yesNoArrayListForModerateRecreationalHeartt.get(position).getId();
                 if (yesNoArrayListForModerateRecreationalHeartt.get(position).getId() == 1) {
                     linear_moderate_intensity_recreational_activities.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical.setVisibility(View.VISIBLE);
@@ -717,7 +1442,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForReclinig.get(position).getId());
-
+                recliningActivities=yesNoArrayListForReclinig.get(position).getId();
                 if (yesNoArrayListForReclinig.get(position).getId() == 1) {
                     linear_reclining.setVisibility(View.VISIBLE);
 
@@ -746,7 +1471,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForTypicalVigorous.get(position).getId());
 
-
+                vigorousIntensityTypical=yesNoArrayListForTypicalVigorous.get(position).getId();
             }
 
             @Override
@@ -765,6 +1490,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForModerate.get(position).getId());
+                moderateIntensityTypical=yesNoArrayListForModerate.get(position).getId();
 
             }
 
@@ -783,7 +1509,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForTypicalVigorousRecreation.get(position).getId());
-
+                vigorousIntensityRecreationalTypical=yesNoArrayListForTypicalVigorousRecreation.get(position).getId();
             }
 
             @Override
@@ -801,7 +1527,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForModerateRecreational.get(position).getId());
-
+                moderateIntensityRecreationalTypical=yesNoArrayListForModerateRecreational.get(position).getId();
             }
 
             @Override
@@ -819,11 +1545,462 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
         return true;
     }
+    private String vigiriousIntensity() {
+        String ageList = "";
+        for (int i = 0; i < 5; i++) {
+            if (isVigiriousIntensityChecked(i)) {
+                if (isNullOrEmpty(ageList))
+                    ageList = String.valueOf((i));
+                else
+                    ageList = ageList + "," + (i) + "";
+            }
+        }
 
+        if (ageList.length() > 0) {
+            return ageList;
+
+        } else {
+            return "";
+        }
+
+
+    }
+
+    private String vigorousIntensityRecreational() {
+        String ageList = "";
+        for (int i = 0; i < 5; i++) {
+            if (isVigorousIntensityRecreationalChecked(i)) {
+                if (isNullOrEmpty(ageList))
+                    ageList = String.valueOf((i));
+                else
+                    ageList = ageList + "," + (i) + "";
+            }
+        }
+
+        if (ageList.length() > 0) {
+            return ageList;
+
+        } else {
+            return "";
+        }
+
+
+    }
+    private String moderateIntensityRecreational() {
+        String ageList = "";
+        for (int i = 0; i < 5; i++) {
+            if (isModerateIntensityRecreationalChecked(i)) {
+                if (isNullOrEmpty(ageList))
+                    ageList = String.valueOf((i));
+                else
+                    ageList = ageList + "," + (i) + "";
+            }
+        }
+
+        if (ageList.length() > 0) {
+            return ageList;
+
+        } else {
+            return "";
+        }
+
+
+    }
+    private String moderateIntensity() {
+        String ageList = "";
+        for (int i = 0; i < 5; i++) {
+            if (isModerateIntensityChecked(i)) {
+                if (isNullOrEmpty(ageList))
+                    ageList = String.valueOf((i));
+                else
+                    ageList = ageList + "," + (i) + "";
+            }
+        }
+
+        if (ageList.length() > 0) {
+            return ageList;
+
+        } else {
+            return "";
+        }
+
+
+    }
+
+    private boolean isVigiriousIntensityChecked(int pos) {
+        if (pos == 1 && checkBoxHeaveyLoad.isChecked())
+            return true;
+        if (pos == 2 && checkBoxDigging.isChecked())
+            return true;
+        if (pos == 3 && checkBoxFurniture.isChecked())
+            return true;
+        if (pos == 4 && checkBoxPickingCrops.isChecked())
+            return true;
+        if (pos == 5 && checkBoxCuttingTrees.isChecked())
+            return true;
+        if (pos == 6 && checkBoxBreakUpPaddy.isChecked())
+            return true;
+        if (pos == 7 && checkBoxDrivingRickshaw.isChecked())
+            return true;
+        if (pos == 8 && checkBoxFishing.isChecked())
+            return true;
+        if (pos == 9 && checkBoxPlouging.isChecked())
+            return true;
+        if (pos == 10 && checkBoxHeaveyConstructionWork.isChecked())
+            return true;
+        if (pos == 11 && checkBoxHeaveyGoods.isChecked())
+            return true;
+        if (pos == 12 && checkBoxHeaveyGoodsHead.isChecked())
+            return true;
+        if (pos == 13 && checkBoxSoldDigging.isChecked())
+            return true;
+        if (pos == 14 && checkBoxWashing.isChecked())
+            return true;
+        if (pos == 15 && checkBoxStepping.isChecked())
+            return true;
+        if (pos == 16 && checkBoxOthers.isChecked())
+            return true;
+
+
+        return false;
+    }
+
+
+    private boolean isModerateIntensityRecreationalChecked(int pos) {
+
+        if (pos == 1 && checkBoxFastWalking.isChecked())
+            return true;
+        if (pos == 2 && checkBoxJogging.isChecked())
+            return true;
+        if (pos == 3 && checkBoxCycling.isChecked())
+            return true;
+        if (pos == 4 && checkBoxCricket.isChecked())
+            return true;
+        if (pos == 5 && checkBoxYoga.isChecked())
+            return true;
+        if (pos == 6 && checkBoxAerobics.isChecked())
+            return true;
+        if (pos == 7 && checkBoxExercise.isChecked())
+            return true;
+        if (pos == 8 && checkBoxOthersDancing.isChecked())
+            return true;
+        if (pos == 8 && checkBoxOthers_moderate_recreational_others.isChecked())
+            return true;
+        return false;
+    }
+    private boolean isVigorousIntensityRecreationalChecked(int pos) {
+
+        if (pos == 1 && checkBoxRunning.isChecked())
+            return true;
+        if (pos == 2 && checkBoxBadminton.isChecked())
+            return true;
+        if (pos == 3 && checkBoxSwimming.isChecked())
+            return true;
+        if (pos == 4 && checkBoxHockey.isChecked())
+            return true;
+        if (pos == 5 && checkBoxHadudu.isChecked())
+            return true;
+        if (pos == 6 && checkBoxFootbal.isChecked())
+            return true;
+        if (pos == 7 && checkBoxVolleyball.isChecked())
+            return true;
+        if (pos == 8 && checkBoxTenis.isChecked())
+            return true;
+        if (pos == 8 && checkBoxOthers_recreational.isChecked())
+            return true;
+        return false;
+    }
+    private boolean isModerateIntensityChecked(int pos) {
+
+
+        if (pos == 1 && checkBoxHouseHoldWork.isChecked())
+            return true;
+        if (pos == 2 && checkBoxGardening.isChecked())
+            return true;
+        if (pos == 3 && checkBoxMilkingCows.isChecked())
+            return true;
+        if (pos == 4 && checkBoxCultivatingLand.isChecked())
+            return true;
+        if (pos == 5 && checkBoxPlantingHarvest.isChecked())
+            return true;
+        if (pos == 6 && checkBoxWeavingCloth.isChecked())
+            return true;
+        if (pos == 7 && checkBoxWashingCloths.isChecked())
+            return true;
+        if (pos == 8 && checkBoxRearing.isChecked())
+            return true;
+        if (pos == 9 && checkBoxMixingCement.isChecked())
+            return true;
+        if (pos == 10 && checkBoxWoodWork.isChecked())
+            return true;
+        if (pos == 11 && checkBoxDrawingWater.isChecked())
+            return true;
+        if (pos == 12 && checkBoxCarryingLightWeight.isChecked())
+            return true;
+        if (pos == 13 && checkBoxWashingCloths1.isChecked())
+            return true;
+        if (pos == 14 && checkBoxGardening1.isChecked())
+            return true;
+        if (pos == 15 && checkBoxMilkingCows1.isChecked())
+            return true;
+        if (pos == 16 && checkBoxRoping.isChecked())
+            return true;
+        if (pos == 17 && checkBoxFarming.isChecked())
+            return true;
+        if (pos == 18 && checkBoxParlour.isChecked())
+            return true;
+        if (pos == 19 && checkBoxCloth.isChecked())
+            return true;
+        if (pos == 20 && checkBoxHouseHoldWork1.isChecked())
+            return true;
+        if (pos == 21 && checkBoxOthers1.isChecked())
+            return true;
+
+        return false;
+    }
+    private void checkBox(CheckBox checkBox) {
+        {
+            if (!checkBox.isChecked())
+                checkBox.setChecked(true);
+            else if (checkBox.isChecked())
+                checkBox.setChecked(false);
+        }
+
+    }
     private void saveData() {
 
         if (isChecked()) {
-            //  HHCreateMemberFragment.nextPage(1);
+            MemberHabit memberHabit = new MemberHabit();
+            int id= Common.memberMyselfRepository.maxValue();
+
+            MemberMyself memberMyself=Common.memberMyselfRepository.getMemberMyselfNo(id);
+            memberHabit.MemberMyselfPhoneNumber=memberMyself.MobileNumber;
+
+            MemberHabit memberHabit1=Common.memberHabitRepository.getMemberHabitNo(memberMyself.MobileNumber);
+            if (memberHabit1==null) {
+                memberHabit.SmokeYesNo = smokeYesNo;
+                if (smokeYesNo == 2) {
+
+                } else {
+
+                    try {
+                        memberHabit.SmokeYesYears = Integer.parseInt(edit_smoke_years.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.SmokeYesYears = 0;
+                    }
+                    try {
+                        memberHabit.SmokeYesPerday = Integer.parseInt(edit_smoke_stick.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.SmokeYesPerday = 0;
+                    }
+
+
+                }
+                memberHabit.JordaYesNo = jordaYesNo;
+                if (jordaYesNo == 2) {
+
+                } else {
+                    try {
+                        memberHabit.JordaYears = Integer.parseInt(edit_jorda.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.JordaYears = 0;
+                    }
+                }
+                memberHabit.WorkplaceYesNo = workplaceYesNo;
+                if (workplaceYesNo == 2) {
+
+                } else {
+                    try {
+                        memberHabit.WorkplaceYears = Integer.parseInt(edit_workplace.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.WorkplaceYears = 0;
+                    }
+                }
+                memberHabit.AlcoholYesNo = alcoholYesNo;
+                if (alcoholYesNo == 2) {
+
+                } else {
+                    try {
+                        memberHabit.AlcoholYears = Integer.parseInt(edit_alcohol.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.AlcoholYears = 0;
+                    }
+                }
+                memberHabit.FruitsTypicalWeek = typicalFruits;
+                memberHabit.FruitsShowCard = fruitsShowCard;
+                memberHabit.VegetablesTypicalWeek = typicalVegetables;
+                memberHabit.VegetablesShowCard = vegetablesShowCard;
+                memberHabit.SaltBuy = saltyBuy;
+                memberHabit.TakingSalt = takingSalt;
+
+                memberHabit.VigorousIntensityYesNo=vigorousIntensity;
+                memberHabit.VigorousIntensityActivities=vigiriousIntensity();
+                memberHabit.VigorousIntensityTypicalWeek=vigorousIntensityTypical;
+                try {
+                    memberHabit.VigorousIntensityTypicalDay = Integer.parseInt(edit_typical_day.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.VigorousIntensityTypicalDay = 0;
+                }
+                //////
+                memberHabit.ModeratorIntensityYesNo=moderateIntensity;
+                memberHabit.ModeratorIntensityActivities=moderateIntensity();
+                memberHabit.ModeratorIntensityTypicalWeek=moderateIntensityTypical;
+                try {
+                    memberHabit.ModeratorIntensityTypicalDay = Integer.parseInt(edit_typical_day_moderate.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.ModeratorIntensityTypicalDay = 0;
+                }
+                ////
+
+                memberHabit.VigorousIntensityRecreationalYesNo=vigorousIntensityRecreational;
+                memberHabit.VigorousIntensityRecreationalActivities=vigorousIntensityRecreational();
+                memberHabit.VigorousIntensityRecreationalTypicalWeek=vigorousIntensityRecreationalTypical;
+                try {
+                    memberHabit.VigorousIntensityRecreationalTypicalDay = Integer.parseInt(edit_typical_day_recreational.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.VigorousIntensityRecreationalTypicalDay = 0;
+                }
+                ////
+                memberHabit.ModeratorIntensityRecreationalYesNo=moderateIntensityRecreational;
+                memberHabit.ModeratorIntensityRecreationalActivities=moderateIntensityRecreational();
+                memberHabit.ModeratorIntensityRecreationalTypicalWeek=moderateIntensityRecreationalTypical;
+                try {
+                    memberHabit.ModeratorIntensityRecreationalTypicalDay = Integer.parseInt(edit_typical_day_moderate_recreational.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.ModeratorIntensityRecreationalTypicalDay = 0;
+                }
+                memberHabit.ReclinigActivitiesYesNo=recliningActivities;
+                try {
+                    memberHabit.ReclinigActivitiesTypicalDay = Integer.parseInt(edit_yes_reclining.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.ReclinigActivitiesTypicalDay = 0;
+                }
+
+
+                Common.memberHabitRepository.insertToMemberHabit(memberHabit);
+                ((HouseholdHomeActivity) getActivity()).backForDetails();
+            }
+            else {
+                memberHabit.id = memberHabit1.id;
+                memberHabit.SmokeYesNo = smokeYesNo;
+                if (smokeYesNo == 2) {
+
+                } else {
+                    try {
+                        memberHabit.SmokeYesYears = Integer.parseInt(edit_smoke_years.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.SmokeYesYears = 0;
+                    }
+                    try {
+                        memberHabit.SmokeYesPerday = Integer.parseInt(edit_smoke_stick.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.SmokeYesPerday = 0;
+                    }
+                }
+                memberHabit.JordaYesNo = jordaYesNo;
+                if (jordaYesNo == 2) {
+
+                } else {
+                    try {
+                        memberHabit.JordaYears = Integer.parseInt(edit_jorda.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.JordaYears = 0;
+                    }
+                }
+                memberHabit.WorkplaceYesNo = workplaceYesNo;
+                if (workplaceYesNo == 2) {
+
+                } else {
+                    try {
+                        memberHabit.WorkplaceYears = Integer.parseInt(edit_workplace.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.WorkplaceYears = 0;
+                    }
+                }
+                memberHabit.AlcoholYesNo = alcoholYesNo;
+                if (alcoholYesNo == 2) {
+
+                } else {
+                    try {
+                        memberHabit.AlcoholYears = Integer.parseInt(edit_alcohol.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        memberHabit.AlcoholYears = 0;
+                    }
+                }
+                memberHabit.FruitsTypicalWeek = typicalFruits;
+                memberHabit.FruitsShowCard = fruitsShowCard;
+                memberHabit.VegetablesTypicalWeek = typicalVegetables;
+                memberHabit.VegetablesShowCard = vegetablesShowCard;
+                memberHabit.SaltBuy = saltyBuy;
+                memberHabit.TakingSalt = takingSalt;
+
+                memberHabit.VigorousIntensityYesNo=vigorousIntensity;
+                memberHabit.VigorousIntensityActivities=vigiriousIntensity();
+                memberHabit.VigorousIntensityTypicalWeek=vigorousIntensityTypical;
+                try {
+                    memberHabit.VigorousIntensityTypicalDay = Integer.parseInt(edit_typical_day.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.VigorousIntensityTypicalDay = 0;
+                }
+                //////
+                memberHabit.ModeratorIntensityYesNo=moderateIntensity;
+                memberHabit.ModeratorIntensityActivities=moderateIntensity();
+                memberHabit.ModeratorIntensityTypicalWeek=moderateIntensityTypical;
+                try {
+                    memberHabit.ModeratorIntensityTypicalDay = Integer.parseInt(edit_typical_day_moderate.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.ModeratorIntensityTypicalDay = 0;
+                }
+                ////
+
+                memberHabit.VigorousIntensityRecreationalYesNo=vigorousIntensityRecreational;
+                memberHabit.VigorousIntensityRecreationalActivities=vigorousIntensityRecreational();
+                memberHabit.VigorousIntensityRecreationalTypicalWeek=vigorousIntensityRecreationalTypical;
+                try {
+                    memberHabit.VigorousIntensityRecreationalTypicalDay = Integer.parseInt(edit_typical_day_recreational.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.VigorousIntensityRecreationalTypicalDay = 0;
+                }
+                ////
+                memberHabit.ModeratorIntensityRecreationalYesNo=moderateIntensityRecreational;
+                memberHabit.ModeratorIntensityRecreationalActivities=moderateIntensityRecreational();
+                memberHabit.ModeratorIntensityRecreationalTypicalWeek=moderateIntensityRecreationalTypical;
+                try {
+                    memberHabit.ModeratorIntensityRecreationalTypicalDay = Integer.parseInt(edit_typical_day_moderate_recreational.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.ModeratorIntensityRecreationalTypicalDay = 0;
+                }
+                memberHabit.ReclinigActivitiesYesNo=recliningActivities;
+                try {
+                    memberHabit.ReclinigActivitiesTypicalDay = Integer.parseInt(edit_yes_reclining.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    memberHabit.ReclinigActivitiesTypicalDay = 0;
+                }
+
+                Common.memberHabitRepository.updateMemberHabit(memberHabit);
+                ((HouseholdHomeActivity) getActivity()).backForDetails();
+            }
+
         }
     }
 

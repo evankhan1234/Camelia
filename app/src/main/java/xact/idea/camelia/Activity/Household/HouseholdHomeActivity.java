@@ -36,6 +36,8 @@ import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
+import static xact.idea.camelia.Utils.Utils.hideSoftKeyboard;
+
 public class HouseholdHomeActivity extends AppCompatActivity {
     private TextView tv_home_menu;
     private TextView tv_dashboard_menu;
@@ -130,6 +132,8 @@ public class HouseholdHomeActivity extends AppCompatActivity {
              backForDetails();
             }
         });
+
+
     }
     @Override
     public void onBackPressed() {

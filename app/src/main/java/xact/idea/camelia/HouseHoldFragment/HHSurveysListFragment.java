@@ -36,6 +36,10 @@ public class HHSurveysListFragment extends Fragment {
     HHSurveysAdapter mAdapters;
     RecyclerView rcl_this_customer_list;
     FloatingActionButton btn_survey_create;
+    String uniqueId;
+    public HHSurveysListFragment(String unique){
+        uniqueId=unique;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

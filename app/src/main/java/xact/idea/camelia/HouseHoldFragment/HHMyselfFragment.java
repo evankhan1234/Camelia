@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +29,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -141,6 +143,14 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     int livingId;
     int religionId;
     int occupationId;
+    String uniqueId;
+    RelativeLayout relativeLayout;
+
+    public HHMyselfFragment(String uniquKey) {
+        uniqueId=uniquKey;
+        Log.e("uniqueId",""+uniqueId);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -165,6 +175,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         return view;
     }
     private  void initView(){
+        relativeLayout=view.findViewById(R.id.relative);
         linear_birthdate=view.findViewById(R.id.linear_birthdate);
         radioAge=view.findViewById(R.id.radioAge);
         linear_age=view.findViewById(R.id.linear_age);
@@ -185,12 +196,23 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_blood_group=view.findViewById(R.id.spinner_blood_group);
         spinner_living_status=view.findViewById(R.id.spinner_living_status);
         spinner_head=view.findViewById(R.id.spinner_head);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the input method manager
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                // Hide the soft keyboard
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+            }
+        });
 
     }
 
 
     private void initalizeSpinner() {
        // sexArrayList= Utils.getSexList();
+        hideSoftKeyboard(mActivity);
         headArrayList=Utils.getyesNoList();
         religionArrayList=Utils.getReligionList();
         occupationArrayList=Utils.getOccupationList();
@@ -448,29 +470,61 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         if (isChecked()){
 
             try {
-                MemberMyself memberMyself = new MemberMyself();
-                memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
-                memberMyself.MobileNumber= edit_national_id.getText().toString();
-                memberMyself.FullName= edit_name.getText().toString();
-                if (isNullOrEmpty(edit_birthday_date.getText().toString())){
-                    memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
+                MemberMyself myself=Common.memberMyselfRepository.getMemberMyself(edit_mobile_number.getText().toString());
+                if (myself==null){
+                    MemberMyself memberMyself = new MemberMyself();
+                    memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
+                    memberMyself.MobileNumber= edit_national_id.getText().toString();
+                    memberMyself.FullName= edit_name.getText().toString();
+                    if (isNullOrEmpty(edit_birthday_date.getText().toString())){
+                        memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
+                    }
+                    else {
+                        memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
+                    }
+                    Date date = new Date(System.currentTimeMillis());
+                    memberMyself.CreatedDate=date;
+                    memberMyself.GenderId=genderId;
+                    memberMyself.BloodGroupId=bloodGroupId;
+                    memberMyself.ReligionId=religionId;
+                    memberMyself.StudyId=studyId;
+                    memberMyself.MaritialId=maritialId;
+                    memberMyself.OccupationId=occupationId;
+                    memberMyself.LivingId=livingId;
+                    memberMyself.HouseHeadId=headId;
+                    memberMyself.UniqueId=uniqueId;
+                    Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+
+                    HHCreateMemberFragment.nextPage(1);
                 }
                 else {
-                    memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
-                }
-                Date date = new Date(System.currentTimeMillis());
-                memberMyself.CreatedDate=date;
-                memberMyself.GenderId=genderId;
-                memberMyself.BloodGroupId=bloodGroupId;
-                memberMyself.ReligionId=religionId;
-                memberMyself.StudyId=studyId;
-                memberMyself.MaritialId=maritialId;
-                memberMyself.OccupationId=occupationId;
-                memberMyself.LivingId=livingId;
-                memberMyself.HouseHeadId=headId;
-                Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+                    MemberMyself memberMyself = new MemberMyself();
+                    memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
+                    memberMyself.MobileNumber= edit_national_id.getText().toString();
+                    memberMyself.FullName= edit_name.getText().toString();
+                    if (isNullOrEmpty(edit_birthday_date.getText().toString())){
+                        memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
+                    }
+                    else {
+                        memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
+                    }
+                    Date date = new Date(System.currentTimeMillis());
+                    memberMyself.CreatedDate=date;
+                    memberMyself.id=myself.id;
+                    memberMyself.GenderId=genderId;
+                    memberMyself.BloodGroupId=bloodGroupId;
+                    memberMyself.ReligionId=religionId;
+                    memberMyself.StudyId=studyId;
+                    memberMyself.MaritialId=maritialId;
+                    memberMyself.OccupationId=occupationId;
+                    memberMyself.LivingId=livingId;
+                    memberMyself.HouseHeadId=headId;
+                    memberMyself.UniqueId=uniqueId;
+                    Common.memberMyselfRepository.updateMemberMyself(memberMyself);
 
-                HHCreateMemberFragment.nextPage(1);
+                    HHCreateMemberFragment.nextPage(1);
+                }
+
                 HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
             } catch (NumberFormatException e) {
                 e.printStackTrace();

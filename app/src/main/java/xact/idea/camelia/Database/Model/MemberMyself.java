@@ -41,4 +41,6 @@ public class MemberMyself {
     public int LivingId;
     @ColumnInfo(name = "DateOfDeath")
     public String DateOfDeath;
+    @ColumnInfo(name = "UniqueId")
+    public String UniqueId;
 }
