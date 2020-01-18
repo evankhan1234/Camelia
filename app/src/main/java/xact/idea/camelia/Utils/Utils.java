@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
+import xact.idea.camelia.Model.DropDownModel.ControlDiseaseModel;
 import xact.idea.camelia.Model.DropDownModel.EducationModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsCardModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsModel;
@@ -410,6 +411,19 @@ public class Utils {
 
 
         return yesNoModelArrayList;
+
+    }
+    public static ArrayList<ControlDiseaseModel> getControlDiseaseList() {
+        ArrayList<ControlDiseaseModel> controlDiseaseModelArrayList = new ArrayList<>();
+
+        ControlDiseaseModel controlDiseaseModel1= new ControlDiseaseModel("Mouth to Mouth  Medicine", 1);
+        ControlDiseaseModel controlDiseaseModel2 = new ControlDiseaseModel("Don't Know", 2);
+
+        controlDiseaseModelArrayList.add(controlDiseaseModel1);
+        controlDiseaseModelArrayList.add(controlDiseaseModel2);
+
+
+        return controlDiseaseModelArrayList;
 
     }
     public static ArrayList<SaltModel> getSaltModelList() {

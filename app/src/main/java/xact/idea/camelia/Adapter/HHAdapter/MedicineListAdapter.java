@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -23,13 +24,16 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
     SpinnerFilterMedicine filter;
     private Activity mActivity = null;
     public List<String> messageEntities;
-    UccMemberClickListener bookItemInterfaces;
+    MedicineInterface bookItemInterfaces;
+    String types;
 
 
-    public MedicineListAdapter(Activity activity, List<String> messageEntitie, UccMemberClickListener bookItemInterface) {
+    public MedicineListAdapter(Activity activity, List<String> messageEntitie, MedicineInterface bookItemInterface,String type) {
         mActivity = activity;
         this.messageEntities = messageEntitie;
         this.bookItemInterfaces = bookItemInterface;
+        this.types = type;
+
 
     }
 
@@ -50,7 +54,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bookItemInterfaces.onItemClick(position);
+                bookItemInterfaces.postion(position,types);
             }
         });
 
