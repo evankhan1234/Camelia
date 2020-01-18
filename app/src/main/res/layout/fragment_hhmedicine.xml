@@ -185,7 +185,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left"
                                 android:layout_marginTop="50px"
-                                android:layout_marginLeft="50px"
+                                android:layout_marginLeft="30px"
                                 android:tag="40"
                                 android:text="Select"
                                 android:textColor="@color/black"
