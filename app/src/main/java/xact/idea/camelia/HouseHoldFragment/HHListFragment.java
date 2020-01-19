@@ -30,6 +30,7 @@ import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
+import xact.idea.camelia.Database.AnotherModel.HouseHead;
 import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
@@ -110,6 +111,13 @@ public class HHListFragment extends Fragment {
         //EmployeeStaus();
 
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        display();
+    }
+
     private MedicineInterface clickListener = new MedicineInterface() {
         @Override
         public void postion(int position,String Type) {

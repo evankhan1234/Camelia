@@ -3,6 +3,7 @@ package xact.idea.camelia.Database.DataSource;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import xact.idea.camelia.Database.AnotherModel.HouseHead;
 import xact.idea.camelia.Database.Dao.HouseholdDao;
 import xact.idea.camelia.Database.DataSourcesInterface.IHouseholdDataSources;
 import xact.idea.camelia.Database.Model.HouseHold;
@@ -43,6 +44,11 @@ public class HouseholdDataSources implements IHouseholdDataSources {
     @Override
     public int size() {
         return HouseholdDao.value();
+    }
+
+    @Override
+    public Flowable<List<HouseHead>> getHouseHead() {
+        return HouseholdDao.getHouseHead();
     }
 
     @Override

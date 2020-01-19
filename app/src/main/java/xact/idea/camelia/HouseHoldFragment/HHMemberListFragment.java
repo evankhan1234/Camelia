@@ -90,8 +90,8 @@ public class HHMemberListFragment extends Fragment {
             }
         });
     }
-    private  void display() {
-        compositeDisposable.add(Common.memberMyselfRepository.getMemberMyselfItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
+    public   void display() {
+        compositeDisposable.add(Common.memberMyselfRepository.getMemberMyselfItemById(uniqueId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));
@@ -171,6 +171,8 @@ public class HHMemberListFragment extends Fragment {
         infoDialog.show();
     }
     public int handle(){
+        Fragment fq = getVisibleFragment();
+        Log.e("Evan","Evan"+fq);
         Fragment fragment= getChildFragmentManager().findFragmentByTag(HHMemberListFragment.class.getSimpleName());
 
         if (fragment instanceof HHMemberListFragment){

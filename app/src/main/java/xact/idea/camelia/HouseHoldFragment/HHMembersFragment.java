@@ -105,7 +105,9 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
 
         Fragment fragment= getChildFragmentManager().findFragmentByTag(HHMemberListFragment.class.getSimpleName());
         Fragment fragment1= getChildFragmentManager().findFragmentByTag(HHSurveysListFragment.class.getSimpleName());
+        Fragment fragment2= getChildFragmentManager().findFragmentByTag(HHMyselfFragment.class.getSimpleName());
         Log.e("fragment1","fragment1"+fragment1);
+        Log.e("fragment1","fragment2"+fragment2);
         if (fq instanceof HHMemberListFragment){
             ((HHMemberListFragment) fragment).handle();
             return 3;

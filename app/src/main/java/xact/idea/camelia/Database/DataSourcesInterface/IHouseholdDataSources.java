@@ -3,6 +3,7 @@ package xact.idea.camelia.Database.DataSourcesInterface;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import xact.idea.camelia.Database.AnotherModel.HouseHead;
 import xact.idea.camelia.Database.Model.HouseHold;
 
 public interface IHouseholdDataSources {
@@ -15,7 +16,7 @@ public interface IHouseholdDataSources {
     void emptyHouseHold();
 
     int size();
-
+    Flowable<List<HouseHead>> getHouseHead();
     HouseHold getHouseHoldNo(String HouseHoldItem);
 
     void insertToHouseHold(HouseHold... HouseHold);

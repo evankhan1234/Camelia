@@ -25,13 +25,18 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
-    public Flowable<List<MemberMyself>> getMemberMyselfItemById(int MemberMyselfItemId) {
+    public Flowable<List<MemberMyself>> getMemberMyselfItemById(String MemberMyselfItemId) {
         return IMemberMyselfDatasources.getMemberMyselfItemById(MemberMyselfItemId);
     }
 
     @Override
     public MemberMyself getMemberMyself(String MemberMyselfItem) {
         return IMemberMyselfDatasources.getMemberMyself(MemberMyselfItem);
+    }
+
+    @Override
+    public MemberMyself getMemberMyselfForHousehold(String MemberMyselfItem) {
+        return IMemberMyselfDatasources.getMemberMyselfForHousehold(MemberMyselfItem);
     }
 
     @Override

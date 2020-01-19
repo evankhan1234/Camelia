@@ -134,7 +134,7 @@ public class HHCreateHouseholdFragment extends Fragment {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isNullOrEmpty(edit_household.getText().toString()) && isNullOrEmpty(edit_sub_household.getText().toString()) && isNullOrEmpty(edit_family_memeber.getText().toString()) && isNullOrEmpty(edit_household_income.getText().toString())){
+                if (isNullOrEmpty(edit_household.getText().toString()) && isNullOrEmpty(edit_sub_household.getText().toString()) && isNullOrEmpty(edit_family_memeber.getText().toString())&& isNullOrEmpty(edit_village.getText().toString()) && isNullOrEmpty(edit_household_income.getText().toString())){
                     Toast.makeText(mActivity, "Please insert all field", Toast.LENGTH_SHORT).show();
 
                 }

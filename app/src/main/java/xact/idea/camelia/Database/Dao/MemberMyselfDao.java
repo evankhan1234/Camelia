@@ -15,12 +15,14 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 public interface MemberMyselfDao {
     @Query("SELECT * FROM MemberMyself")
     Flowable<List<MemberMyself>> getMemberMyselfItems();
-    @Query("SELECT * FROM MemberMyself WHERE id=:MemberMyselfId")
-    Flowable<List<MemberMyself>> getMemberMyselfItemById(int MemberMyselfId);
+    @Query("SELECT * FROM MemberMyself WHERE UniqueId=:MemberMyselfId")
+    Flowable<List<MemberMyself>> getMemberMyselfItemById(String MemberMyselfId);
     @Query("SELECT * FROM MemberMyself WHERE MobileNumber=:MemberMyselfItem")
     MemberMyself getMemberMyself(String MemberMyselfItem);
     @Query("SELECT * FROM MemberMyself WHERE id=:MemberMyselfItem")
     MemberMyself getMemberMyselfNo(int MemberMyselfItem);
+    @Query("SELECT * FROM MemberMyself WHERE UniqueId=:MemberMyselfItem AND HouseHeadId=1")
+    MemberMyself getMemberMyselfForHousehold(String MemberMyselfItem);
     @Query("Select Count(id)  FROM MemberMyself")
     int value();
     @Query("Select Max(id)  FROM MemberMyself")
