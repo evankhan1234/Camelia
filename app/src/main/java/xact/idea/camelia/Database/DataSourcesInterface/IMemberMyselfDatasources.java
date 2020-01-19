@@ -8,10 +8,10 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 public interface IMemberMyselfDatasources {
     Flowable<List<MemberMyself>> getMemberMyselfItems();
 
-    Flowable<List<MemberMyself>> getMemberMyselfItemById(int MemberMyselfItemId);
+    Flowable<List<MemberMyself>> getMemberMyselfItemById(String MemberMyselfItemId);
 
     MemberMyself getMemberMyself(String MemberMyselfItem);
-
+    MemberMyself getMemberMyselfForHousehold(String MemberMyselfItem);
     void emptyMemberMyself();
     int maxValue();
     int size();

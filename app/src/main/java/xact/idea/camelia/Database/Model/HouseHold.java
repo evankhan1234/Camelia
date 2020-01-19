@@ -25,6 +25,9 @@ public class HouseHold {
     public int UnionId;
     @ColumnInfo(name = "BlockId")
     public int BlockId;
+    @ColumnInfo(name = "FullAddress")
+    public static String FullAddress;
+
     @ColumnInfo(name = "WordId")
     public int WordId;
     @ColumnInfo(name = "HH")
@@ -37,12 +40,12 @@ public class HouseHold {
     public int FamilyMember;
     @ColumnInfo(name = "FamilyIncome")
     public double FamilyIncome;
-
     @ColumnInfo(name = "DateValue")
     public String DateValue;
     @ColumnInfo(name = "Date")
     public Date Date;
     @ColumnInfo(name = "VillageName")
     public String VillageName;
+
 
 }

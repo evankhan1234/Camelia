@@ -21,10 +21,13 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import xact.idea.camelia.Database.AnotherModel.HouseHead;
 import xact.idea.camelia.Database.Model.HouseHold;
+import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboardListiewHolder> {
@@ -53,8 +56,18 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
 
     @Override
     public void onBindViewHolder(final HHListAdapter.CCDashboardListiewHolder holder, final int position) {
-        String head = "<b><font color=#000 >Thana Head :  </font></b> <font color=#444444> Rojob Ali</font>";
-        String number = "<b><font color=#000 >Phone Number :  </font></b> <font color=#444444> +8801677182084</font>";
+        MemberMyself memberMyself= Common.memberMyselfRepository.getMemberMyselfForHousehold(houseHolds.get(position).UniqueId);
+        String head="";
+        String number="";
+        if (memberMyself!=null){
+             head = "<b><font color=#000 >Khana Head :  </font></b> <font color=#444444> "+memberMyself.FullName + "</font>";
+             number = "<b><font color=#000 >Phone Number :  </font></b> <font color=#444444> "+memberMyself.MobileNumber + "</font>";
+        }
+        else {
+            head = "<b><font color=#000 >Khana Head :  </font></b> <font color=#444444>N/A</font>";
+            number = "<b><font color=#000 >Phone Number :  </font></b> <font color=#444444>N/A</font>";
+        }
+
         Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
                 .into(new SimpleTarget<GlideDrawable>() {
                     @Override
@@ -63,7 +76,7 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
                     }
                 });
         holder.text_khana_head.setText(Html.fromHtml(head));
-        holder.text_no.setText(Html.fromHtml(String.valueOf(houseHolds.get(position).MemberId)));
+        holder.text_no.setText(Html.fromHtml(String.valueOf(houseHolds.get(position).UniqueId)));
         holder.text_phone_number.setText(Html.fromHtml(number));
         holder.text_head.setText(Html.fromHtml(houseHolds.get(position).VillageName));
         holder.img_next.setOnClickListener(new View.OnClickListener() {
