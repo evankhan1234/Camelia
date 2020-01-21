@@ -1,8 +1,10 @@
 package xact.idea.camelia.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +20,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
 import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
@@ -95,6 +98,7 @@ public class CCUserActivity extends AppCompatActivity {
     LinearLayout linear_dashboard;
     LinearLayout linear_member_status;
     LinearLayout linear_summary;
+    LinearLayout linear_logout;
     TextView tv_store;
     IRetrofitApi mService;
     RelativeLayout relative;
@@ -106,11 +110,23 @@ public class CCUserActivity extends AppCompatActivity {
         CorrectSizeUtil.getInstance(this).correctSize();
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.root_rlt_dashboard));
         linear_dashboard=findViewById(R.id.linear_dashboard);
+        linear_logout=findViewById(R.id.linear_logout);
         linear_member_status=findViewById(R.id.linear_member_status);
         linear_summary=findViewById(R.id.linear_summary);
         tv_store=findViewById(R.id.tv_store);
         relative = findViewById(R.id.relative);
         tv_store.setSelected(true);
+        linear_logout.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CCUserActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXTRA_SESSION", "dashboard");
+                startActivity(intent);
+                finishAffinity();
+            }
+        });
         linear_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

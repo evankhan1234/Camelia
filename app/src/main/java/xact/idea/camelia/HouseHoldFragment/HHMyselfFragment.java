@@ -1,5 +1,6 @@
 package xact.idea.camelia.HouseHoldFragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -92,15 +93,20 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
+    @SuppressLint("StaticFieldLeak")
     public  static Handler handler;
+    @SuppressLint("StaticFieldLeak")
     static   EditText edit_date_of_death;
     EditText edit_national_id;
     EditText edit_mobile_number;
     EditText edit_name;
     RadioButton radioAge;
     RadioButton radioBirthdate;
+    @SuppressLint("StaticFieldLeak")
     static EditText edit_birthday_date_again;
+    @SuppressLint("StaticFieldLeak")
     static   EditText edit_birthday_date;
+    @SuppressLint("StaticFieldLeak")
     static EditText edit_age;
     Spinner spinner_sex;
     Spinner spinner_religion;
@@ -346,7 +352,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_occupation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("sp_water", "" + headArrayList.get(position).getId());
+             //   Log.e("sp_water", "" + headArrayList.get(position).getId());
                 occupationId=occupationModels.get(position).OccupationId;
             }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,13 +45,28 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
 
     @Override
     public void onBindViewHolder(final HHMemberListAdapter.CCDashboardListiewHolder holder, final int position) {
-        Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        holder.img_avatar.setImageDrawable(resource);
-                    }
-                });
+
+        holder.text_name.setText(memberMyselfes.get(position).FullName);
+        holder.text_phone.setText(memberMyselfes.get(position).MobileNumber);
+
+        if (memberMyselfes.get(position).GenderId==1){
+            Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            holder.img_avatar.setImageDrawable(resource);
+                        }
+                    });
+        }
+        else{
+            Glide.with(mActivity).load("https://previews.123rf.com/images/thesomeday123/thesomeday1231712/thesomeday123171200008/91087328-default-avatar-profile-icon-for-female-grey-photo-placeholder-illustrations-vector.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            holder.img_avatar.setImageDrawable(resource);
+                        }
+                    });
+        }
     }
 
     @Override
@@ -61,11 +77,15 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
     public class CCDashboardListiewHolder extends RecyclerView.ViewHolder {
         CircleImageView img_avatar;
         private Button btn_department;
+        private TextView text_name;
+        private TextView text_phone;
 
 
         public CCDashboardListiewHolder(View itemView) {
             super(itemView);
             img_avatar=itemView.findViewById(R.id.img_avatar);
+            text_name=itemView.findViewById(R.id.text_name);
+            text_phone=itemView.findViewById(R.id.text_phone);
         }
     }
 }

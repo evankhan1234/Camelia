@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/white"
+    android:clickable="true"
     android:layout_height="match_parent"
-    tools:context=".Fragment.CCWaistWidthFragment">
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:background="@color/white"
         android:layout_marginRight="50px"
         android:layout_marginLeft="50px"
-        android:layout_centerInParent="true"
+       android:layout_marginTop="70px"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -64,10 +65,20 @@
                     android:textAlignment="center"
                     android:focusable="false"
                     android:tag="35"
-                    android:textSize="35px" android:id="@+id/edit_retail_code" android:background="@drawable/input_bg" android:padding="25px" android:layout_width="match_parent" android:layout_height="120px" android:layout_marginBottom="10px" android:text="03:35:46 AM" android:ems="10" android:inputType="textPersonName"/>
+                    android:textSize="35px"
+                    android:id="@+id/edit_time"
+                    android:background="@drawable/input_bg"
+                    android:padding="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="120px"
+                    android:layout_marginBottom="10px"
+                    android:text="03:35:46 AM"
+                    android:ems="10"
+                    android:inputType="textPersonName"/>
             </LinearLayout>
         </LinearLayout>
         <TextView
+            android:visibility="gone"
             android:layout_marginTop="20px"
             android:textSize="35px"
             android:tag="35"
@@ -79,6 +90,7 @@
             android:layout_marginBottom="8px"
             android:text="Height in ft"/>
         <EditText
+            android:visibility="gone"
             android:textSize="35px"
             android:tag="35"
             android:id="@+id/edit_waist_circum"
@@ -100,19 +112,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8px"
-            android:text="Height in inch"/>
+            android:text="Weight in kg"/>
         <EditText
             android:textSize="35px"
             android:tag="35"
-            android:id="@+id/edit_hp_circum"
+            android:id="@+id/edit_weight"
             android:background="@drawable/input_bg"
             android:padding="25px"
             android:layout_width="match_parent"
             android:layout_height="120px"
             android:layout_marginBottom="10px"
-            android:hint="mmHg"
+            android:hint="kg"
             android:ems="10"
-            android:inputType="phone"/>
+            android:inputType="numberDecimal"/>
         <TextView
             android:layout_marginTop="20px"
             android:textSize="35px"
@@ -123,19 +135,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8px"
-            android:text="Weight in kg"/>
+            android:text="Height in inch"/>
         <EditText
             android:textSize="35px"
             android:tag="35"
-            android:id="@+id/edit_whr"
+            android:id="@+id/edit_height"
             android:background="@drawable/input_bg"
             android:padding="25px"
             android:layout_width="match_parent"
             android:layout_height="120px"
             android:layout_marginBottom="10px"
-            android:hint="kg"
+            android:hint="mmHg"
             android:ems="10"
-            android:inputType="phone"/>
+            android:inputType="numberDecimal"/>
+
+
+        <LinearLayout
+            android:id="@+id/linear"
+            android:visibility="gone"
+            android:layout_marginTop="20px"
+
+            android:background="@drawable/btn_background"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="200px">
+
+
+            <TextView
+                android:id="@+id/text_bmi_number"
+                android:textAlignment="center"
+                android:layout_marginTop="20px"
+                android:textSize="45px"
+                android:tag="45"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8px"
+                android:text="Height in inch"/>
+            <TextView
+                android:id="@+id/text_bmi_text"
+                android:textAlignment="center"
+                android:layout_marginTop="20px"
+                android:textSize="45px"
+                android:tag="45"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8px"
+                android:text="Height in inch"/>
+
+        </LinearLayout>
+
         <Button
 
             android:backgroundTint="#000"
@@ -148,7 +202,7 @@
             android:paddingBottom="25px"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:layout_marginTop="10px"
+            android:layout_marginTop="20px"
             android:layout_marginBottom="25px"
             android:text="Done"
             android:fontFamily="sans-serif"

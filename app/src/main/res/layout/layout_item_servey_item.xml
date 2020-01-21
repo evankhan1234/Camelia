@@ -57,19 +57,87 @@
                         <TextView
                             android:drawablePadding="20px"
                             android:drawableLeft="@drawable/ic_date_vector_dark"
-                            android:id="@+id/text_dacte"
+                            android:id="@+id/text_date"
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="40px"
 
-                            android:tag="50"
+                            android:tag="55"
                             android:text="Sep 26,2019"
                             android:textColor="#000"
-                            android:textSize="50px" />
+                            android:textSize="55px" />
 
 
                     </RelativeLayout>
+                    <LinearLayout
+                        android:weightSum="2"
+                        android:layout_marginTop="20px"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:drawablePadding="20px"
+                            android:id="@+id/text_safe_drinking"
+                            android:layout_width="0dp"
+
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40px"
+
+                            android:tag="40"
+                            android:text="Sep 26,2019"
+                            android:textColor="#000"
+                            android:textSize="40px" />
+                        <TextView
+                            android:layout_weight="1"
+                            android:drawablePadding="20px"
+                            android:id="@+id/text_sanitary"
+                            android:layout_width="0dp"
+
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40px"
+
+                            android:tag="40"
+                            android:text="Sep 26,2019"
+                            android:textColor="#000"
+                            android:textSize="40px" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:weightSum="2"
+                        android:layout_marginTop="20px"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:drawablePadding="20px"
+                            android:id="@+id/text_bondho"
+                            android:layout_width="0dp"
+
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40px"
+
+                            android:tag="40"
+                            android:text="Sep 26,2019"
+                            android:textColor="#000"
+                            android:textSize="40px" />
+                        <TextView
+                            android:layout_weight="1"
+                            android:drawablePadding="20px"
+                            android:id="@+id/text_biomas_fuel"
+                            android:layout_width="0dp"
+
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="40px"
+
+                            android:tag="40"
+                            android:text="Sep 26,2019"
+                            android:textColor="#000"
+                            android:textSize="40px" />
+                    </LinearLayout>
                     <LinearLayout
 
                         android:gravity="center"

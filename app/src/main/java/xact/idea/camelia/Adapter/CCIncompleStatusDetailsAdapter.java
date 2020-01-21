@@ -92,7 +92,7 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
     @Override
     public int getItemCount() {
         // Log.e("evan", "sd" + messageEntities.size());
-        return 20;
+        return 6;
     }
 
     public class CCIncompleteStatusListiewHolder extends RecyclerView.ViewHolder {

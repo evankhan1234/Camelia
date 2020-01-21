@@ -13,10 +13,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
+import xact.idea.camelia.Adapter.HHAdapter.HHMemberListAdapter;
+import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 
@@ -26,6 +38,8 @@ public class IncompleteFragment extends Fragment {
     View view;
     RecyclerView rcl_this_customer_list;
     CCIncompleteStatusAdapter mAdapters;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    List<MemberMyself> memberMyselfList= new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,7 +50,7 @@ public class IncompleteFragment extends Fragment {
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
         initView();
-        display();
+       /// display();
 
         return view;
     }
@@ -71,6 +85,7 @@ public class IncompleteFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        display();
     }
 
     private void initView() {
@@ -79,16 +94,38 @@ public class IncompleteFragment extends Fragment {
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);
     }
-    private  void display() {
 
-        mAdapters = new CCIncompleteStatusAdapter(mActivity,clickListener);
-        try {
-            rcl_this_customer_list.setAdapter(mAdapters);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public   void display() {
+        compositeDisposable.add(Common.memberMyselfRepository.getMemberMyselfItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
+            @Override
+            public void accept(List<MemberMyself> memberMyselfes) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));
+                memberMyselfList=memberMyselfes;
+                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
+                try {
+                    rcl_this_customer_list.setAdapter(mAdapters);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }));
+
         //EmployeeStaus();
 
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        compositeDisposable.clear();
     }
     public int handle(){
 

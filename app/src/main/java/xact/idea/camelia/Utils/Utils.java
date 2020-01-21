@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import xact.idea.camelia.Model.DropDownModel.BiomasFuelModel;
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
 import xact.idea.camelia.Model.DropDownModel.ControlDiseaseModel;
 import xact.idea.camelia.Model.DropDownModel.EducationModel;
@@ -34,6 +35,7 @@ import xact.idea.camelia.Model.DropDownModel.OccupationModel;
 import xact.idea.camelia.Model.DropDownModel.ReligionModel;
 import xact.idea.camelia.Model.DropDownModel.SaltModel;
 import xact.idea.camelia.Model.DropDownModel.SexModel;
+import xact.idea.camelia.Model.DropDownModel.TubewellModel;
 import xact.idea.camelia.Model.DropDownModel.TypicalVigorousModel;
 import xact.idea.camelia.Model.DropDownModel.TypicalVigorousRecreationModel;
 import xact.idea.camelia.Model.DropDownModel.VegetableModel;
@@ -93,6 +95,7 @@ public class Utils {
 //                activity.getCurrentFocus().getWindowToken(), 0);
       //  inputMethodManager.hideSoftInputFromWindow(Objects.requireNonNull(activity.getCurrentFocus()).getWindowToken(), 0);
     }
+
     public static void dismissLoadingProgress() {
 
 
@@ -339,7 +342,47 @@ public class Utils {
         return religionModelArrayList;
 
     }
+    public static ArrayList<TubewellModel> getTubewellList(Activity mActivity) {
+        ArrayList<TubewellModel> sexModelArrayList = new ArrayList<>();
+        TubewellModel maritialStatusUnmarried = new TubewellModel(mActivity.getResources().getString(R.string.tubewell), 1);
+        TubewellModel maritialStatusMarried = new TubewellModel(mActivity.getResources().getString(R.string.filter_water), 2);
+        TubewellModel maritialStatusDivorced = new TubewellModel(mActivity.getResources().getString(R.string.tap_water), 3);
+        TubewellModel maritialStatusWidow = new TubewellModel(mActivity.getResources().getString(R.string.boil_water), 4);
+        TubewellModel maritialStatusWidower = new TubewellModel(mActivity.getResources().getString(R.string.chlorine_water), 5);
+        sexModelArrayList.add(maritialStatusUnmarried);
+        sexModelArrayList.add(maritialStatusMarried);
+        sexModelArrayList.add(maritialStatusDivorced);
+        sexModelArrayList.add(maritialStatusWidow);
+        sexModelArrayList.add(maritialStatusWidower);
+        return sexModelArrayList;
 
+    }
+    public static ArrayList<BiomasFuelModel> getBiomasFuelList(Activity mActivity) {
+
+        ArrayList<BiomasFuelModel> sexModelArrayList = new ArrayList<>();
+        BiomasFuelModel maritialStatusUnmarried = new BiomasFuelModel(mActivity.getResources().getString(R.string.kath), 1);
+        BiomasFuelModel maritialStatusMarried = new BiomasFuelModel(mActivity.getResources().getString(R.string.patkhori), 2);
+        BiomasFuelModel maritialStatusDivorced = new BiomasFuelModel(mActivity.getResources().getString(R.string.gobor), 3);
+        BiomasFuelModel maritialStatusWidow = new BiomasFuelModel(mActivity.getResources().getString(R.string.fosol), 4);
+        BiomasFuelModel maritialStatusWidower1 = new BiomasFuelModel(mActivity.getResources().getString(R.string.kura), 5);
+        BiomasFuelModel maritialStatusWidower2 = new BiomasFuelModel(mActivity.getResources().getString(R.string.alchocol), 6);
+        BiomasFuelModel maritialStatusWidower3 = new BiomasFuelModel(mActivity.getResources().getString(R.string.kerosin_chula), 7);
+        BiomasFuelModel maritialStatusWidower4 = new BiomasFuelModel(mActivity.getResources().getString(R.string.land_fill_gas), 8);
+        BiomasFuelModel maritialStatusWidower5 = new BiomasFuelModel(mActivity.getResources().getString(R.string.electric_chula), 9);
+        BiomasFuelModel maritialStatusWidower6 = new BiomasFuelModel(mActivity.getResources().getString(R.string.ittadi), 10);
+        sexModelArrayList.add(maritialStatusUnmarried);
+        sexModelArrayList.add(maritialStatusMarried);
+        sexModelArrayList.add(maritialStatusDivorced);
+        sexModelArrayList.add(maritialStatusWidow);
+        sexModelArrayList.add(maritialStatusWidower1);
+        sexModelArrayList.add(maritialStatusWidower2);
+        sexModelArrayList.add(maritialStatusWidower3);
+        sexModelArrayList.add(maritialStatusWidower4);
+        sexModelArrayList.add(maritialStatusWidower5);
+        sexModelArrayList.add(maritialStatusWidower6);
+        return sexModelArrayList;
+
+    }
     public static ArrayList<MaritialStatusModel> getMaritialStatusList() {
         ArrayList<MaritialStatusModel> sexModelArrayList = new ArrayList<>();
         MaritialStatusModel maritialStatusUnmarried = new MaritialStatusModel("Unmarried", 1);

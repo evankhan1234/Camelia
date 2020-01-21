@@ -8,7 +8,7 @@ import xact.idea.camelia.Database.Model.Survey;
 public interface ISurveyDataSources {
     Flowable<List<Survey>> getSurveyItems();
 
-    Flowable<List<Survey>> getSurveyItemById(int SurveyItemId);
+    Flowable<List<Survey>> getSurveyItemById(String SurveyItemId);
 
     Survey getSurvey(String SurveyItem);
 
