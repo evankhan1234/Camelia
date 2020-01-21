@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -131,7 +132,10 @@ public class CCUserHomeActivity extends AppCompatActivity {
         btn_header_back_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                // Hide the soft keyboard
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 backForDetails();
             }
         });
@@ -405,11 +409,11 @@ public class CCUserHomeActivity extends AppCompatActivity {
         details_title.setText(name);
     }
 
-    public void openStatusDetails(int position) {
+    public void openStatusDetails(int position,String Type) {
        Fragment fragment= getSupportFragmentManager().findFragmentByTag(CCUserMemberStatusFragment.class.getSimpleName());
 
         if (fragment instanceof CCUserMemberStatusFragment){
-            ((CCUserMemberStatusFragment) fragment).data(position);
+            ((CCUserMemberStatusFragment) fragment).data(position,Type);
         }
 
     }

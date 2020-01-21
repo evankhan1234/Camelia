@@ -158,11 +158,12 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
         return null;
     }
 
-    public void data(int position){
+    public void data(int position,String Type){
         FragmentTransaction transaction;
         transaction = getChildFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putInt("Id",position);
+        bundle.putString("Type",Type);
         Fragment f = new CCMemberStausDetailsFragment();
         f.setArguments(bundle);
         transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);

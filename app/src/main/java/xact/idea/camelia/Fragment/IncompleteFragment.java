@@ -26,6 +26,7 @@ import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHMemberListAdapter;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
@@ -55,9 +56,9 @@ public class IncompleteFragment extends Fragment {
         return view;
     }
 
-    private UccMemberClickListener clickListener = new UccMemberClickListener() {
+    private MedicineInterface clickListener = new MedicineInterface() {
         @Override
-        public void onItemClick(int position) {
+        public void postion(int position,String Type) {
 //            FragmentTransaction transaction;
 //            transaction = getChildFragmentManager().beginTransaction();
 //            Bundle bundle = new Bundle();
@@ -79,7 +80,7 @@ public class IncompleteFragment extends Fragment {
 //            });
 //           // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
 //            ((CCUserHomeActivity) getActivity()).ShowText("Details");
-            ((CCUserHomeActivity) getActivity()).openStatusDetails(position);
+            ((CCUserHomeActivity) getActivity()).openStatusDetails(position,Type);
         }
     };
     @Override

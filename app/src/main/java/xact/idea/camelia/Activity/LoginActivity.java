@@ -166,12 +166,12 @@ public class LoginActivity extends AppCompatActivity {
                                         login.gender = loginEntity.data.profile.gender;
                                         login.image = loginEntity.data.profile.image;
                                         login.phone = loginEntity.data.profile.phone;
-                                        login.division = loginEntity.data.workingarea.division_code;
-                                        login.district = loginEntity.data.workingarea.district_code;
-                                        login.upazila = loginEntity.data.workingarea.upazila_code;
-                                        login.union = loginEntity.data.workingarea.union_code;
-                                        login.block = loginEntity.data.workingarea.block_code;
-                                        login.ward = loginEntity.data.workingarea.ward_code;
+                                        login.division = loginEntity.data.workingarea.division_id;
+                                        login.district = loginEntity.data.workingarea.district_id;
+                                        login.upazila = loginEntity.data.workingarea.upazila_id;
+                                        login.union = loginEntity.data.workingarea.union_id;
+                                        login.block = loginEntity.data.workingarea.block_id;
+                                        login.ward = loginEntity.data.workingarea.ward_id;
                                         login.village = loginEntity.data.workingarea.village;
                                         Common.authRepository.insertToAuth(login);
                                         if (loginEntity.data.role_code.equals("hh")){

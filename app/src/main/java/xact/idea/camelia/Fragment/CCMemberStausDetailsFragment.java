@@ -36,7 +36,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
     RecyclerView rcv_customer;
     CCIncompleStatusDetailsAdapter mAdapters;
     FloatingActionButton btn_measurements_new;
-
+    String type;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,6 +46,11 @@ public class CCMemberStausDetailsFragment extends Fragment {
         correctSizeUtil = correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            type = bundle.getString("Type", "");
+            Log.e("UniqueId","uniquKey"+type);
+        }
         initView();
         display();
         return view;
@@ -63,6 +68,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
+                bundle.putString("Type",type);
                 Fragment f = new CCuserMesaurementsFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
