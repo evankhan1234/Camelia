@@ -26,7 +26,7 @@ public class SurveyRepository implements ISurveyDataSources {
     }
 
     @Override
-    public Flowable<List<Survey>> getSurveyItemById(int SurveyItemId) {
+    public Flowable<List<Survey>> getSurveyItemById(String SurveyItemId) {
         return ISurveyDataSources.getSurveyItemById(SurveyItemId);
     }
 

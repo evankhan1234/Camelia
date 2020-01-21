@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class HHListFragment extends Fragment {
     HHListAdapter mAdapters;
     RecyclerView rcl_this_customer_list;
     FloatingActionButton btn_new;
+    List<HouseHold> houseHoldArrayList= new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,6 +99,7 @@ public class HHListFragment extends Fragment {
         compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
             @Override
             public void accept(List<HouseHold> houseHolds) throws Exception {
+                houseHoldArrayList=houseHolds;
                 Log.e("fsd","dfsdf"+new Gson().toJson(houseHolds));
                 mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
                 try {
@@ -134,7 +137,7 @@ public class HHListFragment extends Fragment {
             transaction.addToBackStack(f.getClass().getSimpleName());
             transaction.commit();
             // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-            ((HouseholdHomeActivity) getActivity()).ShowText("13140368003(Vikrompur)");
+            ((HouseholdHomeActivity) getActivity()).ShowText(houseHoldArrayList.get(position).UniqueId+" ("+houseHoldArrayList.get(position).VillageName+")");
             ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
           //  ((CCUserHomeActivity) getActivity()).openStatusDetails(position);
         }

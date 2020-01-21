@@ -34,7 +34,7 @@ public class CCuserMesaurementsFragment extends Fragment {
     CardView card_waist;
     CardView card_whr;
     CardView card_bmi;
-    CardView card_fasting;
+    CardView card_pulse;
     CardView card_random;
     CardView card_blood;
 
@@ -57,12 +57,13 @@ public class CCuserMesaurementsFragment extends Fragment {
         card_waist=view.findViewById(R.id.card_waist);
         card_whr=view.findViewById(R.id.card_whr);
         card_bmi=view.findViewById(R.id.card_bmi);
-        card_fasting=view.findViewById(R.id.card_fasting);
+        card_pulse=view.findViewById(R.id.card_pulse);
         card_random=view.findViewById(R.id.card_random);
         card_blood=view.findViewById(R.id.card_blood);
         card_waist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 FragmentTransaction transaction;
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
@@ -70,7 +71,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 Fragment f = new CCWaistWidthFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.add(R.id.rlt_root, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
@@ -136,7 +137,7 @@ public class CCuserMesaurementsFragment extends Fragment {
             }
         });
 
-        card_fasting.setOnClickListener(new View.OnClickListener() {
+        card_pulse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction transaction;
@@ -150,7 +151,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-                ((CCUserHomeActivity) getActivity()).ShowText("Fasting Glucose");
+                ((CCUserHomeActivity) getActivity()).ShowText("Pulse (beat/min)");
                 ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }
         });
@@ -169,7 +170,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-                ((CCUserHomeActivity) getActivity()).ShowText("Random Glucose");
+                ((CCUserHomeActivity) getActivity()).ShowText("Blood Glucose (Diabetes)");
                 ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }
         });

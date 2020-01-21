@@ -15,8 +15,8 @@ import xact.idea.camelia.Database.Model.Survey;
 public interface SurveyDao {
     @Query("SELECT * FROM Survey")
     Flowable<List<Survey>> getSurveyItems();
-    @Query("SELECT * FROM Survey WHERE id=:SurveyItemId")
-    Flowable<List<Survey>> getSurveyItemById(int SurveyItemId);
+    @Query("SELECT * FROM Survey WHERE UniqueId=:SurveyItemId")
+    Flowable<List<Survey>> getSurveyItemById(String SurveyItemId);
     @Query("SELECT * FROM Survey WHERE id=:SurveyItem")
     Survey getSurvey(String SurveyItem);
     @Query("SELECT * FROM Survey WHERE id=:SurveyItem")

@@ -7,14 +7,14 @@
     android:background="@color/white"
     tools:context=".Fragment.CCuserMesaurementsFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <RelativeLayout
+            android:id="@+id/rlt_root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -25,9 +25,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="2">
-
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/card_waist"
+                        android:id="@+id/card_bmi"
+
                         android:layout_width="0dp"
                         android:layout_height="450px"
                         android:layout_weight="1"
@@ -35,7 +35,6 @@
                         card_view:cardCornerRadius="25px"
                         card_view:cardElevation="1dp"
                         card_view:cardUseCompatPadding="true" >
-
                         <LinearLayout
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -44,7 +43,7 @@
                             android:layout_height="wrap_content">
                             <ImageView
 
-                                android:src="@drawable/waist"
+                                android:src="@drawable/bmi"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <TextView
@@ -55,13 +54,11 @@
                                 android:layout_marginTop="20px"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
-                                android:text="Waist Width"
+                                android:text="BMI"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
-
-
-
                     </androidx.cardview.widget.CardView>
+
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/card_whr"
@@ -104,7 +101,7 @@
                     android:weightSum="2">
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/card_fasting"
+                        android:id="@+id/card_pulse"
                         android:layout_width="0dp"
                         android:layout_height="450px"
                         android:layout_weight="1"
@@ -131,7 +128,7 @@
                                 android:layout_marginTop="20px"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
-                                android:text="Fasting Glucose"
+                                android:text="Pulse(beat/min)"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -165,7 +162,7 @@
                                 android:layout_marginTop="20px"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
-                                android:text="Random Glucose"
+                                android:text="Blood Glucose (Diabetes)"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -202,18 +199,19 @@
                                 android:tag="40"
                                 android:textSize="40px"
                                 android:textStyle="bold"
+                                android:textAlignment="center"
                                 android:textColor="@color/gray_black"
                                 android:layout_marginTop="20px"
                                 android:layout_gravity="center"
+                                android:inputType="textMultiLine"
                                 android:layout_width="wrap_content"
-                                android:text="Blood Pressure"
+                                android:text="Blood Pressure (Systolic)"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/card_bmi"
-
+                        android:id="@+id/card_waist"
                         android:layout_width="0dp"
                         android:layout_height="450px"
                         android:layout_weight="1"
@@ -221,6 +219,7 @@
                         card_view:cardCornerRadius="25px"
                         card_view:cardElevation="1dp"
                         card_view:cardUseCompatPadding="true" >
+
                         <LinearLayout
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -229,27 +228,35 @@
                             android:layout_height="wrap_content">
                             <ImageView
 
-                                android:src="@drawable/bmi"
+                                android:src="@drawable/blood_pressure"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"/>
                             <TextView
                                 android:tag="40"
                                 android:textSize="40px"
+                                android:textAlignment="center"
                                 android:textStyle="bold"
                                 android:textColor="@color/gray_black"
                                 android:layout_marginTop="20px"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
-                                android:text="BMI"
+                                android:text="Blood Pressure (Diastolic)"
                                 android:layout_height="wrap_content"/>
                         </LinearLayout>
+
+
+
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </LinearLayout>
+            </ScrollView>
         </RelativeLayout>
-    </ScrollView>
+
     <RelativeLayout
         android:id="@+id/rlt_fragment"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -194,6 +194,11 @@ public class HHCreateMemberFragment extends Fragment {
         }
 
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        vpg_home.setAdapter(null);
+    }
     private void initPager() {
         mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         mPagerAdapter.addFragment(new HHMyselfFragment(uniquKey), "");

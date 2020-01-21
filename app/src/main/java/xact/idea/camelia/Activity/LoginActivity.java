@@ -120,24 +120,25 @@ public class LoginActivity extends AppCompatActivity {
                         authPost.password = edit_text_password.getText().toString();
 
                         Log.e("ff", "dgg" + Common.authRepository.size());
-                        if (Common.authRepository.size() > 0) {
+//                        if (Common.authRepository.size() > 0) {
+//
+//                            Auth login = Common.authRepository.getAuth(authPost.email,  authPost.password);
+//                            if (login != null) {
+//                                if (login.role_code.equals("hh")){
+//                                    startActivity(new Intent(LoginActivity.this, HouseHoldActivity.class));
+//                                    finish();
+//                                }
+//                                else {
+//                                    startActivity(new Intent(LoginActivity.this, CCUserActivity.class));
+//                                    finish();
+//                                }
+//
+//                            } else {
+//                                Toast.makeText(LoginActivity.this, "Username and Password Incorrect", Toast.LENGTH_SHORT).show();
+//                                dismissLoadingProgress();
+//                            }
+//                        } else {
 
-                            Auth login = Common.authRepository.getAuth(authPost.email,  authPost.password);
-                            if (login != null) {
-                                if (login.role_code.equals("hh")){
-                                    startActivity(new Intent(LoginActivity.this, HouseHoldActivity.class));
-                                    finish();
-                                }
-                                else {
-                                    startActivity(new Intent(LoginActivity.this, CCUserActivity.class));
-                                    finish();
-                                }
-
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Username and Password Incorrect", Toast.LENGTH_SHORT).show();
-                                dismissLoadingProgress();
-                            }
-                        } else {
                             Log.e("ff", "dgg" + new Gson().toJson(authPost));
                             compositeDisposable.add(mService.Login(authPost).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<AuthResponse>() {
                                 @Override
@@ -203,7 +204,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 }
                             }));
-                        }
+
 
 
                     } else {

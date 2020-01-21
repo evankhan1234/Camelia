@@ -11,7 +11,8 @@
         android:background="@color/white"
         android:layout_marginRight="50px"
         android:layout_marginLeft="50px"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="70px"
+
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -64,7 +65,7 @@
                     android:textAlignment="center"
                     android:focusable="false"
                     android:tag="35"
-                    android:textSize="35px" android:id="@+id/edit_retail_code" android:background="@drawable/input_bg" android:padding="25px" android:layout_width="match_parent" android:layout_height="120px" android:layout_marginBottom="10px" android:text="03:35:46 AM" android:ems="10" android:inputType="textPersonName"/>
+                    android:textSize="35px" android:id="@+id/edit_time" android:background="@drawable/input_bg" android:padding="25px" android:layout_width="match_parent" android:layout_height="120px" android:layout_marginBottom="10px" android:text="03:35:46 AM" android:ems="10" android:inputType="textPersonName"/>
             </LinearLayout>
         </LinearLayout>
         <TextView
@@ -81,7 +82,7 @@
         <EditText
             android:textSize="35px"
             android:tag="35"
-            android:id="@+id/edit_waist_circum"
+            android:id="@+id/edit_waist"
             android:background="@drawable/input_bg"
             android:padding="25px"
             android:layout_width="match_parent"
@@ -104,7 +105,7 @@
         <EditText
             android:textSize="35px"
             android:tag="35"
-            android:id="@+id/edit_hp_circum"
+            android:id="@+id/edit_hp"
             android:background="@drawable/input_bg"
             android:padding="25px"
             android:layout_width="match_parent"
@@ -114,6 +115,7 @@
             android:ems="10"
             android:inputType="phone"/>
         <TextView
+            android:visibility="gone"
             android:layout_marginTop="20px"
             android:textSize="35px"
             android:tag="35"
@@ -125,6 +127,7 @@
             android:layout_marginBottom="8px"
             android:text="Whr"/>
         <EditText
+            android:visibility="gone"
             android:textSize="35px"
             android:tag="35"
             android:id="@+id/edit_whr"
@@ -136,6 +139,46 @@
             android:hint="Cm"
             android:ems="10"
             android:inputType="phone"/>
+        <LinearLayout
+            android:id="@+id/linear"
+            android:visibility="gone"
+            android:layout_marginTop="20px"
+
+            android:background="@drawable/btn_background"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="200px">
+
+
+            <TextView
+                android:id="@+id/text_number"
+                android:textAlignment="center"
+                android:layout_marginTop="20px"
+                android:textSize="45px"
+                android:tag="45"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8px"
+                android:text="Height in inch"/>
+            <TextView
+                android:id="@+id/text_text"
+                android:textAlignment="center"
+                android:layout_marginTop="20px"
+                android:textSize="45px"
+                android:tag="45"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8px"
+                android:text="Height in inch"/>
+
+        </LinearLayout>
+
         <Button
 
             android:backgroundTint="#000"
@@ -148,7 +191,7 @@
             android:paddingBottom="25px"
             android:layout_width="match_parent"
             android:layout_height="150px"
-            android:layout_marginTop="10px"
+            android:layout_marginTop="20px"
             android:layout_marginBottom="25px"
             android:text="Done"
             android:fontFamily="sans-serif"

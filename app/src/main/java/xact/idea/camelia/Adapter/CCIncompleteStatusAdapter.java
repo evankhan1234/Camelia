@@ -16,6 +16,9 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
+import java.util.List;
+
+import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -28,13 +31,15 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
 
     private UccMemberClickListener uccMemberClickListener;
     int row_index = 0;
+    List<MemberMyself> memberMyself;
 
-    public CCIncompleteStatusAdapter(Activity activity,UccMemberClickListener uccMemberClickListeners) {
+    public CCIncompleteStatusAdapter(Activity activity, List<MemberMyself> memberMyselfes,UccMemberClickListener uccMemberClickListeners) {
         mActivity = activity;
         uccMemberClickListener=uccMemberClickListeners;
         //Toast.makeText(mActivity, "sdfsdf", Toast.LENGTH_SHORT).show();
         //messageEntities = messageEntitie;
         //mClick = mClicks;
+        memberMyself=memberMyselfes;
         // clickInterface=clickInterfaces;
     }
 
@@ -82,7 +87,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         holder.img_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uccMemberClickListener.onItemClick(position);
+                uccMemberClickListener.onItemClick(memberMyself.get(position).id);
                 //Toast.makeText(mActivity, messageEntities.get(position).FullName, Toast.LENGTH_SHORT).show();
             }
         });
@@ -91,7 +96,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     @Override
     public int getItemCount() {
         // Log.e("evan", "sd" + messageEntities.size());
-        return 20;
+        return memberMyself.size();
     }
 
     public class CCIncompleteStatusListiewHolder extends RecyclerView.ViewHolder {

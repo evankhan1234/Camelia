@@ -17,14 +17,25 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
+import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
+import xact.idea.camelia.Adapter.HHAdapter.HHMemberListAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHSurveysAdapter;
+import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCuserMesaurementsFragment;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
@@ -32,6 +43,7 @@ import xact.idea.camelia.Utils.CorrectSizeUtil;
 public class HHSurveysListFragment extends Fragment {
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     View view;
     HHSurveysAdapter mAdapters;
     RecyclerView rcl_this_customer_list;
@@ -50,7 +62,7 @@ public class HHSurveysListFragment extends Fragment {
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
         initView();
-         display();
+
         return view;
     }
 
@@ -66,7 +78,7 @@ public class HHSurveysListFragment extends Fragment {
                 FragmentTransaction transaction;
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
-                bundle.putInt("Id",2);
+                bundle.putString("Id",uniqueId);
                 Fragment f = new HHCreateSurveyFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -88,13 +100,19 @@ public class HHSurveysListFragment extends Fragment {
         });
     }
     private  void display() {
+        compositeDisposable.add(Common.surveyRepository.getSurveyItemById(uniqueId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Survey>>() {
+            @Override
+            public void accept(List<Survey> surveys) throws Exception {
+                Log.e("fsd","dfsdf"+new Gson().toJson(surveys));
+                mAdapters = new HHSurveysAdapter(mActivity,surveys);
+                try {
+                    rcl_this_customer_list.setAdapter(mAdapters);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }));
 
-        mAdapters = new HHSurveysAdapter(mActivity);
-        try {
-            rcl_this_customer_list.setAdapter(mAdapters);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         //EmployeeStaus();
 
     }
@@ -133,5 +151,23 @@ Fragment fragment=getChildFragmentManager().findFragmentByTag(HHCreateSurveyFrag
 
         return 0;
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        display();
+        //  Log.e("loadload","size"+divisionList.size());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        compositeDisposable.clear();
     }
 }
