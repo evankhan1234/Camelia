@@ -8,13 +8,16 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +38,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 import static xact.idea.camelia.Utils.Utils.rounded;
@@ -60,6 +65,8 @@ public class CCRandomGlucoseFragment extends Fragment {
     private Calendar calendar;
     RadioButton radioFasting;
     RadioButton radioRandom;
+    String type;
+    String typeGlucose;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,6 +76,11 @@ public class CCRandomGlucoseFragment extends Fragment {
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            type = bundle.getString("Type", "");
+            Log.e("UniqueId","uniquKey"+type);
+        }
         initView();
         // display();
         return view;
@@ -126,6 +138,7 @@ public class CCRandomGlucoseFragment extends Fragment {
             public void onClick(View view) {
                linear1.setVisibility(View.VISIBLE);
                 textView49.setText("Fasting Reading");
+                typeGlucose="F";
             }
         });
         radioRandom.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +146,7 @@ public class CCRandomGlucoseFragment extends Fragment {
             public void onClick(View view) {
                 linear1.setVisibility(View.VISIBLE);
                 textView49.setText("Random Reading");
+                typeGlucose="R";
             }
         });
         edit_time.setText(value1+":"+value+" "+format);
@@ -163,19 +177,50 @@ public class CCRandomGlucoseFragment extends Fragment {
 
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void afterTextChanged(Editable editable) {
-
+                double bg_diabetes_fasting=0;
+                double bg_diabetes_random_1=0;
                 if (!editable.toString().equals(""))
                     linear.setVisibility(View.VISIBLE);
                 try {
                     double total=Double.parseDouble(editable.toString());
-                    linear.setBackground(mActivity.getDrawable(R.drawable.backgound_blue_light));
+
                     text_number.setText(rounded(total,2)+"(mmol/L)");
+                    if (typeGlucose.equals("F")){
+                        bg_diabetes_fasting=Double.parseDouble(editable.toString());
+                    }
+                    else if (typeGlucose.equals("R")){
+                        bg_diabetes_random_1=Double.parseDouble(editable.toString());
+                    }
+
                     Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                             R.anim.blink);
                     text_text.startAnimation(animBlink);
-                    text_text.setText("Ok");
+
+
+                    MemberMedicine memberMedicine= Common.memberMedicineRepository.getMemberMedicineNo(type);
+                    if ( (memberMedicine.DiabetisYesNo == 1) && ((bg_diabetes_fasting > 8) || (bg_diabetes_random_1 > 10)) ) {
+                        linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                        text_text.setText("Uncontrolled Diabetes = Refer to UHC!");
+                    } else if ( (memberMedicine.DiabetisYesNo == 1) && ((bg_diabetes_fasting <= 8) || (bg_diabetes_random_1 <= 10)) ) {
+                        linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                        text_text.setText("Controlled Diabetes = Follow up 6 months.");
+                    } else if ( (memberMedicine.DiabetisYesNo == 2) && (((bg_diabetes_fasting >= 6.1) && (bg_diabetes_fasting <= 6.9)) || ((bg_diabetes_random_1 >= 8.1) && (bg_diabetes_random_1 <= 11))) ) {
+                        linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                        text_text.setText("Pre-diabetic = Next week follow-up");
+                    } else if ( (memberMedicine.DiabetisYesNo == 2) && ((bg_diabetes_fasting >= 7) || (bg_diabetes_random_1 >= 11.1)) ) {
+                        linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                        text_text.setText("Diabetes = Refer to UHC!");
+                    } else if ( (memberMedicine.DiabetisYesNo == 2) && ((bg_diabetes_fasting < 6.1) || (bg_diabetes_random_1 < 8)) ) {
+                        linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                        text_text.setText("Normal");
+                    } else {
+
+                        text_text.setText("");
+                    }
+
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     linear.setVisibility(View.GONE);

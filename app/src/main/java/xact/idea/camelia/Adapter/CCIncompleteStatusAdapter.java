@@ -19,6 +19,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import java.util.List;
 
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -29,11 +30,11 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     private Activity mActivity = null;
     //  private List<Department> messageEntities;
 
-    private UccMemberClickListener uccMemberClickListener;
+    private MedicineInterface uccMemberClickListener;
     int row_index = 0;
     List<MemberMyself> memberMyself;
 
-    public CCIncompleteStatusAdapter(Activity activity, List<MemberMyself> memberMyselfes,UccMemberClickListener uccMemberClickListeners) {
+    public CCIncompleteStatusAdapter(Activity activity, List<MemberMyself> memberMyselfes,MedicineInterface uccMemberClickListeners) {
         mActivity = activity;
         uccMemberClickListener=uccMemberClickListeners;
         //Toast.makeText(mActivity, "sdfsdf", Toast.LENGTH_SHORT).show();
@@ -87,7 +88,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         holder.img_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uccMemberClickListener.onItemClick(memberMyself.get(position).id);
+                uccMemberClickListener.postion(memberMyself.get(position).id,memberMyself.get(position).MobileNumber);
                 //Toast.makeText(mActivity, messageEntities.get(position).FullName, Toast.LENGTH_SHORT).show();
             }
         });

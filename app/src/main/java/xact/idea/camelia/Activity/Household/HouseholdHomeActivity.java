@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,7 +64,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
     private ImageButton btn_header_sync;
     private ImageButton btn_header_application_create;
     private LinearLayout linear;
-    private RelativeLayout relative;
+    private RelativeLayout rlt_root;
     private DrawerLayout drawer_layout;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     //IRetrofitApi mService;
@@ -90,6 +91,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         setFooter(sessionId);
     }
     private void initView() {
+        rlt_root = findViewById(R.id.rlt_root);
         btn_header_status_back = findViewById(R.id.btn_header_status_back);
         rlt_header_status_details = findViewById(R.id.rlt_header_status_details);
         view_header_status_details = findViewById(R.id.view_header_status_details);
@@ -117,6 +119,13 @@ public class HouseholdHomeActivity extends AppCompatActivity {
 
             }
         });
+//        rlt_root.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // Get the input method manager
+//
+//            }
+//        });
         btn_close_drawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,7 +137,10 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         btn_header_back_.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                // Hide the soft keyboard
+                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
              backForDetails();
             }
         });
@@ -376,14 +388,14 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         details_title.setText(name);
     }
 
-    public void openStatusDetails(int position) {
-        Fragment fragment= getSupportFragmentManager().findFragmentByTag(CCUserMemberStatusFragment.class.getSimpleName());
-
-        if (fragment instanceof CCUserMemberStatusFragment){
-            ((CCUserMemberStatusFragment) fragment).data(position);
-        }
-
-    }
+//    public void openStatusDetails(int position) {
+//        Fragment fragment= getSupportFragmentManager().findFragmentByTag(CCUserMemberStatusFragment.class.getSimpleName());
+//
+//        if (fragment instanceof CCUserMemberStatusFragment){
+//            ((CCUserMemberStatusFragment) fragment).data(position);
+//        }
+//
+//    }
 
     public void showHeaderDetail(String titles) {
 

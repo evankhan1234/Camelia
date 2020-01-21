@@ -37,6 +37,7 @@ public class CCuserMesaurementsFragment extends Fragment {
     CardView card_pulse;
     CardView card_random;
     CardView card_blood;
+    String type;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +49,11 @@ public class CCuserMesaurementsFragment extends Fragment {
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            type = bundle.getString("Type", "");
+            Log.e("UniqueId","uniquKey"+type);
+        }
         initView();
         // display();
         return view;
@@ -68,6 +74,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
+                bundle.putString("Type",type);
                 Fragment f = new CCWaistWidthFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -75,7 +82,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-                ((CCUserHomeActivity) getActivity()).ShowText("Waist Width");
+                ((CCUserHomeActivity) getActivity()).ShowText("Blood Pressure (Diastolic)");
                 ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }
         });
@@ -87,6 +94,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
+                bundle.putString("Type",type);
                 Fragment f = new CCWHRFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -106,6 +114,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
+                bundle.putString("Type",type);
                 Fragment f = new CCBMIFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -125,6 +134,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
+                bundle.putString("Type",type);
                 Fragment f = new CCBloodPressureFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -132,7 +142,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-                ((CCUserHomeActivity) getActivity()).ShowText("Blood Pressure");
+                ((CCUserHomeActivity) getActivity()).ShowText("Blood Pressure (Systolic)");
                 ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }
         });
@@ -144,6 +154,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
+                bundle.putString("Type",type);
                 Fragment f = new CCFastingGlucosreFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -163,6 +174,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
+                bundle.putString("Type",type);
                 Fragment f = new CCRandomGlucoseFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);

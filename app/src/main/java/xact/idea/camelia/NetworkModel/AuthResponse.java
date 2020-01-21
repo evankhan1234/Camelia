@@ -47,18 +47,18 @@ public class AuthResponse extends ApiResponses {
 
         }
         public class WorkingArea{
-            @SerializedName("division_code")
-            public String  division_code;
-            @SerializedName("district_code")
-            public String  district_code;
-            @SerializedName("upazila_code")
-            public String  upazila_code;
-            @SerializedName("union_code")
-            public String  union_code;
-            @SerializedName("block_code")
-            public String  block_code;
-            @SerializedName("ward_code")
-            public String  ward_code;
+            @SerializedName("division_id")
+            public String  division_id;
+            @SerializedName("district_id")
+            public String  district_id;
+            @SerializedName("upazila_id")
+            public String  upazila_id;
+            @SerializedName("union_id")
+            public String  union_id;
+            @SerializedName("block_id")
+            public String  block_id;
+            @SerializedName("ward_id")
+            public String  ward_id;
             @SerializedName("village")
             public String  village;
 
