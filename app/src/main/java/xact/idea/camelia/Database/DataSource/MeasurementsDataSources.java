@@ -26,13 +26,18 @@ public class MeasurementsDataSources implements IMeasurementsDatasources {
     }
 
     @Override
-    public Flowable<List<Measurements>> getMeasurementsItemById(int MeasurementsItemId) {
+    public Flowable<List<Measurements>> getMeasurementsItemById(String MeasurementsItemId) {
         return MeasurementsDao.getMeasurementsItemById(MeasurementsItemId);
     }
 
     @Override
     public Measurements getMeasurements(String MeasurementsItem) {
         return MeasurementsDao.getMeasurements(MeasurementsItem);
+    }
+
+    @Override
+    public int maxValue() {
+        return MeasurementsDao.maxValue();
     }
 
     @Override

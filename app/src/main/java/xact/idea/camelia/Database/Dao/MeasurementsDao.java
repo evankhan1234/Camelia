@@ -15,14 +15,16 @@ import xact.idea.camelia.Database.Model.Measurements;
 public interface MeasurementsDao {
     @Query("SELECT * FROM Measurements")
     Flowable<List<Measurements>> getMeasurementsItems();
-    @Query("SELECT * FROM Measurements WHERE id=:MeasurementsId")
-    Flowable<List<Measurements>> getMeasurementsItemById(int MeasurementsId);
+    @Query("SELECT * FROM Measurements WHERE Type=:MeasurementsId")
+    Flowable<List<Measurements>> getMeasurementsItemById(String MeasurementsId);
     @Query("SELECT * FROM Measurements WHERE id=:MeasurementsItem")
     Measurements getMeasurements(String MeasurementsItem);
     @Query("SELECT * FROM Measurements WHERE id=:MeasurementsItem")
     Measurements getMeasurementsNo(String MeasurementsItem);
     @Query("Select Count(id)  FROM Measurements")
     int value();
+    @Query("Select Max(id)  FROM Measurements")
+    int maxValue();
     @Query("DELETE  FROM Measurements")
     void emptyMeasurements();
     @Insert

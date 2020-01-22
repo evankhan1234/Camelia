@@ -167,7 +167,7 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
         Fragment f = new CCMemberStausDetailsFragment();
         f.setArguments(bundle);
         transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-        transaction.add(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
+        transaction.replace(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
         transaction.addToBackStack(f.getClass().getSimpleName());
         transaction.commit();
         CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);

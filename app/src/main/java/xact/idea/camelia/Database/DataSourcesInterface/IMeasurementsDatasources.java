@@ -8,10 +8,10 @@ import xact.idea.camelia.Database.Model.Measurements;
 public interface IMeasurementsDatasources {
     Flowable<List<Measurements>> getMeasurementsItems();
 
-    Flowable<List<Measurements>> getMeasurementsItemById(int MeasurementsItemId);
+    Flowable<List<Measurements>> getMeasurementsItemById(String MeasurementsItemId);
 
     Measurements getMeasurements(String MeasurementsItem);
-
+    int maxValue();
     void emptyMeasurements();
 
     int size();

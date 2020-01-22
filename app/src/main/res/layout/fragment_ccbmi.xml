@@ -135,7 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8px"
-            android:text="Height in inch"/>
+            android:text="Height in Metre"/>
         <EditText
             android:textSize="35px"
             android:tag="35"

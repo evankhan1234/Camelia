@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -38,11 +39,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import xact.idea.camelia.Activity.CCUserHomeActivity;
+import xact.idea.camelia.Database.Model.MeasurementDetails;
+import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
+import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.rounded;
 
 
@@ -63,6 +68,9 @@ public class CCWaistWidthFragment extends Fragment {
     private Calendar calendar;
 
     String type;
+    double total;
+    String message;
+    String refer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -94,7 +102,7 @@ public class CCWaistWidthFragment extends Fragment {
         create = view.findViewById(R.id.create);
         calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = new Date(System.currentTimeMillis());
+        final Date date = new Date(System.currentTimeMillis());
         edit_date.setText(formatter.format(date));
         //edit_end_date.setText(formatter.format(date));
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -144,6 +152,41 @@ public class CCWaistWidthFragment extends Fragment {
                 dFragment.show(getFragmentManager(), "Time Picker");
             }
         });
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isNullOrEmpty(edit_reading1.getText().toString()) && isNullOrEmpty(edit_reading2.getText().toString())){
+                    Toast.makeText(mActivity, "Please insert all field", Toast.LENGTH_SHORT).show();
+
+                }else {
+
+                }
+                Measurements measurements = new Measurements();
+                measurements.DateTime=date;
+                measurements.MemberId=type;
+                measurements.Message=message;
+                measurements.Result=total;
+                measurements.Type="Diastolic";
+                measurements.Refer=refer;
+                Common.measurementsRepository.insertToMeasurements(measurements);
+                int memberId= Common.measurementsRepository.maxValue();
+                MeasurementDetails measurementDetails= new MeasurementDetails();
+                measurementDetails.DateTime=date;
+                measurementDetails.MeasurementId=memberId;
+                measurementDetails.Name="Diastolic Reading1";
+                measurementDetails.Result= Double.parseDouble(edit_reading1.getText().toString());
+                Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
+
+                MeasurementDetails measurementDetails1= new MeasurementDetails();
+                measurementDetails.DateTime=date;
+                measurementDetails.MeasurementId=memberId;
+                measurementDetails.Name="Diastolic Reading2";
+                measurementDetails.Result= Double.parseDouble(edit_reading2.getText().toString());
+                Common.measurementDetailsRepository.insertToMeasurements(measurementDetails1);
+
+                ((CCUserHomeActivity) getActivity()).backForDetails();
+            }
+        });
         edit_reading1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -164,7 +207,7 @@ public class CCWaistWidthFragment extends Fragment {
                 try {
                     double e1=Double.parseDouble(editable.toString());
                     double e2=Double.parseDouble(edit_reading2.getText().toString());
-                    double total=(e1+e2)/2;
+                     total=(e1+e2)/2;
 
                     text_number.setText(rounded(total,2)+"(mmol/L)");
 
@@ -177,23 +220,35 @@ public class CCWaistWidthFragment extends Fragment {
                     MemberMedicine memberMedicine= Common.memberMedicineRepository.getMemberMedicineNo(type);
                     if ( (memberMedicine.DiabetisYesNo == 1) && (total >= 80) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
-                        text_text.setText(" Hypertension = Refer to UHC!");
+                        text_text.setText("Hypertension = Refer to UHC!");
+                        message="Hypertension = Refer to UHC!";
+                        refer="UHC";
+
                     } else if ( (memberMedicine.DiabetisYesNo == 1) && (total < 80) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                        message="Normal = Follow up 6 months.";
+                        refer="";
                         text_text.setText("Normal = Follow up 6 months.");
                     } else if ( (memberMedicine.DiabetisYesNo == 2) && (total >= 90)  ) {
+                        message="Hypertension = Refer to UHC!";
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
-                        text_text.setText(" Hypertension = Refer to UHC!");
+                        refer="UHC";
+                        text_text.setText("Hypertension = Refer to UHC!");
                     } else if ( (memberMedicine.DiabetisYesNo == 2) &&  (total < 90) ) {
+                        message="Normal = Follow up 6 months.";
+                        refer="";
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Normal = Follow up 6 months.");
                     } else {
-
+                        message="";
+                        refer="";
                         text_text.setText("");
                     }
 
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
+                    message="";
+                    refer="";
                     linear.setVisibility(View.GONE);
                 } catch (Resources.NotFoundException e) {
                     e.printStackTrace();
@@ -220,7 +275,7 @@ public class CCWaistWidthFragment extends Fragment {
                 try {
                     double e2=Double.parseDouble(editable.toString());
                     double e1=Double.parseDouble(edit_reading1.getText().toString());
-                    double total=(e1+e2)/2;
+                     total=(e1+e2)/2;
 
                     text_number.setText(rounded(total,2)+"(mmol/L)");
 
@@ -233,18 +288,28 @@ public class CCWaistWidthFragment extends Fragment {
                     MemberMedicine memberMedicine= Common.memberMedicineRepository.getMemberMedicineNo(type);
                     if ( (memberMedicine.DiabetisYesNo == 1) && (total >= 80) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
-                        text_text.setText(" Hypertension = Refer to UHC!");
+                        text_text.setText("Hypertension = Refer to UHC!");
+                        message="Hypertension = Refer to UHC!";
+                        refer="UHC";
+
                     } else if ( (memberMedicine.DiabetisYesNo == 1) && (total < 80) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                        message="Normal = Follow up 6 months.";
+                        refer="";
                         text_text.setText("Normal = Follow up 6 months.");
                     } else if ( (memberMedicine.DiabetisYesNo == 2) && (total >= 90)  ) {
+                        message="Hypertension = Refer to UHC!";
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
-                        text_text.setText(" Hypertension = Refer to UHC!");
+                        refer="UHC";
+                        text_text.setText("Hypertension = Refer to UHC!");
                     } else if ( (memberMedicine.DiabetisYesNo == 2) &&  (total < 90) ) {
+                        message="Normal = Follow up 6 months.";
+                        refer="";
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Normal = Follow up 6 months.");
                     } else {
-
+                        message="";
+                        refer="";
                         text_text.setText("");
                     }
 

@@ -29,6 +29,7 @@ import xact.idea.camelia.Database.DataSource.DivisionDataSources;
 import xact.idea.camelia.Database.DataSource.FemaleDataSources;
 import xact.idea.camelia.Database.DataSource.HouseholdDataSources;
 import xact.idea.camelia.Database.DataSource.MaritialStatusDataSources;
+import xact.idea.camelia.Database.DataSource.MeasurementDetailsDataSources;
 import xact.idea.camelia.Database.DataSource.MeasurementsDataSources;
 import xact.idea.camelia.Database.DataSource.MedicineDatasources;
 import xact.idea.camelia.Database.DataSource.MemberHabitDataSources;
@@ -61,6 +62,7 @@ import xact.idea.camelia.Database.Repository.DivisionRepository;
 import xact.idea.camelia.Database.Repository.FemaleRepository;
 import xact.idea.camelia.Database.Repository.HouseholdRepository;
 import xact.idea.camelia.Database.Repository.MaritialStatusRepository;
+import xact.idea.camelia.Database.Repository.MeasurementDetailsRepository;
 import xact.idea.camelia.Database.Repository.MeasurementsRepository;
 import xact.idea.camelia.Database.Repository.MedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberHabitRepository;
@@ -631,6 +633,8 @@ public class CCUserActivity extends AppCompatActivity {
         Common.memberMedicineRepository = MemberMedicineRepository.getInstance(MemberMedicineDataSources.getInstance(Common.mainDatabase.memberMedicineDao()));
         Common.memberMyselfRepository = MemberMyselfRepository.getInstance(MemberMyselfDataSources.getInstance(Common.mainDatabase.memberMyselfDao()));
         Common.surveyRepository = SurveyRepository.getInstance(SurveyDataSources.getInstance(Common.mainDatabase.surveyDao()));
+        Common.measurementDetailsRepository = MeasurementDetailsRepository.getInstance(MeasurementDetailsDataSources.getInstance(Common.mainDatabase.measurementDetailsDao()));
+
     }
 
     @Override

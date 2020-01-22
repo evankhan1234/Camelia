@@ -49,13 +49,27 @@
 
 
 
-
                     <TextView
+                        android:id="@+id/text_value"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="125px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="40px"
+                        android:layout_marginTop="15px"
+                        android:tag="55"
+
+                        android:text="20.26 "
+                        android:textColor="@color/processing"
+                        android:textSize="55px" />
+                    <TextView
+
                         android:textAlignment="center"
                         android:minWidth="250px"
                         android:id="@+id/text_weight_number"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="100px"
 
 
                         android:layout_marginLeft="40px"
@@ -63,27 +77,14 @@
 
                         android:padding="15px"
                         android:tag="40"
-                        android:text="Complete"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="40px" />
 
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/text_agent"
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="125px"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="40px"
-                    android:layout_marginTop="15px"
-                    android:tag="55"
-
-                    android:text="20.26 "
-                    android:textColor="@color/processing"
-                    android:textSize="55px" />
                 <LinearLayout
                     android:id="@+id/linears2"
                     android:layout_marginTop="20px"
@@ -124,13 +125,17 @@
                     android:layout_height="wrap_content"
 
                     android:minWidth="300px"
+                    android:minHeight="100px"
+
+
+
 
                     android:layout_marginLeft="40px"
-                    android:background="@drawable/status_accepted"
+                    android:background="@drawable/status_reject"
 
                     android:padding="15px"
                     android:tag="40"
-                    android:text="Natuaral Weight"
+                    android:text="Controlled Diabetes = Follow up 6 months."
                     android:layout_marginRight="10px"
 
                     android:textColor="@color/white"
