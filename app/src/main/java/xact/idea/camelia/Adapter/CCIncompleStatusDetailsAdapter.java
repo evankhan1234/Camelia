@@ -36,10 +36,11 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
 
     private UccMemberClickListener uccMemberClickListener;
     boolean row_index = true;
+    String type;
 
-    public CCIncompleStatusDetailsAdapter(Activity activity,UccMemberClickListener uccMemberClickListeners) {
+    public CCIncompleStatusDetailsAdapter(Activity activity,String types,UccMemberClickListener uccMemberClickListeners) {
         mActivity = activity;
-
+        type=types;
         //Toast.makeText(mActivity, "sdfsdf", Toast.LENGTH_SHORT).show();
         //messageEntities = messageEntitie;
         //mClick = mClicks;
@@ -67,7 +68,7 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             holder.text_name.setText("BMI");
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
 
-            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("BMI").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
+            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("BMI",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
                 public void accept(List<Measurements> units) throws Exception {
                     Log.e("data","data"+new Gson().toJson(units));
@@ -81,7 +82,7 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>N/A</font>";
             holder.text_name.setText("WHR");
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
-            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("WHR").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
+            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("WHR",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
                 public void accept(List<Measurements> units) throws Exception {
                     Log.e("data","data"+new Gson().toJson(units));
@@ -95,7 +96,7 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>18.5-24.9</font>";
             holder.text_name.setText("Pulse(beat/min)");
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
-            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Pulse").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
+            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Pulse",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
                 public void accept(List<Measurements> units) throws Exception {
                     Log.e("data","data"+new Gson().toJson(units));
@@ -109,7 +110,7 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>Fasting 6.1 && Random 8</font>";
             holder.text_name.setText("Blood Glucose (Diabetes)");
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
-            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Diabetes").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
+            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Diabetes",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
                 public void accept(List<Measurements> units) throws Exception {
                     Log.e("data","data"+new Gson().toJson(units));
@@ -123,7 +124,7 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>130-140</font>";
             holder.text_name.setText("Blood Pressure (Systolic)");
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
-            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Systolic").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
+            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Systolic",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
                 public void accept(List<Measurements> units) throws Exception {
                     Log.e("data","data"+new Gson().toJson(units));
@@ -137,7 +138,7 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>80-90</font>";
             holder.text_name.setText("Blood Pressure (Diastolic)");
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
-            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Diastolic").observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
+            compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Diastolic",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
                 public void accept(List<Measurements> units) throws Exception {
                     Log.e("data","data"+new Gson().toJson(units));

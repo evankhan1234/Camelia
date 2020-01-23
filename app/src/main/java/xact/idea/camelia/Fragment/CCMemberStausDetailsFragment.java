@@ -83,7 +83,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
     }
     private  void display() {
 
-        mAdapters = new CCIncompleStatusDetailsAdapter(mActivity,clickListener);
+        mAdapters = new CCIncompleStatusDetailsAdapter(mActivity,type,clickListener);
         try {
             rcv_customer.setAdapter(mAdapters);
         } catch (Exception e) {

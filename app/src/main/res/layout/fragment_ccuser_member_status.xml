@@ -16,7 +16,7 @@
         app:tabGravity="fill"
         app:tabMode="scrollable"
 
-        android:background="#2AA30E"
+        android:background="@color/black"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 

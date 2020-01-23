@@ -80,7 +80,7 @@ public class IncompleteFragment extends Fragment {
 //            });
 //           // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
 //            ((CCUserHomeActivity) getActivity()).ShowText("Details");
-            ((CCUserHomeActivity) getActivity()).openStatusDetails(position,Type);
+            ((CCUserHomeActivity) getActivity()).openStatusDetails(position,Type,"1");
         }
     };
     @Override
@@ -97,10 +97,14 @@ public class IncompleteFragment extends Fragment {
     }
 
     public   void display() {
-        compositeDisposable.add(Common.memberMyselfRepository.getMemberMyselfItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
+        //int value=Common.measurementsRepository.valueFor();
+//        if (value==0){
+//
+//        }
+        compositeDisposable.add(Common.memberMyselfRepository.getInCompleteMembers().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
-                Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));
+                Log.e("aa","dfsdf"+new Gson().toJson(memberMyselfes));
                 memberMyselfList=memberMyselfes;
                 mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
                 try {
@@ -108,6 +112,21 @@ public class IncompleteFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+            }
+        }));
+        compositeDisposable.add(Common.memberMyselfRepository.getInCompleteMembersFor().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
+            @Override
+            public void accept(List<MemberMyself> memberMyselfes) throws Exception {
+                Log.e("bb","dfsdf"+new Gson().toJson(memberMyselfes));
+                memberMyselfList.addAll(memberMyselfes);
+                mAdapters.notifyDataSetChanged();
+//                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
+//                try {
+//                    rcl_this_customer_list.setAdapter(mAdapters);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
 
             }
         }));

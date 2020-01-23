@@ -62,22 +62,33 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         //    Log.e("Evan", "SDfs" + messageEntities.get(position));
         //  holder.btn_department.setHint(messageEntities.get(position).DepartmentName);
 
-        Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                        holder.img_avatar.setImageDrawable(resource);
-                    }
-                });
 
 
-        String agent_no = "<b><font color=#000 >Agent No :  </font></b> <font color=#444444> camella041</font>";
-        String name = "<b><font color=#000 >Agent No :  </font></b> <font color=#444444> Rajia Sultana</font>";
-        String code = "<b><font color=#000 >Code:  </font></b> <font color=#444444>cfb9894-a</font>";
-        String member_id = "<b><font color=#000 >Member Id :  </font></b> <font color=#444444> 131415586325</font>";
-        String village = "<b><font color=#000 >Agent No :  </font></b> <font color=#444444> Bsahura</font>";
-        String date = "<b><font color=#000 >Date :  </font></b> <font color=#444444> 30-09-2019</font>";
-        String block = "<b><font color=#000 >Block :  </font></b> <font color=#444444> E</font>";
+        if (memberMyself.get(position).GenderId==1){
+            Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            holder.img_avatar.setImageDrawable(resource);
+                        }
+                    });
+        }
+        else{
+            Glide.with(mActivity).load("https://previews.123rf.com/images/thesomeday123/thesomeday1231712/thesomeday123171200008/91087328-default-avatar-profile-icon-for-female-grey-photo-placeholder-illustrations-vector.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            holder.img_avatar.setImageDrawable(resource);
+                        }
+                    });
+        }
+        String agent_no = "<b><font color=#000 >Patient Name :  </font></b> <font color=#444444> "+memberMyself.get(position).FullName+"</font>";
+        String name = "<b><font color=#000 >Member ID :  </font></b> <font color=#444444> N/A</font>";
+        String code = "<b><font color=#000 >Khana ID:  </font></b> <font color=#444444>"+memberMyself.get(position).UniqueId+"</font>";
+        String member_id = "<b><font color=#000 >Contact No :  </font></b> <font color=#444444>"+memberMyself.get(position).MobileNumber+"</font>";
+        String village = "<b><font color=#000 >Visit No :  </font></b> <font color=#444444> N/A</font>";
+        String date = "<b><font color=#000 >Ref.CC :  </font></b> <font color=#444444>N/A</font>";
+        String block = "<b><font color=#000 >Condition :  </font></b> <font color=#444444> N/A</font>";
         holder.text_name.setText(Html.fromHtml(name));
         holder.text_agent.setText(Html.fromHtml(agent_no));
         holder.text_phone_number.setText(Html.fromHtml(code));
