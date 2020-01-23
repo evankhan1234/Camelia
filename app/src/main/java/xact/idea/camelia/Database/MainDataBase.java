@@ -17,6 +17,7 @@ import xact.idea.camelia.Database.Dao.DivisionDao;
 import xact.idea.camelia.Database.Dao.FemaleDao;
 import xact.idea.camelia.Database.Dao.HouseholdDao;
 import xact.idea.camelia.Database.Dao.MaritialStatusDao;
+import xact.idea.camelia.Database.Dao.MeasurementDetailsDao;
 import xact.idea.camelia.Database.Dao.MeasurementsDao;
 import xact.idea.camelia.Database.Dao.MedicineDao;
 import xact.idea.camelia.Database.Dao.MemberHabitDao;
@@ -36,6 +37,7 @@ import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
 import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.MaritialStatus;
+import xact.idea.camelia.Database.Model.MeasurementDetails;
 import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.Medicine;
 import xact.idea.camelia.Database.Model.MemberHabit;
@@ -48,7 +50,7 @@ import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
 import xact.idea.camelia.Database.Model.Ward;
 
-@Database(entities = {Auth.class, Block.class, BloodGroup.class, District.class,Division.class, Female.class, MaritialStatus.class, Occupation.class, StudyClass.class, Unions.class, Upazila.class, Ward.class, HouseHold.class, Measurements.class, Medicine.class, MemberHabit.class, MemberMedicine.class, MemberMyself.class, Survey.class}, version =1,exportSchema = false)
+@Database(entities = {Auth.class, Block.class, BloodGroup.class, District.class,Division.class, Female.class, MaritialStatus.class, Occupation.class, StudyClass.class, Unions.class, Upazila.class, Ward.class, HouseHold.class, Measurements.class, Medicine.class, MemberHabit.class, MemberMedicine.class, MemberMyself.class, Survey.class, MeasurementDetails.class}, version =1,exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class MainDataBase extends RoomDatabase {
     public abstract DivisionDao divisionDao();
@@ -70,6 +72,7 @@ public abstract class MainDataBase extends RoomDatabase {
     public abstract MemberMedicineDao memberMedicineDao();
     public abstract SurveyDao surveyDao();
     public abstract WardDao wardDao();
+    public abstract MeasurementDetailsDao measurementDetailsDao();
 
     private static MainDataBase instance;
 

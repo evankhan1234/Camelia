@@ -3,6 +3,7 @@ package xact.idea.camelia.Database.Repository;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.DataSourcesInterface.IMemberMyselfDatasources;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
@@ -55,8 +56,23 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
+    public Flowable<List<MemberMyself>> getInCompleteMembers() {
+        return IMemberMyselfDatasources.getInCompleteMembers();
+    }
+
+    @Override
+    public Flowable<List<MemberMyself>> getCompleteMembers() {
+        return IMemberMyselfDatasources.getCompleteMembers();
+    }
+
+    @Override
     public MemberMyself getMemberMyselfNo(int MemberMyselfItem) {
         return IMemberMyselfDatasources.getMemberMyselfNo(MemberMyselfItem);
+    }
+
+    @Override
+    public Flowable<List<MemberMyself>> getInCompleteMembersFor() {
+        return IMemberMyselfDatasources.getInCompleteMembersFor();
     }
 
     @Override

@@ -3,6 +3,7 @@ package xact.idea.camelia.Database.DataSourcesInterface;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
 public interface IMemberMyselfDatasources {
@@ -15,9 +16,10 @@ public interface IMemberMyselfDatasources {
     void emptyMemberMyself();
     int maxValue();
     int size();
-
+    Flowable<List<MemberMyself>> getInCompleteMembers();
+    Flowable<List<MemberMyself>> getCompleteMembers();
     MemberMyself getMemberMyselfNo(int MemberMyselfItem);
-
+    Flowable<List<MemberMyself>> getInCompleteMembersFor();
     void insertToMemberMyself(MemberMyself... MemberMyself);
 
     void updateMemberMyself(MemberMyself... MemberMyself);

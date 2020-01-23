@@ -52,7 +52,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
             Log.e("UniqueId","uniquKey"+type);
         }
         initView();
-        display();
+
         return view;
     }
     private void initView() {
@@ -72,7 +72,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
                 Fragment f = new CCuserMesaurementsFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.replace(R.id.rlt_fragment, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
@@ -83,7 +83,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
     }
     private  void display() {
 
-        mAdapters = new CCIncompleStatusDetailsAdapter(mActivity,clickListener);
+        mAdapters = new CCIncompleStatusDetailsAdapter(mActivity,type,clickListener);
         try {
             rcv_customer.setAdapter(mAdapters);
         } catch (Exception e) {
@@ -208,4 +208,9 @@ public class CCMemberStausDetailsFragment extends Fragment {
         }
     };
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        display();
+    }
 }

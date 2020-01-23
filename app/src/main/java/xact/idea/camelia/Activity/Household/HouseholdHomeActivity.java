@@ -249,7 +249,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
 
 
         // param 1: container id, param 2: new fragment, param 3: fragment id
-        fragTransaction.add(R.id.main_container, newFrag, newFrag.getClass().getSimpleName());
+        fragTransaction.replace(R.id.main_container, newFrag, newFrag.getClass().getSimpleName());
         // prevent showed when user press back fabReview
         fragTransaction.addToBackStack(newFrag.getClass().getSimpleName());
         fragTransaction.commit();

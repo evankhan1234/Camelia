@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,10 +38,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import xact.idea.camelia.Activity.CCUserHomeActivity;
+import xact.idea.camelia.Database.Model.MeasurementDetails;
+import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.HouseHoldFragment.HHMyselfFragment;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
+import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.rounded;
 
 
@@ -58,6 +65,9 @@ public class CCBMIFragment extends Fragment {
     TextView text_bmi_text;
     LinearLayout linear;
     private Calendar calendar;
+    String type;
+    String message;
+    double bmi;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,6 +78,11 @@ public class CCBMIFragment extends Fragment {
         correctSizeUtil = correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            type = bundle.getString("Type", "");
+            Log.e("UniqueId","uniquKey"+type);
+        }
         initView();
         // display();
         return view;
@@ -88,7 +103,7 @@ public class CCBMIFragment extends Fragment {
         edit_weight = view.findViewById(R.id.edit_weight);
         calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = new Date(System.currentTimeMillis());
+        final Date date = new Date(System.currentTimeMillis());
         edit_date.setText(formatter.format(date));
         //edit_end_date.setText(formatter.format(date));
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -138,6 +153,41 @@ public class CCBMIFragment extends Fragment {
                 dFragment.show(getFragmentManager(), "Time Picker");
             }
         });
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isNullOrEmpty(edit_height.getText().toString()) && isNullOrEmpty(edit_weight.getText().toString())){
+                    Toast.makeText(mActivity, "Please insert all field", Toast.LENGTH_SHORT).show();
+
+                }else {  Measurements measurements = new Measurements();
+                    measurements.DateTime=date;
+                    measurements.MemberId=type;
+                    measurements.Type="BMI";
+                    measurements.Message=message;
+                    measurements.Result=bmi;
+                    measurements.Refer="";
+                    Common.measurementsRepository.insertToMeasurements(measurements);
+                    int memberId= Common.measurementsRepository.maxValue();
+                    MeasurementDetails measurementDetails= new MeasurementDetails();
+                    measurementDetails.DateTime=date;
+                    measurementDetails.MeasurementId=memberId;
+                    measurementDetails.Name="Weight";
+                    measurementDetails.Result= Double.parseDouble(edit_weight.getText().toString());
+                    Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
+
+                    MeasurementDetails measurementDetails1= new MeasurementDetails();
+                    measurementDetails.DateTime=date;
+                    measurementDetails.MeasurementId=memberId;
+                    measurementDetails.Name="Height";
+                    measurementDetails.Result= Double.parseDouble(edit_height.getText().toString());
+                    Common.measurementDetailsRepository.insertToMeasurements(measurementDetails1);
+                    ((CCUserHomeActivity) getActivity()).backForDetails();
+
+                }
+
+
+            }
+        });
         edit_height.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -159,44 +209,49 @@ public class CCBMIFragment extends Fragment {
                         linear.setVisibility(View.VISIBLE);
                     double weight=Double.parseDouble(edit_weight.getText().toString());
                     double height=Double.parseDouble(s.toString());
-                    double bmi = weight / Math.pow(height, 2.0);
+                     bmi = weight / Math.pow(height, 2.0);
                     linear.setVisibility(View.VISIBLE);
-                    if(bmi<=18.5){
+                    if(bmi<18.5){
                         linear.setBackground(mActivity.getDrawable(R.drawable.backgound_brown));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("UnderWeight");
+                        message="UnderWeight";
                     }
-                    else if(bmi>18.5 && bmi<=24.99){
+                    else if(bmi>=18.5 && bmi<=24.99){
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Normal");
+                        message="Normal";
                     }
-                    else if(bmi>25 && bmi<=29.99){
+                    else if(bmi>=25 && bmi<=29.99){
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_yellow));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("OverWeight");
+                        message="OverWeight";
                     }
-                    else if(bmi>24.99){
+                    else if(bmi>=30){
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Obese");
+                        message="Obese";
                     }
 
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     linear.setVisibility(View.GONE);
+                    message="";
                 } catch (Resources.NotFoundException e) {
                     e.printStackTrace();
                 }

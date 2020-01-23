@@ -7,23 +7,18 @@ import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName = "Measurements")
-public class Measurements {
+@Entity(tableName = "MeasurementDetails")
+public class MeasurementDetails {
     @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
-    @ColumnInfo(name = "MemberId")
-    public String MemberId;
+    @ColumnInfo(name = "MeasurementId")
+    public int MeasurementId;
     @ColumnInfo(name = "DateTime")
     public Date DateTime;
-    @ColumnInfo(name = "Type")
-    public String Type;
+    @ColumnInfo(name = "Name")
+    public String Name;
     @ColumnInfo(name = "Result")
     public double Result;
-    @ColumnInfo(name = "Message")
-    public String Message;
-    @ColumnInfo(name = "Refer")
-    public String Refer;
-
 }

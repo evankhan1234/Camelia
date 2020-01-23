@@ -26,13 +26,18 @@ public class MeasurementsRepository implements IMeasurementsDatasources {
     }
 
     @Override
-    public Flowable<List<Measurements>> getMeasurementsItemById(int MeasurementsItemId) {
-        return IMeasurementsDatasources.getMeasurementsItemById(MeasurementsItemId);
+    public Flowable<List<Measurements>> getMeasurementsItemById(String MeasurementsItemId,String MemberId) {
+        return IMeasurementsDatasources.getMeasurementsItemById(MeasurementsItemId,MemberId);
     }
 
     @Override
     public Measurements getMeasurements(String MeasurementsItem) {
         return IMeasurementsDatasources.getMeasurements(MeasurementsItem);
+    }
+
+    @Override
+    public int maxValue() {
+        return IMeasurementsDatasources.maxValue();
     }
 
     @Override
@@ -43,6 +48,11 @@ public class MeasurementsRepository implements IMeasurementsDatasources {
     @Override
     public int size() {
         return IMeasurementsDatasources.size();
+    }
+
+    @Override
+    public int valueFor(String Id) {
+        return IMeasurementsDatasources.valueFor(Id);
     }
 
     @Override

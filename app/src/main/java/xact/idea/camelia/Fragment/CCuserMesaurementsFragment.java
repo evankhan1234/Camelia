@@ -98,7 +98,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 Fragment f = new CCWHRFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.replace(R.id.rlt_fragment, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
@@ -118,7 +118,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 Fragment f = new CCBMIFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.replace(R.id.rlt_fragment, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
@@ -138,7 +138,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 Fragment f = new CCBloodPressureFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.replace(R.id.rlt_fragment, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
@@ -158,7 +158,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 Fragment f = new CCFastingGlucosreFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.replace(R.id.rlt_fragment, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
@@ -178,7 +178,7 @@ public class CCuserMesaurementsFragment extends Fragment {
                 Fragment f = new CCRandomGlucoseFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-                transaction.add(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.replace(R.id.rlt_fragment, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);

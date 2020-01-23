@@ -166,7 +166,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
 //            }
         }
     }
-    private void backForDetails() {
+    public void backForDetails() {
         // Toast.makeText(mContext, "dsfdsf", Toast.LENGTH_SHORT).show();
         Fragment f = getVisibleFragment();
         Log.e("frag", "frag" + f);
@@ -409,11 +409,11 @@ public class CCUserHomeActivity extends AppCompatActivity {
         details_title.setText(name);
     }
 
-    public void openStatusDetails(int position,String Type) {
+    public void openStatusDetails(int position,String Type,String value) {
        Fragment fragment= getSupportFragmentManager().findFragmentByTag(CCUserMemberStatusFragment.class.getSimpleName());
 
         if (fragment instanceof CCUserMemberStatusFragment){
-            ((CCUserMemberStatusFragment) fragment).data(position,Type);
+            ((CCUserMemberStatusFragment) fragment).data(position,Type,value);
         }
 
     }
