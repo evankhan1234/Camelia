@@ -101,6 +101,7 @@ public class IncompleteFragment extends Fragment {
 //        if (value==0){
 //
 //        }
+        
         compositeDisposable.add(Common.memberMyselfRepository.getInCompleteMembers().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
