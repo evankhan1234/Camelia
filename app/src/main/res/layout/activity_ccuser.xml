@@ -60,16 +60,26 @@
                     android:background="@drawable/white_bx"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="450px">
+                    android:layout_height="500px">
 
                     <ImageView
-                        android:layout_marginTop="50px"
+                        android:layout_marginTop="30px"
                         android:layout_width="400px"
                         android:layout_height="300px"
                         android:layout_gravity="center_horizontal"
 
                         android:layout_marginRight="1px"
                         android:src="@drawable/img_background" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28px"
+                        android:gravity="center_horizontal"
+                        android:tag="52"
+                        android:textStyle="bold"
+                        android:text="Welcome To (CC) Login User"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="52px" />
                 </LinearLayout>
 
             </RelativeLayout>

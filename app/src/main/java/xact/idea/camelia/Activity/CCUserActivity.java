@@ -504,6 +504,7 @@ public class CCUserActivity extends AppCompatActivity {
                 for (UnionResponses.Data unions : unionResponses.data) {
                     Unions unions1 = new Unions();
                     unions1.UnionId = unions.id;
+                    unions1.upazila_id = unions.upazila_id;
                     unions1.union_name_en = unions.union_name_en;
                     unions1.union_name_bn = unions.union_name_bn;
                     unions1.union_shortname_en = unions.union_shortname_en;
@@ -562,7 +563,7 @@ public class CCUserActivity extends AppCompatActivity {
                 for (DistrictResponses.Data districts : districtResponses.data) {
                     District district = new District();
                     district.DistrictId = districts.id;
-                    district.DivisionId = districts.DivisionId;
+                    district.DivisionId = districts.division_id;
                     district.district_name_en = districts.district_name_en;
                     district.district_name_bn = districts.district_name_bn;
                     district.district_shortname_en = districts.district_shortname_en;

@@ -166,6 +166,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
+        setRetainInstance(true);
         handler = new Handler(this);
         initView();
 

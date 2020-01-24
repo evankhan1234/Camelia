@@ -50,7 +50,7 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
-
+        setRetainInstance(true);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             uniquKey = bundle.getString("Id", "");
