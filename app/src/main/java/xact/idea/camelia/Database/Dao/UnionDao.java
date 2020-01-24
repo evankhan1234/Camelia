@@ -15,7 +15,7 @@ import xact.idea.camelia.Database.Model.Unions;
 public interface UnionDao {
     @Query("SELECT * FROM Unions")
     Flowable<List<Unions>> getUnionItems();
-    @Query("SELECT * FROM Unions WHERE id=:UnionItemId")
+    @Query("SELECT * FROM Unions WHERE upazila_id=:UnionItemId")
     Flowable<List<Unions>> getUnionItemById(int UnionItemId);
     @Query("SELECT * FROM Unions WHERE UnionId=:UnionItem")
     Unions getUnion(String UnionItem);

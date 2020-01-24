@@ -70,7 +70,9 @@ public class HHMemberListFragment extends Fragment {
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
+        setRetainInstance(true);
         initView();
+
          display();
         return view;
     }

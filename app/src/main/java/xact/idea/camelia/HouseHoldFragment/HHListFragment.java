@@ -64,7 +64,7 @@ public class HHListFragment extends Fragment {
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
         initView();
-
+        setRetainInstance(true);
         return view;
     }
 

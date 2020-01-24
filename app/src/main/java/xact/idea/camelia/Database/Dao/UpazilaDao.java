@@ -15,7 +15,7 @@ import xact.idea.camelia.Database.Model.Upazila;
 public interface UpazilaDao {
     @Query("SELECT * FROM Upazila")
     Flowable<List<Upazila>> getUpazilaItems();
-    @Query("SELECT * FROM Upazila WHERE id=:UpazilaItemId")
+    @Query("SELECT * FROM Upazila WHERE district_id=:UpazilaItemId")
     Flowable<List<Upazila>> getDivisionItemById(int UpazilaItemId);
     @Query("SELECT * FROM Upazila WHERE UpazilaId=:UpazilaItem")
     Upazila getUpazila(String UpazilaItem);

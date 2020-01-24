@@ -72,7 +72,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
                 Fragment f = new CCuserMesaurementsFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-                transaction.replace(R.id.rlt_fragment, f, f.getClass().getSimpleName());
+                transaction.replace(R.id.rlt_detail1_fragment, f, f.getClass().getSimpleName());
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);

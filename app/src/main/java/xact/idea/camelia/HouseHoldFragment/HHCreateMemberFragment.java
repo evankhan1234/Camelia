@@ -52,7 +52,7 @@ public class HHCreateMemberFragment extends Fragment {
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
-
+        setRetainInstance(true);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             uniquKey = bundle.getString("Id", "");
@@ -217,18 +217,18 @@ public class HHCreateMemberFragment extends Fragment {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (mArrCategoryWidthOffset.size() > 0) {
-                    if (position < mArrCategoryWidth.size() - 1) {
-                        int left = mArrCategoryWidthOffset.get(position) + (int) (mArrCategoryWidth.get(position) * positionOffset);
-
-                        int width = (int) Math.ceil((mArrCategoryWidth.get(position) * (1 - positionOffset))) + (int) Math.ceil((mArrCategoryWidth.get(position + 1) * positionOffset));
-                        setRunnerStateWidth(width, left);
-                    } else {
-                        // ignore
-                    }
-                } else {
-                    // ignore
-                }
+//                if (mArrCategoryWidthOffset.size() > 0) {
+//                    if (position < mArrCategoryWidth.size() - 1) {
+//                        int left = mArrCategoryWidthOffset.get(position) + (int) (mArrCategoryWidth.get(position) * positionOffset);
+//
+//                        int width = (int) Math.ceil((mArrCategoryWidth.get(position) * (1 - positionOffset))) + (int) Math.ceil((mArrCategoryWidth.get(position + 1) * positionOffset));
+//                        setRunnerStateWidth(width, left);
+//                    } else {
+//                        // ignore
+//                    }
+//                } else {
+//                    // ignore
+//                }
 
             }
 
@@ -242,10 +242,10 @@ public class HHCreateMemberFragment extends Fragment {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.e("state", "-- " + state);
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    mPagerAdapter.getItem(vpg_home.getCurrentItem());
-                }
+//                Log.e("state", "-- " + state);
+//                if (state == ViewPager.SCROLL_STATE_IDLE) {
+//                    mPagerAdapter.getItem(vpg_home.getCurrentItem());
+//                }
             }
         });
 

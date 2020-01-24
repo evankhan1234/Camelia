@@ -87,7 +87,7 @@ public class HHCreateHouseholdFragment extends Fragment {
 
     int DivisionId;
     int DistrictId;
-    int UnionId;
+    int UnionId=0;
     int UpazilaId;
     int WardId;
     int BlockId;
@@ -134,7 +134,7 @@ public class HHCreateHouseholdFragment extends Fragment {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isNullOrEmpty(edit_household.getText().toString()) && isNullOrEmpty(edit_sub_household.getText().toString()) && isNullOrEmpty(edit_family_memeber.getText().toString())&& isNullOrEmpty(edit_village.getText().toString()) && isNullOrEmpty(edit_household_income.getText().toString())){
+                if (isNullOrEmpty(edit_household.getText().toString()) || isNullOrEmpty(edit_sub_household.getText().toString()) || isNullOrEmpty(edit_family_memeber.getText().toString())|| isNullOrEmpty(edit_village.getText().toString()) || isNullOrEmpty(edit_household_income.getText().toString())){
                     Toast.makeText(mActivity, "Please insert all field", Toast.LENGTH_SHORT).show();
 
                 }
@@ -182,9 +182,59 @@ public class HHCreateHouseholdFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                String values1= "";
+                String values2 = "";
+                int value1;
+                int value2;
+                try {
+                    value1= Integer.parseInt(s.toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    value1=0;
+                }
+                try {
+                    value2= Integer.parseInt(edit_sub_household.toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    value2=0;
+                }
 
-                String val=DivisionId+""+DistrictId+""+UpazilaId+""+WardId+""+BlockId+""+edit_sub_household.getText().toString();
-                edit_unique_id.setText(val+s.toString());
+              //  int value2;
+
+                 if (value1 < 9) {
+                    values1 = "000" + value1;
+                }
+                else if (value1 >9 &&value1 <100) {
+                    values1 = "00" + value1;
+
+                } else if (value1 > 99 &&value1 <1000) {
+                    values1 = "0" + value1;
+                }
+                 else if (value1 >= 1000) {
+                     values1 = String.valueOf(value1);
+                 }
+                else
+                 {
+                     values1="";
+                 }
+                 if (value2==0) {
+                    values2 = "";
+                }
+                else if (value2 <9) {
+                    values2 = String.valueOf(value2);
+
+                }
+                else if (value1 > 9) {
+                    values2 = "0" + value2;
+                }
+
+                else{
+                    values2="";
+                }
+
+
+                String val=DivisionId+""+DistrictId+""+""+UnionId+""+UpazilaId+""+WardId+""+BlockId+""+values1;
+                edit_unique_id.setText(val+values2);
             }
         });
         edit_sub_household.addTextChangedListener(new TextWatcher() {
@@ -200,9 +250,56 @@ public class HHCreateHouseholdFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                String values1= "";
+                String values2 = "";
+                int value1;
+                int value2;
+                try {
+                    value1= Integer.parseInt(s.toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    value1=0;
+                }
+                try {
+                    value2= Integer.parseInt(edit_household.getText().toString());
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    value2=0;
+                }
 
-                String val=DivisionId+""+DistrictId+""+UpazilaId+""+WardId+""+BlockId+""+edit_household.getText().toString();
-                edit_unique_id.setText(val+s.toString());
+                //  int value2;
+                if (value1 < 9) {
+                    values1 = "000" + value1;
+                }
+                else if (value1 >9 &&value1 <100) {
+                    values1 = "00" + value1;
+
+                } else if (value1 > 99 &&value1 <1000) {
+                    values1 = "0" + value1;
+                }
+                else if (value1 >= 1000) {
+                    values1 = String.valueOf(value1);
+                }
+                else
+                {
+                    values1="";
+                }
+                if (value2==0) {
+                    values2 = "";
+                }
+                else if (value2 <9) {
+                    values2 = String.valueOf(value2);
+
+                }
+                else if (value1 > 9) {
+                    values2 = "0" + value2;
+                }
+
+                else{
+                    values2="";
+                }
+                String val=DivisionId+""+DistrictId+""+UpazilaId+""+UnionId+""+WardId+""+BlockId+""+values2;
+                edit_unique_id.setText(val+values1);
             }
         });
 
@@ -216,6 +313,19 @@ public class HHCreateHouseholdFragment extends Fragment {
                 Log.e("sp_water", "" + districtyList.get(position).DistrictId);
                 DistrictId=districtyList.get(position).DistrictId;
                 Log.e("wwwww2", "wwwww" + DistrictId);
+                compositeDisposable.add(Common.upazilaRepository.getUpazilaItemById(DistrictId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Upazila>>() {
+                    @Override
+                    public void accept(List<Upazila> customers) throws Exception {
+                        Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                        upazilaList=customers;
+                        dismissLoadingProgress();
+                        upazilaArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, upazilaList);
+                        upazilaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_upazila.setAdapter(upazilaArrayAdapter);
+                    }
+                }));
+
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -228,6 +338,17 @@ public class HHCreateHouseholdFragment extends Fragment {
 
                 UpazilaId=upazilaList.get(position).UpazilaId;
                 Log.e("wwwww3", "wwwww" + upazilaList.get(position).UpazilaId);
+                compositeDisposable.add(Common.unionRepository.getUnionItemById(UpazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Unions>>() {
+                    @Override
+                    public void accept(List<Unions> customers) throws Exception {
+                        Log.e("Union","UnionFor"+new Gson().toJson(customers));
+                        unionList=customers;
+                        dismissLoadingProgress();
+                        unionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, unionList);
+                        unionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_union.setAdapter(unionArrayAdapter);
+                    }
+                }));
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -273,30 +394,25 @@ public class HHCreateHouseholdFragment extends Fragment {
 
             }
         });
-        spinner_division.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                DivisionId=divisionList.get(position).DivisionId;
-                Log.e("wwwww1", "wwwww" + DivisionId);
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
     private void initalizeSpinner() {
         String s= SharedPreferenceUtil.getUserRole(mActivity);
         auth=Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
+
+        Log.e("Auth","Auth"+auth.division);
+        Log.e("Auth","Auth"+auth.district);
+        int currentPosition = 0;
 
         if (auth.division==null || auth.division.equals("")){
 
             spinner_division.setEnabled(true);
         }
         else {
+
             spinner_division.setEnabled(false);
+
+
 
         }
         if (auth.district==null || auth.district.equals("")){
@@ -354,29 +470,71 @@ public class HHCreateHouseholdFragment extends Fragment {
         spinner_division.setAdapter(divisionArrayAdapter);
 
 
-        districtArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, districtyList);
-        districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_district.setAdapter(districtArrayAdapter);
+//        for(Division division: divisionList){
+//            if (division.DivisionId==div){
+//
+//                currentPosition=divisionList.indexOf(div);
+//
+//                 spinner_division.setSelection(currentPosition);
+//            }
+//        }
 
         blockArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, blockList);
         blockArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_block.setAdapter(blockArrayAdapter);
 
 
-        unionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, unionList);
-        unionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_union.setAdapter(unionArrayAdapter);
 
 
-        upazilaArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, upazilaList);
-        upazilaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_upazila.setAdapter(upazilaArrayAdapter);
+
+
 
 
         wardArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, wardList);
         wardArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_ward.setAdapter(wardArrayAdapter);
+         //spinner_division.setSelection(4);
+        int div= Integer.parseInt(auth.division);
 
+        for (int i=0;i<divisionList.size();i++){
+            if (divisionList.get(i).DivisionId==div){
+                spinner_division.setSelection(i);
+            }
+        }
+//        for(Division division: divisionList){
+//            if (division.DivisionId==div){
+//
+//
+//
+//
+//                currentPosition++;
+//            }
+//        }
+
+        spinner_division.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                DivisionId=divisionList.get(position).DivisionId;
+                Log.e("wwwww1", "wwwww" + DivisionId);
+                compositeDisposable.add(Common.districtRepository.getDistrictItemById(DivisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<District>>() {
+                    @Override
+                    public void accept(List<District> customers) throws Exception {
+                        Log.e("fsd","dfsdf"+new Gson().toJson(customers));
+                        districtyList=customers;
+                        dismissLoadingProgress();
+                        districtArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, districtyList);
+                        districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner_district.setAdapter(districtArrayAdapter);
+                    }
+                }));
+//
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         listener();
 
 
@@ -394,34 +552,8 @@ public class HHCreateHouseholdFragment extends Fragment {
 
             }
         }));
-        compositeDisposable.add(Common.districtRepository.getDistrictItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<District>>() {
-            @Override
-            public void accept(List<District> customers) throws Exception {
-                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-                districtyList=customers;
-                dismissLoadingProgress();
 
-            }
-        }));
-//
-        compositeDisposable.add(Common.upazilaRepository.getUpazilaItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Upazila>>() {
-            @Override
-            public void accept(List<Upazila> customers) throws Exception {
-                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-                upazilaList=customers;
-                dismissLoadingProgress();
 
-            }
-        }));
-
-        compositeDisposable.add(Common.unionRepository.getUnionItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Unions>>() {
-            @Override
-            public void accept(List<Unions> customers) throws Exception {
-                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-                unionList=customers;
-                dismissLoadingProgress();
-            }
-        }));
 
         compositeDisposable.add(Common.wardRepository.getWardItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Ward>>() {
             @Override

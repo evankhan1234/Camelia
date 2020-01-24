@@ -16,7 +16,7 @@ public interface DistrictDao {
     @Query("SELECT * FROM District")
     Flowable<List<District>> getDistrictItems();
 
-    @Query("SELECT * FROM District WHERE id=:DistrictItemId")
+    @Query("SELECT * FROM District WHERE DivisionId=:DistrictItemId")
     Flowable<List<District>> getDistrictItemById(int DistrictItemId);
     @Query("SELECT * FROM District WHERE DivisionId=:DistrictItem")
     District getDistrict(String DistrictItem);
