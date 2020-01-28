@@ -27,13 +27,15 @@ public class HHMemberPager extends FragmentStatePagerAdapter {
     int tabCount;
     Activity activity;
     String unique;
+    String types;
 
     //Constructor to the class
-    public HHMemberPager(FragmentManager fm, int tabCount,String uniqueId) {
+    public HHMemberPager(FragmentManager fm, int tabCount,String uniqueId,String type) {
         super(fm);
         //Initializing tab count
         this.tabCount= tabCount;
         this.unique= uniqueId;
+        this.types= type;
 
     }
 
@@ -48,7 +50,7 @@ public class HHMemberPager extends FragmentStatePagerAdapter {
 
                 return tab1;
             case 1:
-                HHSurveysListFragment tab2 = new HHSurveysListFragment(unique);
+                HHSurveysListFragment tab2 = new HHSurveysListFragment(unique,types);
                 return tab2;
 
             default:

@@ -107,12 +107,16 @@ public class IncompleteFragment extends Fragment {
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("aa","dfsdf"+new Gson().toJson(memberMyselfes));
                 memberMyselfList=memberMyselfes;
-                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
-                try {
-                    rcl_this_customer_list.setAdapter(mAdapters);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (memberMyselfList.size()>0){
+                    mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
+                    try {
+                        rcl_this_customer_list.setAdapter(mAdapters);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
+
+
 
             }
         }));
@@ -120,14 +124,20 @@ public class IncompleteFragment extends Fragment {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("bb","dfsdf"+new Gson().toJson(memberMyselfes));
-                memberMyselfList.addAll(memberMyselfes);
-                mAdapters.notifyDataSetChanged();
-//                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
-//                try {
-//                    rcl_this_customer_list.setAdapter(mAdapters);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                if (memberMyselfList.size()==0){
+                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
+                try {
+                    rcl_this_customer_list.setAdapter(mAdapters);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                }
+                else {
+                    memberMyselfList.addAll(memberMyselfes);
+                    mAdapters.notifyDataSetChanged();
+                }
+
+
 
             }
         }));

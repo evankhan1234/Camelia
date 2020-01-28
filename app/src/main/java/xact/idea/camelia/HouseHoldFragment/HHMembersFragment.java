@@ -40,6 +40,7 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
     //This is our viewPager
     public static ViewPager viewPager;
     String uniquKey;
+    String type;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             uniquKey = bundle.getString("Id", "");
+            type = bundle.getString("type", "");
             Log.e("UniqueId","uniquKey"+uniquKey);
         }
         initView();
@@ -74,7 +76,7 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
         viewPager = view. findViewById(R.id.pager);
 
         //Creating our pager adapter
-        HHMemberPager adapter = new HHMemberPager(getChildFragmentManager(), tabLayout.getTabCount(),uniquKey);
+        HHMemberPager adapter = new HHMemberPager(getChildFragmentManager(), tabLayout.getTabCount(),uniquKey,type);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         //Adding adapter to pager
         viewPager.setOffscreenPageLimit(3);

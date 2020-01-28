@@ -41,6 +41,12 @@ public class SurveyDataSources implements ISurveyDataSources {
     }
 
     @Override
+    public void deleteSurveyById(int id) {
+        surveyDao.deleteSurveyById(id);
+    }
+
+
+    @Override
     public int size() {
         return surveyDao.value();
     }

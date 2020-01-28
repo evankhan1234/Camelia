@@ -29,6 +29,7 @@ import xact.idea.camelia.Adapter.CCDashboardAdapter;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.CustomViewPager;
 import xact.idea.camelia.ViewPager.Pager;
 
 public class CCUserMemberStatusFragment extends Fragment implements TabLayout.OnTabSelectedListener{
@@ -37,7 +38,7 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
     CorrectSizeUtil correctSizeUtil;
     public static TabLayout tabLayout;
     //This is our viewPager
-    public static ViewPager viewPager;
+    public static CustomViewPager viewPager;
     View view;
 
 
@@ -176,15 +177,17 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
 
         transaction.addToBackStack(f.getClass().getSimpleName());
         transaction.commit();
-        CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
-        CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
+        tabLayout.setVisibility(View.GONE);
+//        CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+//        {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event)
+//            {
+//                return true;
+//            }
+//        });
+        viewPager.setPagingEnabled(false);
+      //  CCUserMemberStatusFragment.viewPager.beginFakeDrag();
         // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
         ((CCUserHomeActivity) getActivity()).ShowText("Details");
         ((CCUserHomeActivity) getActivity()).showHeaderDetail("status");
