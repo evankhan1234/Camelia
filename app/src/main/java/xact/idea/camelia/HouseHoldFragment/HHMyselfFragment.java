@@ -463,6 +463,10 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             Toast.makeText(mActivity, "Please fill national id", Toast.LENGTH_SHORT).show();
             return false;
         }
+        if (Utils.isEmpty(edit_name.getText().toString())) {
+            Toast.makeText(mActivity, "Please fill national id", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         else if (Utils.isEmpty(edit_mobile_number.getText().toString())) {
             Toast.makeText(mActivity, "Please fill Mobile Number", Toast.LENGTH_SHORT).show();
             return false;
@@ -481,7 +485,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                 if (myself==null){
                     MemberMyself memberMyself = new MemberMyself();
                     memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
-                    memberMyself.MobileNumber= edit_national_id.getText().toString();
+                    memberMyself.MobileNumber= edit_mobile_number.getText().toString();
                     memberMyself.FullName= edit_name.getText().toString();
                     if (isNullOrEmpty(edit_birthday_date.getText().toString())){
                         memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
@@ -507,7 +511,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                 else {
                     MemberMyself memberMyself = new MemberMyself();
                     memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
-                    memberMyself.MobileNumber= edit_national_id.getText().toString();
+                    memberMyself.MobileNumber= edit_mobile_number.getText().toString();
                     memberMyself.FullName= edit_name.getText().toString();
                     if (isNullOrEmpty(edit_birthday_date.getText().toString())){
                         memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();

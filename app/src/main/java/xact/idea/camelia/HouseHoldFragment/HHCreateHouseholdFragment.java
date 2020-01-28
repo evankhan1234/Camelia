@@ -322,6 +322,20 @@ public class HHCreateHouseholdFragment extends Fragment {
                         upazilaArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, upazilaList);
                         upazilaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner_upazila.setAdapter(upazilaArrayAdapter);
+                        if (auth.upazila!=null){
+                            int div= Integer.parseInt(auth.upazila);
+
+
+
+                            for (int i=0;i<upazilaList.size();i++){
+                                if (upazilaList.get(i).UpazilaId==div){
+                                    spinner_upazila.setSelection(i);
+                                }
+                            }
+                        }
+
+
+
                     }
                 }));
 
@@ -347,6 +361,16 @@ public class HHCreateHouseholdFragment extends Fragment {
                         unionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, unionList);
                         unionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner_union.setAdapter(unionArrayAdapter);
+                        if (auth.upazila!=null){
+                            int div= Integer.parseInt(auth.union);
+
+                            for (int i=0;i<unionList.size();i++){
+                                if (unionList.get(i).UnionId==div){
+                                    spinner_union.setSelection(i);
+                                }
+                            }
+                        }
+
                     }
                 }));
             }
@@ -494,13 +518,16 @@ public class HHCreateHouseholdFragment extends Fragment {
         wardArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_ward.setAdapter(wardArrayAdapter);
          //spinner_division.setSelection(4);
-        int div= Integer.parseInt(auth.division);
+        if (auth.division!=null ){
+            int div= Integer.parseInt(auth.division);
 
-        for (int i=0;i<divisionList.size();i++){
-            if (divisionList.get(i).DivisionId==div){
-                spinner_division.setSelection(i);
+            for (int i=0;i<divisionList.size();i++){
+                if (divisionList.get(i).DivisionId==div){
+                    spinner_division.setSelection(i);
+                }
             }
         }
+
 //        for(Division division: divisionList){
 //            if (division.DivisionId==div){
 //
@@ -526,6 +553,17 @@ public class HHCreateHouseholdFragment extends Fragment {
                         districtArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, districtyList);
                         districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner_district.setAdapter(districtArrayAdapter);
+                        if (auth.district!=null){
+                            int div= Integer.parseInt(auth.district);
+
+                            for (int i=0;i<districtyList.size();i++){
+                                if (districtyList.get(i).DistrictId==div){
+                                    spinner_district.setSelection(i);
+                                }
+                            }
+                        }
+
+
                     }
                 }));
 //

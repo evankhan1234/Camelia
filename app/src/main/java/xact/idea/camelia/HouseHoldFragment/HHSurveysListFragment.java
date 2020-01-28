@@ -34,6 +34,7 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCuserMesaurementsFragment;
+import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
@@ -49,8 +50,10 @@ public class HHSurveysListFragment extends Fragment {
     RecyclerView rcl_this_customer_list;
     FloatingActionButton btn_survey_create;
     String uniqueId;
-    public HHSurveysListFragment(String unique){
+    String types;
+    public HHSurveysListFragment(String unique,String type){
         uniqueId=unique;
+        types=type;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +82,7 @@ public class HHSurveysListFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putString("Id",uniqueId);
+                bundle.putString("types",types);
                 Fragment f = new HHCreateSurveyFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -99,12 +103,40 @@ public class HHSurveysListFragment extends Fragment {
             }
         });
     }
+    UccMemberClickListener uccMemberClickListener = new UccMemberClickListener() {
+        @Override
+        public void onItemClick(int position) {
+            FragmentTransaction transaction;
+            transaction = getChildFragmentManager().beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putString("Id",uniqueId);
+            bundle.putString("types",types);
+            bundle.putInt("SurveyId",position);
+            Fragment f = new HHCreateSurveyFragment();
+            f.setArguments(bundle);
+            transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+            transaction.add(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
+            transaction.addToBackStack(f.getClass().getSimpleName());
+            transaction.commit();
+            HHMembersFragment.tabLayout.setVisibility(View.GONE);
+            HHMembersFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View v, MotionEvent event)
+                {
+                    return true;
+                }
+            });
+            ((HouseholdHomeActivity) getActivity()).ShowText("Update Survey");
+            ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+        }
+    };
     private  void display() {
         compositeDisposable.add(Common.surveyRepository.getSurveyItemById(uniqueId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Survey>>() {
             @Override
             public void accept(List<Survey> surveys) throws Exception {
                 Log.e("fsd","dfsdf"+new Gson().toJson(surveys));
-                mAdapters = new HHSurveysAdapter(mActivity,surveys);
+                mAdapters = new HHSurveysAdapter(mActivity,surveys,uccMemberClickListener);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {
@@ -136,7 +168,7 @@ Fragment fragment=getChildFragmentManager().findFragmentByTag(HHCreateSurveyFrag
                         return false;
                     }
                 });
-                ((HouseholdHomeActivity) getActivity()).ShowText("13140368003(Vikrompur)");
+                ((HouseholdHomeActivity) getActivity()).ShowText(types);
                 ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 Constant.code="are";
                 return 3;

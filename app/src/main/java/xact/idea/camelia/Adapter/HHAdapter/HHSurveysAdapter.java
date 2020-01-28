@@ -15,7 +15,9 @@ import java.util.Date;
 import java.util.List;
 
 import xact.idea.camelia.Database.Model.Survey;
+import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDashboardListiewHolder> {
@@ -23,9 +25,11 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
 
     private Activity mActivity = null;
     List<Survey> survey;
-    public HHSurveysAdapter(Activity activity,List<Survey> surveys) {
+    UccMemberClickListener uccMemberClickListeners;
+    public HHSurveysAdapter(Activity activity,List<Survey> surveys,UccMemberClickListener uccMemberClickListener) {
         mActivity = activity;
         survey=surveys;
+        uccMemberClickListeners=uccMemberClickListener;
     }
 
 
@@ -80,6 +84,26 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
         holder.text_sanitary.setText(Html.fromHtml(sanitary));
         holder.text_bondho.setText(Html.fromHtml(bondhoChula));
         holder.text_biomas_fuel.setText(Html.fromHtml(biomasFuel));
+        holder.text_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Common.surveyRepository.deleteSurveyById(survey.get(position).id);
+                notifyDataSetChanged();
+            }
+        });
+        holder.text_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Common.surveyRepository.deleteSurveyById(survey.get(position).id);
+                notifyDataSetChanged();
+            }
+        });
+        holder.text_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uccMemberClickListeners.onItemClick(survey.get(position).id);
+            }
+        });
     }
 
     @Override
@@ -94,6 +118,8 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
         private TextView text_bondho;
         private TextView text_biomas_fuel;
         private TextView text_date;
+        private TextView text_delete;
+        private TextView text_update;
 
 
         public CCDashboardListiewHolder(View itemView) {
@@ -103,6 +129,8 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
             text_bondho=itemView.findViewById(R.id.text_bondho);
             text_biomas_fuel=itemView.findViewById(R.id.text_biomas_fuel);
             text_date=itemView.findViewById(R.id.text_date);
+            text_delete=itemView.findViewById(R.id.text_delete);
+            text_update=itemView.findViewById(R.id.text_update);
         }
 
     }

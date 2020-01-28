@@ -41,6 +41,11 @@ public class SurveyRepository implements ISurveyDataSources {
     }
 
     @Override
+    public void deleteSurveyById(int id) {
+        ISurveyDataSources.deleteSurveyById(id);
+    }
+
+    @Override
     public int size() {
         return ISurveyDataSources.size();
     }

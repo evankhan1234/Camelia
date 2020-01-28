@@ -21,7 +21,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <!-- View pager to swipe views -->
-    <androidx.viewpager.widget.ViewPager
+    <xact.idea.camelia.Utils.CustomViewPager
         android:layout_below="@+id/tabLayout"
         android:id="@+id/pager"
         android:layout_width="match_parent"

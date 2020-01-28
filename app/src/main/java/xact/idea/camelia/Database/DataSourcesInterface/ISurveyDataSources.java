@@ -13,7 +13,7 @@ public interface ISurveyDataSources {
     Survey getSurvey(String SurveyItem);
 
     void emptySurvey();
-
+    void deleteSurveyById(int id);
     int size();
 
     Survey getSurveyNo(String SurveyItem);

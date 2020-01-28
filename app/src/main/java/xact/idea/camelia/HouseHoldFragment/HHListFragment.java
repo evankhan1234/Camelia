@@ -130,6 +130,7 @@ public class HHListFragment extends Fragment {
             transaction = getChildFragmentManager().beginTransaction();
             Bundle bundle = new Bundle();
             bundle.putString("Id",Type);
+            bundle.putString("type",houseHoldArrayList.get(position).UniqueId+" ("+houseHoldArrayList.get(position).VillageName+")");
             Fragment f = new HHMembersFragment();
             f.setArguments(bundle);
             transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);

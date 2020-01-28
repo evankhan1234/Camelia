@@ -56,9 +56,11 @@ public class HHCreateSurveyFragment extends Fragment {
     RadioButton radioBiomassFuelNo;
     Button create;
     int tubeWellId;
+    int id;
     int biomasFuelId;
     String uniquKey;
-
+    Survey surveys;
+    String types;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,12 +71,15 @@ public class HHCreateSurveyFragment extends Fragment {
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
-        initView();
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             uniquKey = bundle.getString("Id", "");
+            types = bundle.getString("types", "");
+            id = bundle.getInt("SurveyId", 0);
             Log.e("UniqueId","uniquKey"+uniquKey);
         }
+        initView();
         // display();
         return view;
     }
@@ -88,6 +93,7 @@ public class HHCreateSurveyFragment extends Fragment {
         text_date_current=view.findViewById(R.id.text_date_current);
         spinner_drinking_water=view.findViewById(R.id.spinner_drinking_water);
         radioDrinkingYes=view.findViewById(R.id.radioDrinkingYes);
+        radioDrinkingNo=view.findViewById(R.id.radioDrinkingNo);
         radioSanitaryLatrineYes=view.findViewById(R.id.radioSanitaryLatrineYes);
         radioSanitaryLatrineNo=view.findViewById(R.id.radioSanitaryLatrineNo);
         radioBondhoChulaYes=view.findViewById(R.id.radioBondhoChulaYes);
@@ -98,49 +104,136 @@ public class HHCreateSurveyFragment extends Fragment {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM,yyyy");
         Date date = new Date(System.currentTimeMillis());
-        text_date_current.setText(formatter.format(date));
+        surveys=Common.surveyRepository.getSurvey(String.valueOf(id));
+        if (surveys==null){
+            text_date_current.setText(formatter.format(date));
+        }
+        else{
+            text_date_current.setText(formatter.format(surveys.CreatedDate));
+            if (surveys.SafeDrinkingYesNo==1){
+                radioDrinkingYes.setChecked(true);
+                radioDrinkingNo.setChecked(false);
+            }
+            else if (surveys.SafeDrinkingYesNo==2){
+                radioDrinkingNo.setChecked(true);
+                radioDrinkingYes.setChecked(false);
+            }
+
+            if (surveys.SanitaryYesNo==1){
+                radioSanitaryLatrineYes.setChecked(true);
+                radioSanitaryLatrineNo.setChecked(false);
+            }
+            else if (surveys.SanitaryYesNo==2){
+                radioSanitaryLatrineNo.setChecked(true);
+                radioSanitaryLatrineYes.setChecked(false);
+            }
+            if (surveys.BondhoChulaYesNo==1){
+                radioBondhoChulaYes.setChecked(true);
+                radioBondhoChulaNo.setChecked(false);
+            }
+            else if (surveys.BondhoChulaYesNo==2){
+                radioBondhoChulaNo.setChecked(true);
+                radioBondhoChulaYes.setChecked(false);
+            }
+            if (surveys.BiomasFuelYesNo==1){
+                radioBiomassFuelYes.setChecked(true);
+                radioBiomassFuelNo.setChecked(false);
+            }
+            else if (surveys.BiomasFuelYesNo==2){
+                radioBiomassFuelNo.setChecked(true);
+                radioBiomassFuelYes.setChecked(false);
+            }
+        }
+
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Survey survey= new Survey();
-                survey.UniqueId=uniquKey;
-                Date date = new Date(System.currentTimeMillis());
-                survey.CreatedDate=date;
-                if (radioDrinkingYes.isChecked()){
-                    survey.SafeDrinkingYesNo=1;
-                    survey.SafeDrinkingDetails=tubeWellId;
+                if (id==0){
+                    Survey survey= new Survey();
+                    survey.UniqueId=uniquKey;
+                    Date date = new Date(System.currentTimeMillis());
+                    survey.CreatedDate=date;
+                    if (radioDrinkingYes.isChecked()){
+                        survey.SafeDrinkingYesNo=1;
+                        survey.SafeDrinkingDetails=tubeWellId;
+                    }
+
+                    if (radioDrinkingNo.isChecked()){
+                        survey.SafeDrinkingYesNo=2;
+                    }
+                    if (radioSanitaryLatrineYes.isChecked()){
+                        survey.SanitaryYesNo=1;
+                    }
+
+                    if (radioSanitaryLatrineNo.isChecked()){
+                        survey.SanitaryYesNo=2;
+                    }
+
+                    if (radioBondhoChulaYes.isChecked()){
+                        survey.BondhoChulaYesNo=1;
+                    }
+
+                    if (radioBondhoChulaNo.isChecked()){
+                        survey.BondhoChulaYesNo=2;
+                    }
+
+                    if (radioBiomassFuelYes.isChecked()){
+                        survey.BiomasFuelYesNo=1;
+                        survey.BiomasFuelDetails=biomasFuelId;
+                    }
+
+                    if (radioBiomassFuelNo.isChecked()){
+                        survey.BiomasFuelYesNo=2;
+                    }
+
+                    Common.surveyRepository.insertToSurvey(survey);
+                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+                }
+                else {
+
+                    Survey survey= new Survey();
+                    survey.id=surveys.id;
+                    survey.UniqueId=uniquKey;
+                    Date date = new Date(System.currentTimeMillis());
+                    survey.CreatedDate=date;
+                    if (radioDrinkingYes.isChecked()){
+                        survey.SafeDrinkingYesNo=1;
+                        survey.SafeDrinkingDetails=tubeWellId;
+                    }
+
+                    if (radioDrinkingNo.isChecked()){
+                        survey.SafeDrinkingYesNo=2;
+                    }
+                    if (radioSanitaryLatrineYes.isChecked()){
+                        survey.SanitaryYesNo=1;
+                    }
+
+                    if (radioSanitaryLatrineNo.isChecked()){
+                        survey.SanitaryYesNo=2;
+                    }
+
+                    if (radioBondhoChulaYes.isChecked()){
+                        survey.BondhoChulaYesNo=1;
+                    }
+
+                    if (radioBondhoChulaNo.isChecked()){
+                        survey.BondhoChulaYesNo=2;
+                    }
+
+                    if (radioBiomassFuelYes.isChecked()){
+                        survey.BiomasFuelYesNo=1;
+                        survey.BiomasFuelDetails=biomasFuelId;
+                    }
+
+                    if (radioBiomassFuelNo.isChecked()){
+                        survey.BiomasFuelYesNo=2;
+                    }
+
+                    Common.surveyRepository.updateSurvey(survey);
+                    ((HouseholdHomeActivity) getActivity()).backForDetails();
                 }
 
-                if (radioDrinkingNo.isChecked()){
-                    survey.SafeDrinkingYesNo=2;
-                }
-                if (radioSanitaryLatrineYes.isChecked()){
-                    survey.SanitaryYesNo=1;
-                }
-
-                if (radioSanitaryLatrineNo.isChecked()){
-                    survey.SanitaryYesNo=2;
-                }
-
-                if (radioBondhoChulaYes.isChecked()){
-                    survey.BondhoChulaYesNo=1;
-                }
-
-                if (radioBondhoChulaNo.isChecked()){
-                    survey.BondhoChulaYesNo=2;
-                }
-
-                if (radioBiomassFuelYes.isChecked()){
-                    survey.BiomasFuelYesNo=1;
-                    survey.BiomasFuelDetails=biomasFuelId;
-                }
-
-                if (radioBiomassFuelNo.isChecked()){
-                    survey.BiomasFuelYesNo=2;
-                }
-
-                Common.surveyRepository.insertToSurvey(survey);
-                ((HouseholdHomeActivity) getActivity()).backForDetails();
             }
         });
         radioDrinkingYes.setOnClickListener(new View.OnClickListener() {
