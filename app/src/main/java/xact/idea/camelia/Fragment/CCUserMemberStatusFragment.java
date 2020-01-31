@@ -171,8 +171,14 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
        if (value.equals("1")){
            transaction.replace(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
        }
-       else {
+       else  if (value.equals("2")){
            transaction.replace(R.id.rlt_details_fragment, f, f.getClass().getSimpleName());
+       }
+       else  if (value.equals("3")){
+           transaction.replace(R.id.rlt_details3_fragment, f, f.getClass().getSimpleName());
+       }
+       else  if (value.equals("4")){
+           transaction.replace(R.id.rlt_details4_fragment, f, f.getClass().getSimpleName());
        }
 
         transaction.addToBackStack(f.getClass().getSimpleName());

@@ -100,6 +100,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
         if (fragment instanceof CCMeasurementsDetailsFragment){
             if (getChildFragmentManager().findFragmentByTag(CCMeasurementsDetailsFragment.class.getSimpleName()) != null)
             {
+                display();
                 CCMeasurementsDetailsFragment f = (CCMeasurementsDetailsFragment) getChildFragmentManager()
                         .findFragmentByTag(CCMeasurementsDetailsFragment.class.getSimpleName());
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

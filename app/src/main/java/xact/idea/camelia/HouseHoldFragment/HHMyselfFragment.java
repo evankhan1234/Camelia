@@ -305,7 +305,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_sex.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               // Log.e("sp_water", "" + sexArrayList.get(position).getId());
+                Log.e("FemaleId", "genderId" + sexArrayList.get(position).FemaleId);
                 genderId=sexArrayList.get(position).FemaleId;
             }
 

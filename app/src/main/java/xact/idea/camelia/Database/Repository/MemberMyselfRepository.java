@@ -81,6 +81,16 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
+    public Flowable<List<MemberMyself>> getReferMembersFor() {
+        return IMemberMyselfDatasources.getReferMembersFor();
+    }
+
+    @Override
+    public Flowable<List<MemberMyself>> getFollowUpMembersFor() {
+        return IMemberMyselfDatasources.getFollowUpMembersFor();
+    }
+
+    @Override
     public void updateMemberMyself(MemberMyself... MemberMyself) {
         IMemberMyselfDatasources.updateMemberMyself(MemberMyself);
     }

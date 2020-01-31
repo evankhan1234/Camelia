@@ -252,12 +252,12 @@ public class CCRandomGlucoseFragment extends Fragment {
                     } else if ( (memberMedicine.DiabetisYesNo == 1) && ((bg_diabetes_fasting <= 8) || (bg_diabetes_random_1 <= 10)) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Controlled Diabetes = Follow up 6 months.");
-                        refer="";
+                        refer="Follow";
                         message="Controlled Diabetes = Follow up 6 months.";
                     } else if ( (memberMedicine.DiabetisYesNo == 2) && (((bg_diabetes_fasting >= 6.1) && (bg_diabetes_fasting <= 6.9)) || ((bg_diabetes_random_1 >= 8.1) && (bg_diabetes_random_1 <= 11))) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Pre-diabetic = Next week follow-up");
-                        refer="";
+                        refer="Follow";
                         message="Pre-diabetic = Next week follow-up";
                     } else if ( (memberMedicine.DiabetisYesNo == 2) && ((bg_diabetes_fasting >= 7) || (bg_diabetes_random_1 >= 11.1)) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
