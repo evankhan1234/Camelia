@@ -59,27 +59,7 @@ public class IncompleteFragment extends Fragment {
     private MedicineInterface clickListener = new MedicineInterface() {
         @Override
         public void postion(int position,String Type) {
-//            FragmentTransaction transaction;
-//            transaction = getChildFragmentManager().beginTransaction();
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("Id",position);
-//            Fragment f = new CCMemberStausDetailsFragment();
-//            f.setArguments(bundle);
-//            transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-//            transaction.add(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
-//            transaction.addToBackStack(f.getClass().getSimpleName());
-//            transaction.commit();
-//            CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
-//            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
-//            {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event)
-//                {
-//                    return true;
-//                }
-//            });
-//           // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-//            ((CCUserHomeActivity) getActivity()).ShowText("Details");
+
             ((CCUserHomeActivity) getActivity()).openStatusDetails(position,Type,"1");
         }
     };
@@ -97,10 +77,7 @@ public class IncompleteFragment extends Fragment {
     }
 
     public   void display() {
-        //int value=Common.measurementsRepository.valueFor();
-//        if (value==0){
-//
-//        }
+
 
         compositeDisposable.add(Common.memberMyselfRepository.getInCompleteMembers().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override

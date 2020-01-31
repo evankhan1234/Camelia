@@ -21,7 +21,8 @@ public interface IMemberMyselfDatasources {
     MemberMyself getMemberMyselfNo(int MemberMyselfItem);
     Flowable<List<MemberMyself>> getInCompleteMembersFor();
     void insertToMemberMyself(MemberMyself... MemberMyself);
-
+    Flowable<List<MemberMyself>> getReferMembersFor();
+    Flowable<List<MemberMyself>> getFollowUpMembersFor();
     void updateMemberMyself(MemberMyself... MemberMyself);
 
     void deleteMemberMyself(MemberMyself... MemberMyself);

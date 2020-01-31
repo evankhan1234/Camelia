@@ -36,10 +36,16 @@ public interface MemberMyselfDao {
     void updateMemberMyself(MemberMyself...MemberMyself);
     @Delete
     void deleteMemberMyself(MemberMyself...MemberMyself);
-    @Query("SELECT DISTINCT * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId Group BY Member.id HAVING  Count(Measure.id)>=6")
+    @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId where  Measure.Type  IN('WHR','Diastolic','Diabetes','Pulse','BMI','Systolic') Group BY Member.id HAVING COUNT(Measure.id) >=6")
     Flowable<List<MemberMyself>> getCompleteMembers();
     @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId  Group BY Member.id HAVING  Count(Measure.id)<6")
     Flowable<List<MemberMyself>> getInCompleteMembers();
     @Query("SELECT  * FROM MemberMyself as Member left join Measurements as Measure ON Member.MobileNumber=Measure.MemberId  WHERE Measure.id  IS NULL")
     Flowable<List<MemberMyself>> getInCompleteMembersFor();
+
+    @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId where  Measure.Refer='UHC' Group BY Member.id")
+    Flowable<List<MemberMyself>> getReferMembersFor();
+
+    @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId where  Measure.Refer='Follow' Group BY Member.id")
+    Flowable<List<MemberMyself>> getFollowUpMembersFor();
 }

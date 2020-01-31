@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         show_pass = findViewById(R.id.show_pass);
         edit_text_email = findViewById(R.id.edit_text_email);
         edit_text_password = findViewById(R.id.edit_text_password);
-        layoutq = findViewById(R.id.layoutq);
+        layoutq = findViewById(R.id.layout);
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

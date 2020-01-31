@@ -224,7 +224,7 @@ public class CCBloodPressureFragment extends Fragment {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Normal = Follow up 6 months.");
                         message="Normal = Follow up 6 months.";
-                        refer="";
+                        refer="Follow";
                     } else if ( (memberMedicine.DiabetisYesNo == 2) && (total >= 140)  ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                         text_text.setText("Hypertension = Refer to UHC!");
@@ -234,7 +234,7 @@ public class CCBloodPressureFragment extends Fragment {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Normal = Follow up 6 months.");
                         message="Normal = Follow up 6 months.";
-                        refer="";
+                        refer="Follow";
                     } else {
                         message="";
                         refer="UHC";
@@ -244,7 +244,7 @@ public class CCBloodPressureFragment extends Fragment {
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     message="";
-                    refer="UHC";
+                    refer="";
                     linear.setVisibility(View.GONE);
                 } catch (Resources.NotFoundException e) {
                     e.printStackTrace();
@@ -291,7 +291,7 @@ public class CCBloodPressureFragment extends Fragment {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Normal = Follow up 6 months.");
                         message="Normal = Follow up 6 months.";
-                        refer="";
+                        refer="Follow";
                     } else if ( (memberMedicine.DiabetisYesNo == 2) && (total >= 140)  ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                         text_text.setText("Hypertension = Refer to UHC!");
@@ -301,7 +301,7 @@ public class CCBloodPressureFragment extends Fragment {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Normal = Follow up 6 months.");
                         message="Normal = Follow up 6 months.";
-                        refer="";
+                        refer="Follow";
                     } else {
                         message="";
                         refer="UHC";
@@ -311,7 +311,7 @@ public class CCBloodPressureFragment extends Fragment {
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     message="";
-                    refer="UHC";
+                    refer="";
                     linear.setVisibility(View.GONE);
                 } catch (Resources.NotFoundException e) {
                     e.printStackTrace();

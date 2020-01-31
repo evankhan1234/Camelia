@@ -58,66 +58,11 @@ public class CompleteFragment extends Fragment {
     private MedicineInterface clickListener = new MedicineInterface() {
         @Override
         public void postion(int position,String Type) {
-//            FragmentTransaction transaction;
-//            transaction = getChildFragmentManager().beginTransaction();
-//            Bundle bundle = new Bundle();
-//            bundle.putInt("Id",position);
-//            Fragment f = new CCMemberStausDetailsFragment();
-//            f.setArguments(bundle);
-//            transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
-//            transaction.add(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
-//            transaction.addToBackStack(f.getClass().getSimpleName());
-//            transaction.commit();
-//            CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
-//            CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
-//            {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event)
-//                {
-//                    return true;
-//                }
-//            });
-//           // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-//            ((CCUserHomeActivity) getActivity()).ShowText("Details");
+
             ((CCUserHomeActivity) getActivity()).openStatusDetails(position,Type,"2");
         }
     };
-    public int handle(){
 
-        Fragment fq = getVisibleFragment();
-        Log.e("eva","SDfds"+fq);
-     //   Log.e("evan","SDfds"+getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()));
-        Log.e("evan","SDfds"+getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()));
-//        Log.e("DFDf1","SDfds"+getFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()));
-//        Log.e("DFDf2","SDfds"+getChildFragmentManager().findFragmentByTag(IncompleteFragment.class.getSimpleName()));
-//        if (getChildFragmentManager().findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName()) != null) {
-//            CCMemberStausDetailsFragment f = (CCMemberStausDetailsFragment) getChildFragmentManager()
-//                    .findFragmentByTag(CCMemberStausDetailsFragment.class.getSimpleName());
-//            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//            transaction.setCustomAnimations(R.anim.left_to_right, R.anim.left_to_right);
-//            transaction.remove(f);
-//            transaction.commit();
-//            getChildFragmentManager().popBackStack();
-//
-//
-//            return 2;
-//
-//        }
-        return 0;
-    }
-    public Fragment getVisibleFragment() {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        List<Fragment> fragments = fragmentManager.getFragments();
-        Collections.reverse(fragments);
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
-                if (fragment != null && fragment.isVisible())
-                    Log.e("ggsdf","fds"+Fragment.class.getName());
-                return fragment;
-            }
-        }
-        return null;
-    }
     @Override
     public void onResume() {
         super.onResume();
@@ -147,7 +92,6 @@ public class CompleteFragment extends Fragment {
             }
         }));
 
-        //EmployeeStaus();
 
     }
 

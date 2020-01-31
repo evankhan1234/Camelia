@@ -82,6 +82,16 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     }
 
     @Override
+    public Flowable<List<MemberMyself>> getReferMembersFor() {
+        return MemberMyselfDao.getReferMembersFor();
+    }
+
+    @Override
+    public Flowable<List<MemberMyself>> getFollowUpMembersFor() {
+        return MemberMyselfDao.getFollowUpMembersFor();
+    }
+
+    @Override
     public void updateMemberMyself(MemberMyself... MemberMyself) {
         MemberMyselfDao.updateMemberMyself(MemberMyself);
     }
