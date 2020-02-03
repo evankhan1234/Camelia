@@ -65,7 +65,9 @@ public class ReferralFragment extends Fragment {
         display();
         initView();
     }
-
+    public void show(){
+        display();
+    }
     private void initView() {
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);

@@ -147,6 +147,75 @@
                         </LinearLayout>
                         <LinearLayout
                             android:backgroundTint="@color/colorPrimary"
+                            android:id="@+id/linear_household_member"
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="1px"
+                            android:layout_marginRight="5px"
+                            android:layout_weight="1"
+                            android:background="@drawable/white_bx"
+
+                            android:orientation="vertical"
+
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="1px"
+                                android:layout_marginTop="100px"
+                                android:src="@drawable/customers" />
+
+                            <TextView
+                                android:textStyle="bold"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="28px"
+                                android:gravity="center_horizontal"
+                                android:tag="52"
+
+                                android:layout_marginLeft="15px"
+                                android:layout_marginRight="10px"
+                                android:text="Household     Members"
+                                android:textColor="@color/white"
+                                android:textSize="52px" />
+
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="23px"
+                    android:layout_marginRight="23px"
+
+
+                    android:alpha="1.5"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="500px"
+                        android:layout_weight="1"
+                        android:layout_marginTop="0px"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+                        <LinearLayout
+                            android:backgroundTint="@color/colorPrimary"
                             android:id="@+id/linear_member_status"
                             android:layout_width="0px"
                             android:layout_height="match_parent"
@@ -180,38 +249,6 @@
 
 
                         </LinearLayout>
-
-
-
-
-                    </LinearLayout>
-
-
-
-
-
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="23px"
-                    android:layout_marginRight="23px"
-
-
-                    android:alpha="1.5"
-                    android:orientation="vertical"
-                    android:weightSum="2">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="500px"
-                        android:layout_weight="1"
-                        android:layout_marginTop="0px"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
                         <LinearLayout
                             android:backgroundTint="@color/colorPrimary"
                             android:id="@+id/linear_summary"
@@ -247,40 +284,7 @@
 
 
                         </LinearLayout>
-                        <LinearLayout
-                            android:backgroundTint="@color/colorPrimary"
-                            android:id="@+id/linear_logout"
-                            android:layout_width="0px"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="1px"
-                            android:layout_marginRight="5px"
-                            android:layout_weight="1"
-                            android:background="@drawable/white_bx"
 
-                            android:orientation="vertical"
-
-                            >
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginLeft="1px"
-                                android:layout_marginTop="100px"
-                                android:src="@drawable/logout" />
-
-                            <TextView
-                                android:textStyle="bold"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="28px"
-                                android:gravity="center_horizontal"
-                                android:tag="52"
-                                android:text="Logout"
-                                android:textColor="@color/white"
-                                android:textSize="52px" />
-
-
-                        </LinearLayout>
 
 
 
@@ -315,7 +319,7 @@
                         android:weightSum="2">
                         <LinearLayout
                             android:backgroundTint="@color/colorPrimary"
-                            android:id="@+id/linear_website"
+                            android:id="@+id/linear_logout"
                             android:layout_width="0px"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="1px"
@@ -326,15 +330,14 @@
                             android:orientation="vertical"
 
                             >
-
-
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginLeft="1px"
                                 android:layout_marginTop="100px"
-                                android:src="@drawable/internet" />
+                                android:src="@drawable/logout" />
+
                             <TextView
                                 android:textStyle="bold"
                                 android:layout_width="match_parent"
@@ -342,7 +345,7 @@
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
                                 android:tag="52"
-                                android:text="Website"
+                                android:text="Logout"
                                 android:textColor="@color/white"
                                 android:textSize="52px" />
 

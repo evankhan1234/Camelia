@@ -33,6 +33,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Activity.LoginActivity;
 import xact.idea.camelia.Database.Model.Auth;
@@ -91,6 +92,7 @@ public class HHCreateHouseholdFragment extends Fragment {
     int UpazilaId;
     int WardId;
     int BlockId;
+    String frag;
 
     Auth auth;
     @Override
@@ -103,6 +105,15 @@ public class HHCreateHouseholdFragment extends Fragment {
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
         initView();
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+
+            frag = bundle.getString("frag", "");
+            Log.e("Frgalk","uniquKey"+frag);
+        }
+        else{
+            frag="";
+        }
         // display();
         load();
         new Handler().postDelayed(new Runnable() {
@@ -162,7 +173,13 @@ public class HHCreateHouseholdFragment extends Fragment {
                     //  houseHold.Birthdate=ed;
 
                     Common.householdRepository.insertToHouseHold(houseHold);
-                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+                    if (frag.equals("frag")){
+                        ((CCUserHomeActivity) getActivity()).backForDetails();
+                    }
+                    else {
+                        ((HouseholdHomeActivity) getActivity()).backForDetails();
+                    }
+
 
                     Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
                 }
@@ -361,7 +378,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                         unionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, unionList);
                         unionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner_union.setAdapter(unionArrayAdapter);
-                        if (auth.upazila!=null){
+                        if (auth.union!=null){
                             int div= Integer.parseInt(auth.union);
 
                             for (int i=0;i<unionList.size();i++){
