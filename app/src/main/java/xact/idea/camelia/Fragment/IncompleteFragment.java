@@ -123,7 +123,9 @@ public class IncompleteFragment extends Fragment {
 
     }
 
-
+    public void show(){
+        display();
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

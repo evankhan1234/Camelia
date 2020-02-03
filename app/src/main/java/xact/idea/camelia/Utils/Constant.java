@@ -14,6 +14,7 @@ public class Constant {
     public static final int FRAG_MEMBER_STATUS = 3;
 
     public static final int FRAG_MEMBER_SUMMARY = 4;
+    public static final int FRAG_MEMBER = 5;
     public static String code="home";
     public static final String NULL = "null";
 }

@@ -54,6 +54,7 @@ public class HHListFragment extends Fragment {
     RecyclerView rcl_this_customer_list;
     FloatingActionButton btn_new;
     List<HouseHold> houseHoldArrayList= new ArrayList<>();
+    String frag;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +66,14 @@ public class HHListFragment extends Fragment {
         correctSizeUtil.correctSize(view);
         initView();
         setRetainInstance(true);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            frag = bundle.getString("frag", "");
+            Log.e("UniqueId","uniquKey"+frag);
+        }
+        else{
+            frag="";
+        }
         return view;
     }
 
@@ -83,6 +92,7 @@ public class HHListFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("Id",2);
+                bundle.putString("frag",frag);
                 Fragment f = new HHCreateHouseholdFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -90,8 +100,15 @@ public class HHListFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-                ((HouseholdHomeActivity) getActivity()).ShowText("Create Household");
-                ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                if (frag.equals("frag")){
+                    ((CCUserHomeActivity) getActivity()).ShowText("Create Household");
+                    ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                }
+                else{
+                    ((HouseholdHomeActivity) getActivity()).ShowText("Create Household");
+                    ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                }
+
             }
         });
     }
@@ -130,6 +147,7 @@ public class HHListFragment extends Fragment {
             transaction = getChildFragmentManager().beginTransaction();
             Bundle bundle = new Bundle();
             bundle.putString("Id",Type);
+            bundle.putString("frag",frag);
             bundle.putString("type",houseHoldArrayList.get(position).UniqueId+" ("+houseHoldArrayList.get(position).VillageName+")");
             Fragment f = new HHMembersFragment();
             f.setArguments(bundle);
@@ -138,8 +156,17 @@ public class HHListFragment extends Fragment {
             transaction.addToBackStack(f.getClass().getSimpleName());
             transaction.commit();
             // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-            ((HouseholdHomeActivity) getActivity()).ShowText(houseHoldArrayList.get(position).UniqueId+" ("+houseHoldArrayList.get(position).VillageName+")");
-            ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+
+
+            if (frag.equals("frag")){
+
+                ((CCUserHomeActivity) getActivity()).ShowText(houseHoldArrayList.get(position).UniqueId+" ("+houseHoldArrayList.get(position).VillageName+")");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+            else{
+                ((HouseholdHomeActivity) getActivity()).ShowText(houseHoldArrayList.get(position).UniqueId+" ("+houseHoldArrayList.get(position).VillageName+")");
+                ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
           //  ((CCUserHomeActivity) getActivity()).openStatusDetails(position);
         }
     };

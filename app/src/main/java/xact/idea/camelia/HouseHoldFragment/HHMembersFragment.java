@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import xact.idea.camelia.Activity.CCUserHomeActivity;
+import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.R;
@@ -41,6 +42,7 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
     public static ViewPager viewPager;
     String uniquKey;
     String type;
+    String frag;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +58,11 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
         if (bundle != null) {
             uniquKey = bundle.getString("Id", "");
             type = bundle.getString("type", "");
+            frag = bundle.getString("frag", "");
             Log.e("UniqueId","uniquKey"+uniquKey);
+        }
+        else{
+            frag="";
         }
         initView();
         // display();
@@ -76,7 +82,7 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
         viewPager = view. findViewById(R.id.pager);
 
         //Creating our pager adapter
-        HHMemberPager adapter = new HHMemberPager(getChildFragmentManager(), tabLayout.getTabCount(),uniquKey,type);
+        HHMemberPager adapter = new HHMemberPager(getChildFragmentManager(), tabLayout.getTabCount(),uniquKey,type,frag);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         //Adding adapter to pager
         viewPager.setOffscreenPageLimit(3);
@@ -200,7 +206,14 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
             }
         });
         // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-        ((CCUserHomeActivity) getActivity()).ShowText("Details");
-        ((CCUserHomeActivity) getActivity()).showHeaderDetail("status");
+        if (frag.equals("frag")){
+            ((CCUserHomeActivity) getActivity()).ShowText("Details");
+            ((CCUserHomeActivity) getActivity()).showHeaderDetail("status");
+        }
+        else {
+            ((HouseholdHomeActivity) getActivity()).ShowText("Details");
+            ((HouseholdHomeActivity) getActivity()).showHeaderDetail("status");
+        }
+
     }
 }

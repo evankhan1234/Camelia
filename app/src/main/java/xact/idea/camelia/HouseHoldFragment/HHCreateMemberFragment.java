@@ -41,6 +41,7 @@ public class HHCreateMemberFragment extends Fragment {
     static Button btn_next;
     String[] categories;
     String uniquKey;
+    String frag;
     Message message = null;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -56,7 +57,11 @@ public class HHCreateMemberFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             uniquKey = bundle.getString("Id", "");
+            frag = bundle.getString("frag", "");
             Log.e("UniqueId","uniquKey"+uniquKey);
+        }
+        else{
+            frag="";
         }
         initView();
         // display();
@@ -204,7 +209,7 @@ public class HHCreateMemberFragment extends Fragment {
         mPagerAdapter.addFragment(new HHMyselfFragment(uniquKey), "");
      //   mPagerAdapter.addFragment(new HHFamilyDiseaseFragment(), "");
         mPagerAdapter.addFragment(new HHMedicineFragment(), "");
-        mPagerAdapter.addFragment(new HHHabitFragment(), "");
+        mPagerAdapter.addFragment(new HHHabitFragment(frag), "");
      //   mPagerAdapter.addFragment(new HHReasonFragment(), "");
         // mPagerAdapter.addFragment(new ReviewFragment(), "");
        // vpg_home.beginFakeDrag();

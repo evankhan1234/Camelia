@@ -25,6 +25,7 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
+import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Database.Model.MemberHabit;
 import xact.idea.camelia.Database.Model.MemberMedicine;
@@ -215,7 +216,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     int moderateIntensityTypical;
     int recliningActivities;
    RelativeLayout relativeLayout;
-
+   String frag;
+    public HHHabitFragment(String frags) {
+        frag=frags;
+        Log.e("uniqueId",""+frag);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -1889,7 +1894,12 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
 
                 Common.memberHabitRepository.insertToMemberHabit(memberHabit);
-                ((HouseholdHomeActivity) getActivity()).backForDetails();
+                if (frag.equals("frag")){
+                    ((CCUserHomeActivity) getActivity()).backForDetails();
+                }
+                else {
+                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+                }
             }
             else {
                 memberHabit.id = memberHabit1.id;
@@ -1999,7 +2009,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 }
 
                 Common.memberHabitRepository.updateMemberHabit(memberHabit);
-                ((HouseholdHomeActivity) getActivity()).backForDetails();
+                if (frag.equals("frag")){
+                    ((CCUserHomeActivity) getActivity()).backForDetails();
+                }
+                else {
+                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+                }
+
             }
 
         }
