@@ -3,6 +3,7 @@ package xact.idea.camelia.Database.DataSource;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.Dao.MemberMyselfDao;
 import xact.idea.camelia.Database.DataSourcesInterface.IMemberMyselfDatasources;
@@ -94,6 +95,11 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     @Override
     public void updateMemberMyself(MemberMyself... MemberMyself) {
         MemberMyselfDao.updateMemberMyself(MemberMyself);
+    }
+
+    @Override
+    public Count TotalCount() {
+        return MemberMyselfDao.TotalCount();
     }
 
     @Override

@@ -34,13 +34,13 @@ import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 
 public class IncompleteFragment extends Fragment {
-    Activity mActivity;
+    static Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
-    RecyclerView rcl_this_customer_list;
-    CCIncompleteStatusAdapter mAdapters;
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
-    List<MemberMyself> memberMyselfList= new ArrayList<>();
+    static RecyclerView rcl_this_customer_list;
+    static  CCIncompleteStatusAdapter mAdapters;
+    static  CompositeDisposable compositeDisposable = new CompositeDisposable();
+    static List<MemberMyself> memberMyselfList= new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,11 +56,11 @@ public class IncompleteFragment extends Fragment {
         return view;
     }
 
-    private MedicineInterface clickListener = new MedicineInterface() {
+    private static MedicineInterface clickListener = new MedicineInterface() {
         @Override
         public void postion(int position,String Type) {
 
-            ((CCUserHomeActivity) getActivity()).openStatusDetails(position,Type,"1");
+            ((CCUserHomeActivity) mActivity).openStatusDetails(position,Type,"1");
         }
     };
     @Override
@@ -76,7 +76,7 @@ public class IncompleteFragment extends Fragment {
         rcl_this_customer_list.setLayoutManager(lm);
     }
 
-    public   void display() {
+    public  static void display() {
 
 
         compositeDisposable.add(Common.memberMyselfRepository.getInCompleteMembers().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
@@ -123,7 +123,7 @@ public class IncompleteFragment extends Fragment {
 
     }
 
-    public void show(){
+    public static void show(){
         display();
     }
     @Override
