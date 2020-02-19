@@ -123,7 +123,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              
                 intent.putExtra("EXTRA_SESSION", "dashboard");
                 startActivity(intent);
                   finishAffinity();
@@ -133,7 +133,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              
                 intent.putExtra("EXTRA_SESSION", "dashboard");
                 startActivity(intent);
                 //  finish();
@@ -143,7 +143,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              
                 intent.putExtra("EXTRA_SESSION", "status");
                 startActivity(intent);
                 //  finish();
@@ -153,7 +153,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              
                 intent.putExtra("EXTRA_SESSION", "summary");
                 startActivity(intent);
                 //  finish();
