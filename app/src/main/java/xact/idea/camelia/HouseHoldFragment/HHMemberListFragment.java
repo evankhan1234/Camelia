@@ -56,9 +56,11 @@ public class HHMemberListFragment extends Fragment {
     FloatingActionButton btn_member_new;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     String uniqueId;
+    String frag;
 
-    public HHMemberListFragment(String unique){
+    public HHMemberListFragment(String unique,String frags){
         uniqueId=unique;
+        frag=frags;
         Log.e("UniqueId","uniquKey"+unique);
     }
     @Override
@@ -149,6 +151,7 @@ public class HHMemberListFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putString("Id",uniqueId);
+                bundle.putString("frag",frag);
                 Fragment f = new HHCreateMemberFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -156,9 +159,15 @@ public class HHMemberListFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 HHMembersFragment.tabLayout.setVisibility(View.GONE);
+                if (frag.equals("frag")){
+                    ((CCUserHomeActivity) getActivity()).ShowText("New Member");
+                    ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                }
+                else {
+                    ((HouseholdHomeActivity) getActivity()).ShowText("New Member");
+                    ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                }
 
-                ((HouseholdHomeActivity) getActivity()).ShowText("New Member");
-                ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 infoDialog.dismiss();
 
 

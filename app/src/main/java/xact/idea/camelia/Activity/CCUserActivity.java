@@ -101,6 +101,7 @@ public class CCUserActivity extends AppCompatActivity {
     LinearLayout linear_member_status;
     LinearLayout linear_summary;
     LinearLayout linear_logout;
+    LinearLayout linear_household_member;
     TextView tv_store;
     IRetrofitApi mService;
     RelativeLayout relative;
@@ -115,6 +116,7 @@ public class CCUserActivity extends AppCompatActivity {
         linear_logout=findViewById(R.id.linear_logout);
         linear_member_status=findViewById(R.id.linear_member_status);
         linear_summary=findViewById(R.id.linear_summary);
+        linear_household_member=findViewById(R.id.linear_household_member);
         tv_store=findViewById(R.id.tv_store);
         relative = findViewById(R.id.relative);
         tv_store.setSelected(true);
@@ -157,6 +159,15 @@ public class CCUserActivity extends AppCompatActivity {
                 intent.putExtra("EXTRA_SESSION", "summary");
                 startActivity(intent);
                 //  finish();
+            }
+        });
+        linear_household_member.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CCUserActivity.this, CCUserHomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("EXTRA_SESSION", "household");
+                startActivity(intent);
             }
         });
     }

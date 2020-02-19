@@ -30,7 +30,9 @@ import java.util.Date;
 import java.util.List;
 
 import xact.idea.camelia.Adapter.CCDashboardAdapter;
+import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 public class CCUserDashBoardFragment extends Fragment {
@@ -96,10 +98,11 @@ public class CCUserDashBoardFragment extends Fragment {
             @Override
             public void run() {
 
-                ydata.add(23);
-                ydata.add(123);
-                ydata.add(229);
-                ydata.add(355);
+                Count count= Common.memberMyselfRepository.TotalCount();
+                ydata.add(count.Incomplete1+count.Incomplete2);
+                ydata.add(count.Complete);
+                ydata.add(count.UHC);
+                ydata.add(count.Follow);
                 addDataSet();
 
             }

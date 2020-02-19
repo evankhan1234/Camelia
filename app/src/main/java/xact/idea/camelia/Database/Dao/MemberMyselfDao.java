@@ -9,6 +9,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
@@ -16,30 +17,43 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 public interface MemberMyselfDao {
     @Query("SELECT * FROM MemberMyself")
     Flowable<List<MemberMyself>> getMemberMyselfItems();
+
     @Query("SELECT * FROM MemberMyself WHERE UniqueId=:MemberMyselfId")
     Flowable<List<MemberMyself>> getMemberMyselfItemById(String MemberMyselfId);
+
     @Query("SELECT * FROM MemberMyself WHERE MobileNumber=:MemberMyselfItem")
     MemberMyself getMemberMyself(String MemberMyselfItem);
+
     @Query("SELECT * FROM MemberMyself WHERE id=:MemberMyselfItem")
     MemberMyself getMemberMyselfNo(int MemberMyselfItem);
+
     @Query("SELECT * FROM MemberMyself WHERE UniqueId=:MemberMyselfItem AND HouseHeadId=1")
     MemberMyself getMemberMyselfForHousehold(String MemberMyselfItem);
+
     @Query("Select Count(id)  FROM MemberMyself")
     int value();
+
     @Query("Select Max(id)  FROM MemberMyself")
     int maxValue();
+
     @Query("DELETE  FROM MemberMyself")
     void emptyMemberMyself();
+
     @Insert
-    void insertToMemberMyself(MemberMyself...MemberMyself);
+    void insertToMemberMyself(MemberMyself... MemberMyself);
+
     @Update
-    void updateMemberMyself(MemberMyself...MemberMyself);
+    void updateMemberMyself(MemberMyself... MemberMyself);
+
     @Delete
-    void deleteMemberMyself(MemberMyself...MemberMyself);
-    @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId where  Measure.Type  IN('WHR','Diastolic','Diabetes','Pulse','BMI','Systolic') Group BY Member.id HAVING COUNT(Measure.id) >=6")
+    void deleteMemberMyself(MemberMyself... MemberMyself);
+
+    @Query("SELECT * FROM ( SELECT q.MemberId, COUNT(q.MemberId) TypeCount FROM (SELECT ms.MemberId,ms.Type FROM Measurements ms WHERE ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')GROUP BY ms.MemberId,ms.type) q GROUP BY q.MemberId HAVING COUNT(q.MemberId) > 5 )q2 INNER JOIN MemberMyself members ON q2.MemberId = members.MobileNumber")
     Flowable<List<MemberMyself>> getCompleteMembers();
+
     @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId  Group BY Member.id HAVING  Count(Measure.id)<6")
     Flowable<List<MemberMyself>> getInCompleteMembers();
+
     @Query("SELECT  * FROM MemberMyself as Member left join Measurements as Measure ON Member.MobileNumber=Measure.MemberId  WHERE Measure.id  IS NULL")
     Flowable<List<MemberMyself>> getInCompleteMembersFor();
 
@@ -48,4 +62,54 @@ public interface MemberMyselfDao {
 
     @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId where  Measure.Refer='Follow' Group BY Member.id")
     Flowable<List<MemberMyself>> getFollowUpMembersFor();
+
+
+    @Query("SELECT Count(*)as Total FROM ( SELECT q.MemberId, COUNT(q.MemberId) TypeCount FROM (SELECT ms.MemberId,ms.Type FROM Measurements ms WHERE ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')GROUP BY ms.MemberId,ms.type) q GROUP BY q.MemberId HAVING COUNT(q.MemberId) > 5 )q2 INNER JOIN MemberMyself members ON q2.MemberId = members.MobileNumber")
+    int CompleteCount();
+
+    @Query("SELECT Count(*)as Total FROM(SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId  Group BY Member.id HAVING  Count(Measure.id)<6)")
+    int InCompleteCount1();
+
+    @Query("SELECT Count(*)as Total FROM(SELECT  * FROM MemberMyself as Member left join Measurements as Measure ON Member.MobileNumber=Measure.MemberId  WHERE Measure.id  IS NULL)")
+    int InCompleteCount2();
+
+    @Query("SELECT Count(*)as Total FROM(SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId where  Measure.Refer='UHC' Group BY Member.id)")
+    int referCount();
+
+    @Query("SELECT Count(*)as Total FROM(SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MobileNumber=Measure.MemberId where  Measure.Refer='Follow' Group BY Member.id)")
+    int followUpCount();
+
+    @Query("select sum(UHC) UHC,sum(Incomplete1) Incomplete1,sum(Incomplete2) Incomplete2,sum(Follow) Follow,sum(Total5) Complete from (\n" +
+            "SELECT  Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as Member inner join (select distinct memberid,refer from Measurements) as Measure ON Member.MobileNumber=Measure.MemberId where  \n" +
+            "Measure.Refer='UHC'\n" +
+            "UNION all\n" +
+            "SELECT  0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
+            " left join  Measurements as Measure ON Member.MobileNumber=Measure.MemberId  where Measure.id is null\n" +
+            "UNION all\n" +
+            "SELECT 0 UHC,0 Incomplete1,count(*) Incomplete2,0 Follow,0 Complete FROM\n" +
+            "( SELECT q.MemberId, COUNT(q.MemberId) TypeCount FROM (\n" +
+            " \n" +
+            "SELECT ms.MemberId,ms.Type FROM (select distinct memberid,type from Measurements) ms\n" +
+            "WHERE\n" +
+            "ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "GROUP BY ms.MemberId,ms.type\n" +
+            ") q\n" +
+            "GROUP BY q.MemberId\n" +
+            "HAVING COUNT(q.MemberId) < 6\n" +
+            ") q2 INNER JOIN MemberMyself members ON q2.MemberId = members.MobileNumber\n" +
+            "UNION all\n" +
+            "SELECT 0 UHC,0 Incomplete1,0 Incomplete2, Count(*) as Follow,0 Complete FROM MemberMyself as Member inner join (select distinct memberid,refer from Measurements) as Measure ON Member.MobileNumber=Measure.MemberId where  Measure.Refer='Follow' Group BY Member.id\n" +
+            "UNION all\n" +
+            "SELECT 0 UHC,0 Incomplete1,0 Incomplete2,0 Follow, Count(*)as Complete FROM\n" +
+            "( SELECT q.MemberId, COUNT(q.MemberId) TypeCount FROM (\n" +
+            " \n" +
+            "SELECT ms.MemberId,ms.Type FROM (select distinct memberid,type from Measurements) ms\n" +
+            "WHERE\n" +
+            "ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "GROUP BY ms.MemberId,ms.type\n" +
+            ") q\n" +
+            "GROUP BY q.MemberId\n" +
+            "HAVING COUNT(q.MemberId) > 5\n" +
+            ") q2 INNER JOIN MemberMyself members ON q2.MemberId = members.MobileNumber)")
+    Count TotalCount();
 }

@@ -51,9 +51,11 @@ public class HHSurveysListFragment extends Fragment {
     FloatingActionButton btn_survey_create;
     String uniqueId;
     String types;
-    public HHSurveysListFragment(String unique,String type){
+    String frag;
+    public HHSurveysListFragment(String unique,String type,String frags){
         uniqueId=unique;
         types=type;
+        frag=frags;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,6 +85,7 @@ public class HHSurveysListFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("Id",uniqueId);
                 bundle.putString("types",types);
+                bundle.putString("frag",frag);
                 Fragment f = new HHCreateSurveyFragment();
                 f.setArguments(bundle);
                 transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
@@ -98,8 +101,15 @@ public class HHSurveysListFragment extends Fragment {
                         return true;
                     }
                 });
-                ((HouseholdHomeActivity) getActivity()).ShowText("New Survey");
-                ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                if (frag.equals("frag")){
+                    ((CCUserHomeActivity) getActivity()).ShowText("New Survey");
+                    ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                }
+                else {
+                    ((HouseholdHomeActivity) getActivity()).ShowText("New Survey");
+                    ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                }
+
             }
         });
     }
@@ -111,6 +121,7 @@ public class HHSurveysListFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putString("Id",uniqueId);
             bundle.putString("types",types);
+            bundle.putString("frag",frag);
             bundle.putInt("SurveyId",position);
             Fragment f = new HHCreateSurveyFragment();
             f.setArguments(bundle);
@@ -127,8 +138,15 @@ public class HHSurveysListFragment extends Fragment {
                     return true;
                 }
             });
-            ((HouseholdHomeActivity) getActivity()).ShowText("Update Survey");
-            ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            if (frag.equals("frag")){
+                ((CCUserHomeActivity) getActivity()).ShowText("Update Survey");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+            else {
+                ((HouseholdHomeActivity) getActivity()).ShowText("Update Survey");
+                ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+
         }
     };
     private  void display() {
@@ -168,8 +186,15 @@ Fragment fragment=getChildFragmentManager().findFragmentByTag(HHCreateSurveyFrag
                         return false;
                     }
                 });
-                ((HouseholdHomeActivity) getActivity()).ShowText(types);
-                ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                if (frag.equals("frag")){
+                    ((CCUserHomeActivity) getActivity()).ShowText(types);
+                    ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                }
+                else {
+                    ((HouseholdHomeActivity) getActivity()).ShowText(types);
+                    ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+                }
+
                 Constant.code="are";
                 return 3;
 

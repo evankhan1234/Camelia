@@ -29,6 +29,8 @@ import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserDashBoardFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCUserMemberSummaryFragment;
+import xact.idea.camelia.HouseHoldFragment.HHCreateHouseholdFragment;
+import xact.idea.camelia.HouseHoldFragment.HHListFragment;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -38,13 +40,14 @@ public class CCUserHomeActivity extends AppCompatActivity {
     private TextView tv_dashboard_menu;
     private TextView tv_member_status_menu;
     private TextView tv_summary_menu;
-    private TextView tv_user_setup_menus;
+    private TextView tv_household_menu;
     private TextView title;
     private ImageView btn_close_drawer;
     public static final int HOME_BTN = 0;
     public static final int DASHBOARD_BTN  = 1;
     public static final int MEMBER_STATUS_BTN  = 2;
     public static final int MEMBER_SUMMARY_BTN  = 3;
+    public static final int MEMBER = 4;
 
     private RelativeLayout rlt_header;
     private RelativeLayout rlt_header_details;
@@ -67,7 +70,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
     private AppCompatImageView btn_footer_dashboard;
     private AppCompatImageView btn_footer_member_status;
     private AppCompatImageView btn_footer_summary;
-    private AppCompatImageView btn_footer_setup_user;
+    private AppCompatImageView btn_footer_household;
     private final String TAG = getClass().getSimpleName();
     private FragmentManager mFragManager;
     private FragmentTransaction fragTransaction = null;
@@ -88,6 +91,8 @@ public class CCUserHomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        btn_footer_household = findViewById(R.id.btn_footer_household);
+        tv_household_menu = findViewById(R.id.tv_household_menu);
         btn_header_status_back = findViewById(R.id.btn_header_status_back);
         rlt_header_status_details = findViewById(R.id.rlt_header_status_details);
         view_header_status_details = findViewById(R.id.view_header_status_details);
@@ -182,6 +187,17 @@ public class CCUserHomeActivity extends AppCompatActivity {
                 }
 
             }
+           else  if (f instanceof HHListFragment) {
+
+
+                int handle = ((HHListFragment) f).handels();
+
+                if (handle==2){
+                    showHeaderDetail("main");
+                }
+
+            }
+
         }
     }
 
@@ -222,7 +238,12 @@ public class CCUserHomeActivity extends AppCompatActivity {
                 afterClickTabItem(Constant.FRAG_MEMBER_SUMMARY, null);
                 break;
 
-
+            case "household":
+                title.setText("Household");
+                btn_footer_household.setSelected(true);
+                tv_household_menu.setSelected(true);
+                afterClickTabItem(Constant.FRAG_MEMBER, null);
+                break;
             default:
                 btn_footer_home.setSelected(true);
                 tv_home_menu.setSelected(true);
@@ -263,7 +284,15 @@ public class CCUserHomeActivity extends AppCompatActivity {
 
 
                 break;
+            case Constant.FRAG_MEMBER:
 
+
+                newFrag = new HHListFragment();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("frag","frag");
+                newFrag.setArguments(bundle);
+                break;
             default:
                 break;
         }
@@ -295,6 +324,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
         tv_summary_menu.setSelected(false);
         tv_dashboard_menu.setSelected(false);
         tv_member_status_menu.setSelected(false);
+        tv_household_menu.setSelected(false);
 
 
 
@@ -302,6 +332,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
         btn_footer_member_status.setSelected(false);
         btn_footer_summary.setSelected(false);
         btn_footer_dashboard.setSelected(false);
+        btn_footer_household.setSelected(false);
 
 
     }
@@ -324,6 +355,10 @@ public class CCUserHomeActivity extends AppCompatActivity {
             case 3:
                 tv_summary_menu.setSelected(true);
                 btn_footer_summary.setSelected(true);
+                break;
+            case 4:
+                tv_household_menu.setSelected(true);
+                btn_footer_household.setSelected(true);
                 break;
 
         }
@@ -370,7 +405,23 @@ public class CCUserHomeActivity extends AppCompatActivity {
         title.setVisibility(View.VISIBLE);
        // btn_header_application_create.setVisibility(View.GONE);
     }
+    public void btn_household_clicked(View view) {
 
+        Log.e(TAG, "Home Button Clicked");
+
+        setUpFooter(MEMBER);
+
+        afterClickTabItem(Constant.FRAG_MEMBER, null);
+
+        rlt_header_status_details.setVisibility(View.GONE);
+        view_header_status_details.setVisibility(View.GONE);
+        title.setText("Household");
+        rlt_header_details.setVisibility(View.GONE);
+        view_header_details.setVisibility(View.GONE);
+        rlt_header.setVisibility(View.VISIBLE);
+        title.setVisibility(View.VISIBLE);
+        // btn_header_application_create.setVisibility(View.GONE);
+    }
     public void btn_member_status_clicked(View view) {
 
         Log.e(TAG, "Home Button Clicked");

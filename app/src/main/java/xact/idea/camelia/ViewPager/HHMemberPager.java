@@ -1,25 +1,14 @@
 package xact.idea.camelia.ViewPager;
 
 import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 
-import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
-import xact.idea.camelia.Fragment.CompleteFragment;
-import xact.idea.camelia.Fragment.FollowUpFragment;
-import xact.idea.camelia.Fragment.IncompleteFragment;
-import xact.idea.camelia.Fragment.ReferralFragment;
-import xact.idea.camelia.Fragment.UnAttendedFragment;
 import xact.idea.camelia.HouseHoldFragment.HHMemberListFragment;
-import xact.idea.camelia.HouseHoldFragment.HHMembersFragment;
 import xact.idea.camelia.HouseHoldFragment.HHSurveysListFragment;
-import xact.idea.camelia.R;
 
 public class HHMemberPager extends FragmentStatePagerAdapter {
 
@@ -28,14 +17,15 @@ public class HHMemberPager extends FragmentStatePagerAdapter {
     Activity activity;
     String unique;
     String types;
-
+    String frag;
     //Constructor to the class
-    public HHMemberPager(FragmentManager fm, int tabCount,String uniqueId,String type) {
+    public HHMemberPager(FragmentManager fm, int tabCount,String uniqueId,String type,String frags) {
         super(fm);
         //Initializing tab count
         this.tabCount= tabCount;
         this.unique= uniqueId;
         this.types= type;
+        this.frag= frags;
 
     }
 
@@ -46,11 +36,12 @@ public class HHMemberPager extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 Log.e("UniqueId","uniquKey"+unique);
-                HHMemberListFragment tab1 = new HHMemberListFragment(unique);
+                HHMemberListFragment tab1 = new HHMemberListFragment(unique,frag);
 
                 return tab1;
             case 1:
-                HHSurveysListFragment tab2 = new HHSurveysListFragment(unique,types);
+                Log.e("frag12","frags"+frag);
+                HHSurveysListFragment tab2 = new HHSurveysListFragment(unique,types,frag);
                 return tab2;
 
             default:

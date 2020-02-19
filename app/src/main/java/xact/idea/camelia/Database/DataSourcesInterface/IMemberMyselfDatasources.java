@@ -3,6 +3,7 @@ package xact.idea.camelia.Database.DataSourcesInterface;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
@@ -24,6 +25,6 @@ public interface IMemberMyselfDatasources {
     Flowable<List<MemberMyself>> getReferMembersFor();
     Flowable<List<MemberMyself>> getFollowUpMembersFor();
     void updateMemberMyself(MemberMyself... MemberMyself);
-
+    Count TotalCount();
     void deleteMemberMyself(MemberMyself... MemberMyself);
 }

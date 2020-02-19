@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Activity.MainActivity;
 import xact.idea.camelia.Database.Model.Survey;
@@ -61,6 +62,7 @@ public class HHCreateSurveyFragment extends Fragment {
     String uniquKey;
     Survey surveys;
     String types;
+    String frag;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,8 +78,12 @@ public class HHCreateSurveyFragment extends Fragment {
         if (bundle != null) {
             uniquKey = bundle.getString("Id", "");
             types = bundle.getString("types", "");
+            frag = bundle.getString("frag", "");
             id = bundle.getInt("SurveyId", 0);
-            Log.e("UniqueId","uniquKey"+uniquKey);
+            Log.e("fragsss","frag"+frag);
+        }
+        else{
+            frag="";
         }
         initView();
         // display();
@@ -188,7 +194,13 @@ public class HHCreateSurveyFragment extends Fragment {
                     }
 
                     Common.surveyRepository.insertToSurvey(survey);
-                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+                    if (frag.equals("frag")){
+                        ((CCUserHomeActivity) getActivity()).backForDetails();
+                    }
+                    else {
+                        ((HouseholdHomeActivity) getActivity()).backForDetails();
+                    }
+
                 }
                 else {
 
@@ -231,7 +243,12 @@ public class HHCreateSurveyFragment extends Fragment {
                     }
 
                     Common.surveyRepository.updateSurvey(survey);
-                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+                    if (frag.equals("frag")){
+                        ((CCUserHomeActivity) getActivity()).backForDetails();
+                    }
+                    else {
+                        ((HouseholdHomeActivity) getActivity()).backForDetails();
+                    }
                 }
 
             }

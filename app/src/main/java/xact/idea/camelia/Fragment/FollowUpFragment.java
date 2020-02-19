@@ -33,13 +33,13 @@ import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 
 public class FollowUpFragment extends Fragment {
-    Activity mActivity;
+    static  Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
-    RecyclerView rcl_this_customer_list;
-    CCIncompleteStatusAdapter mAdapters;
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
-    List<MemberMyself> memberMyselfList= new ArrayList<>();
+    static   RecyclerView rcl_this_customer_list;
+    static CCIncompleteStatusAdapter mAdapters;
+    static  CompositeDisposable compositeDisposable = new CompositeDisposable();
+    static  List<MemberMyself> memberMyselfList= new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,11 +51,11 @@ public class FollowUpFragment extends Fragment {
         correctSizeUtil.correctSize(view);
         return view;
     }
-    private MedicineInterface clickListener = new MedicineInterface() {
+    private static MedicineInterface clickListener = new MedicineInterface() {
         @Override
         public void postion(int position,String Type) {
 
-            ((CCUserHomeActivity) getActivity()).openStatusDetails(position,Type,"4");
+            ((CCUserHomeActivity) mActivity).openStatusDetails(position,Type,"4");
         }
     };
 
@@ -65,7 +65,9 @@ public class FollowUpFragment extends Fragment {
         display();
         initView();
     }
-
+    public static void show(){
+        display();
+    }
     private void initView() {
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
@@ -73,7 +75,7 @@ public class FollowUpFragment extends Fragment {
         rcl_this_customer_list.setLayoutManager(lm);
     }
 
-    public   void display() {
+    public static  void display() {
         compositeDisposable.add(Common.memberMyselfRepository.getFollowUpMembersFor().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
