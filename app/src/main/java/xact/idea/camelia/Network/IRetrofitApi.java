@@ -10,8 +10,20 @@ import xact.idea.camelia.NetworkModel.BloodGroupResponses;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
+import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
+import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
+import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
+import xact.idea.camelia.NetworkModel.KhanaServeyUploadModel;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
+import xact.idea.camelia.NetworkModel.MeasurementResponseModel;
+import xact.idea.camelia.NetworkModel.MedicalHistoryResponseModel;
+import xact.idea.camelia.NetworkModel.MedicalHistoryUpload;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
+import xact.idea.camelia.NetworkModel.MemberBehaviorialResponseModel;
+import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
+import xact.idea.camelia.NetworkModel.MemberResponseModel;
+import xact.idea.camelia.NetworkModel.MemberUploadModel;
+import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UnionResponses;
@@ -45,4 +57,16 @@ public interface IRetrofitApi {
     io.reactivex.Observable<MedicineResponses> getMedicines();
     @POST("user/login")
     io.reactivex.Observable<AuthResponse> Login(@Body AuthPost authPost);
+    @POST("measurement/store")
+    io.reactivex.Observable<MeasurementResponseModel> postMeasurementUpload(@Body MesaurementUploadModel mesaurementUploadModel);
+    @POST("medicalhistory/store")
+    io.reactivex.Observable<MedicalHistoryResponseModel> postMedicalHistoryUpload(@Body MedicalHistoryUpload medicalHistoryUpload);
+    @POST("behavioralinfo/store")
+    io.reactivex.Observable<MemberBehaviorialResponseModel> postMemberBehaviorialUpload(@Body MemberBehaviorialUploadModel medicalHistoryUpload);
+    @POST("khana_survey/store")
+    io.reactivex.Observable<KhanaServeyResponseModel> postKhanaServeyUpload(@Body KhanaServeyUploadModel khanaServeyUploadModel);
+    @POST("members/store")
+    io.reactivex.Observable<MemberResponseModel> postMemberUpload(@Body MemberUploadModel memberUploadModel);
+    @POST("household/store")
+    io.reactivex.Observable<HouseholdResponseModel> postHouseholdUpload(@Body HouseholdUploadModel householdUploadModel);
 }
