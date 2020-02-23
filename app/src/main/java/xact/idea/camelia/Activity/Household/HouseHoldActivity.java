@@ -32,6 +32,7 @@ import xact.idea.camelia.Database.DataSource.MaritialStatusDataSources;
 import xact.idea.camelia.Database.DataSource.MeasurementsDataSources;
 import xact.idea.camelia.Database.DataSource.MedicineDatasources;
 import xact.idea.camelia.Database.DataSource.MemberHabitDataSources;
+import xact.idea.camelia.Database.DataSource.MemberIdDatasources;
 import xact.idea.camelia.Database.DataSource.MemberMedicineDataSources;
 import xact.idea.camelia.Database.DataSource.MemberMyselfDataSources;
 import xact.idea.camelia.Database.DataSource.OccupationDataSources;
@@ -64,6 +65,7 @@ import xact.idea.camelia.Database.Repository.MaritialStatusRepository;
 import xact.idea.camelia.Database.Repository.MeasurementsRepository;
 import xact.idea.camelia.Database.Repository.MedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberHabitRepository;
+import xact.idea.camelia.Database.Repository.MemberIdRepository;
 import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
@@ -123,7 +125,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              
                 intent.putExtra("EXTRA_SESSION", "dashboard");
                 startActivity(intent);
                   finishAffinity();
@@ -133,7 +135,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              
                 intent.putExtra("EXTRA_SESSION", "dashboard");
                 startActivity(intent);
                 //  finish();
@@ -143,7 +145,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              
                 intent.putExtra("EXTRA_SESSION", "status");
                 startActivity(intent);
                 //  finish();
@@ -153,7 +155,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              
                 intent.putExtra("EXTRA_SESSION", "summary");
                 startActivity(intent);
                 //  finish();
@@ -633,6 +635,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         Common.memberMedicineRepository = MemberMedicineRepository.getInstance(MemberMedicineDataSources.getInstance(Common.mainDatabase.memberMedicineDao()));
         Common.memberMyselfRepository = MemberMyselfRepository.getInstance(MemberMyselfDataSources.getInstance(Common.mainDatabase.memberMyselfDao()));
         Common.surveyRepository = SurveyRepository.getInstance(SurveyDataSources.getInstance(Common.mainDatabase.surveyDao()));
+        Common.memberIdRepository = MemberIdRepository.getInstance(MemberIdDatasources.getInstance(Common.mainDatabase.memberIdDao()));
     }
 
     @Override

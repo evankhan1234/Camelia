@@ -15,6 +15,8 @@ public class MemberMyself {
     public int id;
     @ColumnInfo(name = "NationalId")
     public int NationalId;
+    @ColumnInfo(name = "MemberId")
+    public String MemberId;
     @ColumnInfo(name = "MobileNumber")
     public String MobileNumber;
     @ColumnInfo(name = "HouseHeadId")

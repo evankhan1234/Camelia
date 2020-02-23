@@ -33,6 +33,7 @@ import xact.idea.camelia.Database.DataSource.MeasurementDetailsDataSources;
 import xact.idea.camelia.Database.DataSource.MeasurementsDataSources;
 import xact.idea.camelia.Database.DataSource.MedicineDatasources;
 import xact.idea.camelia.Database.DataSource.MemberHabitDataSources;
+import xact.idea.camelia.Database.DataSource.MemberIdDatasources;
 import xact.idea.camelia.Database.DataSource.MemberMedicineDataSources;
 import xact.idea.camelia.Database.DataSource.MemberMyselfDataSources;
 import xact.idea.camelia.Database.DataSource.OccupationDataSources;
@@ -49,6 +50,7 @@ import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
 import xact.idea.camelia.Database.Model.MaritialStatus;
 import xact.idea.camelia.Database.Model.Medicine;
+import xact.idea.camelia.Database.Model.MemberId;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.StudyClass;
 import xact.idea.camelia.Database.Model.Unions;
@@ -66,6 +68,7 @@ import xact.idea.camelia.Database.Repository.MeasurementDetailsRepository;
 import xact.idea.camelia.Database.Repository.MeasurementsRepository;
 import xact.idea.camelia.Database.Repository.MedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberHabitRepository;
+import xact.idea.camelia.Database.Repository.MemberIdRepository;
 import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
@@ -284,6 +287,20 @@ public class CCUserActivity extends AppCompatActivity {
             }
         }
 
+        if (Common.memberIdRepository.size() < 1) {
+            if (Utils.broadcastIntent(CCUserActivity.this, relative)) {
+                for (int i=1;i<21;i++){
+                    String value= String.valueOf(i);
+                    MemberId memberId = new MemberId();
+                    memberId.Value=value;
+                    Common.memberIdRepository.insertToMemberId(memberId);
+                }
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
     }
 
     private void loadStudyClass() {
@@ -646,7 +663,7 @@ public class CCUserActivity extends AppCompatActivity {
         Common.memberMyselfRepository = MemberMyselfRepository.getInstance(MemberMyselfDataSources.getInstance(Common.mainDatabase.memberMyselfDao()));
         Common.surveyRepository = SurveyRepository.getInstance(SurveyDataSources.getInstance(Common.mainDatabase.surveyDao()));
         Common.measurementDetailsRepository = MeasurementDetailsRepository.getInstance(MeasurementDetailsDataSources.getInstance(Common.mainDatabase.measurementDetailsDao()));
-
+        Common.memberIdRepository = MemberIdRepository.getInstance(MemberIdDatasources.getInstance(Common.mainDatabase.memberIdDao()));
     }
 
     @Override

@@ -61,6 +61,7 @@ import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
 import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.MaritialStatus;
+import xact.idea.camelia.Database.Model.MemberId;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.StudyClass;
@@ -151,6 +152,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     int occupationId;
     String uniqueId;
     RelativeLayout relativeLayout;
+
+    String memberId;
 
     public HHMyselfFragment(String uniquKey) {
         uniqueId=uniquKey;
@@ -504,8 +507,38 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     memberMyself.LivingId=livingId;
                     memberMyself.HouseHeadId=headId;
                     memberMyself.UniqueId=uniqueId;
+                    String value="";
+                    if (memberId.length()==1){
+                        value="00000000"+memberId;
+                    }
+                    else if (memberId.length()==2){
+                        value="0000000"+memberId;
+                    }
+                    else if (memberId.length()==3){
+                        value="000000"+memberId;
+                    }
+                    else if (memberId.length()==4){
+                        value="00000"+memberId;
+                    }
+                    else if (memberId.length()==5){
+                        value="0000"+memberId;
+                    }
+                    else if (memberId.length()==6){
+                        value="000"+memberId;
+                    }
+                    else if (memberId.length()==7){
+                        value="00"+memberId;
+                    }
+                    else if (memberId.length()==8){
+                        value="0"+memberId;
+                    }
+                    else if (memberId.length()==9){
+                        value=memberId;
+                    }
+                    memberMyself.MemberId= value;
                     Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
 
+                    Common.memberIdRepository.emptyMemberId(memberId);
                     HHCreateMemberFragment.nextPage(1);
                 }
                 else {
@@ -670,6 +703,19 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 
             }
         }));
+        compositeDisposable.add(Common.memberIdRepository.getMemberIdItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberId>>() {
+            @Override
+            public void accept(List<MemberId> memberIds) throws Exception {
+                Log.e("Division","Division"+new Gson().toJson(memberIds));
+
+                if (memberIds.size()>0){
+                    memberId=memberIds.get(0).Value;
+                }
+                dismissLoadingProgress();
+
+            }
+        }));
+
     }
 
     @Override
