@@ -47,7 +47,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
     public void onBindViewHolder(final HHMemberListAdapter.CCDashboardListiewHolder holder, final int position) {
 
         holder.text_name.setText(memberMyselfes.get(position).FullName);
-        holder.text_phone.setText(memberMyselfes.get(position).MobileNumber);
+        holder.text_phone.setText(memberMyselfes.get(position).MemberId);
 
         if (memberMyselfes.get(position).GenderId==1){
             Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)

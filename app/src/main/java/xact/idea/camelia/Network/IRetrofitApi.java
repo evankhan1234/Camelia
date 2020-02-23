@@ -14,13 +14,17 @@ import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyUploadModel;
+import xact.idea.camelia.NetworkModel.LabReportsResponseModel;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
 import xact.idea.camelia.NetworkModel.MeasurementResponseModel;
+import xact.idea.camelia.NetworkModel.MeasurementsGetResponseModel;
 import xact.idea.camelia.NetworkModel.MedicalHistoryResponseModel;
 import xact.idea.camelia.NetworkModel.MedicalHistoryUpload;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
+import xact.idea.camelia.NetworkModel.MemberPrescriptionGetResponseModel;
+import xact.idea.camelia.NetworkModel.MemberPrescriptionResponseModel;
 import xact.idea.camelia.NetworkModel.MemberResponseModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
@@ -69,4 +73,12 @@ public interface IRetrofitApi {
     io.reactivex.Observable<MemberResponseModel> postMemberUpload(@Body MemberUploadModel memberUploadModel);
     @POST("household/store")
     io.reactivex.Observable<HouseholdResponseModel> postHouseholdUpload(@Body HouseholdUploadModel householdUploadModel);
+    @GET("member/referral_history")
+    io.reactivex.Observable<MemberPrescriptionResponseModel> getMemberReferalhistory();
+    @GET("member/lab_reports")
+    io.reactivex.Observable<LabReportsResponseModel> getLabReports();
+    @GET("member/measurements")
+    io.reactivex.Observable<MeasurementsGetResponseModel> getMeasurementsGetResponse();
+    @GET("member/prescription")
+    io.reactivex.Observable<MemberPrescriptionGetResponseModel> getMemberPrescription();
 }
