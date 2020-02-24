@@ -298,6 +298,7 @@ public class CCUserActivity extends AppCompatActivity {
         if (Common.memberIdRepository.size() < 1) {
             if (Utils.broadcastIntent(CCUserActivity.this, relative)) {
                 loadMemberId();
+
             } else {
                 Snackbar snackbar = Snackbar
                         .make(relative, "No Internet", Snackbar.LENGTH_LONG);
@@ -663,9 +664,10 @@ public class CCUserActivity extends AppCompatActivity {
         showLoadingProgress(CCUserActivity.this);
         MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
-        memberAlocatePostModel.last_used_id = "";
-        Log.e("auth", "auth" + auth.user_id);
-        memberAlocatePostModel.user_id = "4";
+        memberAlocatePostModel.user_credential = auth.email;
+        memberAlocatePostModel.data.last_used_id = "";
+        Log.e("auth", "auth" + new Gson().toJson(memberAlocatePostModel));
+
         compositeDisposable.add(mService.getMemberAlocate(memberAlocatePostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberAlocateResponseModel>() {
             @Override
             public void accept(MemberAlocateResponseModel upazilaResponses) throws Exception {
