@@ -36,12 +36,14 @@ import xact.idea.camelia.Database.DataSource.MemberIdDatasources;
 import xact.idea.camelia.Database.DataSource.MemberMedicineDataSources;
 import xact.idea.camelia.Database.DataSource.MemberMyselfDataSources;
 import xact.idea.camelia.Database.DataSource.OccupationDataSources;
+import xact.idea.camelia.Database.DataSource.QuestionsDataSources;
 import xact.idea.camelia.Database.DataSource.StudyClassDatasources;
 import xact.idea.camelia.Database.DataSource.SurveyDataSources;
 import xact.idea.camelia.Database.DataSource.UnionDataSources;
 import xact.idea.camelia.Database.DataSource.UpazilaDatasources;
 import xact.idea.camelia.Database.DataSource.WardDatasources;
 import xact.idea.camelia.Database.MainDataBase;
+import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.Block;
 import xact.idea.camelia.Database.Model.BloodGroup;
 import xact.idea.camelia.Database.Model.District;
@@ -49,6 +51,7 @@ import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
 import xact.idea.camelia.Database.Model.MaritialStatus;
 import xact.idea.camelia.Database.Model.Medicine;
+import xact.idea.camelia.Database.Model.MemberId;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.StudyClass;
 import xact.idea.camelia.Database.Model.Unions;
@@ -69,6 +72,7 @@ import xact.idea.camelia.Database.Repository.MemberIdRepository;
 import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
+import xact.idea.camelia.Database.Repository.QustionsRepository;
 import xact.idea.camelia.Database.Repository.StudyClassRepository;
 import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
@@ -82,6 +86,8 @@ import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
+import xact.idea.camelia.NetworkModel.MemberAlocatePostModel;
+import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UnionResponses;
@@ -90,6 +96,7 @@ import xact.idea.camelia.NetworkModel.WardResponses;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
@@ -275,6 +282,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
+        if (Common.memberIdRepository.size() < 1) {
+            if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                loadMemberId();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+//        int value = Common.memberIdRepository.maxValue();
+//
+//        MemberId memberId = Common.memberIdRepository.getMemberIdNo(String.valueOf(value));
+//        Log.e("memberId", "memberId" + memberId.Value);
     }
     private void loadMedicine() {
         showLoadingProgress(HouseHoldActivity.this);
@@ -302,6 +322,34 @@ public class HouseHoldActivity extends AppCompatActivity {
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    private void loadMemberId() {
+        showLoadingProgress(HouseHoldActivity.this);
+        MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
+        memberAlocatePostModel.last_used_id = "";
+        Log.e("auth", "auth" + auth.user_id);
+        memberAlocatePostModel.user_id = "4";
+        compositeDisposable.add(mService.getMemberAlocate(memberAlocatePostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberAlocateResponseModel>() {
+            @Override
+            public void accept(MemberAlocateResponseModel upazilaResponses) throws Exception {
+                Log.e("loadMemberId", "loadMemberId" + new Gson().toJson(upazilaResponses));
+
+                for (MemberAlocateResponseModel.Data.AllocatedMember alocateResponseModel : upazilaResponses.data.newly_allocated_member_ids) {
+                    MemberId id = new MemberId();
+                    id.Value = alocateResponseModel.generated_member_id;
+                    Common.memberIdRepository.insertToMemberId(id);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("loadMemberId", "loadMemberId" + throwable.getMessage());
                 dismissLoadingProgress();
             }
         }));
@@ -636,6 +684,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         Common.memberMyselfRepository = MemberMyselfRepository.getInstance(MemberMyselfDataSources.getInstance(Common.mainDatabase.memberMyselfDao()));
         Common.surveyRepository = SurveyRepository.getInstance(SurveyDataSources.getInstance(Common.mainDatabase.surveyDao()));
         Common.memberIdRepository = MemberIdRepository.getInstance(MemberIdDatasources.getInstance(Common.mainDatabase.memberIdDao()));
+        Common.qustionsRepository = QustionsRepository.getInstance(QuestionsDataSources.getInstance(Common.mainDatabase.questionsDao()));
     }
 
     @Override

@@ -23,13 +23,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Database.Model.MemberHabit;
 import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.Model.DropDownModel.FruitsCardModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsModel;
 import xact.idea.camelia.Model.DropDownModel.ModerateModel;
@@ -1783,10 +1786,21 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             memberHabit.MemberMyselfPhoneNumber=memberMyself.MobileNumber;
 
             MemberHabit memberHabit1=Common.memberHabitRepository.getMemberHabitNo(memberMyself.MobileNumber);
-            if (memberHabit1==null) {
+            if (memberHabit1==null)
+            {
                 memberHabit.SmokeYesNo = smokeYesNo;
                 if (smokeYesNo == 2) {
-
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q29";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="2";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
                 } else {
 
                     try {
@@ -1801,12 +1815,42 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         e.printStackTrace();
                         memberHabit.SmokeYesPerday = 0;
                     }
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q29";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="1";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
 
+                    ////
+                    Questions questions1= new Questions();
+                    questions1.type="behavioral";
+                    questions1.question="Q29a";
+                    questions1.member_id=memberMyself.MemberId;
+                    questions1.answer=edit_smoke_years.getText().toString();
+                    questions1.date=currentDate;
+                    questions1.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions1);
 
                 }
                 memberHabit.JordaYesNo = jordaYesNo;
                 if (jordaYesNo == 2) {
-
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q30";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="2";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
                 } else {
                     try {
                         memberHabit.JordaYears = Integer.parseInt(edit_jorda.getText().toString());
@@ -1814,10 +1858,41 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         e.printStackTrace();
                         memberHabit.JordaYears = 0;
                     }
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q30";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="1";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
+
+                    ////
+                    Questions questions1= new Questions();
+                    questions1.type="behavioral";
+                    questions1.question="Q30a";
+                    questions1.member_id=memberMyself.MemberId;
+                    questions1.answer=edit_jorda.getText().toString();
+                    questions1.date=currentDate;
+                    questions1.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions1);
                 }
                 memberHabit.WorkplaceYesNo = workplaceYesNo;
                 if (workplaceYesNo == 2) {
-
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q31";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="2";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
                 } else {
                     try {
                         memberHabit.WorkplaceYears = Integer.parseInt(edit_workplace.getText().toString());
@@ -1825,10 +1900,41 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         e.printStackTrace();
                         memberHabit.WorkplaceYears = 0;
                     }
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q31";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="1";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
+
+                    ////
+                    Questions questions1= new Questions();
+                    questions1.type="behavioral";
+                    questions1.question="Q31a";
+                    questions1.member_id=memberMyself.MemberId;
+                    questions1.answer=edit_workplace.getText().toString();
+                    questions1.date=currentDate;
+                    questions1.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions1);
                 }
                 memberHabit.AlcoholYesNo = alcoholYesNo;
                 if (alcoholYesNo == 2) {
-
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q32";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="2";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
                 } else {
                     try {
                         memberHabit.AlcoholYears = Integer.parseInt(edit_alcohol.getText().toString());
@@ -1836,7 +1942,29 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         e.printStackTrace();
                         memberHabit.AlcoholYears = 0;
                     }
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q32";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="1";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
+
+                    ////
+                    Questions questions1= new Questions();
+                    questions1.type="behavioral";
+                    questions1.question="Q32a";
+                    questions1.member_id=memberMyself.MemberId;
+                    questions1.answer=edit_alcohol.getText().toString();
+                    questions1.date=currentDate;
+                    questions1.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions1);
                 }
+
                 memberHabit.FruitsTypicalWeek = typicalFruits;
                 memberHabit.FruitsShowCard = fruitsShowCard;
                 memberHabit.VegetablesTypicalWeek = typicalVegetables;
@@ -1844,9 +1972,147 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 memberHabit.SaltBuy = saltyBuy;
                 memberHabit.TakingSalt = takingSalt;
 
+
+
+
+                Questions questions5= new Questions();
+                questions5.type="behavioral";
+                questions5.question="Q35";
+                questions5.member_id=memberMyself.MemberId;
+                questions5.answer=String.valueOf(typicalFruits);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = new Date(System.currentTimeMillis());
+                String currentDate = formatter.format(date);
+                questions5.date=currentDate;
+                questions5.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions5);
+                ///
+
+
+                Questions questions6= new Questions();
+                questions6.type="behavioral";
+                questions6.question="Q36";
+                questions6.member_id=memberMyself.MemberId;
+                questions6.answer=String.valueOf(fruitsShowCard);
+                questions6.date=currentDate;
+                questions6.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions6);
+
+                ///
+
+
+                Questions questions7= new Questions();
+                questions7.type="behavioral";
+                questions7.question="Q37";
+                questions7.member_id=memberMyself.MemberId;
+                questions7.answer=String.valueOf(typicalVegetables);
+                questions7.date=currentDate;
+                questions7.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions7);
+
+                ///
+
+
+                Questions questions8= new Questions();
+                questions8.type="behavioral";
+                questions8.question="Q38";
+                questions8.member_id=memberMyself.MemberId;
+                questions8.answer=String.valueOf(vegetablesShowCard);
+                questions8.date=currentDate;
+                questions8.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions8);
+
+
+                ///
+
+
+                Questions questions9= new Questions();
+                questions9.type="behavioral";
+                questions9.question="Q39";
+                questions9.member_id=memberMyself.MemberId;
+                questions9.answer=String.valueOf(vegetablesShowCard);
+                questions9.date=currentDate;
+                questions9.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions9);
+
+
+                ///
+
+
+                Questions questions10= new Questions();
+                questions10.type="behavioral";
+                questions10.question="Q40";
+                questions10.member_id=memberMyself.MemberId;
+                questions10.answer=String.valueOf(saltyBuy);
+                questions10.date=currentDate;
+                questions10.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions10);
+
+
+                ///
+
+
+                Questions questions11= new Questions();
+                questions11.type="behavioral";
+                questions11.question="Q41";
+                questions11.member_id=memberMyself.MemberId;
+                questions11.answer=String.valueOf(takingSalt);
+                questions11.date=currentDate;
+                questions11.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions11);
+
+
+
                 memberHabit.VigorousIntensityYesNo=vigorousIntensity;
                 memberHabit.VigorousIntensityActivities=vigiriousIntensity();
                 memberHabit.VigorousIntensityTypicalWeek=vigorousIntensityTypical;
+
+                if(vigorousIntensity==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q42";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q42";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+
+                    Questions questions13= new Questions();
+                    questions13.type="behavioral";
+                    questions13.question="Q42a";
+                    questions13.member_id=memberMyself.MemberId;
+                    questions13.answer=vigiriousIntensity();
+                    questions13.date=currentDate;
+                    questions13.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions13);
+                    Questions questions14= new Questions();
+                    questions14.type="behavioral";
+                    questions14.question="Q42b";
+                    questions14.member_id=memberMyself.MemberId;
+                    questions14.answer= String.valueOf(vigorousIntensityTypical);
+                    questions14.date=currentDate;
+                    questions14.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions14);
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q42c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_typical_day.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
                 try {
                     memberHabit.VigorousIntensityTypicalDay = Integer.parseInt(edit_typical_day.getText().toString());
                 } catch (NumberFormatException e) {
@@ -1864,7 +2130,52 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     memberHabit.ModeratorIntensityTypicalDay = 0;
                 }
                 ////
+                if(moderateIntensity==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q43";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q43";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
 
+                    Questions questions13= new Questions();
+                    questions13.type="behavioral";
+                    questions13.question="Q43a";
+                    questions13.member_id=memberMyself.MemberId;
+                    questions13.answer=moderateIntensity();
+                    questions13.date=currentDate;
+                    questions13.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions13);
+                    Questions questions14= new Questions();
+                    questions14.type="behavioral";
+                    questions14.question="Q43b";
+                    questions14.member_id=memberMyself.MemberId;
+                    questions14.answer= String.valueOf(moderateIntensityTypical);
+                    questions14.date=currentDate;
+                    questions14.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions14);
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q43c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_typical_day_moderate.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
                 memberHabit.VigorousIntensityRecreationalYesNo=vigorousIntensityRecreational;
                 memberHabit.VigorousIntensityRecreationalActivities=vigorousIntensityRecreational();
                 memberHabit.VigorousIntensityRecreationalTypicalWeek=vigorousIntensityRecreationalTypical;
@@ -1874,6 +2185,57 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     e.printStackTrace();
                     memberHabit.VigorousIntensityRecreationalTypicalDay = 0;
                 }
+
+
+
+                ////
+                if(vigorousIntensityRecreational==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q44";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q44";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+
+                    Questions questions13= new Questions();
+                    questions13.type="behavioral";
+                    questions13.question="Q44a";
+                    questions13.member_id=memberMyself.MemberId;
+                    questions13.answer=vigorousIntensityRecreational();
+                    questions13.date=currentDate;
+                    questions13.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions13);
+                    Questions questions14= new Questions();
+                    questions14.type="behavioral";
+                    questions14.question="Q44b";
+                    questions14.member_id=memberMyself.MemberId;
+                    questions14.answer= String.valueOf(vigorousIntensityRecreationalTypical);
+                    questions14.date=currentDate;
+                    questions14.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions14);
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q44c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_typical_day_recreational.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
+
                 ////
                 memberHabit.ModeratorIntensityRecreationalYesNo=moderateIntensityRecreational;
                 memberHabit.ModeratorIntensityRecreationalActivities=moderateIntensityRecreational();
@@ -1884,6 +2246,57 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     e.printStackTrace();
                     memberHabit.ModeratorIntensityRecreationalTypicalDay = 0;
                 }
+
+
+
+                if(moderateIntensityRecreational==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q45";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q45";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+
+                    Questions questions13= new Questions();
+                    questions13.type="behavioral";
+                    questions13.question="Q45a";
+                    questions13.member_id=memberMyself.MemberId;
+                    questions13.answer=moderateIntensityRecreational();
+                    questions13.date=currentDate;
+                    questions13.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions13);
+
+                    Questions questions14= new Questions();
+                    questions14.type="behavioral";
+                    questions14.question="Q45b";
+                    questions14.member_id=memberMyself.MemberId;
+                    questions14.answer= String.valueOf(moderateIntensityRecreationalTypical);
+                    questions14.date=currentDate;
+                    questions14.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions14);
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q45c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_typical_day_moderate_recreational.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
+
                 memberHabit.ReclinigActivitiesYesNo=recliningActivities;
                 try {
                     memberHabit.ReclinigActivitiesTypicalDay = Integer.parseInt(edit_yes_reclining.getText().toString());
@@ -1892,7 +2305,36 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     memberHabit.ReclinigActivitiesTypicalDay = 0;
                 }
 
+                if(recliningActivities==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q47";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q47";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
 
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q47c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_yes_reclining.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
                 Common.memberHabitRepository.insertToMemberHabit(memberHabit);
                 if (frag.equals("frag")){
                     ((CCUserHomeActivity) getActivity()).backForDetails();
@@ -1905,8 +2347,19 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 memberHabit.id = memberHabit1.id;
                 memberHabit.SmokeYesNo = smokeYesNo;
                 if (smokeYesNo == 2) {
-
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q29";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="2";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
                 } else {
+
                     try {
                         memberHabit.SmokeYesYears = Integer.parseInt(edit_smoke_years.getText().toString());
                     } catch (NumberFormatException e) {
@@ -1919,10 +2372,42 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         e.printStackTrace();
                         memberHabit.SmokeYesPerday = 0;
                     }
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q29";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="1";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
+
+                    ////
+                    Questions questions1= new Questions();
+                    questions1.type="behavioral";
+                    questions1.question="Q29a";
+                    questions1.member_id=memberMyself.MemberId;
+                    questions1.answer=edit_smoke_years.getText().toString();
+                    questions1.date=currentDate;
+                    questions1.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions1);
+
                 }
                 memberHabit.JordaYesNo = jordaYesNo;
                 if (jordaYesNo == 2) {
-
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q30";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="2";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
                 } else {
                     try {
                         memberHabit.JordaYears = Integer.parseInt(edit_jorda.getText().toString());
@@ -1930,10 +2415,41 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         e.printStackTrace();
                         memberHabit.JordaYears = 0;
                     }
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q30";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="1";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
+
+                    ////
+                    Questions questions1= new Questions();
+                    questions1.type="behavioral";
+                    questions1.question="Q30a";
+                    questions1.member_id=memberMyself.MemberId;
+                    questions1.answer=edit_jorda.getText().toString();
+                    questions1.date=currentDate;
+                    questions1.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions1);
                 }
                 memberHabit.WorkplaceYesNo = workplaceYesNo;
                 if (workplaceYesNo == 2) {
-
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q31";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="2";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
                 } else {
                     try {
                         memberHabit.WorkplaceYears = Integer.parseInt(edit_workplace.getText().toString());
@@ -1941,10 +2457,41 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         e.printStackTrace();
                         memberHabit.WorkplaceYears = 0;
                     }
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q31";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="1";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
+
+                    ////
+                    Questions questions1= new Questions();
+                    questions1.type="behavioral";
+                    questions1.question="Q31a";
+                    questions1.member_id=memberMyself.MemberId;
+                    questions1.answer=edit_workplace.getText().toString();
+                    questions1.date=currentDate;
+                    questions1.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions1);
                 }
                 memberHabit.AlcoholYesNo = alcoholYesNo;
                 if (alcoholYesNo == 2) {
-
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q32";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="2";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
                 } else {
                     try {
                         memberHabit.AlcoholYears = Integer.parseInt(edit_alcohol.getText().toString());
@@ -1952,7 +2499,29 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         e.printStackTrace();
                         memberHabit.AlcoholYears = 0;
                     }
+                    Questions questions= new Questions();
+                    questions.type="behavioral";
+                    questions.question="Q32";
+                    questions.member_id=memberMyself.MemberId;
+                    questions.answer="1";
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+                    questions.date=currentDate;
+                    questions.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions);
+
+                    ////
+                    Questions questions1= new Questions();
+                    questions1.type="behavioral";
+                    questions1.question="Q32a";
+                    questions1.member_id=memberMyself.MemberId;
+                    questions1.answer=edit_alcohol.getText().toString();
+                    questions1.date=currentDate;
+                    questions1.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions1);
                 }
+
                 memberHabit.FruitsTypicalWeek = typicalFruits;
                 memberHabit.FruitsShowCard = fruitsShowCard;
                 memberHabit.VegetablesTypicalWeek = typicalVegetables;
@@ -1960,9 +2529,147 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 memberHabit.SaltBuy = saltyBuy;
                 memberHabit.TakingSalt = takingSalt;
 
+
+
+
+                Questions questions5= new Questions();
+                questions5.type="behavioral";
+                questions5.question="Q35";
+                questions5.member_id=memberMyself.MemberId;
+                questions5.answer=String.valueOf(typicalFruits);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = new Date(System.currentTimeMillis());
+                String currentDate = formatter.format(date);
+                questions5.date=currentDate;
+                questions5.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions5);
+                ///
+
+
+                Questions questions6= new Questions();
+                questions6.type="behavioral";
+                questions6.question="Q36";
+                questions6.member_id=memberMyself.MemberId;
+                questions6.answer=String.valueOf(fruitsShowCard);
+                questions6.date=currentDate;
+                questions6.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions6);
+
+                ///
+
+
+                Questions questions7= new Questions();
+                questions7.type="behavioral";
+                questions7.question="Q37";
+                questions7.member_id=memberMyself.MemberId;
+                questions7.answer=String.valueOf(typicalVegetables);
+                questions7.date=currentDate;
+                questions7.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions7);
+
+                ///
+
+
+                Questions questions8= new Questions();
+                questions8.type="behavioral";
+                questions8.question="Q38";
+                questions8.member_id=memberMyself.MemberId;
+                questions8.answer=String.valueOf(vegetablesShowCard);
+                questions8.date=currentDate;
+                questions8.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions8);
+
+
+                ///
+
+
+                Questions questions9= new Questions();
+                questions9.type="behavioral";
+                questions9.question="Q39";
+                questions9.member_id=memberMyself.MemberId;
+                questions9.answer=String.valueOf(vegetablesShowCard);
+                questions9.date=currentDate;
+                questions9.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions9);
+
+
+                ///
+
+
+                Questions questions10= new Questions();
+                questions10.type="behavioral";
+                questions10.question="Q40";
+                questions10.member_id=memberMyself.MemberId;
+                questions10.answer=String.valueOf(saltyBuy);
+                questions10.date=currentDate;
+                questions10.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions10);
+
+
+                ///
+
+
+                Questions questions11= new Questions();
+                questions11.type="behavioral";
+                questions11.question="Q41";
+                questions11.member_id=memberMyself.MemberId;
+                questions11.answer=String.valueOf(takingSalt);
+                questions11.date=currentDate;
+                questions11.master_id=memberMyself.id;
+                Common.qustionsRepository.insertToQuestions(questions11);
+
+
+
                 memberHabit.VigorousIntensityYesNo=vigorousIntensity;
                 memberHabit.VigorousIntensityActivities=vigiriousIntensity();
                 memberHabit.VigorousIntensityTypicalWeek=vigorousIntensityTypical;
+
+                if(vigorousIntensity==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q42";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q42";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+
+                    Questions questions13= new Questions();
+                    questions13.type="behavioral";
+                    questions13.question="Q42a";
+                    questions13.member_id=memberMyself.MemberId;
+                    questions13.answer=vigiriousIntensity();
+                    questions13.date=currentDate;
+                    questions13.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions13);
+                    Questions questions14= new Questions();
+                    questions14.type="behavioral";
+                    questions14.question="Q42b";
+                    questions14.member_id=memberMyself.MemberId;
+                    questions14.answer= String.valueOf(vigorousIntensityTypical);
+                    questions14.date=currentDate;
+                    questions14.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions14);
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q42c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_typical_day.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
                 try {
                     memberHabit.VigorousIntensityTypicalDay = Integer.parseInt(edit_typical_day.getText().toString());
                 } catch (NumberFormatException e) {
@@ -1980,7 +2687,52 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     memberHabit.ModeratorIntensityTypicalDay = 0;
                 }
                 ////
+                if(moderateIntensity==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q43";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q43";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
 
+                    Questions questions13= new Questions();
+                    questions13.type="behavioral";
+                    questions13.question="Q43a";
+                    questions13.member_id=memberMyself.MemberId;
+                    questions13.answer=moderateIntensity();
+                    questions13.date=currentDate;
+                    questions13.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions13);
+                    Questions questions14= new Questions();
+                    questions14.type="behavioral";
+                    questions14.question="Q43b";
+                    questions14.member_id=memberMyself.MemberId;
+                    questions14.answer= String.valueOf(moderateIntensityTypical);
+                    questions14.date=currentDate;
+                    questions14.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions14);
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q43c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_typical_day_moderate.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
                 memberHabit.VigorousIntensityRecreationalYesNo=vigorousIntensityRecreational;
                 memberHabit.VigorousIntensityRecreationalActivities=vigorousIntensityRecreational();
                 memberHabit.VigorousIntensityRecreationalTypicalWeek=vigorousIntensityRecreationalTypical;
@@ -1990,6 +2742,57 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     e.printStackTrace();
                     memberHabit.VigorousIntensityRecreationalTypicalDay = 0;
                 }
+
+
+
+                ////
+                if(vigorousIntensityRecreational==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q44";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q44";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+
+                    Questions questions13= new Questions();
+                    questions13.type="behavioral";
+                    questions13.question="Q44a";
+                    questions13.member_id=memberMyself.MemberId;
+                    questions13.answer=vigorousIntensityRecreational();
+                    questions13.date=currentDate;
+                    questions13.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions13);
+                    Questions questions14= new Questions();
+                    questions14.type="behavioral";
+                    questions14.question="Q44b";
+                    questions14.member_id=memberMyself.MemberId;
+                    questions14.answer= String.valueOf(vigorousIntensityRecreationalTypical);
+                    questions14.date=currentDate;
+                    questions14.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions14);
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q44c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_typical_day_recreational.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
+
                 ////
                 memberHabit.ModeratorIntensityRecreationalYesNo=moderateIntensityRecreational;
                 memberHabit.ModeratorIntensityRecreationalActivities=moderateIntensityRecreational();
@@ -2000,6 +2803,57 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     e.printStackTrace();
                     memberHabit.ModeratorIntensityRecreationalTypicalDay = 0;
                 }
+
+
+
+                if(moderateIntensityRecreational==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q45";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q45";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+
+                    Questions questions13= new Questions();
+                    questions13.type="behavioral";
+                    questions13.question="Q45a";
+                    questions13.member_id=memberMyself.MemberId;
+                    questions13.answer=moderateIntensityRecreational();
+                    questions13.date=currentDate;
+                    questions13.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions13);
+
+                    Questions questions14= new Questions();
+                    questions14.type="behavioral";
+                    questions14.question="Q45b";
+                    questions14.member_id=memberMyself.MemberId;
+                    questions14.answer= String.valueOf(moderateIntensityRecreationalTypical);
+                    questions14.date=currentDate;
+                    questions14.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions14);
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q45c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_typical_day_moderate_recreational.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
+
                 memberHabit.ReclinigActivitiesYesNo=recliningActivities;
                 try {
                     memberHabit.ReclinigActivitiesTypicalDay = Integer.parseInt(edit_yes_reclining.getText().toString());
@@ -2008,6 +2862,36 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     memberHabit.ReclinigActivitiesTypicalDay = 0;
                 }
 
+                if(recliningActivities==2){
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q47";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="2";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                }
+                else{
+                    Questions questions12= new Questions();
+                    questions12.type="behavioral";
+                    questions12.question="Q47";
+                    questions12.member_id=memberMyself.MemberId;
+                    questions12.answer="1";
+                    questions12.date=currentDate;
+                    questions12.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+
+
+                    Questions questions15= new Questions();
+                    questions15.type="behavioral";
+                    questions15.question="Q47c";
+                    questions15.member_id=memberMyself.MemberId;
+                    questions15.answer=edit_yes_reclining.getText().toString();
+                    questions15.date=currentDate;
+                    questions15.master_id=memberMyself.id;
+                    Common.qustionsRepository.insertToQuestions(questions15);
+                }
                 Common.memberHabitRepository.updateMemberHabit(memberHabit);
                 if (frag.equals("frag")){
                     ((CCUserHomeActivity) getActivity()).backForDetails();

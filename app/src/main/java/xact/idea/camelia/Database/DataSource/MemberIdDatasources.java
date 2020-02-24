@@ -44,6 +44,11 @@ public class MemberIdDatasources implements IMemberIdDatasources {
     }
 
     @Override
+    public int maxValue() {
+        return MemberIdDaos.maxValue();
+    }
+
+    @Override
     public int size() {
         return MemberIdDaos.value();
     }

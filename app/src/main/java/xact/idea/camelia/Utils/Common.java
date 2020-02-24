@@ -18,6 +18,7 @@ import xact.idea.camelia.Database.Repository.MemberIdRepository;
 import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
+import xact.idea.camelia.Database.Repository.QustionsRepository;
 import xact.idea.camelia.Database.Repository.StudyClassRepository;
 import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
@@ -49,6 +50,7 @@ public abstract class Common {
     public static SurveyRepository surveyRepository;
     public static MeasurementDetailsRepository measurementDetailsRepository;
     public static MemberIdRepository memberIdRepository;
+    public static QustionsRepository qustionsRepository;
 
     public static final String BASE_URL_XACT = "http://demo.xactidea.com/camelia/api/";
 

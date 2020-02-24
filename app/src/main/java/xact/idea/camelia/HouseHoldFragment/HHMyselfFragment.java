@@ -535,6 +535,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     else if (memberId.length()==9){
                         value=memberId;
                     }
+
                     memberMyself.MemberId= value;
                     Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
 

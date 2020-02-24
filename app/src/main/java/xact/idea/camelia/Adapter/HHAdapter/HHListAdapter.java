@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,20 +26,21 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import xact.idea.camelia.Database.AnotherModel.HouseHead;
 import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Filter.HouseholdFilter;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
-public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboardListiewHolder> {
+public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboardListiewHolder> implements Filterable {
 
 
     private Activity mActivity = null;
     int row_index = 0;
     private MedicineInterface uccMemberClickListener;
-    List<HouseHold> houseHolds;
-
+    public   List<HouseHold> houseHolds;
+    HouseholdFilter householdFilter;
     public HHListAdapter(Activity activity,List<HouseHold> houseHold,MedicineInterface uccMemberClickListeners) {
         mActivity = activity;
         uccMemberClickListener=uccMemberClickListeners;
@@ -91,6 +94,14 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
     @Override
     public int getItemCount() {
         return houseHolds.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (householdFilter == null) {
+            householdFilter = new HouseholdFilter(houseHolds, this);
+        }
+        return householdFilter;
     }
 
     public class CCDashboardListiewHolder extends RecyclerView.ViewHolder {

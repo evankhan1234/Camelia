@@ -10,11 +10,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -55,6 +58,7 @@ public class HHListFragment extends Fragment {
     FloatingActionButton btn_new;
     List<HouseHold> houseHoldArrayList= new ArrayList<>();
     String frag;
+    EditText edit_content;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,6 +84,7 @@ public class HHListFragment extends Fragment {
 
 
     private void initView() {
+        edit_content =  view.findViewById(R.id.edit_content);
         btn_new =  view.findViewById(R.id.btn_new);
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
@@ -109,6 +114,24 @@ public class HHListFragment extends Fragment {
                     ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 }
 
+            }
+        });
+        edit_content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+
+                mAdapters.getFilter().filter(edit_content.getText().toString());
             }
         });
     }
