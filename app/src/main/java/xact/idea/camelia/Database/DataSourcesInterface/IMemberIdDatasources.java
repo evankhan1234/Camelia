@@ -13,7 +13,7 @@ public interface IMemberIdDatasources {
     MemberId getMemberId(String MemberIdItem);
 
     void emptyMemberId(String value);
-
+    int maxValue();
     int size();
 
     MemberId getMemberIdNo(String MemberIdItem);

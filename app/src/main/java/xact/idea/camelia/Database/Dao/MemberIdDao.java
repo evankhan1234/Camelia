@@ -19,10 +19,12 @@ public interface MemberIdDao {
     Flowable<List<MemberId>> getMemberIdItemById(int MemberIdItemId);
     @Query("SELECT * FROM MemberId WHERE Value=:MemberIdItem")
     MemberId getMemberId(String MemberIdItem);
-    @Query("SELECT * FROM MemberId WHERE Value=:MemberIdItem")
+    @Query("SELECT * FROM MemberId WHERE id=:MemberIdItem")
     MemberId getMemberIdNo(String MemberIdItem);
     @Query("Select Count(id)  FROM MemberId")
     int value();
+    @Query("Select Max(id)  FROM MemberId")
+    int maxValue();
     @Query("DELETE  FROM MemberId where Value=:value")
     void emptyMemberId(String value);
     @Insert

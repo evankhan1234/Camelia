@@ -2,6 +2,7 @@ package xact.idea.camelia.Network;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import xact.idea.camelia.NetworkModel.AuthPost;
 import xact.idea.camelia.NetworkModel.AuthResponse;
@@ -10,6 +11,8 @@ import xact.idea.camelia.NetworkModel.BloodGroupResponses;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
+import xact.idea.camelia.NetworkModel.HouseholdGetResponseModel;
+import xact.idea.camelia.NetworkModel.HouseholdPostModel;
 import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
@@ -21,14 +24,18 @@ import xact.idea.camelia.NetworkModel.MeasurementsGetResponseModel;
 import xact.idea.camelia.NetworkModel.MedicalHistoryResponseModel;
 import xact.idea.camelia.NetworkModel.MedicalHistoryUpload;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
+import xact.idea.camelia.NetworkModel.MemberAlocatePostModel;
+import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
+import xact.idea.camelia.NetworkModel.MemberGetResponseModel;
 import xact.idea.camelia.NetworkModel.MemberPrescriptionGetResponseModel;
 import xact.idea.camelia.NetworkModel.MemberPrescriptionResponseModel;
 import xact.idea.camelia.NetworkModel.MemberResponseModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
+import xact.idea.camelia.NetworkModel.ReferallPostModel;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UnionResponses;
 import xact.idea.camelia.NetworkModel.UpazilaResponses;
@@ -73,12 +80,18 @@ public interface IRetrofitApi {
     io.reactivex.Observable<MemberResponseModel> postMemberUpload(@Body MemberUploadModel memberUploadModel);
     @POST("household/store")
     io.reactivex.Observable<HouseholdResponseModel> postHouseholdUpload(@Body HouseholdUploadModel householdUploadModel);
-    @GET("member/referral_history")
-    io.reactivex.Observable<MemberPrescriptionResponseModel> getMemberReferalhistory();
-    @GET("member/lab_reports")
-    io.reactivex.Observable<LabReportsResponseModel> getLabReports();
-    @GET("member/measurements")
-    io.reactivex.Observable<MeasurementsGetResponseModel> getMeasurementsGetResponse();
-    @GET("member/prescription")
-    io.reactivex.Observable<MemberPrescriptionGetResponseModel> getMemberPrescription();
+    @POST("member/referral_history")
+    io.reactivex.Observable<MemberPrescriptionResponseModel> getMemberReferalhistory(@Body ReferallPostModel referallPostModel);
+    @POST("member/lab_reports")
+    io.reactivex.Observable<LabReportsResponseModel> getLabReports(@Body ReferallPostModel referallPostModel);
+    @POST("member/measurements")
+    io.reactivex.Observable<MeasurementsGetResponseModel> getMeasurementsGetResponse(@Body ReferallPostModel referallPostModel);
+    @POST("member/prescription")
+    io.reactivex.Observable<MemberPrescriptionGetResponseModel> getMemberPrescription(@Body ReferallPostModel referallPostModel);
+    @POST("memberid/allocate")
+    io.reactivex.Observable<MemberAlocateResponseModel> getMemberAlocate(@Body MemberAlocatePostModel memberAlocatePostModel);
+    @POST("members/show")
+    io.reactivex.Observable<MemberGetResponseModel> getMemberShow(@Body MemberAlocatePostModel memberAlocatePostModel);
+    @POST("household/view")
+    io.reactivex.Observable<HouseholdGetResponseModel> getHouseholdShow(@Body HouseholdPostModel householdPostModel);
 }

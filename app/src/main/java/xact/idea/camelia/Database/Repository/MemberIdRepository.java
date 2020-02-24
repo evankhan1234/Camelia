@@ -41,6 +41,11 @@ public class MemberIdRepository implements IMemberIdDatasources {
     }
 
     @Override
+    public int maxValue() {
+        return IMemberIdDatasources.maxValue();
+    }
+
+    @Override
     public int size() {
         return IMemberIdDatasources.size();
     }

@@ -37,12 +37,14 @@ import xact.idea.camelia.Database.DataSource.MemberIdDatasources;
 import xact.idea.camelia.Database.DataSource.MemberMedicineDataSources;
 import xact.idea.camelia.Database.DataSource.MemberMyselfDataSources;
 import xact.idea.camelia.Database.DataSource.OccupationDataSources;
+import xact.idea.camelia.Database.DataSource.QuestionsDataSources;
 import xact.idea.camelia.Database.DataSource.StudyClassDatasources;
 import xact.idea.camelia.Database.DataSource.SurveyDataSources;
 import xact.idea.camelia.Database.DataSource.UnionDataSources;
 import xact.idea.camelia.Database.DataSource.UpazilaDatasources;
 import xact.idea.camelia.Database.DataSource.WardDatasources;
 import xact.idea.camelia.Database.MainDataBase;
+import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.Block;
 import xact.idea.camelia.Database.Model.BloodGroup;
 import xact.idea.camelia.Database.Model.District;
@@ -72,6 +74,7 @@ import xact.idea.camelia.Database.Repository.MemberIdRepository;
 import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
+import xact.idea.camelia.Database.Repository.QustionsRepository;
 import xact.idea.camelia.Database.Repository.StudyClassRepository;
 import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
@@ -85,6 +88,8 @@ import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
+import xact.idea.camelia.NetworkModel.MemberAlocatePostModel;
+import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UnionResponses;
@@ -93,6 +98,7 @@ import xact.idea.camelia.NetworkModel.WardResponses;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
@@ -108,6 +114,7 @@ public class CCUserActivity extends AppCompatActivity {
     TextView tv_store;
     IRetrofitApi mService;
     RelativeLayout relative;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,12 +122,12 @@ public class CCUserActivity extends AppCompatActivity {
         mService = Common.getApiXact();
         CorrectSizeUtil.getInstance(this).correctSize();
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.root_rlt_dashboard));
-        linear_dashboard=findViewById(R.id.linear_dashboard);
-        linear_logout=findViewById(R.id.linear_logout);
-        linear_member_status=findViewById(R.id.linear_member_status);
-        linear_summary=findViewById(R.id.linear_summary);
-        linear_household_member=findViewById(R.id.linear_household_member);
-        tv_store=findViewById(R.id.tv_store);
+        linear_dashboard = findViewById(R.id.linear_dashboard);
+        linear_logout = findViewById(R.id.linear_logout);
+        linear_member_status = findViewById(R.id.linear_member_status);
+        linear_summary = findViewById(R.id.linear_summary);
+        linear_household_member = findViewById(R.id.linear_household_member);
+        tv_store = findViewById(R.id.tv_store);
         relative = findViewById(R.id.relative);
         tv_store.setSelected(true);
         linear_logout.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +148,7 @@ public class CCUserActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXTRA_SESSION", "dashboard");
                 startActivity(intent);
-              //  finish();
+                //  finish();
             }
         });
         linear_member_status.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +181,7 @@ public class CCUserActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -289,18 +297,17 @@ public class CCUserActivity extends AppCompatActivity {
 
         if (Common.memberIdRepository.size() < 1) {
             if (Utils.broadcastIntent(CCUserActivity.this, relative)) {
-                for (int i=1;i<21;i++){
-                    String value= String.valueOf(i);
-                    MemberId memberId = new MemberId();
-                    memberId.Value=value;
-                    Common.memberIdRepository.insertToMemberId(memberId);
-                }
+                loadMemberId();
             } else {
                 Snackbar snackbar = Snackbar
                         .make(relative, "No Internet", Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         }
+//        int value = Common.memberIdRepository.maxValue();
+//
+//        MemberId memberId = Common.memberIdRepository.getMemberIdNo(String.valueOf(value));
+//        Log.e("memberId", "memberId" + memberId.Value);
     }
 
     private void loadStudyClass() {
@@ -329,6 +336,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadOccupation() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getOccupation().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<OccupationResponses>() {
@@ -355,6 +363,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadMaritialStatus() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getMaritialStatus().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MaritialStatusResponses>() {
@@ -381,6 +390,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadGender() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getGender().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<GenderResponses>() {
@@ -407,6 +417,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadWard() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getWard().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<WardResponses>() {
@@ -436,6 +447,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadMedicine() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getMedicines().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MedicineResponses>() {
@@ -467,6 +479,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadBlock() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getBlock().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<BlockResponses>() {
@@ -496,6 +509,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadBloodGroup() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getBloodGroup().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<BloodGroupResponses>() {
@@ -553,6 +567,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadDivision() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getDivision().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<DivisionResponses>() {
@@ -582,6 +597,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadDistrict() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getDistrictClass().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<DistrictResponses>() {
@@ -612,6 +628,7 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
     private void loadUpazila() {
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getUpazilaClass().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<UpazilaResponses>() {
@@ -641,6 +658,36 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
+    private void loadMemberId() {
+        showLoadingProgress(CCUserActivity.this);
+        MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+        memberAlocatePostModel.last_used_id = "";
+        Log.e("auth", "auth" + auth.user_id);
+        memberAlocatePostModel.user_id = "4";
+        compositeDisposable.add(mService.getMemberAlocate(memberAlocatePostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberAlocateResponseModel>() {
+            @Override
+            public void accept(MemberAlocateResponseModel upazilaResponses) throws Exception {
+                Log.e("loadMemberId", "loadMemberId" + new Gson().toJson(upazilaResponses));
+
+                for (MemberAlocateResponseModel.Data.AllocatedMember alocateResponseModel : upazilaResponses.data.newly_allocated_member_ids) {
+                    MemberId id = new MemberId();
+                    id.Value = alocateResponseModel.generated_member_id;
+                    Common.memberIdRepository.insertToMemberId(id);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("loadMemberId", "loadMemberId" + throwable.getMessage());
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+
     private void initDB() {
         Common.mainDatabase = MainDataBase.getInstance(this);
         Common.authRepository = AuthRepository.getInstance(AuthDataSources.getInstance(Common.mainDatabase.authDao()));
@@ -664,6 +711,7 @@ public class CCUserActivity extends AppCompatActivity {
         Common.surveyRepository = SurveyRepository.getInstance(SurveyDataSources.getInstance(Common.mainDatabase.surveyDao()));
         Common.measurementDetailsRepository = MeasurementDetailsRepository.getInstance(MeasurementDetailsDataSources.getInstance(Common.mainDatabase.measurementDetailsDao()));
         Common.memberIdRepository = MemberIdRepository.getInstance(MemberIdDatasources.getInstance(Common.mainDatabase.memberIdDao()));
+        Common.qustionsRepository = QustionsRepository.getInstance(QuestionsDataSources.getInstance(Common.mainDatabase.questionsDao()));
     }
 
     @Override
