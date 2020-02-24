@@ -331,14 +331,13 @@ public class HouseHoldActivity extends AppCompatActivity {
         showLoadingProgress(HouseHoldActivity.this);
         MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
-        memberAlocatePostModel.last_used_id = "";
+        memberAlocatePostModel.data.last_used_id = "";
         Log.e("auth", "auth" + auth.user_id);
-        memberAlocatePostModel.user_id = "4";
+        memberAlocatePostModel.user_credential =auth.email;
         compositeDisposable.add(mService.getMemberAlocate(memberAlocatePostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberAlocateResponseModel>() {
             @Override
             public void accept(MemberAlocateResponseModel upazilaResponses) throws Exception {
                 Log.e("loadMemberId", "loadMemberId" + new Gson().toJson(upazilaResponses));
-
                 for (MemberAlocateResponseModel.Data.AllocatedMember alocateResponseModel : upazilaResponses.data.newly_allocated_member_ids) {
                     MemberId id = new MemberId();
                     id.Value = alocateResponseModel.generated_member_id;
