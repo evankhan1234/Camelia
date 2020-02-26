@@ -82,7 +82,7 @@ public class IncompleteFragment extends Fragment {
         compositeDisposable.add(Common.memberMyselfRepository.getInCompleteMembers().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
-                Log.e("aa","dfsdf"+new Gson().toJson(memberMyselfes));
+                Log.e("e","dfsdf"+new Gson().toJson(memberMyselfes));
                 memberMyselfList=memberMyselfes;
                 if (memberMyselfList.size()>0){
                     mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);

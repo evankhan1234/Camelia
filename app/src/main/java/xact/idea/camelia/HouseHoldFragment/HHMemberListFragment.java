@@ -37,10 +37,12 @@ import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHMemberListAdapter;
 import xact.idea.camelia.Database.Model.HouseHold;
+import xact.idea.camelia.Database.Model.MeasurementDetails;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Fragment.CCMeasurementsDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCuserMesaurementsFragment;
+import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -99,7 +101,7 @@ public class HHMemberListFragment extends Fragment {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));
-                mAdapters = new HHMemberListAdapter(mActivity,memberMyselfes);
+                mAdapters = new HHMemberListAdapter(mActivity,memberMyselfes,medicineInterface);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {
@@ -109,10 +111,35 @@ public class HHMemberListFragment extends Fragment {
             }
         }));
 
-        //EmployeeStaus();
 
     }
 
+    MedicineInterface medicineInterface = new MedicineInterface() {
+        @Override
+        public void postion(int position, String Type) {
+            FragmentTransaction transaction;
+            transaction = getChildFragmentManager().beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putString("Id",uniqueId);
+            bundle.putString("frag",frag);
+            bundle.putString("update",Type);
+            Fragment f = new HHCreateMemberFragment();
+            f.setArguments(bundle);
+            transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
+            transaction.replace(R.id.rlt_detail_fragment, f, f.getClass().getSimpleName());
+            transaction.addToBackStack(f.getClass().getSimpleName());
+            transaction.commit();
+            HHMembersFragment.tabLayout.setVisibility(View.GONE);
+            if (frag.equals("frag")){
+                ((CCUserHomeActivity) getActivity()).ShowText("Update Member");
+                ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+            else {
+                ((HouseholdHomeActivity) getActivity()).ShowText("Update Member");
+                ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
+            }
+        }
+    };
     @Override
     public void onResume() {
         super.onResume();

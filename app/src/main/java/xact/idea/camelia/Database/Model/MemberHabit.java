@@ -11,8 +11,8 @@ public class MemberHabit {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
-    @ColumnInfo(name = "MemberMyselfPhoneNumber")
-    public String MemberMyselfPhoneNumber;
+    @ColumnInfo(name = "MemberId")
+    public String MemberId;
     @ColumnInfo(name = "SmokeYesNo")
     public int SmokeYesNo;
     @ColumnInfo(name = "SmokeYesYears")

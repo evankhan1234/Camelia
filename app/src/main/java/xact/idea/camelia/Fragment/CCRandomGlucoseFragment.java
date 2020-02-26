@@ -188,7 +188,7 @@ public class CCRandomGlucoseFragment extends Fragment {
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                     Measurements measurements = new Measurements();
                     measurements.DateTime=date;
-                    measurements.MemberId=type;
+                    measurements.MemberIds=type;
                     measurements.Message=message;
                     measurements.Result=total;
                     measurements.Refer=refer;

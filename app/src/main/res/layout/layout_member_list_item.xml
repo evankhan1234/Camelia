@@ -93,7 +93,7 @@
                                 android:textSize="45px" />
 
                             <RelativeLayout
-                                android:layout_marginTop="30px"
+                                android:layout_marginTop="10px"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
@@ -109,25 +109,21 @@
                                     android:textStyle="bold"
                                     android:textColor="#6A6B6B"
                                     android:textSize="45px" />
-                                <TextView
-                                    android:textAlignment="center"
-                                    android:layout_alignParentRight="true"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
 
-                                    android:minWidth="300px"
-
-                                    android:layout_marginLeft="40px"
-                                    android:background="@drawable/status_processing"
-
-                                    android:padding="15px"
-                                    android:tag="40"
-                                    android:text="Send to cc"
-                                    android:layout_marginRight="10px"
-
-                                    android:textColor="@color/white"
-                                    android:textSize="40px" />
                             </RelativeLayout>
+                            <TextView
+                                android:layout_marginTop="10px"
+                                android:id="@+id/text_unique_id"
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="40px"
+
+                                android:tag="45"
+                                android:text="01677182084"
+                                android:textStyle="bold"
+                                android:textColor="#6A6B6B"
+                                android:textSize="45px" />
                             <LinearLayout
 
                                 android:gravity="center"
@@ -142,7 +138,7 @@
                                     android:textAlignment="center"
                                     android:layout_alignParentRight="true"
                                     android:layout_below="@id/linears3"
-                                    android:id="@+id/text_weight_analysis"
+                                    android:id="@+id/text_update"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
 
@@ -169,7 +165,7 @@
                                     android:minWidth="300px"
 
                                     android:layout_marginLeft="40px"
-                                    android:background="@drawable/status_reject"
+                                    android:background="@drawable/status_processing"
 
                                     android:padding="15px"
                                     android:tag="40"

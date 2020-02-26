@@ -13,8 +13,8 @@ public class Measurements {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
-    @ColumnInfo(name = "MemberId")
-    public String MemberId;
+    @ColumnInfo(name = "MemberIds")
+    public String MemberIds;
     @ColumnInfo(name = "DateTime")
     public Date DateTime;
     @ColumnInfo(name = "Type")

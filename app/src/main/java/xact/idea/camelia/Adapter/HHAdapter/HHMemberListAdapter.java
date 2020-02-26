@@ -19,6 +19,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
@@ -28,9 +29,11 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
     private Activity mActivity = null;
     int row_index = 0;
     List<MemberMyself> memberMyselfes;
-    public HHMemberListAdapter(Activity activity, List<MemberMyself> memberMyselfe) {
+    MedicineInterface  medicineInterface;
+    public HHMemberListAdapter(Activity activity, List<MemberMyself> memberMyselfe, MedicineInterface  medicineInterfaces) {
         mActivity = activity;
         memberMyselfes=memberMyselfe;
+        medicineInterface=medicineInterfaces;
     }
 
 
@@ -67,6 +70,12 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                         }
                     });
         }
+        holder.text_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                medicineInterface.postion(position,memberMyselfes.get(position).MemberId);
+            }
+        });
     }
 
     @Override
@@ -79,6 +88,8 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         private Button btn_department;
         private TextView text_name;
         private TextView text_phone;
+        private TextView text_unique_id;
+        private TextView text_update;
 
 
         public CCDashboardListiewHolder(View itemView) {
@@ -86,6 +97,8 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             img_avatar=itemView.findViewById(R.id.img_avatar);
             text_name=itemView.findViewById(R.id.text_name);
             text_phone=itemView.findViewById(R.id.text_phone);
+            text_unique_id=itemView.findViewById(R.id.text_unique_id);
+            text_update=itemView.findViewById(R.id.text_update);
         }
     }
 }

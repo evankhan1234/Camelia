@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -238,7 +239,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     int cancerYesNo;
     int mentalDisorderYesNo;
     int ashmaYesNo;
+    String update;
+    public HHMedicineFragment(String updates) {
 
+        update=updates;
+        Log.e("update",""+update);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -717,8 +723,118 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         checkboxClickListener();
         checkboxBloodGroupClickListener();
         checkboxHeartAttackClickListener();
+
+        show();
     }
 
+    public void show(){
+        MemberMedicine memberMedicine=Common.memberMedicineRepository.getMemberMedicineNo(update);
+
+
+        if (memberMedicine!=null){
+//            edit_national_id.setText(String.valueOf(memberId.NationalId));
+//            edit_name.setText(memberId.FullName);
+//            edit_mobile_number.setText(memberId.MobileNumber);
+//            radioBirthdate.setChecked(true);
+//            linear_age.setVisibility(View.GONE);
+//            linear_birthdate.setVisibility(View.VISIBLE);
+//            edit_birthday_date_again.setText(memberId.DateOfBirth);
+            if (memberMedicine.DiabetisYesNo != 0) {
+                int div = memberMedicine.DiabetisYesNo;
+
+                for (int i = 0; i < yesNoArrayListForDiabetis.size(); i++) {
+                    if (yesNoArrayListForDiabetis.get(i).getId() == div) {
+                        spinner_diabetis.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberMedicine.BloodPressureYesNo != 0) {
+                int div = memberMedicine.BloodPressureYesNo;
+
+                for (int i = 0; i < yesNoArrayListForBloodPressure.size(); i++) {
+                    if (yesNoArrayListForBloodPressure.get(i).getId() == div) {
+                        spinner_blood_pressure.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberMedicine.HeartAttackYesNo != 0) {
+                int div =memberMedicine.HeartAttackYesNo;
+
+                for (int i = 0; i < yesNoArrayListForHeartAttack.size(); i++) {
+                    if (yesNoArrayListForHeartAttack.get(i).getId() == div) {
+                        spinner_heart_attack.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberMedicine.BrainStrokeYesNo != 0) {
+                int div = memberMedicine.BrainStrokeYesNo ;
+
+                for (int i = 0; i < yesNoArrayListForBrainStroke.size(); i++) {
+                    if (yesNoArrayListForBrainStroke.get(i).getId() == div) {
+                        spinner_brain_stroke.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberMedicine.LungYesNo != 0) {
+                int div = memberMedicine.LungYesNo;
+
+                for (int i = 0; i < yesNoArrayListForLungDisease.size(); i++) {
+                    if (yesNoArrayListForLungDisease.get(i).getId() == div) {
+                        spinner_lung.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberMedicine.AshmaYesNo != 0) {
+                int div = memberMedicine.AshmaYesNo;
+
+                for (int i = 0; i < yesNoArrayListForAshma.size(); i++) {
+                    if (yesNoArrayListForAshma.get(i).getId() == div) {
+                        spinner_ashma.setSelection(i);
+                    }
+                }
+            }
+
+            //////////////
+            if (memberMedicine.KidneyYesNo != 0) {
+                int div = memberMedicine.KidneyYesNo;
+
+                for (int i = 0; i < yesNoArrayListForKidney.size(); i++) {
+                    if (yesNoArrayListForKidney.get(i).getId() == div) {
+                        spinner_kidney.setSelection(i);
+                    }
+                }
+            }
+            //////////
+            if (memberMedicine.CancerYesNo != 0) {
+                int div = memberMedicine.CancerYesNo;
+
+                for (int i = 0; i < yesNoArrayListForCancer.size(); i++) {
+                    if (yesNoArrayListForCancer.get(i).getId() == div) {
+                        spinner_cancer.setSelection(i);
+                    }
+                }
+            }
+            //////////
+            if (memberMedicine.MentalYesNo != 0) {
+                int div = memberMedicine.MentalYesNo;
+
+                for (int i = 0; i < yesNoArrayListForMental.size(); i++) {
+                    if (yesNoArrayListForMental.get(i).getId() == div) {
+                        spinner_mental_disorder.setSelection(i);
+                    }
+                }
+            }
+
+        }
+        else{
+
+        }
+    }
     private void checkboxHeartAttackClickListener() {
         checkBoxFoodHabit_heart_attack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1485,9 +1601,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
     private void saveData() {
 
-        if (isChecked()) {
-
-
+        if (isChecked())
+        {
 
             StringBuilder tag = new StringBuilder();
             for (String s : arrayList) {
@@ -1654,28 +1769,22 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 strMental = strMental.substring(0, strMental.length() - 1);
             }
 
+            MemberMedicine memberMedicineq=Common.memberMedicineRepository.getMemberMedicineNo(update);
             MemberMedicine memberMedicine = new MemberMedicine();
-            int id=Common.memberMyselfRepository.maxValue();
-
-            MemberMyself memberMyself=Common.memberMyselfRepository.getMemberMyselfNo(id);
-            memberMedicine.MemberMyselfPhoneNumber=memberMyself.MobileNumber;
-
-            MemberMedicine memberMedicine1=Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MobileNumber);
-
-            if (memberMedicine1==null)
-            {
+            if (memberMedicineq!=null){
+                memberMedicine.id=memberMedicineq.id;
                 memberMedicine.DiabetisYesNo=diabetisYesNo;
                 if (diabetisYesNo==2){
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q45";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="2";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -1691,41 +1800,41 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q45";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="1";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q45a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_diabetis_month.getText().toString();
+                    questions1.member_id=memberMedicineq.MemberId;
+                    questions1.answer=edit_yes_blood.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q45b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=diabetis();
+                    questions3.member_id=memberMedicineq.MemberId;
+                    questions3.answer=bloodGroups();
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q45c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=str;
+                    questions4.member_id=memberMedicineq.MemberId;
+                    questions4.answer=strBlood;
                     questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
 
@@ -1735,13 +1844,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q46";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="2";
+                    questions.member_id=memberMedicineq.MemberId;
+                    questions.answer="No";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -1757,643 +1866,40 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q46";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q46a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_blood.getText().toString();
-                    questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q46b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=bloodGroups();
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q46c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strBlood;
-                    questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-                }
-
-
-                memberMedicine.HeartAttackYesNo=heartAttackYesNo;
-                if (heartAttackYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q47";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="No";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.HeartAttackSufferingYear=Integer.parseInt(edit_yes_heart_attack.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.HeartAttackSufferingYear=0;
-                    }
-                    memberMedicine.HeartAttackControlDisease=heartAttack();
-                    memberMedicine.HeartAttackMedicineName=strHeartAttack;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q47";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q47a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_heart_attack.getText().toString();
-                    questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q47b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=heartAttack();
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q47c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strHeartAttack;
-                    questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-                }
-
-
-                memberMedicine.BrainStrokeYesNo=brainStrokeYesNo;
-                if (brainStrokeYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q48";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="No";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.BrainStrokeSufferingYear=Integer.parseInt(edit_yes_heart_brain_stroke.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.BrainStrokeSufferingYear=0;
-                    }
-                    memberMedicine.BrainStrokeControlDisease=String.valueOf(controlDiseaseBrainStroke);
-                    memberMedicine.BrainStrokeMedicineName=strBrainStrok;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q48";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q48a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_heart_brain_stroke.getText().toString();
-                    questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q48b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=String.valueOf(controlDiseaseBrainStroke);
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q48c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strBrainStrok;
-                    questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-                }
-
-
-                memberMedicine.LungYesNo=lungYesNo;
-                if (lungYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q49";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="No";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.LungSufferingYear=Integer.parseInt(edit_yes_lung_disease.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.LungSufferingYear=0;
-                    }
-                    memberMedicine.LungControlDisease=String.valueOf(controlDiseaseLungDisease);
-                    memberMedicine.LungMedicineName=strLung;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q49";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q49a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_lung_disease.getText().toString();
-                    questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q49b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=String.valueOf(controlDiseaseLungDisease);
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q49c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strLung;
-                    questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-                }
-
-
-                memberMedicine.AshmaYesNo=ashmaYesNo;
-                if (ashmaYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q50";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="No";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.AshmaSufferingYear=Integer.parseInt(edit_yes_ashma.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.AshmaSufferingYear=0;
-                    }
-                    memberMedicine.AshmaControlDisease=String.valueOf(controlDiseaseAshma);
-                    memberMedicine.AshmaMedicineName=strAshma;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q50";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q50a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_ashma.getText().toString();
-                    questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q50b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=String.valueOf(controlDiseaseAshma);
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q50c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strAshma;
-                    questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-                }
-
-
-                memberMedicine.KidneyYesNo=kidneyYesNo;
-                if (kidneyYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q51";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="No";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.KidneySufferingYear=Integer.parseInt(edit_yes_kidney_disease.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.KidneySufferingYear=0;
-                    }
-                    memberMedicine.KidneyControlDisease=String.valueOf(controlDiseaseKidney);
-                    memberMedicine.KidneyMedicineName=strKidney;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q51";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q51a";
-                    questions1.master_id=memberMyself.id;
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_kidney_disease.getText().toString();
-                    questions1.date=currentDate;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q51b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=String.valueOf(controlDiseaseKidney);
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q51c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strKidney;
-                    questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-                }
-
-
-                memberMedicine.CancerYesNo=cancerYesNo;
-                if (cancerYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q52";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="No";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.CancerSufferingYear=Integer.parseInt(edit_yes_cancer.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.CancerSufferingYear=0;
-                    }
-                    memberMedicine.CancerControlDisease=String.valueOf(controlDiseaseCancer);
-                    memberMedicine.CancerMedicineName=strCancer;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q52";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.master_id=memberMyself.id;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q52a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_cancer.getText().toString();
-                    questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q52b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=String.valueOf(controlDiseaseCancer);
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q52c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strCancer;
-                    questions4.master_id=memberMyself.id;
-                    questions4.date=currentDate;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-                }
-
-
-                memberMedicine.MentalYesNo=mentalDisorderYesNo;
-                if (mentalDisorderYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q53";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="No";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.MentalSufferingYear=Integer.parseInt(edit_yes_mental_disorder.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.MentalSufferingYear=0;
-                    }
-                    memberMedicine.MentalControlDisease=String.valueOf(controlDiseaseMentalDisorder);
-                    memberMedicine.MentalMedicineName=strMental;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q53";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q53a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_mental_disorder.getText().toString();
-                    questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q53b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=String.valueOf(controlDiseaseMentalDisorder);;
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q53c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strMental;
-                    questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-
-
-            }
-
-
-
-                Log.e("fullstring","data"+new Gson().toJson(memberMedicine));
-
-                Common.memberMedicineRepository.insertToMemberMedicine(memberMedicine);
-            }
-            else{
-                memberMedicine.id=memberMedicine1.id;
-                memberMedicine.DiabetisYesNo=diabetisYesNo;
-                if (diabetisYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q45";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="2";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.DiabetisSufferingYear=Integer.parseInt(edit_diabetis_month.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.DiabetisSufferingYear=0;
-                    }
-                    memberMedicine.DiabetisControlDisease=diabetis();
-                    memberMedicine.DiabetisMedicineName=str;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q45";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="1";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-
-                    ////
-                    Questions questions1= new Questions();
-                    questions1.type="medicine";
-                    questions1.question="Q45a";
-                    questions1.member_id=memberMyself.MemberId;
-                    questions1.answer=edit_yes_blood.getText().toString();
-                    questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions1);
-                    ////
-                    Questions questions3= new Questions();
-                    questions3.type="medicine";
-                    questions3.question="Q45b";
-                    questions3.member_id=memberMyself.MemberId;
-                    questions3.answer=bloodGroups();
-                    questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions3);
-                    ////
-                    Questions questions4= new Questions();
-                    questions4.type="medicine";
-                    questions4.question="Q45c";
-                    questions4.member_id=memberMyself.MemberId;
-                    questions4.answer=strBlood;
-                    questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions4);
-                }
-
-
-                memberMedicine.BloodPressureYesNo=bloodPressureYesNo;
-                if (bloodPressureYesNo==2){
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q46";
-                    questions.member_id=memberMyself.MemberId;
-                    questions.answer="No";
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions);
-                }
-                else{
-                    try {
-                        memberMedicine.BloodPressureSufferingYear=Integer.parseInt(edit_yes_blood.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberMedicine.BloodPressureSufferingYear=0;
-                    }
-                    memberMedicine.BloodPressureControlDisease=bloodGroups();
-                    memberMedicine.BloodPressureMedicineName=strBlood;
-
-                    Questions questions= new Questions();
-                    questions.type="medicine";
-                    questions.question="Q46";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="Yes";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q46a";
-                    questions1.member_id=memberMyself.MemberId;
+                    questions1.member_id=memberMedicineq.MemberId;
                     questions1.answer=edit_yes_blood.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q46b";
-                    questions3.member_id=memberMyself.MemberId;
+                    questions3.member_id=memberMedicineq.MemberId;
                     questions3.answer=bloodGroups();
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q46c";
-                    questions4.member_id=memberMyself.MemberId;
+                    questions4.member_id=memberMedicineq.MemberId;
                     questions4.answer=strBlood;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     questions4.date=currentDate;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
@@ -2404,13 +1910,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q47";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="2";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -2426,41 +1932,41 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q47";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="1";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q47a";
-                    questions1.member_id=memberMyself.MemberId;
+                    questions1.member_id=memberMedicineq.MemberId;
                     questions1.answer=edit_yes_heart_attack.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q47b";
-                    questions3.member_id=memberMyself.MemberId;
+                    questions3.member_id=memberMedicineq.MemberId;
                     questions3.answer=heartAttack();
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q47c";
-                    questions4.member_id=memberMyself.MemberId;
+                    questions4.member_id=memberMedicineq.MemberId;
                     questions4.answer=strHeartAttack;
                     questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
 
@@ -2470,13 +1976,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q48";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="2";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -2491,41 +1997,41 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q48";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="1";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q48a";
-                    questions1.member_id=memberMyself.MemberId;
+                    questions1.member_id=memberMedicineq.MemberId;
                     questions1.answer=edit_yes_heart_brain_stroke.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q48b";
-                    questions3.member_id=memberMyself.MemberId;
+                    questions3.member_id=memberMedicineq.MemberId;
                     questions3.answer=String.valueOf(controlDiseaseBrainStroke);
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q48c";
-                    questions4.member_id=memberMyself.MemberId;
+                    questions4.member_id=memberMedicineq.MemberId;
                     questions4.answer=strBrainStrok;
                     questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
 
@@ -2535,13 +2041,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q49";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="2";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -2556,41 +2062,41 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q49";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="1";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q49a";
-                    questions1.member_id=memberMyself.MemberId;
+                    questions1.member_id=memberMedicineq.MemberId;
                     questions1.answer=edit_yes_lung_disease.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q49b";
-                    questions3.member_id=memberMyself.MemberId;
+                    questions3.member_id=memberMedicineq.MemberId;
                     questions3.answer=String.valueOf(controlDiseaseLungDisease);
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q49c";
-                    questions4.member_id=memberMyself.MemberId;
+                    questions4.member_id=memberMedicineq.MemberId;
                     questions4.answer=strLung;
                     questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
 
@@ -2600,13 +2106,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q50";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="2";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -2621,41 +2127,41 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q50";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="1";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q50a";
-                    questions1.member_id=memberMyself.MemberId;
+                    questions1.member_id=memberMedicineq.MemberId;
                     questions1.answer=edit_yes_ashma.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q50b";
-                    questions3.member_id=memberMyself.MemberId;
+                    questions3.member_id=memberMedicineq.MemberId;
                     questions3.answer=String.valueOf(controlDiseaseAshma);
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q50c";
-                    questions4.member_id=memberMyself.MemberId;
+                    questions4.member_id=memberMedicineq.MemberId;
                     questions4.answer=strAshma;
                     questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
 
@@ -2665,13 +2171,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q51";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="2";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -2687,41 +2193,41 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q51";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="1";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q51a";
-                    questions1.member_id=memberMyself.MemberId;
+                    questions1.member_id=memberMedicineq.MemberId;
                     questions1.answer=edit_yes_kidney_disease.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q51b";
-                    questions3.member_id=memberMyself.MemberId;
+                    questions3.member_id=memberMedicineq.MemberId;
                     questions3.answer=String.valueOf(controlDiseaseKidney);
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q51c";
-                    questions4.member_id=memberMyself.MemberId;
+                    questions4.member_id=memberMedicineq.MemberId;
                     questions4.answer=strKidney;
                     questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
 
@@ -2731,13 +2237,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q52";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="2";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -2754,41 +2260,41 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q52";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="1";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q52a";
-                    questions1.member_id=memberMyself.MemberId;
+                    questions1.member_id=memberMedicineq.MemberId;
                     questions1.answer=edit_yes_cancer.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q52b";
-                    questions3.member_id=memberMyself.MemberId;
+                    questions3.member_id=memberMedicineq.MemberId;
                     questions3.answer=String.valueOf(controlDiseaseCancer);
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q52c";
-                    questions4.member_id=memberMyself.MemberId;
+                    questions4.member_id=memberMedicineq.MemberId;
                     questions4.answer=strCancer;
                     questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
 
@@ -2798,13 +2304,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q53";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="2";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
                 else{
@@ -2820,41 +2326,41 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Questions questions= new Questions();
                     questions.type="medicine";
                     questions.question="Q53";
-                    questions.member_id=memberMyself.MemberId;
+                    questions.member_id=memberMedicineq.MemberId;
                     questions.answer="1";
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     questions.date=currentDate;
-                    questions.master_id=memberMyself.id;
+                    questions.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions);
 
                     ////
                     Questions questions1= new Questions();
                     questions1.type="medicine";
                     questions1.question="Q53a";
-                    questions1.member_id=memberMyself.MemberId;
+                    questions1.member_id=memberMedicineq.MemberId;
                     questions1.answer=edit_yes_mental_disorder.getText().toString();
                     questions1.date=currentDate;
-                    questions1.master_id=memberMyself.id;
+                    questions1.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions1);
                     ////
                     Questions questions3= new Questions();
                     questions3.type="medicine";
                     questions3.question="Q53b";
-                    questions3.member_id=memberMyself.MemberId;
+                    questions3.member_id=memberMedicineq.MemberId;
                     questions3.answer=String.valueOf(controlDiseaseMentalDisorder);;
                     questions3.date=currentDate;
-                    questions3.master_id=memberMyself.id;
+                    questions3.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions3);
                     ////
                     Questions questions4= new Questions();
                     questions4.type="medicine";
                     questions4.question="Q53c";
-                    questions4.member_id=memberMyself.MemberId;
+                    questions4.member_id=memberMedicineq.MemberId;
                     questions4.answer=strMental;
                     questions4.date=currentDate;
-                    questions4.master_id=memberMyself.id;
+                    questions4.master_id=memberMedicineq.id;
                     Common.qustionsRepository.insertToQuestions(questions4);
                 }
 
@@ -2866,7 +2372,1398 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
 
             HHCreateMemberFragment.nextPages(2);
-        }
+            }
+            else {
+
+            StringBuilder tag = new StringBuilder();
+            for (String s : arrayList) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tag.append(medicine.MedicineId + ",");
+                    }
+                }
+
+
+
+
+            }
+
+            String str = tag.toString();
+
+
+            if (str != null && str.length() > 0 && str.charAt(str.length() - 1) == ',') {
+                str = str.substring(0, str.length() - 1);
+            }
+
+
+            StringBuilder tagBlood = new StringBuilder();
+            for (String s : arrayListBlood) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagBlood.append(medicine.MedicineId + ",");
+                    }
+                }
+
+            }
+
+            String strBlood = tagBlood.toString();
+
+
+            if (strBlood != null && strBlood.length() > 0 && strBlood.charAt(strBlood.length() - 1) == ',') {
+                strBlood = strBlood.substring(0, strBlood.length() - 1);
+            }
+
+
+            StringBuilder tagHeartAttack= new StringBuilder();
+            for (String s : arrayListHeart) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagHeartAttack.append(medicine.MedicineId + ",");
+                    }
+                }
+
+            }
+
+            String strHeartAttack = tagHeartAttack.toString();
+
+
+            if (strHeartAttack != null && strHeartAttack.length() > 0 && strHeartAttack.charAt(strHeartAttack.length() - 1) == ',') {
+                strHeartAttack = strHeartAttack.substring(0, strHeartAttack.length() - 1);
+            }
+
+            StringBuilder tagBrainStroke= new StringBuilder();
+            for (String s : arrayListHeart) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagBrainStroke.append(medicine.MedicineId + ",");
+                    }
+                }
+
+            }
+
+            String strBrainStrok = tagBrainStroke.toString();
+
+
+            if (strBrainStrok != null && strBrainStrok.length() > 0 && strBrainStrok.charAt(strBrainStrok.length() - 1) == ',') {
+                strBrainStrok = strBrainStrok.substring(0, strBrainStrok.length() - 1);
+            }
+
+            StringBuilder tagLung= new StringBuilder();
+            for (String s : arrayListLung) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagLung.append(medicine.MedicineId + ",");
+                    }
+                }
+
+            }
+
+            String strLung = tagLung.toString();
+
+
+            if (strLung != null && strLung.length() > 0 && strLung.charAt(strLung.length() - 1) == ',') {
+                strLung = strLung.substring(0, strLung.length() - 1);
+            }
+
+            StringBuilder tagAshma= new StringBuilder();
+            for (String s : arrayListAshma) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagAshma.append(medicine.MedicineId + ",");
+                    }
+                }
+
+            }
+
+            String strAshma = tagAshma.toString();
+
+
+            if (strAshma != null && strAshma.length() > 0 && strAshma.charAt(strAshma.length() - 1) == ',') {
+                strAshma = strAshma.substring(0, strAshma.length() - 1);
+            }
+
+            StringBuilder tagKidney= new StringBuilder();
+            for (String s : arrayListKidney) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagKidney.append(medicine.MedicineId + ",");
+                    }
+                }
+
+            }
+
+            String strKidney = tagKidney.toString();
+
+
+            if (strKidney != null && strKidney.length() > 0 && strKidney.charAt(strKidney.length() - 1) == ',') {
+                strKidney = strKidney.substring(0, strKidney.length() - 1);
+            }
+            StringBuilder tagCancer= new StringBuilder();
+            for (String s : arrayListCancer) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagCancer.append(medicine.MedicineId + ",");
+                    }
+                }
+
+            }
+
+            String strCancer= tagCancer.toString();
+
+
+            if (strCancer != null && strCancer.length() > 0 && strCancer.charAt(strCancer.length() - 1) == ',') {
+                strCancer = strCancer.substring(0, strCancer.length() - 1);
+            }
+            StringBuilder tagMental= new StringBuilder();
+            for (String s : arrayListCancer) {
+                for (Medicine medicine: medicineArrayList){
+
+                    if (s.equals(medicine.Name)){
+                        tagMental.append(medicine.MedicineId + ",");
+                    }
+                }
+
+            }
+
+            String strMental= tagMental.toString();
+
+
+            if (strMental != null && strMental.length() > 0 && strMental.charAt(strMental.length() - 1) == ',') {
+                strMental = strMental.substring(0, strMental.length() - 1);
+            }
+
+                MemberMedicine memberMedicine = new MemberMedicine();
+                int id=Common.memberMyselfRepository.maxValue();
+
+                MemberMyself memberMyself=Common.memberMyselfRepository.getMemberMyselfNo(id);
+                memberMedicine.MemberId=memberMyself.MemberId;
+
+                MemberMedicine memberMedicine1=Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MemberId);
+                if(diabetisYesNo==-1 || bloodPressureYesNo==-1 ||heartAttackYesNo==-1 ||brainStrokeYesNo==-1 ||lungYesNo==-1 ||ashmaYesNo==-1 ||kidneyYesNo==-1 ||cancerYesNo==-1 ||mentalDisorderYesNo==-1){
+                    Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (memberMedicine1==null)
+                    {
+                        memberMedicine.DiabetisYesNo=diabetisYesNo;
+                        if (diabetisYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q45";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.DiabetisSufferingYear=Integer.parseInt(edit_diabetis_month.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.DiabetisSufferingYear=0;
+                            }
+                            memberMedicine.DiabetisControlDisease=diabetis();
+                            memberMedicine.DiabetisMedicineName=str;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q45";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q45a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_diabetis_month.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q45b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=diabetis();
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q45c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=str;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.BloodPressureYesNo=bloodPressureYesNo;
+                        if (bloodPressureYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q46";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.BloodPressureSufferingYear=Integer.parseInt(edit_yes_blood.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.BloodPressureSufferingYear=0;
+                            }
+                            memberMedicine.BloodPressureControlDisease=bloodGroups();
+                            memberMedicine.BloodPressureMedicineName=strBlood;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q46";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q46a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_blood.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q46b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=bloodGroups();
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q46c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strBlood;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.HeartAttackYesNo=heartAttackYesNo;
+                        if (heartAttackYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q47";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="No";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.HeartAttackSufferingYear=Integer.parseInt(edit_yes_heart_attack.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.HeartAttackSufferingYear=0;
+                            }
+                            memberMedicine.HeartAttackControlDisease=heartAttack();
+                            memberMedicine.HeartAttackMedicineName=strHeartAttack;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q47";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q47a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_heart_attack.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q47b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=heartAttack();
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q47c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strHeartAttack;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.BrainStrokeYesNo=brainStrokeYesNo;
+                        if (brainStrokeYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q48";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="No";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.BrainStrokeSufferingYear=Integer.parseInt(edit_yes_heart_brain_stroke.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.BrainStrokeSufferingYear=0;
+                            }
+                            memberMedicine.BrainStrokeControlDisease=String.valueOf(controlDiseaseBrainStroke);
+                            memberMedicine.BrainStrokeMedicineName=strBrainStrok;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q48";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q48a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_heart_brain_stroke.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q48b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseBrainStroke);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q48c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strBrainStrok;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.LungYesNo=lungYesNo;
+                        if (lungYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q49";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="No";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.LungSufferingYear=Integer.parseInt(edit_yes_lung_disease.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.LungSufferingYear=0;
+                            }
+                            memberMedicine.LungControlDisease=String.valueOf(controlDiseaseLungDisease);
+                            memberMedicine.LungMedicineName=strLung;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q49";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q49a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_lung_disease.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q49b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseLungDisease);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q49c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strLung;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.AshmaYesNo=ashmaYesNo;
+                        if (ashmaYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q50";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="No";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.AshmaSufferingYear=Integer.parseInt(edit_yes_ashma.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.AshmaSufferingYear=0;
+                            }
+                            memberMedicine.AshmaControlDisease=String.valueOf(controlDiseaseAshma);
+                            memberMedicine.AshmaMedicineName=strAshma;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q50";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q50a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_ashma.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q50b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseAshma);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q50c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strAshma;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.KidneyYesNo=kidneyYesNo;
+                        if (kidneyYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q51";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="No";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.KidneySufferingYear=Integer.parseInt(edit_yes_kidney_disease.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.KidneySufferingYear=0;
+                            }
+                            memberMedicine.KidneyControlDisease=String.valueOf(controlDiseaseKidney);
+                            memberMedicine.KidneyMedicineName=strKidney;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q51";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q51a";
+                            questions1.master_id=memberMyself.id;
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_kidney_disease.getText().toString();
+                            questions1.date=currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q51b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseKidney);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q51c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strKidney;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.CancerYesNo=cancerYesNo;
+                        if (cancerYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q52";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="No";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.CancerSufferingYear=Integer.parseInt(edit_yes_cancer.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.CancerSufferingYear=0;
+                            }
+                            memberMedicine.CancerControlDisease=String.valueOf(controlDiseaseCancer);
+                            memberMedicine.CancerMedicineName=strCancer;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q52";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.master_id=memberMyself.id;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q52a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_cancer.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q52b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseCancer);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q52c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strCancer;
+                            questions4.master_id=memberMyself.id;
+                            questions4.date=currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.MentalYesNo=mentalDisorderYesNo;
+                        if (mentalDisorderYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q53";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="No";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.MentalSufferingYear=Integer.parseInt(edit_yes_mental_disorder.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.MentalSufferingYear=0;
+                            }
+                            memberMedicine.MentalControlDisease=String.valueOf(controlDiseaseMentalDisorder);
+                            memberMedicine.MentalMedicineName=strMental;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q53";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q53a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_mental_disorder.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q53b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseMentalDisorder);;
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q53c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strMental;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+
+
+                        }
+
+
+
+                        Log.e("fullstring","data"+new Gson().toJson(memberMedicine));
+
+                        Common.memberMedicineRepository.insertToMemberMedicine(memberMedicine);
+                    }
+                    else{
+                        memberMedicine.id=memberMedicine1.id;
+                        memberMedicine.DiabetisYesNo=diabetisYesNo;
+                        if (diabetisYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q45";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.DiabetisSufferingYear=Integer.parseInt(edit_diabetis_month.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.DiabetisSufferingYear=0;
+                            }
+                            memberMedicine.DiabetisControlDisease=diabetis();
+                            memberMedicine.DiabetisMedicineName=str;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q45";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q45a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_blood.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q45b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=bloodGroups();
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q45c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strBlood;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.BloodPressureYesNo=bloodPressureYesNo;
+                        if (bloodPressureYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q46";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="No";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.BloodPressureSufferingYear=Integer.parseInt(edit_yes_blood.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.BloodPressureSufferingYear=0;
+                            }
+                            memberMedicine.BloodPressureControlDisease=bloodGroups();
+                            memberMedicine.BloodPressureMedicineName=strBlood;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q46";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="Yes";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q46a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_blood.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q46b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=bloodGroups();
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q46c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strBlood;
+                            questions4.master_id=memberMyself.id;
+                            questions4.date=currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.HeartAttackYesNo=heartAttackYesNo;
+                        if (heartAttackYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q47";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.HeartAttackSufferingYear=Integer.parseInt(edit_yes_heart_attack.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.HeartAttackSufferingYear=0;
+                            }
+                            memberMedicine.HeartAttackControlDisease=heartAttack();
+                            memberMedicine.HeartAttackMedicineName=strHeartAttack;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q47";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q47a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_heart_attack.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q47b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=heartAttack();
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q47c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strHeartAttack;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.BrainStrokeYesNo=brainStrokeYesNo;
+                        if (brainStrokeYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q48";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.BrainStrokeSufferingYear=Integer.parseInt(edit_yes_heart_brain_stroke.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.BrainStrokeSufferingYear=0;
+                            }
+                            memberMedicine.BrainStrokeControlDisease=String.valueOf(controlDiseaseBrainStroke);
+                            memberMedicine.BrainStrokeMedicineName=strBrainStrok;
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q48";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q48a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_heart_brain_stroke.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q48b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseBrainStroke);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q48c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strBrainStrok;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.LungYesNo=lungYesNo;
+                        if (lungYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q49";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.LungSufferingYear=Integer.parseInt(edit_yes_lung_disease.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.LungSufferingYear=0;
+                            }
+                            memberMedicine.LungControlDisease=String.valueOf(controlDiseaseLungDisease);
+                            memberMedicine.LungMedicineName=strLung;
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q49";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q49a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_lung_disease.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q49b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseLungDisease);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q49c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strLung;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.AshmaYesNo=ashmaYesNo;
+                        if (ashmaYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q50";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.AshmaSufferingYear=Integer.parseInt(edit_yes_ashma.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.AshmaSufferingYear=0;
+                            }
+                            memberMedicine.AshmaControlDisease=String.valueOf(controlDiseaseAshma);
+                            memberMedicine.AshmaMedicineName=strAshma;
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q50";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q50a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_ashma.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q50b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseAshma);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q50c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strAshma;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.KidneyYesNo=kidneyYesNo;
+                        if (kidneyYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q51";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.KidneySufferingYear=Integer.parseInt(edit_yes_kidney_disease.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.KidneySufferingYear=0;
+                            }
+                            memberMedicine.KidneyControlDisease=String.valueOf(controlDiseaseKidney);
+                            memberMedicine.KidneyMedicineName=strKidney;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q51";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q51a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_kidney_disease.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q51b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseKidney);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q51c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strKidney;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.CancerYesNo=cancerYesNo;
+                        if (cancerYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q52";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.CancerSufferingYear=Integer.parseInt(edit_yes_cancer.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.CancerSufferingYear=0;
+                            }
+                            memberMedicine.CancerControlDisease=String.valueOf(controlDiseaseCancer);
+                            memberMedicine.CancerMedicineName=strCancer;
+
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q52";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q52a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_cancer.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q52b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseCancer);
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q52c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strCancer;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        memberMedicine.MentalYesNo=mentalDisorderYesNo;
+                        if (mentalDisorderYesNo==2){
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q53";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                        else{
+                            try {
+                                memberMedicine.MentalSufferingYear=Integer.parseInt(edit_yes_mental_disorder.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberMedicine.MentalSufferingYear=0;
+                            }
+                            memberMedicine.MentalControlDisease=String.valueOf(controlDiseaseMentalDisorder);
+                            memberMedicine.MentalMedicineName=strMental;
+
+                            Questions questions= new Questions();
+                            questions.type="medicine";
+                            questions.question="Q53";
+                            questions.member_id=memberMyself.MemberId;
+                            questions.answer="1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date=currentDate;
+                            questions.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1= new Questions();
+                            questions1.type="medicine";
+                            questions1.question="Q53a";
+                            questions1.member_id=memberMyself.MemberId;
+                            questions1.answer=edit_yes_mental_disorder.getText().toString();
+                            questions1.date=currentDate;
+                            questions1.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                            ////
+                            Questions questions3= new Questions();
+                            questions3.type="medicine";
+                            questions3.question="Q53b";
+                            questions3.member_id=memberMyself.MemberId;
+                            questions3.answer=String.valueOf(controlDiseaseMentalDisorder);;
+                            questions3.date=currentDate;
+                            questions3.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions3);
+                            ////
+                            Questions questions4= new Questions();
+                            questions4.type="medicine";
+                            questions4.question="Q53c";
+                            questions4.member_id=memberMyself.MemberId;
+                            questions4.answer=strMental;
+                            questions4.date=currentDate;
+                            questions4.master_id=memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions4);
+                        }
+
+
+                        Log.e("fullstring","data"+new Gson().toJson(memberMedicine));
+
+                        Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
+                    }
+
+
+                    HHCreateMemberFragment.nextPages(2);
+
+            }
+            }
+
+
+
+
+
+
     }
 
     @Override

@@ -52,8 +52,18 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
+    public MemberMyself getMemberId(String MemberMyselfItem) {
+        return IMemberMyselfDatasources.getMemberId(MemberMyselfItem);
+    }
+
+    @Override
     public int size() {
         return IMemberMyselfDatasources.size();
+    }
+
+    @Override
+    public void updateReciver(String date, String member) {
+        IMemberMyselfDatasources.updateReciver(date, member);
     }
 
     @Override
