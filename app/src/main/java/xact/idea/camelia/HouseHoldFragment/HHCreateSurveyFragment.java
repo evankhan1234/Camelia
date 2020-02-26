@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -111,6 +112,12 @@ public class HHCreateSurveyFragment extends Fragment {
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM,yyyy");
         Date date = new Date(System.currentTimeMillis());
         surveys=Common.surveyRepository.getSurvey(String.valueOf(id));
+        biomasArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, biomasArrayLit);
+        biomasArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_biomas.setAdapter(biomasArrayAdapter);
+        waterArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, waterArrayLit);
+        waterArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_drinking_water.setAdapter(waterArrayAdapter);
         if (surveys==null){
             text_date_current.setText(formatter.format(date));
         }
@@ -119,10 +126,22 @@ public class HHCreateSurveyFragment extends Fragment {
             if (surveys.SafeDrinkingYesNo==1){
                 radioDrinkingYes.setChecked(true);
                 radioDrinkingNo.setChecked(false);
+                spinner_drinking_water.setVisibility(View.VISIBLE);
+                if (surveys.SafeDrinkingDetails != 0) {
+                    int div = surveys.SafeDrinkingDetails;
+
+
+                    for (int i = 0; i < waterArrayLit.size(); i++) {
+                        if (waterArrayLit.get(i).getId() == div) {
+                            spinner_drinking_water.setSelection(i);
+                        }
+                    }
+                }
             }
             else if (surveys.SafeDrinkingYesNo==2){
                 radioDrinkingNo.setChecked(true);
                 radioDrinkingYes.setChecked(false);
+                spinner_drinking_water.setVisibility(View.GONE);
             }
 
             if (surveys.SanitaryYesNo==1){
@@ -144,10 +163,23 @@ public class HHCreateSurveyFragment extends Fragment {
             if (surveys.BiomasFuelYesNo==1){
                 radioBiomassFuelYes.setChecked(true);
                 radioBiomassFuelNo.setChecked(false);
+
+                spinner_biomas.setVisibility(View.VISIBLE);
+                if (surveys.BiomasFuelDetails != 0) {
+                    int div = surveys.BiomasFuelDetails;
+
+
+                    for (int i = 0; i < biomasArrayLit.size(); i++) {
+                        if (biomasArrayLit.get(i).getId() == div) {
+                            spinner_biomas.setSelection(i);
+                        }
+                    }
+                }
             }
             else if (surveys.BiomasFuelYesNo==2){
                 radioBiomassFuelNo.setChecked(true);
                 radioBiomassFuelYes.setChecked(false);
+                spinner_biomas.setVisibility(View.GONE);
             }
         }
 
@@ -156,6 +188,9 @@ public class HHCreateSurveyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (id==0){
+
+                    int a=0;
+                    int b=0;
                     Survey survey= new Survey();
                     survey.UniqueId=uniquKey;
                     Date date = new Date(System.currentTimeMillis());
@@ -163,6 +198,8 @@ public class HHCreateSurveyFragment extends Fragment {
                     if (radioDrinkingYes.isChecked()){
                         survey.SafeDrinkingYesNo=1;
                         survey.SafeDrinkingDetails=tubeWellId;
+
+                        a=tubeWellId;
                     }
 
                     if (radioDrinkingNo.isChecked()){
@@ -187,23 +224,32 @@ public class HHCreateSurveyFragment extends Fragment {
                     if (radioBiomassFuelYes.isChecked()){
                         survey.BiomasFuelYesNo=1;
                         survey.BiomasFuelDetails=biomasFuelId;
+                        b=biomasFuelId;
                     }
 
                     if (radioBiomassFuelNo.isChecked()){
                         survey.BiomasFuelYesNo=2;
                     }
 
-                    Common.surveyRepository.insertToSurvey(survey);
-                    if (frag.equals("frag")){
-                        ((CCUserHomeActivity) getActivity()).backForDetails();
+                    if (a==-1|| b==-1){
+                        Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
+
                     }
-                    else {
-                        ((HouseholdHomeActivity) getActivity()).backForDetails();
+                    else{
+                        Common.surveyRepository.insertToSurvey(survey);
+                        if (frag.equals("frag")){
+                            ((CCUserHomeActivity) getActivity()).backForDetails();
+                        }
+                        else {
+                            ((HouseholdHomeActivity) getActivity()).backForDetails();
+                        }
+
                     }
 
                 }
                 else {
-
+                    int a=0;
+                    int b=0;
                     Survey survey= new Survey();
                     survey.id=surveys.id;
                     survey.UniqueId=uniquKey;
@@ -212,6 +258,7 @@ public class HHCreateSurveyFragment extends Fragment {
                     if (radioDrinkingYes.isChecked()){
                         survey.SafeDrinkingYesNo=1;
                         survey.SafeDrinkingDetails=tubeWellId;
+                        a=tubeWellId;
                     }
 
                     if (radioDrinkingNo.isChecked()){
@@ -236,20 +283,42 @@ public class HHCreateSurveyFragment extends Fragment {
                     if (radioBiomassFuelYes.isChecked()){
                         survey.BiomasFuelYesNo=1;
                         survey.BiomasFuelDetails=biomasFuelId;
+                        b=biomasFuelId;
                     }
 
                     if (radioBiomassFuelNo.isChecked()){
                         survey.BiomasFuelYesNo=2;
                     }
+                    if (a==-1|| b==-1){
+                        Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
 
-                    Common.surveyRepository.updateSurvey(survey);
-                    if (frag.equals("frag")){
-                        ((CCUserHomeActivity) getActivity()).backForDetails();
                     }
-                    else {
-                        ((HouseholdHomeActivity) getActivity()).backForDetails();
+                    else{
+                        Common.surveyRepository.updateSurvey(survey);
+                        if (frag.equals("frag")){
+                            ((CCUserHomeActivity) getActivity()).backForDetails();
+                        }
+                        else {
+                            ((HouseholdHomeActivity) getActivity()).backForDetails();
+                        }
                     }
+
                 }
+
+            }
+        });
+        spinner_drinking_water.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + waterArrayLit.get(position));
+                // Name = customerArrayList.get(position).Name;
+
+                tubeWellId=waterArrayLit.get(position).getId();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -258,21 +327,7 @@ public class HHCreateSurveyFragment extends Fragment {
             public void onClick(View view) {
                 spinner_drinking_water.setVisibility(View.VISIBLE);
 
-                spinner_drinking_water.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.e("sp_water", "" + waterArrayLit.get(position));
-                        // Name = customerArrayList.get(position).Name;
 
-                        tubeWellId=waterArrayLit.get(position).getId();
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
             }
         });
         radioDrinkingNo=view.findViewById(R.id.radioDrinkingNo);
@@ -288,24 +343,24 @@ public class HHCreateSurveyFragment extends Fragment {
             public void onClick(View view) {
                 spinner_biomas.setVisibility(View.VISIBLE);
 
-                spinner_biomas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.e("sp_water", "" + biomasArrayLit.get(position));
-                        // Name = customerArrayList.get(position).Name;
 
-                        biomasFuelId=biomasArrayLit.get(position).getId();
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
             }
         });
+        spinner_biomas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + biomasArrayLit.get(position));
+                // Name = customerArrayList.get(position).Name;
 
+                biomasFuelId=biomasArrayLit.get(position).getId();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         radioBiomassFuelNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -313,12 +368,7 @@ public class HHCreateSurveyFragment extends Fragment {
                 biomasFuelId=0;
             }
         });
-        biomasArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, biomasArrayLit);
-        biomasArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_biomas.setAdapter(biomasArrayAdapter);
-        waterArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, waterArrayLit);
-        waterArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_drinking_water.setAdapter(waterArrayAdapter);
+
 
 
 

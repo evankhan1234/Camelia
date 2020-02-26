@@ -19,7 +19,7 @@ public interface MemberMedicineDao {
     Flowable<List<MemberMedicine>> getMemberMedicineItemById(int MemberMedicineId);
     @Query("SELECT * FROM MemberMedicine WHERE id=:MemberMedicineItem")
     MemberMedicine getMemberMedicine(String MemberMedicineItem);
-    @Query("SELECT * FROM MemberMedicine WHERE MemberMyselfPhoneNumber=:MemberMedicineItem")
+    @Query("SELECT * FROM MemberMedicine WHERE MemberId=:MemberMedicineItem")
     MemberMedicine getMemberMedicineNo(String MemberMedicineItem);
     @Query("Select Count(id)  FROM MemberMedicine")
     int value();

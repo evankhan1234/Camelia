@@ -16,7 +16,9 @@ public interface IMemberMyselfDatasources {
     MemberMyself getMemberMyselfForHousehold(String MemberMyselfItem);
     void emptyMemberMyself();
     int maxValue();
+    MemberMyself getMemberId(String MemberMyselfItem);
     int size();
+    void updateReciver(String date,String member);
     Flowable<List<MemberMyself>> getInCompleteMembers();
     Flowable<List<MemberMyself>> getCompleteMembers();
     MemberMyself getMemberMyselfNo(int MemberMyselfItem);

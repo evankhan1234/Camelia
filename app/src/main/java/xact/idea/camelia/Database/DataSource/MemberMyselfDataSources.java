@@ -53,8 +53,18 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     }
 
     @Override
+    public MemberMyself getMemberId(String MemberMyselfItem) {
+        return MemberMyselfDao.getMemberId(MemberMyselfItem);
+    }
+
+    @Override
     public int size() {
         return MemberMyselfDao.value();
+    }
+
+    @Override
+    public void updateReciver(String date, String member) {
+        MemberMyselfDao.updateReciver(date, member);
     }
 
     @Override

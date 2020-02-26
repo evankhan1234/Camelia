@@ -42,6 +42,7 @@ public class HHCreateMemberFragment extends Fragment {
     String[] categories;
     String uniquKey;
     String frag;
+    String update;
     Message message = null;
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -58,7 +59,9 @@ public class HHCreateMemberFragment extends Fragment {
         if (bundle != null) {
             uniquKey = bundle.getString("Id", "");
             frag = bundle.getString("frag", "");
+            update = bundle.getString("update", "");
             Log.e("UniqueId","uniquKey"+uniquKey);
+            Log.e("update","update"+update);
         }
         else{
             frag="";
@@ -206,10 +209,10 @@ public class HHCreateMemberFragment extends Fragment {
     }
     private void initPager() {
         mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        mPagerAdapter.addFragment(new HHMyselfFragment(uniquKey), "");
+        mPagerAdapter.addFragment(new HHMyselfFragment(uniquKey,update), "");
      //   mPagerAdapter.addFragment(new HHFamilyDiseaseFragment(), "");
-        mPagerAdapter.addFragment(new HHMedicineFragment(), "");
-        mPagerAdapter.addFragment(new HHHabitFragment(frag), "");
+        mPagerAdapter.addFragment(new HHMedicineFragment(update), "");
+        mPagerAdapter.addFragment(new HHHabitFragment(frag,update), "");
      //   mPagerAdapter.addFragment(new HHReasonFragment(), "");
         // mPagerAdapter.addFragment(new ReviewFragment(), "");
        // vpg_home.beginFakeDrag();

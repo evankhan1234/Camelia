@@ -52,7 +52,7 @@
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="40px"
+                        android:layout_marginTop="20px"
                         android:orientation="horizontal">
 
                         <de.hdodenhof.circleimageview.CircleImageView
@@ -73,7 +73,7 @@
 
                         <LinearLayout
                             android:layout_marginTop="25px"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
@@ -146,6 +146,48 @@
                                 android:text="(1166)"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+                                <TextView
+                                    android:layout_marginTop="20px"
+
+                                    android:textAlignment="center"
+                                    android:minWidth="350px"
+                                    android:id="@+id/text_profile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="100px"
+
+
+                                    android:layout_marginLeft="40px"
+                                    android:background="@drawable/status_accepted"
+
+                                    android:padding="15px"
+                                    android:tag="40"
+                                    android:text="View Profile"
+                                    android:textColor="@color/white"
+                                    android:textSize="40px" />
+                                <TextView
+                                    android:layout_marginTop="20px"
+
+                                    android:textAlignment="center"
+                                    android:minWidth="350px"
+                                    android:id="@+id/text_visit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="100px"
+
+
+                                    android:layout_marginLeft="40px"
+                                    android:background="@drawable/status_reject"
+
+                                    android:padding="15px"
+                                    android:tag="40"
+                                    android:text="Visit"
+                                    android:textColor="@color/white"
+                                    android:textSize="40px" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
 

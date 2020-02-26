@@ -11,8 +11,8 @@ public class MemberMedicine {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
-    @ColumnInfo(name = "MemberMyselfPhoneNumber")
-    public String MemberMyselfPhoneNumber;
+    @ColumnInfo(name = "MemberId")
+    public String MemberId;
     @ColumnInfo(name = "DiabetisYesNo")
     public int DiabetisYesNo;
     @ColumnInfo(name = "DiabetisSufferingYear")

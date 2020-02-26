@@ -150,36 +150,42 @@ public class HHCreateHouseholdFragment extends Fragment {
 
                 } else {
 
-                    HouseHold houseHold = new HouseHold();
-                    houseHold.MemberId = 100000000;
-                    houseHold.BlockId = BlockId;
-                    houseHold.DistrictId = DistrictId;
-                    houseHold.DivisionId = DivisionId;
-                    houseHold.UpazilaId = UpazilaId;
-                    houseHold.UnionId = UnionId;
-                    houseHold.WordId = WardId;
-                    houseHold.HH = Integer.parseInt(edit_household.getText().toString());
-                    houseHold.SHH = Integer.parseInt(edit_sub_household.getText().toString());
-                    houseHold.UniqueId = edit_unique_id.getText().toString();
-                    houseHold.VillageName = edit_village.getText().toString();
-                    houseHold.FamilyIncome = Double.parseDouble(edit_household_income.getText().toString());
-                    houseHold.FamilyMember = Integer.parseInt(edit_family_memeber.getText().toString());
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = new Date(System.currentTimeMillis());
-                    String currentDate = formatter.format(date);
-                    houseHold.DateValue = currentDate;
-                    houseHold.Date = date;
-                    //  houseHold.Birthdate=ed;
+                    if(BlockId==-1 || DistrictId==-1 ||DivisionId==-1 ||UpazilaId==-1 ||UnionId==-1 ||WardId==-1){
+                        Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        HouseHold houseHold = new HouseHold();
+                        houseHold.MemberId = 100000000;
+                        houseHold.BlockId = BlockId;
+                        houseHold.DistrictId = DistrictId;
+                        houseHold.DivisionId = DivisionId;
+                        houseHold.UpazilaId = UpazilaId;
+                        houseHold.UnionId = UnionId;
+                        houseHold.WordId = WardId;
+                        houseHold.HH = Integer.parseInt(edit_household.getText().toString());
+                        houseHold.SHH = Integer.parseInt(edit_sub_household.getText().toString());
+                        houseHold.UniqueId = edit_unique_id.getText().toString();
+                        houseHold.VillageName = edit_village.getText().toString();
+                        houseHold.FamilyIncome = Double.parseDouble(edit_household_income.getText().toString());
+                        houseHold.FamilyMember = Integer.parseInt(edit_family_memeber.getText().toString());
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        houseHold.DateValue = currentDate;
+                        houseHold.Date = date;
+                        //  houseHold.Birthdate=ed;
 
-                    Common.householdRepository.insertToHouseHold(houseHold);
-                    if (frag.equals("frag")) {
-                        ((CCUserHomeActivity) getActivity()).backForDetails();
-                    } else {
-                        ((HouseholdHomeActivity) getActivity()).backForDetails();
+                        Common.householdRepository.insertToHouseHold(houseHold);
+                        if (frag.equals("frag")) {
+                            ((CCUserHomeActivity) getActivity()).backForDetails();
+                        } else {
+                            ((HouseholdHomeActivity) getActivity()).backForDetails();
+                        }
+
+
+                        Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
                     }
 
-
-                    Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
                 }
 
             }
