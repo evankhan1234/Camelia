@@ -32,8 +32,8 @@ public class QustionsRepository implements IQuestionsDataSources {
     }
 
     @Override
-    public Questions getQuestions(String QuestionsItem) {
-        return IQuestionsDatasources.getQuestions(QuestionsItem);
+    public Questions getQuestions(String QuestionsItem,String MemberId) {
+        return IQuestionsDatasources.getQuestions(QuestionsItem,MemberId);
     }
 
     @Override

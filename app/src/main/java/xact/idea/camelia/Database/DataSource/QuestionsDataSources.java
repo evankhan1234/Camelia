@@ -33,8 +33,8 @@ public class QuestionsDataSources implements IQuestionsDataSources {
     }
 
     @Override
-    public Questions getQuestions(String QuestionsItem) {
-        return QuestionsDao.getQuestions(QuestionsItem);
+    public Questions getQuestions(String QuestionsItem,String MemberId) {
+        return QuestionsDao.getQuestions(QuestionsItem,MemberId);
     }
 
     @Override

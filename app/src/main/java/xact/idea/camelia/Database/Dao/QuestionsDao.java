@@ -17,8 +17,8 @@ public interface QuestionsDao {
     Flowable<List<Questions>> getQuestionsItems();
     @Query("SELECT * FROM Questions WHERE id=:QuestionsItemId")
     Flowable<List<Questions>> getQuestionsItemById(int QuestionsItemId);
-    @Query("SELECT * FROM Questions WHERE type=:QuestionsItem")
-    Questions getQuestions(String QuestionsItem);
+    @Query("SELECT * FROM Questions WHERE question=:QuestionsItem AND member_id=:MemberId")
+    Questions getQuestions(String QuestionsItem,String MemberId);
     @Query("SELECT * FROM Questions WHERE type=:QuestionsItem")
     Questions getQuestionsNo(String QuestionsItem);
     @Query("Select Count(id)  FROM Questions")
