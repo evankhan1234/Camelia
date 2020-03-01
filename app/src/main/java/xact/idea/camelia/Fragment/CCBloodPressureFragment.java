@@ -140,7 +140,6 @@ public class CCBloodPressureFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 DialogFragment dFragment = new DatePickerDeadFragment();
-
                 dFragment.show(getFragmentManager(), "Date Picker");
             }
         });

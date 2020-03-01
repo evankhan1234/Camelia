@@ -54,7 +54,7 @@ import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
 import xact.idea.camelia.Database.Model.Ward;
 
-@Database(entities = {Auth.class, Block.class, BloodGroup.class, District.class,Division.class, Female.class, MaritialStatus.class, Occupation.class, StudyClass.class, Unions.class, Upazila.class, Ward.class, HouseHold.class, Measurements.class, Medicine.class, MemberHabit.class, MemberMedicine.class, MemberMyself.class, Survey.class, MeasurementDetails.class, MemberId.class, Questions.class}, version =1,exportSchema = false)
+@Database(entities = {Auth.class, Block.class, BloodGroup.class, District.class,Division.class, Female.class, MaritialStatus.class, Occupation.class, StudyClass.class, Unions.class, Upazila.class, Ward.class, HouseHold.class, Measurements.class, Medicine.class, MemberHabit.class, MemberMedicine.class, MemberMyself.class, Survey.class, MeasurementDetails.class, MemberId.class, Questions.class}, version =3,exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class MainDataBase extends RoomDatabase {
     public abstract DivisionDao divisionDao();
@@ -83,7 +83,7 @@ public abstract class MainDataBase extends RoomDatabase {
     private static MainDataBase instance;
 
     public static MainDataBase getInstance(Context context) {
-        instance = Room.databaseBuilder(context, MainDataBase.class, "Camelia").allowMainThreadQueries().build();
+        instance = Room.databaseBuilder(context, MainDataBase.class, "Camelia").allowMainThreadQueries().fallbackToDestructiveMigration().build();
 
         return instance;
 

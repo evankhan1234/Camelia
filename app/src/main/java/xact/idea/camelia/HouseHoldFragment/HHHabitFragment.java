@@ -3,13 +3,16 @@ package xact.idea.camelia.HouseHoldFragment;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +20,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -47,6 +52,7 @@ import xact.idea.camelia.Model.DropDownModel.YesNoModel;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.CustomDialog;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
@@ -2344,12 +2350,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Common.qustionsRepository.insertToQuestions(questions15);
                     }
                     Common.memberHabitRepository.insertToMemberHabit(memberHabit);
-                    if (frag.equals("frag")){
-                        ((CCUserHomeActivity) getActivity()).backForDetails();
-                    }
-                    else {
-                        ((HouseholdHomeActivity) getActivity()).backForDetails();
-                    }
+
+                    showInfoDialog(mActivity,memberMyself.MemberId);
+
                 }
                 else {
                     memberHabit.id = memberHabit1.id;
@@ -2915,5 +2918,42 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             HHCreateMemberFragment.prevPage(1);
         }
         return false;
+    }
+    public  void showInfoDialog(final Context mContext, final String member) {
+
+        final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
+        LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.layout_succesfull, null);
+
+        infoDialog.setContentView(v);
+        infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
+        Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
+       // Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+        TextView tv_info = infoDialog.findViewById(R.id.tv_info);
+        String agent_no = "<b><font color=#000 >Member Id :  </font></b> <font color=#03A9F4> "+member+"</font>";
+        tv_info.setText(Html.fromHtml(agent_no));
+        CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                if (frag.equals("frag")){
+                    ((CCUserHomeActivity) getActivity()).backForDetails();
+                }
+                else {
+                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+                }
+                infoDialog.dismiss();
+
+            }
+        });
+//      //  btn_no.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                infoDialog.dismiss();
+//            }
+//        });
+        infoDialog.show();
     }
 }

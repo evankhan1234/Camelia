@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "xact.idea.camelia"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.github.nisrulz:qreader:2.1.2'
     implementation 'com.journeyapps:zxing-android-embedded:3.4.0'
     implementation 'com.karumi:dexter:5.0.0'
-
+    implementation 'com.airbnb.android:lottie:3.4.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     implementation 'android.arch.persistence.room:rxjava2:1.1.1'
