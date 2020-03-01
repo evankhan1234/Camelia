@@ -48,6 +48,7 @@
                     android:background="@color/white">
 
                     <LinearLayout
+                        android:id="@+id/layout"
                         android:visibility="visible"
                         android:layout_width="match_parent"
 
@@ -146,52 +147,74 @@
                                 android:text="(1166)"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
-                            <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-                                <TextView
-                                    android:layout_marginTop="20px"
 
-                                    android:textAlignment="center"
-                                    android:minWidth="350px"
-                                    android:id="@+id/text_profile"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="100px"
-
-
-                                    android:layout_marginLeft="40px"
-                                    android:background="@drawable/status_accepted"
-
-                                    android:padding="15px"
-                                    android:tag="40"
-                                    android:text="View Profile"
-                                    android:textColor="@color/white"
-                                    android:textSize="40px" />
-                                <TextView
-                                    android:layout_marginTop="20px"
-
-                                    android:textAlignment="center"
-                                    android:minWidth="350px"
-                                    android:id="@+id/text_visit"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="100px"
-
-
-                                    android:layout_marginLeft="40px"
-                                    android:background="@drawable/status_reject"
-
-                                    android:padding="15px"
-                                    android:tag="40"
-                                    android:text="Visit"
-                                    android:textColor="@color/white"
-                                    android:textSize="40px" />
-                            </LinearLayout>
 
                         </LinearLayout>
 
 
 
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_below="@+id/layout"
+                        android:orientation="horizontal"
+                        android:weightSum="3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_marginTop="20px"
+                            android:backgroundTint="#00BCD4"
+
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:id="@+id/text_follow"
+                            android:layout_width="0dp"
+                            android:layout_height="100px"
+
+
+                            android:layout_marginLeft="40px"
+                            android:background="@drawable/btn_yes"
+
+                            android:padding="15px"
+                            android:tag="40"
+                            android:text="Follow"
+                            android:textColor="@color/white"
+                            android:textSize="40px" />
+                        <TextView
+                            android:layout_marginTop="20px"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:minWidth="350px"
+                            android:id="@+id/text_referral"
+                            android:layout_width="0dp"
+                            android:layout_height="100px"
+
+
+                            android:layout_marginLeft="40px"
+                            android:background="@drawable/btn_yes"
+
+                            android:padding="15px"
+                            android:tag="40"
+                            android:text="Refer"
+                            android:textColor="@color/white"
+                            android:textSize="40px" />
+                        <TextView
+                            android:layout_marginTop="20px"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:minWidth="350px"
+                            android:id="@+id/text_visit"
+                            android:layout_width="0dp"
+                            android:layout_height="100px"
+                            android:backgroundTint="#8BC34A"
+
+                            android:layout_marginLeft="40px"
+                            android:background="@drawable/btn_yes"
+
+                            android:padding="15px"
+                            android:tag="40"
+                            android:text="Visit"
+                            android:textColor="@color/white"
+                            android:textSize="40px" />
                     </LinearLayout>
                     <ImageView
                         android:id="@+id/img_next"

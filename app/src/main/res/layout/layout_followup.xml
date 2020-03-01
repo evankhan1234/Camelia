@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0px">
+    <LinearLayout
+        android:layout_centerInParent="true"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="72px"
+
+        android:layout_marginRight="69px"
+        android:alpha="1.5"
+        android:visibility="visible"
+        android:background="@drawable/dialog_rounded_bg"
+
+        android:orientation="vertical"
+        android:padding="40px">
+        <TextView
+            android:tag="40"
+            android:textStyle="bold"
+            android:textSize="40px"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8px"
+            android:text="Visit Date"/>
+        <EditText
+            android:layout_marginTop="10px"
+            android:textColor="#000"
+            android:textAlignment="center"
+            android:focusable="false"
+            android:tag="35"
+
+            android:drawableRight="@drawable/ic_date_vector_dark"
+            android:textSize="35px" android:id="@+id/edit_date" android:background="@drawable/input_bg" android:padding="25px" android:layout_width="match_parent" android:layout_height="120px" android:layout_marginBottom="10px" android:text="12-12-2019" android:ems="10" android:inputType="textPersonName"/>
+        <TextView
+
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="30px"
+            android:layout_marginLeft="50px"
+            android:tag="40"
+            android:text="Select Clinic:"
+            android:textColor="@color/black"
+            android:textSize="40px"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
+            android:visibility="visible"
+            android:background="@drawable/test"
+            android:layout_marginTop="30px"
+
+            android:id="@+id/spinner_sex"
+            android:layout_width="match_parent"
+
+            android:layout_height="130px"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80px"
+            android:paddingBottom="73px"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="420px"
+                android:layout_height="140px"
+                android:layout_gravity="center"
+
+                android:layout_marginLeft="0px"
+                android:layout_marginRight="15px"
+                android:background="@drawable/btn_no"
+
+                android:gravity="center"
+                android:paddingBottom="5px"
+                android:stateListAnimator="@null"
+                android:tag="45"
+                android:text="Close"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="45px" />
+
+            <Button
+                android:backgroundTint="@color/accept"
+                android:id="@+id/btn_ok"
+                android:layout_width="420px"
+                android:layout_height="140px"
+                android:layout_marginTop="-4px"
+                android:background="@drawable/btn_yes"
+
+                android:paddingBottom="5px"
+                android:stateListAnimator="@null"
+                android:tag="45"
+                android:text="Confirm"
+                android:textColor="@color/white"
+
+                android:textSize="45px"
+                android:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

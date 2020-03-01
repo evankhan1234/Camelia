@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -85,7 +86,9 @@ public class CompleteFragment extends Fragment {
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));
                 memberMyselfList=memberMyselfes;
-                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
+                FragmentActivity activity = (FragmentActivity)mActivity;
+                FragmentManager manager = activity.getSupportFragmentManager();
+                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {

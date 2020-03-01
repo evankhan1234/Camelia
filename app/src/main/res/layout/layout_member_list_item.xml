@@ -113,7 +113,20 @@
                             </RelativeLayout>
                             <TextView
                                 android:layout_marginTop="10px"
-                                android:id="@+id/text_unique_id"
+                                android:id="@+id/text_mobile_nmber"
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="40px"
+
+                                android:tag="45"
+                                android:text="01677182084"
+                                android:textStyle="bold"
+                                android:textColor="#6A6B6B"
+                                android:textSize="45px" />
+                            <TextView
+                                android:layout_marginTop="10px"
+                                android:id="@+id/text_date_of"
                                 android:layout_width="wrap_content"
 
                                 android:layout_height="wrap_content"

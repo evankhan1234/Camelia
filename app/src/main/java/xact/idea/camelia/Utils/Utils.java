@@ -23,6 +23,8 @@ import java.util.Objects;
 
 import xact.idea.camelia.Model.DropDownModel.BiomasFuelModel;
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
+import xact.idea.camelia.Model.DropDownModel.CenterModel;
+import xact.idea.camelia.Model.DropDownModel.ClinicModel;
 import xact.idea.camelia.Model.DropDownModel.ControlDiseaseModel;
 import xact.idea.camelia.Model.DropDownModel.EducationModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsCardModel;
@@ -177,6 +179,28 @@ public class Utils {
         if (emptyCheckValue != null && !emptyCheckValue.trim().isEmpty() && !emptyCheckValue.equals(Constant.NULL) && emptyCheckValue.trim().length() > 0)
             return false;
         else return true;
+    }
+    public static ArrayList<ClinicModel> getClinicList() {
+        ArrayList<ClinicModel> sexModelArrayList = new ArrayList<>();
+        ClinicModel sexModelMale = new ClinicModel("JagannathPur-CC", 1);
+        ClinicModel sexModelFemale = new ClinicModel("Laximipur -CC", 2);
+        ClinicModel sexModelOthers = new ClinicModel("Kathundu-CC", 3);
+        sexModelArrayList.add(sexModelMale);
+        sexModelArrayList.add(sexModelFemale);
+        sexModelArrayList.add(sexModelOthers);
+        return sexModelArrayList;
+
+    }
+    public static ArrayList<CenterModel> getCenterList() {
+        ArrayList<CenterModel> sexModelArrayList = new ArrayList<>();
+        CenterModel sexModelMale = new CenterModel("UHC-01", 1);
+        CenterModel sexModelFemale = new CenterModel("UHC-02", 2);
+        CenterModel sexModelOthers = new CenterModel("UHC-03", 3);
+        sexModelArrayList.add(sexModelMale);
+        sexModelArrayList.add(sexModelFemale);
+        sexModelArrayList.add(sexModelOthers);
+        return sexModelArrayList;
+
     }
 
     public static ArrayList<SexModel> getSexList() {

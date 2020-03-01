@@ -11,6 +11,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Range;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.google.gson.Gson;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -397,8 +399,26 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                         Calendar today = Calendar.getInstance();
 
                         int total=today.get(Calendar.YEAR)-years;
+                        int month=today.get(Calendar.DAY_OF_MONTH)+1;
+                        int day=today.get(Calendar.DAY_OF_WEEK);
 
-                        edit_birthday_date.setText("01-01-" + total);
+                        String months="";
+                        String days="";
+                        if(month>9){
+                            months=String.valueOf(month);
+                        }
+                        else{
+                            months="0"+month;
+                        }
+
+                        if(day>9){
+                            days=String.valueOf(day);
+                        }
+                        else{
+                            days="0"+day;
+                        }
+
+                        edit_birthday_date.setText(days+"-"+months+"-" + total);
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         edit_birthday_date.setText("");
@@ -634,34 +654,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                             memberMyself.HouseHeadId=headId;
                             memberMyself.UniqueId=uniqueId;
                             memberMyself.VisitDate="";
-                            String value="";
-                            if (memberId.length()==1){
-                                value="00000000"+memberId;
-                            }
-                            else if (memberId.length()==2){
-                                value="0000000"+memberId;
-                            }
-                            else if (memberId.length()==3){
-                                value="000000"+memberId;
-                            }
-                            else if (memberId.length()==4){
-                                value="00000"+memberId;
-                            }
-                            else if (memberId.length()==5){
-                                value="0000"+memberId;
-                            }
-                            else if (memberId.length()==6){
-                                value="000"+memberId;
-                            }
-                            else if (memberId.length()==7){
-                                value="00"+memberId;
-                            }
-                            else if (memberId.length()==8){
-                                value="0"+memberId;
-                            }
-                            else if (memberId.length()==9){
-                                value=memberId;
-                            }
+
+
 
                             memberMyself.MemberId= memberId;
                             Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
@@ -841,7 +835,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         compositeDisposable.add(Common.memberIdRepository.getMemberIdItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberId>>() {
             @Override
             public void accept(List<MemberId> memberIds) throws Exception {
-                Log.e("Division","Division"+new Gson().toJson(memberIds));
+                Log.e("asads","ds"+new Gson().toJson(memberIds));
 
                 if (memberIds.size()>0){
                     memberId=memberIds.get(0).Value;
