@@ -25,91 +25,12 @@
 
                 android:orientation="vertical"
                 >
-
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:layout_marginTop="60px"
-                    android:layout_marginLeft="50px"
-                    android:tag="40"
-                    android:text="National Id"
-                    android:textColor="@color/black"
-                    android:textSize="40px"
-                    android:textStyle="bold" />
-                <EditText
-                    android:layout_marginTop="30px"
-                    android:layout_marginRight="50px"
-                    android:layout_marginLeft="50px"
-                    android:tag="35"
-                    android:textSize="35px"
-                    android:id="@+id/edit_national_id"
-                    android:background="@drawable/input_bg"
-                    android:padding="25px"
-                    android:layout_width="match_parent"
-                    android:layout_height="120px"
-                    android:layout_marginBottom="10px"
-                    android:hint="National Id"
-                    android:ems="10"
-                    android:inputType="number"/>
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="30px"
-                    android:layout_marginLeft="50px"
-                    android:tag="40"
-                    android:text="Mobile Number"
-                    android:textColor="@color/black"
-                    android:textSize="40px"
-                    android:textStyle="bold" />
-                <EditText
-                    android:layout_marginTop="50px"
-                    android:layout_marginRight="50px"
-                    android:layout_marginLeft="50px"
-                    android:tag="35"
-                    android:textSize="35px"
-                    android:id="@+id/edit_mobile_number"
-                    android:background="@drawable/input_bg"
-                    android:padding="25px"
-                    android:layout_width="match_parent"
-                    android:layout_height="120px"
-                    android:layout_marginBottom="10px"
-                    android:hint="Mobile Number"
-                    android:ems="10"
-                    android:inputType="phone"/>
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="30px"
-                    android:layout_marginLeft="50px"
-                    android:tag="40"
-                    android:text="Are you the head of the house?"
-                    android:textColor="@color/black"
-                    android:textSize="40px"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
-                    android:layout_marginTop="30px"
-
-                    android:id="@+id/spinner_head"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="130px"/>
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
                     android:tag="40"
                     android:text="Full Name"
@@ -139,168 +60,6 @@
                     android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
                     android:tag="40"
-                    android:text="Your date of birth?"
-                    android:textColor="@color/black"
-                    android:textSize="40px"
-                    android:textStyle="bold" />
-                <RadioGroup
-                    android:visibility="visible"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="30px"
-
-                    android:orientation="horizontal"
-
-                    android:id="@+id/radioLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <RadioButton
-
-                        android:layout_marginRight="20px"
-                        android:tag="35"
-                        android:textSize="35px"
-                        android:id="@+id/radioAge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Age"
-                         />
-
-                    <RadioButton
-                        android:tag="35"
-                        android:textSize="35px"
-                        android:layout_marginLeft="50px"
-                        android:id="@+id/radioBirthdate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Birthdate" />
-
-                </RadioGroup>
-                <LinearLayout
-                    android:visibility="gone"
-                    android:id="@+id/linear_age"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_marginTop="30px"
-                    android:weightSum="2"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_weight="1"
-
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-
-                        android:layout_marginLeft="50px"
-                        android:tag="40"
-                        android:text="Age"
-                        android:textColor="@color/black"
-                        android:textSize="40px"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_weight="1"
-
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-
-                        android:layout_marginLeft="50px"
-                        android:tag="40"
-                        android:text="Birthday Date"
-                        android:textColor="@color/black"
-                        android:textSize="40px"
-                        android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_marginTop="30px"
-                    android:weightSum="2"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:layout_weight="1"
-
-                        android:layout_marginRight="50px"
-                        android:layout_marginLeft="50px"
-                        android:tag="35"
-                        android:textSize="35px"
-                        android:id="@+id/edit_age"
-                        android:background="@drawable/input_bg"
-                        android:padding="25px"
-                        android:layout_width="0dp"
-                        android:layout_height="120px"
-                        android:layout_marginBottom="10px"
-                        android:hint="Age"
-                        android:ems="10"
-                      android:inputType="number"
-                       />
-                    <EditText
-                        android:layout_weight="1"
-
-                        android:layout_marginRight="50px"
-                        android:layout_marginLeft="50px"
-                        android:tag="35"
-                        android:textSize="35px"
-                        android:id="@+id/edit_birthday_date"
-
-                        android:background="@drawable/input_bg"
-                        android:padding="25px"
-                        android:layout_width="0dp"
-                        android:layout_height="120px"
-                        android:layout_marginBottom="10px"
-                        android:hint="Birthday Date"
-                        android:ems="10"
-                        android:focusable="false"
-                        />
-                </LinearLayout>
-                </LinearLayout>
-            <LinearLayout
-                android:visibility="gone"
-                android:id="@+id/linear_birthdate"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="30px"
-                    android:layout_marginLeft="50px"
-                    android:tag="40"
-                    android:text="Birthdate"
-                    android:textColor="@color/black"
-                    android:textSize="40px"
-                    android:textStyle="bold" />
-                <EditText
-
-                    android:layout_marginRight="50px"
-                    android:layout_marginLeft="50px"
-                    android:layout_marginTop="30px"
-                    android:tag="35"
-                    android:textSize="35px"
-                    android:id="@+id/edit_birthday_date_again"
-                    android:background="@drawable/input_bg"
-                    android:padding="25px"
-                    android:layout_width="match_parent"
-                    android:layout_height="120px"
-                    android:layout_marginBottom="10px"
-                    android:hint="Birthday Date"
-                    android:ems="10"
-                    android:focusable="false"
-                    />
-            </LinearLayout>
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="30px"
-                    android:layout_marginLeft="50px"
-                    android:tag="40"
                     android:text="Gender"
                     android:textColor="@color/black"
                     android:textSize="40px"
@@ -314,54 +73,6 @@
                     android:layout_marginTop="30px"
 
                     android:id="@+id/spinner_sex"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="130px"/>
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="30px"
-                    android:layout_marginLeft="50px"
-                    android:tag="40"
-                    android:text="Religion"
-                    android:textColor="@color/black"
-                    android:textSize="40px"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
-                    android:layout_marginTop="30px"
-
-                    android:id="@+id/spinner_religion"
-                    android:layout_width="match_parent"
-
-                    android:layout_height="130px"/>
-                <TextView
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="50px"
-                    android:layout_marginLeft="50px"
-                    android:tag="40"
-                    android:text="What classes have you attended up to?"
-                    android:textColor="@color/black"
-                    android:textSize="40px"
-                    android:textStyle="bold" />
-
-                <Spinner
-                    android:layout_marginLeft="50px"
-                    android:layout_marginRight="50px"
-                    android:visibility="visible"
-                    android:background="@drawable/test"
-                    android:layout_marginTop="30px"
-
-                    android:id="@+id/spinner_education"
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
@@ -397,7 +108,7 @@
                     android:layout_marginTop="30px"
                     android:layout_marginLeft="50px"
                     android:tag="40"
-                    android:text="Occupation"
+                    android:text="Religion"
                     android:textColor="@color/black"
                     android:textSize="40px"
                     android:textStyle="bold" />
@@ -409,7 +120,7 @@
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
 
-                    android:id="@+id/spinner_occupation"
+                    android:id="@+id/spinner_religion"
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
@@ -437,6 +148,279 @@
                     android:layout_width="match_parent"
 
                     android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Your date of birth?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+                <RadioGroup
+                    android:visibility="visible"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30px"
+
+                    android:orientation="horizontal"
+
+                    android:id="@+id/radioLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <RadioButton
+
+                        android:layout_marginRight="20px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/radioAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Age"
+                        />
+
+                    <RadioButton
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:layout_marginLeft="50px"
+                        android:id="@+id/radioBirthdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Birthdate" />
+
+                </RadioGroup>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_age"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_weight="1"
+
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+
+                            android:layout_marginLeft="50px"
+                            android:tag="40"
+                            android:text="Age"
+                            android:textColor="@color/black"
+                            android:textSize="40px"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_weight="1"
+
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+
+                            android:layout_marginLeft="50px"
+                            android:tag="40"
+                            android:text="Birthday Date"
+                            android:textColor="@color/black"
+                            android:textSize="40px"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_marginTop="30px"
+                        android:weightSum="2"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <EditText
+                            android:layout_weight="1"
+
+                            android:layout_marginRight="50px"
+                            android:layout_marginLeft="50px"
+                            android:tag="35"
+                            android:textSize="35px"
+                            android:id="@+id/edit_age"
+                            android:background="@drawable/input_bg"
+                            android:padding="25px"
+                            android:layout_width="0dp"
+                            android:layout_height="120px"
+                            android:layout_marginBottom="10px"
+                            android:hint="Age"
+                            android:ems="10"
+                            android:inputType="number"
+                            />
+                        <EditText
+                            android:layout_weight="1"
+
+                            android:layout_marginRight="50px"
+                            android:layout_marginLeft="50px"
+                            android:tag="35"
+                            android:textSize="35px"
+                            android:id="@+id/edit_birthday_date"
+
+                            android:background="@drawable/input_bg"
+                            android:padding="25px"
+                            android:layout_width="0dp"
+                            android:layout_height="120px"
+                            android:layout_marginBottom="10px"
+                            android:hint="Birthday Date"
+                            android:ems="10"
+                            android:focusable="false"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linear_birthdate"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="30px"
+                        android:layout_marginLeft="50px"
+                        android:tag="40"
+                        android:text="Birthdate"
+                        android:textColor="@color/black"
+                        android:textSize="40px"
+                        android:textStyle="bold" />
+                    <EditText
+
+                        android:layout_marginRight="50px"
+                        android:layout_marginLeft="50px"
+                        android:layout_marginTop="30px"
+                        android:tag="35"
+                        android:textSize="35px"
+                        android:id="@+id/edit_birthday_date_again"
+                        android:background="@drawable/input_bg"
+                        android:padding="25px"
+                        android:layout_width="match_parent"
+                        android:layout_height="120px"
+                        android:layout_marginBottom="10px"
+                        android:hint="Birthday Date"
+                        android:ems="10"
+                        android:focusable="false"
+                        />
+                </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Occupation"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_occupation"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="What classes have you attended up to?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_education"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Mobile Number"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+                <EditText
+                    android:layout_marginTop="50px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="35"
+                    android:textSize="35px"
+                    android:id="@+id/edit_mobile_number"
+                    android:background="@drawable/input_bg"
+                    android:padding="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="120px"
+                    android:layout_marginBottom="10px"
+                    android:hint="Mobile Number"
+                    android:ems="10"
+                    android:inputType="phone"/>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="National Id"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+                <EditText
+                    android:layout_marginTop="30px"
+                    android:layout_marginRight="50px"
+                    android:layout_marginLeft="50px"
+                    android:tag="35"
+                    android:textSize="35px"
+                    android:id="@+id/edit_national_id"
+                    android:background="@drawable/input_bg"
+                    android:padding="25px"
+                    android:layout_width="match_parent"
+                    android:layout_height="120px"
+                    android:layout_marginBottom="10px"
+                    android:hint="National Id"
+                    android:ems="10"
+                    android:inputType="number"/>
+
+
+
+
+
+
+
+
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -498,6 +482,30 @@
                         android:inputType="number"/>
 
                 </LinearLayout>
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="30px"
+                    android:layout_marginLeft="50px"
+                    android:tag="40"
+                    android:text="Are you the head of the house?"
+                    android:textColor="@color/black"
+                    android:textSize="40px"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:layout_marginLeft="50px"
+                    android:layout_marginRight="50px"
+                    android:visibility="visible"
+                    android:background="@drawable/test"
+                    android:layout_marginTop="30px"
+
+                    android:id="@+id/spinner_head"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="130px"/>
 
                 <View
                     android:layout_width="match_parent"

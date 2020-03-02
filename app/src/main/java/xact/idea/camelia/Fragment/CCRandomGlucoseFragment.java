@@ -44,6 +44,7 @@ import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Database.Model.MeasurementDetails;
 import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.MemberMedicine;
+import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -188,7 +189,7 @@ public class CCRandomGlucoseFragment extends Fragment {
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                     Measurements measurements = new Measurements();
                     measurements.DateTime=date;
-                    measurements.MemberId=type;
+                    measurements.MemberIds=type;
                     measurements.Message=message;
                     measurements.Result=total;
                     measurements.Refer=refer;
@@ -248,28 +249,30 @@ public class CCRandomGlucoseFragment extends Fragment {
                     text_text.startAnimation(animBlink);
 
 
-                    MemberMedicine memberMedicine= Common.memberMedicineRepository.getMemberMedicineNo(type);
-                    if ( (memberMedicine.DiabetisYesNo == 1) && ((bg_diabetes_fasting > 8) || (bg_diabetes_random_1 > 10)) ) {
+                    int DiabetisYesNo=0;
+                    Questions questions1 = Common.qustionsRepository.getQuestions("Q45", type);
+                    DiabetisYesNo= Integer.parseInt(questions1.answer);
+                    if ( (DiabetisYesNo == 1) && ((bg_diabetes_fasting > 8) || (bg_diabetes_random_1 > 10)) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                         text_text.setText("Uncontrolled Diabetes = Refer to UHC!");
                         refer="UHC";
                         message="Uncontrolled Diabetes = Refer to UHC!";
-                    } else if ( (memberMedicine.DiabetisYesNo == 1) && ((bg_diabetes_fasting <= 8) || (bg_diabetes_random_1 <= 10)) ) {
+                    } else if ( (DiabetisYesNo == 1) && ((bg_diabetes_fasting <= 8) || (bg_diabetes_random_1 <= 10)) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Controlled Diabetes = Follow up 6 months.");
                         refer="Follow";
                         message="Controlled Diabetes = Follow up 6 months.";
-                    } else if ( (memberMedicine.DiabetisYesNo == 2) && (((bg_diabetes_fasting >= 6.1) && (bg_diabetes_fasting <= 6.9)) || ((bg_diabetes_random_1 >= 8.1) && (bg_diabetes_random_1 <= 11))) ) {
+                    } else if ( (DiabetisYesNo == 2) && (((bg_diabetes_fasting >= 6.1) && (bg_diabetes_fasting <= 6.9)) || ((bg_diabetes_random_1 >= 8.1) && (bg_diabetes_random_1 <= 11))) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Pre-diabetic = Next week follow-up");
                         refer="Follow";
                         message="Pre-diabetic = Next week follow-up";
-                    } else if ( (memberMedicine.DiabetisYesNo == 2) && ((bg_diabetes_fasting >= 7) || (bg_diabetes_random_1 >= 11.1)) ) {
+                    } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting >= 7) || (bg_diabetes_random_1 >= 11.1)) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                         text_text.setText("Diabetes = Refer to UHC!");
                         refer="UHC";
                         message="Diabetes = Refer to UHC!";
-                    } else if ( (memberMedicine.DiabetisYesNo == 2) && ((bg_diabetes_fasting < 6.1) || (bg_diabetes_random_1 < 8)) ) {
+                    } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting < 6.1) || (bg_diabetes_random_1 < 8)) ) {
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                         text_text.setText("Normal");
                         refer="";

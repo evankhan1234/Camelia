@@ -10,7 +10,7 @@ public interface IQuestionsDataSources {
 
     Flowable<List<Questions>> getQuestionsItemById(int QuestionsItemId);
 
-    Questions getQuestions(String QuestionsItem);
+    Questions getQuestions(String QuestionsItem,String MemberId);
 
     void emptyQuestions();
 

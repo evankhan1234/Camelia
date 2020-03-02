@@ -5,45 +5,40 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.util.Range;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.List;
 import java.util.Locale;
 
@@ -51,36 +46,23 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
-import xact.idea.camelia.Activity.LoginActivity;
-import xact.idea.camelia.Database.Model.Auth;
-import xact.idea.camelia.Database.Model.Block;
 import xact.idea.camelia.Database.Model.BloodGroup;
-import xact.idea.camelia.Database.Model.District;
-import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
-import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.MaritialStatus;
 import xact.idea.camelia.Database.Model.MemberId;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.StudyClass;
-import xact.idea.camelia.Database.Model.Unions;
-import xact.idea.camelia.Database.Model.Upazila;
-import xact.idea.camelia.Database.Model.Ward;
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
 import xact.idea.camelia.Model.DropDownModel.EducationModel;
 import xact.idea.camelia.Model.DropDownModel.LivingStatusModel;
 import xact.idea.camelia.Model.DropDownModel.MaritialStatusModel;
 import xact.idea.camelia.Model.DropDownModel.OccupationModel;
 import xact.idea.camelia.Model.DropDownModel.ReligionModel;
-import xact.idea.camelia.Model.DropDownModel.SexModel;
 import xact.idea.camelia.Model.DropDownModel.YesNoModel;
-import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
-import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
@@ -154,10 +136,13 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     RelativeLayout relativeLayout;
 
     String memberId;
+    String update;
 
-    public HHMyselfFragment(String uniquKey) {
+    public HHMyselfFragment(String uniquKey,String updates) {
         uniqueId=uniquKey;
+        update=updates;
         Log.e("uniqueId",""+uniqueId);
+        Log.e("update",""+update);
     }
 
     @Override
@@ -414,8 +399,26 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                         Calendar today = Calendar.getInstance();
 
                         int total=today.get(Calendar.YEAR)-years;
+                        int month=today.get(Calendar.DAY_OF_MONTH)+1;
+                        int day=today.get(Calendar.DAY_OF_WEEK);
 
-                        edit_birthday_date.setText("01-01-" + total);
+                        String months="";
+                        String days="";
+                        if(month>9){
+                            months=String.valueOf(month);
+                        }
+                        else{
+                            months="0"+month;
+                        }
+
+                        if(day>9){
+                            days=String.valueOf(day);
+                        }
+                        else{
+                            days="0"+day;
+                        }
+
+                        edit_birthday_date.setText(days+"-"+months+"-" + total);
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         edit_birthday_date.setText("");
@@ -432,10 +435,112 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 
             }
         });
+        show();
 
     }
     public void show(){
+        MemberMyself memberId=Common.memberMyselfRepository.getMemberId(update);
 
+        if (memberId!=null){
+            edit_national_id.setText(String.valueOf(memberId.NationalId));
+            edit_name.setText(memberId.FullName);
+            edit_mobile_number.setText(memberId.MobileNumber);
+            radioBirthdate.setChecked(true);
+            linear_age.setVisibility(View.GONE);
+            linear_birthdate.setVisibility(View.VISIBLE);
+            edit_birthday_date_again.setText(memberId.DateOfBirth);
+            if (memberId.GenderId != 0) {
+                int div = memberId.GenderId;
+
+                for (int i = 0; i < femaleList.size(); i++) {
+                    if (femaleList.get(i).FemaleId == div) {
+                        spinner_sex.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberId.MaritialId != 0) {
+                int div = memberId.MaritialId;
+
+                for (int i = 0; i < maritialStatuses.size(); i++) {
+                    if (maritialStatuses.get(i).MaritialId == div) {
+                        spinner_martial_status.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberId.ReligionId != 0) {
+                int div = memberId.ReligionId;
+
+                for (int i = 0; i < religionArrayList.size(); i++) {
+                    if (religionArrayList.get(i).getId() == div) {
+                        spinner_religion.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberId.BloodGroupId != 0) {
+                int div = memberId.BloodGroupId;
+
+                for (int i = 0; i < bloodGroups.size(); i++) {
+                    if (bloodGroups.get(i).BloodId == div) {
+                        spinner_blood_group.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberId.OccupationId != 0) {
+                int div = memberId.OccupationId;
+
+                for (int i = 0; i < occupationModels.size(); i++) {
+                    if (occupationModels.get(i).OccupationId == div) {
+                        spinner_occupation.setSelection(i);
+                    }
+                }
+            }
+            //////////////
+            if (memberId.StudyId != 0) {
+                int div = memberId.StudyId;
+
+                for (int i = 0; i < studyClassResponses.size(); i++) {
+                    if (studyClassResponses.get(i).StudyClassId == div) {
+                        spinner_education.setSelection(i);
+                    }
+                }
+            }
+
+            //////////////
+            if (memberId.HouseHeadId != 0) {
+                int div = memberId.HouseHeadId;
+
+                for (int i = 0; i < headArrayList.size(); i++) {
+                    if (headArrayList.get(i).getId() == div) {
+                        spinner_head.setSelection(i);
+                    }
+                }
+            }
+            //////////
+            if (memberId.LivingId != 0) {
+                int div = memberId.LivingId;
+
+                for (int i = 0; i < livingGroupArrayList.size(); i++) {
+                    if (livingGroupArrayList.get(i).getId() == div) {
+                        spinner_living_status.setSelection(i);
+                    }
+                }
+            }
+            if (memberId.LivingId==1){
+                linear_edit_death.setVisibility(View.VISIBLE);
+            }
+            else{
+                linear_edit_death.setVisibility(View.GONE);
+                edit_date_of_death.setText(memberId.DateOfDeath);
+            }
+
+        }
+        else{
+
+        }
     }
     private boolean isChecked() {
         if(radioBirthdate.isChecked())
@@ -484,8 +589,10 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         if (isChecked()){
 
             try {
-                MemberMyself myself=Common.memberMyselfRepository.getMemberMyself(edit_mobile_number.getText().toString());
-                if (myself==null){
+
+                MemberMyself memberIds=Common.memberMyselfRepository.getMemberId(update);
+                if (memberIds!=null)
+                {
                     MemberMyself memberMyself = new MemberMyself();
                     memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
                     memberMyself.MobileNumber= edit_mobile_number.getText().toString();
@@ -498,6 +605,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     }
                     Date date = new Date(System.currentTimeMillis());
                     memberMyself.CreatedDate=date;
+                    memberMyself.id=memberIds.id;
                     memberMyself.GenderId=genderId;
                     memberMyself.BloodGroupId=bloodGroupId;
                     memberMyself.ReligionId=religionId;
@@ -506,71 +614,91 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     memberMyself.OccupationId=occupationId;
                     memberMyself.LivingId=livingId;
                     memberMyself.HouseHeadId=headId;
-                    memberMyself.UniqueId=uniqueId;
-                    String value="";
-                    if (memberId.length()==1){
-                        value="00000000"+memberId;
-                    }
-                    else if (memberId.length()==2){
-                        value="0000000"+memberId;
-                    }
-                    else if (memberId.length()==3){
-                        value="000000"+memberId;
-                    }
-                    else if (memberId.length()==4){
-                        value="00000"+memberId;
-                    }
-                    else if (memberId.length()==5){
-                        value="0000"+memberId;
-                    }
-                    else if (memberId.length()==6){
-                        value="000"+memberId;
-                    }
-                    else if (memberId.length()==7){
-                        value="00"+memberId;
-                    }
-                    else if (memberId.length()==8){
-                        value="0"+memberId;
-                    }
-                    else if (memberId.length()==9){
-                        value=memberId;
-                    }
-
-                    memberMyself.MemberId= value;
-                    Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
-
-                    Common.memberIdRepository.emptyMemberId(memberId);
-                    HHCreateMemberFragment.nextPage(1);
-                }
-                else {
-                    MemberMyself memberMyself = new MemberMyself();
-                    memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
-                    memberMyself.MobileNumber= edit_mobile_number.getText().toString();
-                    memberMyself.FullName= edit_name.getText().toString();
-                    if (isNullOrEmpty(edit_birthday_date.getText().toString())){
-                        memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
-                    }
-                    else {
-                        memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
-                    }
-                    Date date = new Date(System.currentTimeMillis());
-                    memberMyself.CreatedDate=date;
-                    memberMyself.id=myself.id;
-                    memberMyself.GenderId=genderId;
-                    memberMyself.BloodGroupId=bloodGroupId;
-                    memberMyself.ReligionId=religionId;
-                    memberMyself.StudyId=studyId;
-                    memberMyself.MaritialId=maritialId;
-                    memberMyself.OccupationId=occupationId;
-                    memberMyself.LivingId=livingId;
-                    memberMyself.HouseHeadId=headId;
+                    memberMyself.MemberId= memberIds.MemberId;
                     memberMyself.UniqueId=uniqueId;
                     Common.memberMyselfRepository.updateMemberMyself(memberMyself);
-
                     HHCreateMemberFragment.nextPage(1);
+                    HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
                 }
 
-                HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
+
+
+
+                else{
+                    MemberMyself myself=Common.memberMyselfRepository.getMemberMyself(edit_mobile_number.getText().toString());
+
+                    if(genderId==-1 || bloodGroupId==-1 ||religionId==-1 ||studyId==-1 ||maritialId==-1 ||livingId==-1 ||headId==-1||occupationId==-1){
+                        Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        if (myself==null){
+                            MemberMyself memberMyself = new MemberMyself();
+                            memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
+                            memberMyself.MobileNumber= edit_mobile_number.getText().toString();
+                            memberMyself.FullName= edit_name.getText().toString();
+                            if (isNullOrEmpty(edit_birthday_date.getText().toString())){
+                                memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
+                            }
+                            else {
+                                memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
+                            }
+                            Date date = new Date(System.currentTimeMillis());
+                            memberMyself.CreatedDate=date;
+                            memberMyself.GenderId=genderId;
+                            memberMyself.BloodGroupId=bloodGroupId;
+                            memberMyself.ReligionId=religionId;
+                            memberMyself.StudyId=studyId;
+                            memberMyself.MaritialId=maritialId;
+                            memberMyself.OccupationId=occupationId;
+                            memberMyself.LivingId=livingId;
+                            memberMyself.HouseHeadId=headId;
+                            memberMyself.UniqueId=uniqueId;
+                            memberMyself.VisitDate="";
+
+
+
+                            memberMyself.MemberId= memberId;
+                            Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+
+                            Common.memberIdRepository.emptyMemberId(memberId);
+                            HHCreateMemberFragment.nextPage(1);
+                        }
+                        else {
+                            MemberMyself memberMyself = new MemberMyself();
+                            memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
+                            memberMyself.MobileNumber= edit_mobile_number.getText().toString();
+                            memberMyself.FullName= edit_name.getText().toString();
+                            if (isNullOrEmpty(edit_birthday_date.getText().toString())){
+                                memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
+                            }
+                            else {
+                                memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
+                            }
+                            Date date = new Date(System.currentTimeMillis());
+                            memberMyself.CreatedDate=date;
+                            memberMyself.id=myself.id;
+                            memberMyself.GenderId=genderId;
+                            memberMyself.BloodGroupId=bloodGroupId;
+                            memberMyself.ReligionId=religionId;
+                            memberMyself.StudyId=studyId;
+                            memberMyself.MaritialId=maritialId;
+                            memberMyself.OccupationId=occupationId;
+                            memberMyself.LivingId=livingId;
+                            memberMyself.HouseHeadId=headId;
+                            memberMyself.UniqueId=uniqueId;
+                            memberMyself.MemberId= myself.MemberId;
+                            Common.memberMyselfRepository.updateMemberMyself(memberMyself);
+
+                            HHCreateMemberFragment.nextPage(1);
+                        }
+
+                        HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
+                    }
+                }
+
+
+
+
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -707,7 +835,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         compositeDisposable.add(Common.memberIdRepository.getMemberIdItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberId>>() {
             @Override
             public void accept(List<MemberId> memberIds) throws Exception {
-                Log.e("Division","Division"+new Gson().toJson(memberIds));
+                Log.e("asads","ds"+new Gson().toJson(memberIds));
 
                 if (memberIds.size()>0){
                     memberId=memberIds.get(0).Value;

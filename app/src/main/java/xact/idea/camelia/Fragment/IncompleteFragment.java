@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,16 +78,18 @@ public class IncompleteFragment extends Fragment {
         rcl_this_customer_list.setLayoutManager(lm);
     }
 
-    public  static void display() {
+    public static void display() {
 
 
         compositeDisposable.add(Common.memberMyselfRepository.getInCompleteMembers().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
-                Log.e("aa","dfsdf"+new Gson().toJson(memberMyselfes));
+                Log.e("e","dfsdf"+new Gson().toJson(memberMyselfes));
                 memberMyselfList=memberMyselfes;
                 if (memberMyselfList.size()>0){
-                    mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
+                    FragmentActivity activity = (FragmentActivity)mActivity;
+                    FragmentManager manager = activity.getSupportFragmentManager();
+                    mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager);
                     try {
                         rcl_this_customer_list.setAdapter(mAdapters);
                     } catch (Exception e) {
@@ -102,7 +106,9 @@ public class IncompleteFragment extends Fragment {
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("bb","dfsdf"+new Gson().toJson(memberMyselfes));
                 if (memberMyselfList.size()==0){
-                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener);
+                    FragmentActivity activity = (FragmentActivity)mActivity;
+                    FragmentManager manager = activity.getSupportFragmentManager();
+                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {

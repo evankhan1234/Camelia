@@ -19,7 +19,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.LoginActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
@@ -176,6 +175,14 @@ public class HouseHoldActivity extends AppCompatActivity {
         initDB();
         if (Common.studyClassRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                StudyClass studyClass = new StudyClass();
+                studyClass.StudyClassId = -1;
+                studyClass.class_name_en = "Select";
+                studyClass.class_name_bn = "Select";
+                studyClass.note_en = "";
+                studyClass.note_bn = "";
+                studyClass.status = "1";
+                Common.studyClassRepository.insertToStudyClass(studyClass);
                 loadStudyClass();
             } else {
                 Snackbar snackbar = Snackbar
@@ -185,6 +192,14 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.occupationRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                Occupation occupation = new Occupation();
+                occupation.OccupationId = -1;
+                occupation.occupation_name_en = "Select";
+                occupation.occupation_name_bn = "Select";
+                occupation.note_en = "";
+                occupation.note_bn = "";
+                occupation.status = "1";
+                Common.occupationRepository.insertToOccupation(occupation);
                 loadOccupation();
             } else {
                 Snackbar snackbar = Snackbar
@@ -194,7 +209,16 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.femaleRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                Female female = new Female();
+                female.FemaleId = -1;
+                female.gender_name_en = "Select";
+                female.gender_name_bn = "Select";
+                female.note_en = "";
+                female.note_bn = "";
+                female.status = "1";
+                Common.femaleRepository.insertToFemale(female);
                 loadGender();
+
             } else {
                 Snackbar snackbar = Snackbar
                         .make(relative, "No Internet", Snackbar.LENGTH_LONG);
@@ -203,6 +227,14 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.maritialStatusRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                MaritialStatus maritialStatus = new MaritialStatus();
+                maritialStatus.MaritialId = -1;
+                maritialStatus.marital_name_en = "Select";
+                maritialStatus.marital_name_bn = "Select";
+                maritialStatus.note_en = "";
+                maritialStatus.note_bn = "";
+                maritialStatus.status = "1";
+                Common.maritialStatusRepository.insertToMaritialStatus(maritialStatus);
                 loadMaritialStatus();
             } else {
                 Snackbar snackbar = Snackbar
@@ -212,6 +244,18 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.blockRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+
+                Block block = new Block();
+                block.BlockId = -1;
+                block.block_name_en = "Select";
+                block.block_name_bn = "Select";
+                block.block_shortname_en = "";
+                block.block_shortname_bn = "";
+                block.block_code = "";
+                block.note_en = "";
+                block.note_bn = "";
+                block.status = "1";
+                Common.blockRepository.insertToBlock(block);
                 loadBlock();
             } else {
                 Snackbar snackbar = Snackbar
@@ -221,6 +265,18 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.wardRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+
+                Ward ward = new Ward();
+                ward.WardId = -1;
+                ward.ward_name_en = "Select";
+                ward.ward_name_bn = "Select";
+                ward.ward_shortname_bn = "";
+                ward.ward_shortname_en = "";
+                ward.ward_code = "";
+                ward.note_en = "";
+                ward.note_bn = "";
+                ward.status = "1";
+                Common.wardRepository.insertToWard(ward);
                 loadWard();
             } else {
                 Snackbar snackbar = Snackbar
@@ -230,6 +286,15 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.bloodGroupRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                BloodGroup bloodGroup = new BloodGroup();
+                bloodGroup.BloodId = -1;
+                bloodGroup.blood_group_name_en = "Select";
+                bloodGroup.blood_group_name_bn = "Select";
+                bloodGroup.note_en = "";
+                bloodGroup.note_bn =  "";
+                bloodGroup.status = "1";
+                Common.bloodGroupRepository.insertToBloodGroup(bloodGroup);
+
                 loadBloodGroup();
             } else {
                 Snackbar snackbar = Snackbar
@@ -239,6 +304,18 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.divisionRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+
+                Division division = new Division();
+                division.DivisionId = -1;
+                division.division_name_en = "Select";
+                division.division_name_bn = "Select";
+                division.division_shortname_en = "";
+                division.division_shortname_bn = "";
+                division.division_code ="";
+                division.note_en = "";
+                division.note_bn = "";
+                division.status = "1";
+                Common.divisionRepository.insertToDivision(division);
                 loadDivision();
             } else {
                 Snackbar snackbar = Snackbar
@@ -248,6 +325,18 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.unionRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                Unions unions1 = new Unions();
+                unions1.UnionId = -1;
+                unions1.upazila_id = -1;
+                unions1.union_name_en = "Select";
+                unions1.union_name_bn = "Select";
+                unions1.union_shortname_en = "";
+                unions1.union_shortname_bn = "";
+                unions1.union_code = "";
+                unions1.note_en = "";
+                unions1.note_bn = "";
+                unions1.status = "";
+                Common.unionRepository.insertToUnion(unions1);
                 loadUnion();
             } else {
                 Snackbar snackbar = Snackbar
@@ -257,6 +346,18 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.districtRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                District district = new District();
+                district.DistrictId = -1;
+                district.DivisionId = -1;
+                district.district_name_en = "Select";
+                district.district_name_bn = "Select";
+                district.district_shortname_en = "";
+                district.district_shortname_bn =  "";
+                district.district_code =  "";
+                district.note_en =  "";
+                district.note_bn =  "";
+                district.status =  "1";
+                Common.districtRepository.insertToDistrict(district);
                 loadDistrict();
             } else {
                 Snackbar snackbar = Snackbar
@@ -266,6 +367,17 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         if (Common.upazilaRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                Upazila upazila = new Upazila();
+                upazila.UpazilaId = -1;
+                upazila.district_id = -1;
+                upazila.upazila_name_en = "Select";
+                upazila.upazila_name_bn = "Select";
+                upazila.upazila_shortname_en = "";
+                upazila.upazila_shortname_bn = "";
+                upazila.note_en = "";
+                upazila.note_bn = "";
+                upazila.status = "1";
+                Common.upazilaRepository.insertToUpazila(upazila);
                 loadUpazila();
             } else {
                 Snackbar snackbar = Snackbar
@@ -331,14 +443,13 @@ public class HouseHoldActivity extends AppCompatActivity {
         showLoadingProgress(HouseHoldActivity.this);
         MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
-        memberAlocatePostModel.last_used_id = "";
+        memberAlocatePostModel.data.last_used_id = "";
         Log.e("auth", "auth" + auth.user_id);
-        memberAlocatePostModel.user_id = "4";
+        memberAlocatePostModel.user_credential =auth.email;
         compositeDisposable.add(mService.getMemberAlocate(memberAlocatePostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberAlocateResponseModel>() {
             @Override
             public void accept(MemberAlocateResponseModel upazilaResponses) throws Exception {
                 Log.e("loadMemberId", "loadMemberId" + new Gson().toJson(upazilaResponses));
-
                 for (MemberAlocateResponseModel.Data.AllocatedMember alocateResponseModel : upazilaResponses.data.newly_allocated_member_ids) {
                     MemberId id = new MemberId();
                     id.Value = alocateResponseModel.generated_member_id;

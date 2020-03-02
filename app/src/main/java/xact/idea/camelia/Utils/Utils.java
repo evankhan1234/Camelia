@@ -23,6 +23,8 @@ import java.util.Objects;
 
 import xact.idea.camelia.Model.DropDownModel.BiomasFuelModel;
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
+import xact.idea.camelia.Model.DropDownModel.CenterModel;
+import xact.idea.camelia.Model.DropDownModel.ClinicModel;
 import xact.idea.camelia.Model.DropDownModel.ControlDiseaseModel;
 import xact.idea.camelia.Model.DropDownModel.EducationModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsCardModel;
@@ -178,6 +180,28 @@ public class Utils {
             return false;
         else return true;
     }
+    public static ArrayList<ClinicModel> getClinicList() {
+        ArrayList<ClinicModel> sexModelArrayList = new ArrayList<>();
+        ClinicModel sexModelMale = new ClinicModel("JagannathPur-CC", 1);
+        ClinicModel sexModelFemale = new ClinicModel("Laximipur -CC", 2);
+        ClinicModel sexModelOthers = new ClinicModel("Kathundu-CC", 3);
+        sexModelArrayList.add(sexModelMale);
+        sexModelArrayList.add(sexModelFemale);
+        sexModelArrayList.add(sexModelOthers);
+        return sexModelArrayList;
+
+    }
+    public static ArrayList<CenterModel> getCenterList() {
+        ArrayList<CenterModel> sexModelArrayList = new ArrayList<>();
+        CenterModel sexModelMale = new CenterModel("UHC-01", 1);
+        CenterModel sexModelFemale = new CenterModel("UHC-02", 2);
+        CenterModel sexModelOthers = new CenterModel("UHC-03", 3);
+        sexModelArrayList.add(sexModelMale);
+        sexModelArrayList.add(sexModelFemale);
+        sexModelArrayList.add(sexModelOthers);
+        return sexModelArrayList;
+
+    }
 
     public static ArrayList<SexModel> getSexList() {
         ArrayList<SexModel> sexModelArrayList = new ArrayList<>();
@@ -293,11 +317,13 @@ public class Utils {
 
     public static ArrayList<ReligionModel> getReligionList() {
         ArrayList<ReligionModel> religionModelArrayList = new ArrayList<>();
+        ReligionModel religionModelIslam4 = new ReligionModel("Select", -1);
         ReligionModel religionModelIslam = new ReligionModel("Islam", 1);
         ReligionModel religionModelHindu = new ReligionModel("Hindu", 2);
         ReligionModel religionModelChristan = new ReligionModel("Christian", 3);
         ReligionModel religionModelBuddhist = new ReligionModel("Buddhisht", 4);
         ReligionModel religionModelOthers = new ReligionModel("Others", 99);
+        religionModelArrayList.add(religionModelIslam4);
         religionModelArrayList.add(religionModelIslam);
         religionModelArrayList.add(religionModelHindu);
         religionModelArrayList.add(religionModelChristan);
@@ -344,11 +370,13 @@ public class Utils {
     }
     public static ArrayList<TubewellModel> getTubewellList(Activity mActivity) {
         ArrayList<TubewellModel> sexModelArrayList = new ArrayList<>();
+        TubewellModel maritialStatusUnmarried1 = new TubewellModel(mActivity.getResources().getString(R.string.Select), -1);
         TubewellModel maritialStatusUnmarried = new TubewellModel(mActivity.getResources().getString(R.string.tubewell), 1);
         TubewellModel maritialStatusMarried = new TubewellModel(mActivity.getResources().getString(R.string.filter_water), 2);
         TubewellModel maritialStatusDivorced = new TubewellModel(mActivity.getResources().getString(R.string.tap_water), 3);
         TubewellModel maritialStatusWidow = new TubewellModel(mActivity.getResources().getString(R.string.boil_water), 4);
         TubewellModel maritialStatusWidower = new TubewellModel(mActivity.getResources().getString(R.string.chlorine_water), 5);
+        sexModelArrayList.add(maritialStatusUnmarried1);
         sexModelArrayList.add(maritialStatusUnmarried);
         sexModelArrayList.add(maritialStatusMarried);
         sexModelArrayList.add(maritialStatusDivorced);
@@ -360,6 +388,7 @@ public class Utils {
     public static ArrayList<BiomasFuelModel> getBiomasFuelList(Activity mActivity) {
 
         ArrayList<BiomasFuelModel> sexModelArrayList = new ArrayList<>();
+        BiomasFuelModel maritialStatusUnmarried1 = new BiomasFuelModel(mActivity.getResources().getString(R.string.Select), -1);
         BiomasFuelModel maritialStatusUnmarried = new BiomasFuelModel(mActivity.getResources().getString(R.string.kath), 1);
         BiomasFuelModel maritialStatusMarried = new BiomasFuelModel(mActivity.getResources().getString(R.string.patkhori), 2);
         BiomasFuelModel maritialStatusDivorced = new BiomasFuelModel(mActivity.getResources().getString(R.string.gobor), 3);
@@ -370,6 +399,7 @@ public class Utils {
         BiomasFuelModel maritialStatusWidower4 = new BiomasFuelModel(mActivity.getResources().getString(R.string.land_fill_gas), 8);
         BiomasFuelModel maritialStatusWidower5 = new BiomasFuelModel(mActivity.getResources().getString(R.string.electric_chula), 9);
         BiomasFuelModel maritialStatusWidower6 = new BiomasFuelModel(mActivity.getResources().getString(R.string.ittadi), 10);
+        sexModelArrayList.add(maritialStatusUnmarried1);
         sexModelArrayList.add(maritialStatusUnmarried);
         sexModelArrayList.add(maritialStatusMarried);
         sexModelArrayList.add(maritialStatusDivorced);
@@ -445,9 +475,11 @@ public class Utils {
 
     public static ArrayList<LivingStatusModel> getLivingStatusList() {
         ArrayList<LivingStatusModel> livingStatusModelArrayList = new ArrayList<>();
+        LivingStatusModel livingStatusModelAlive1 = new LivingStatusModel("Select", -1);
         LivingStatusModel livingStatusModelAlive = new LivingStatusModel("Alive", 2);
         LivingStatusModel livingStatusModelDead = new LivingStatusModel("Dead", 1);
 
+        livingStatusModelArrayList.add(livingStatusModelAlive1);
         livingStatusModelArrayList.add(livingStatusModelAlive);
         livingStatusModelArrayList.add(livingStatusModelDead);
 
@@ -459,9 +491,11 @@ public class Utils {
     public static ArrayList<YesNoModel> getyesNoList() {
         ArrayList<YesNoModel> yesNoModelArrayList = new ArrayList<>();
 
+        YesNoModel yesNoModelNo1 = new YesNoModel("Select", -1);
         YesNoModel yesNoModelNo = new YesNoModel("No", 2);
         YesNoModel yesNoModelYes = new YesNoModel("Yes", 1);
 
+        yesNoModelArrayList.add(yesNoModelNo1);
         yesNoModelArrayList.add(yesNoModelNo);
         yesNoModelArrayList.add(yesNoModelYes);
 
@@ -472,9 +506,11 @@ public class Utils {
     public static ArrayList<ControlDiseaseModel> getControlDiseaseList() {
         ArrayList<ControlDiseaseModel> controlDiseaseModelArrayList = new ArrayList<>();
 
+        //ControlDiseaseModel controlDiseaseModel12= new ControlDiseaseModel("Select", -1);
         ControlDiseaseModel controlDiseaseModel1= new ControlDiseaseModel("Mouth to Mouth  Medicine", 1);
         ControlDiseaseModel controlDiseaseModel2 = new ControlDiseaseModel("Don't Know", 2);
 
+       // controlDiseaseModelArrayList.add(controlDiseaseModel12);
         controlDiseaseModelArrayList.add(controlDiseaseModel1);
         controlDiseaseModelArrayList.add(controlDiseaseModel2);
 
