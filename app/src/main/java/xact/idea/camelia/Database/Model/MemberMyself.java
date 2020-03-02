@@ -14,7 +14,7 @@ public class MemberMyself {
     @ColumnInfo(name = "id")
     public int id;
     @ColumnInfo(name = "NationalId")
-    public int NationalId;
+    public String NationalId;
     @ColumnInfo(name = "MemberId")
     public String MemberId;
     @ColumnInfo(name = "MobileNumber")

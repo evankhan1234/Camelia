@@ -56,14 +56,14 @@
                         android:orientation="horizontal">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_marginTop="30px"
                             android:id="@+id/img_avatar"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-
-                            android:elevation="10px"
                             android:layout_width="230px"
                             android:layout_height="230px"
+                            android:layout_alignParentLeft="true"
+
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="30px"
+                            android:elevation="10px"
                             android:src="@drawable/backwhite"
                             app:civ_border_color="#358ED3"
                             app:civ_border_width="3dp"
