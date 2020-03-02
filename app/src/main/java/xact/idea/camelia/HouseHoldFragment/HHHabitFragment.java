@@ -409,8 +409,44 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
             }
         });
+        show();
     }
 
+    private void show(){
+        MemberHabit memberHabitsFor = Common.memberHabitRepository.getMemberHabit(update);
+        if (memberHabitsFor!=null)
+        {
+            int SmokeYesNo = 0;
+            Questions questions1 = Common.qustionsRepository.getQuestions("Q32", update);
+            try {
+                SmokeYesNo = Integer.parseInt(questions1.answer);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                SmokeYesNo = -1;
+            }
+            if (SmokeYesNo != 0) {
+                int div = SmokeYesNo;
+
+                if(div==1){
+                    try {
+                        Questions questions1a = Common.qustionsRepository.getQuestions("Q32a", update);
+                        Questions questions1b = Common.qustionsRepository.getQuestions("Q32b", update);
+                        edit_smoke_years.setText(questions1a.answer);
+                        edit_smoke_stick.setText(questions1b.answer);
+                    } catch (Exception e) {
+                        edit_smoke_years.setText("");
+                        edit_smoke_stick.setText("");
+                    }
+                }
+
+                for (int i = 0; i < yesNoArrayListForSmoke.size(); i++) {
+                    if (yesNoArrayListForSmoke.get(i).getId() == div) {
+                        spinner_smoke.setSelection(i);
+                    }
+                }
+            }
+        }
+    }
     private void initModerateIntensityRecreationClickListener() {
 
         checkBoxOthers_moderate_recreational_others.setOnClickListener(new View.OnClickListener() {
@@ -1789,1118 +1825,2666 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     private void saveData() {
 
         if (isChecked()) {
+            MemberHabit memberHabitsFor = Common.memberHabitRepository.getMemberHabit(update);
             MemberHabit memberHabit = new MemberHabit();
-            int id= Common.memberMyselfRepository.maxValue();
+            if (memberHabitsFor != null)
+            {
+                if (smokeYesNo == 2) {
+                    Questions questions1 = Common.qustionsRepository.getQuestions("Q32", update);
 
-            MemberMyself memberMyself=Common.memberMyselfRepository.getMemberMyselfNo(id);
-            memberHabit.MemberId=memberMyself.MemberId;
-            MemberHabit memberHabit1=Common.memberHabitRepository.getMemberHabitNo(memberMyself.MobileNumber);
-            if(smokeYesNo==-1 || jordaYesNo==-1 ||workplaceYesNo==-1 ||alcoholYesNo==-1 ||takingSalt==-1 ||vigorousIntensity==-1 ||moderateIntensity==-1 ||vigorousIntensityRecreational==-1||moderateIntensityRecreational==-1||recliningActivities==-1){
-                Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
-            }
-            else {
-
-                if (memberHabit1==null)
-                {
-                    memberHabit.SmokeYesNo = smokeYesNo;
-                    if (smokeYesNo == 2) {
-                        Questions questions= new Questions();
-                        questions.type="behavioral";
-                        questions.question="Q29";
-                        questions.member_id=memberMyself.MemberId;
-                        questions.answer="2";
+                    if (questions1 == null) {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.id = questions1.id;
+                        questions.question = "Q32";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
-                        questions.date=currentDate;
-                        questions.master_id=memberMyself.id;
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions);
                     } else {
-
-                        try {
-                            memberHabit.SmokeYesYears = Integer.parseInt(edit_smoke_years.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.SmokeYesYears = 0;
-                        }
-                        try {
-                            memberHabit.SmokeYesPerday = Integer.parseInt(edit_smoke_stick.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.SmokeYesPerday = 0;
-                        }
-                        Questions questions= new Questions();
-                        questions.type="behavioral";
-                        questions.question="Q29";
-                        questions.member_id=memberMyself.MemberId;
-                        questions.answer="1";
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q32";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
-                        questions.date=currentDate;
-                        questions.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-
-                        ////
-                        Questions questions1= new Questions();
-                        questions1.type="behavioral";
-                        questions1.question="Q29a";
-                        questions1.member_id=memberMyself.MemberId;
-                        questions1.answer=edit_smoke_years.getText().toString();
-                        questions1.date=currentDate;
-                        questions1.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions1);
-
-                    }
-                    memberHabit.JordaYesNo = jordaYesNo;
-                    if (jordaYesNo == 2) {
-                        Questions questions= new Questions();
-                        questions.type="behavioral";
-                        questions.question="Q30";
-                        questions.member_id=memberMyself.MemberId;
-                        questions.answer="2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date=currentDate;
-                        questions.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    } else {
-                        try {
-                            memberHabit.JordaYears = Integer.parseInt(edit_jorda.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.JordaYears = 0;
-                        }
-                        Questions questions= new Questions();
-                        questions.type="behavioral";
-                        questions.question="Q30";
-                        questions.member_id=memberMyself.MemberId;
-                        questions.answer="1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date=currentDate;
-                        questions.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-
-                        ////
-                        Questions questions1= new Questions();
-                        questions1.type="behavioral";
-                        questions1.question="Q30a";
-                        questions1.member_id=memberMyself.MemberId;
-                        questions1.answer=edit_jorda.getText().toString();
-                        questions1.date=currentDate;
-                        questions1.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    memberHabit.WorkplaceYesNo = workplaceYesNo;
-                    if (workplaceYesNo == 2) {
-                        Questions questions= new Questions();
-                        questions.type="behavioral";
-                        questions.question="Q31";
-                        questions.member_id=memberMyself.MemberId;
-                        questions.answer="2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date=currentDate;
-                        questions.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    } else {
-                        try {
-                            memberHabit.WorkplaceYears = Integer.parseInt(edit_workplace.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.WorkplaceYears = 0;
-                        }
-                        Questions questions= new Questions();
-                        questions.type="behavioral";
-                        questions.question="Q31";
-                        questions.member_id=memberMyself.MemberId;
-                        questions.answer="1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date=currentDate;
-                        questions.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-
-                        ////
-                        Questions questions1= new Questions();
-                        questions1.type="behavioral";
-                        questions1.question="Q31a";
-                        questions1.member_id=memberMyself.MemberId;
-                        questions1.answer=edit_workplace.getText().toString();
-                        questions1.date=currentDate;
-                        questions1.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    memberHabit.AlcoholYesNo = alcoholYesNo;
-                    if (alcoholYesNo == 2) {
-                        Questions questions= new Questions();
-                        questions.type="behavioral";
-                        questions.question="Q32";
-                        questions.member_id=memberMyself.MemberId;
-                        questions.answer="2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date=currentDate;
-                        questions.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    } else {
-                        try {
-                            memberHabit.AlcoholYears = Integer.parseInt(edit_alcohol.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.AlcoholYears = 0;
-                        }
-                        Questions questions= new Questions();
-                        questions.type="behavioral";
-                        questions.question="Q32";
-                        questions.member_id=memberMyself.MemberId;
-                        questions.answer="1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date=currentDate;
-                        questions.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-
-                        ////
-                        Questions questions1= new Questions();
-                        questions1.type="behavioral";
-                        questions1.question="Q32a";
-                        questions1.member_id=memberMyself.MemberId;
-                        questions1.answer=edit_alcohol.getText().toString();
-                        questions1.date=currentDate;
-                        questions1.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions1);
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions);
                     }
 
-                    memberHabit.FruitsTypicalWeek = typicalFruits;
-                    memberHabit.FruitsShowCard = fruitsShowCard;
-                    memberHabit.VegetablesTypicalWeek = typicalVegetables;
-                    memberHabit.VegetablesShowCard = vegetablesShowCard;
-                    memberHabit.SaltBuy = saltyBuy;
-                    memberHabit.TakingSalt = takingSalt;
+                } else {
 
-
-
-
-                    Questions questions5= new Questions();
-                    questions5.type="behavioral";
-                    questions5.question="Q35";
-                    questions5.member_id=memberMyself.MemberId;
-                    questions5.answer=String.valueOf(typicalFruits);
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
-                    questions5.date=currentDate;
-                    questions5.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions5);
-                    ///
-
-
-                    Questions questions6= new Questions();
-                    questions6.type="behavioral";
-                    questions6.question="Q36";
-                    questions6.member_id=memberMyself.MemberId;
-                    questions6.answer=String.valueOf(fruitsShowCard);
-                    questions6.date=currentDate;
-                    questions6.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions6);
-
-                    ///
-
-
-                    Questions questions7= new Questions();
-                    questions7.type="behavioral";
-                    questions7.question="Q37";
-                    questions7.member_id=memberMyself.MemberId;
-                    questions7.answer=String.valueOf(typicalVegetables);
-                    questions7.date=currentDate;
-                    questions7.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions7);
-
-                    ///
-
-
-                    Questions questions8= new Questions();
-                    questions8.type="behavioral";
-                    questions8.question="Q38";
-                    questions8.member_id=memberMyself.MemberId;
-                    questions8.answer=String.valueOf(vegetablesShowCard);
-                    questions8.date=currentDate;
-                    questions8.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions8);
-
-
-                    ///
-
-
-                    Questions questions9= new Questions();
-                    questions9.type="behavioral";
-                    questions9.question="Q39";
-                    questions9.member_id=memberMyself.MemberId;
-                    questions9.answer=String.valueOf(vegetablesShowCard);
-                    questions9.date=currentDate;
-                    questions9.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions9);
-
-
-                    ///
-
-
-                    Questions questions10= new Questions();
-                    questions10.type="behavioral";
-                    questions10.question="Q40";
-                    questions10.member_id=memberMyself.MemberId;
-                    questions10.answer=String.valueOf(saltyBuy);
-                    questions10.date=currentDate;
-                    questions10.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions10);
-
-
-                    ///
-
-
-                    Questions questions11= new Questions();
-                    questions11.type="behavioral";
-                    questions11.question="Q41";
-                    questions11.member_id=memberMyself.MemberId;
-                    questions11.answer=String.valueOf(takingSalt);
-                    questions11.date=currentDate;
-                    questions11.master_id=memberMyself.id;
-                    Common.qustionsRepository.insertToQuestions(questions11);
-
-
-
-                    memberHabit.VigorousIntensityYesNo=vigorousIntensity;
-                    memberHabit.VigorousIntensityActivities=vigiriousIntensity();
-                    memberHabit.VigorousIntensityTypicalWeek=vigorousIntensityTypical;
-
-                    if(vigorousIntensity==2){
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q42";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="2";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-                    }
-                    else{
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q42";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="1";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-
-                        Questions questions13= new Questions();
-                        questions13.type="behavioral";
-                        questions13.question="Q42a";
-                        questions13.member_id=memberMyself.MemberId;
-                        questions13.answer=vigiriousIntensity();
-                        questions13.date=currentDate;
-                        questions13.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions13);
-                        Questions questions14= new Questions();
-                        questions14.type="behavioral";
-                        questions14.question="Q42b";
-                        questions14.member_id=memberMyself.MemberId;
-                        questions14.answer= String.valueOf(vigorousIntensityTypical);
-                        questions14.date=currentDate;
-                        questions14.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions14);
-
-                        Questions questions15= new Questions();
-                        questions15.type="behavioral";
-                        questions15.question="Q42c";
-                        questions15.member_id=memberMyself.MemberId;
-                        questions15.answer=edit_typical_day.getText().toString();
-                        questions15.date=currentDate;
-                        questions15.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-                    try {
-                        memberHabit.VigorousIntensityTypicalDay = Integer.parseInt(edit_typical_day.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.VigorousIntensityTypicalDay = 0;
-                    }
-                    //////
-                    memberHabit.ModeratorIntensityYesNo=moderateIntensity;
-                    memberHabit.ModeratorIntensityActivities=moderateIntensity();
-                    memberHabit.ModeratorIntensityTypicalWeek=moderateIntensityTypical;
-                    try {
-                        memberHabit.ModeratorIntensityTypicalDay = Integer.parseInt(edit_typical_day_moderate.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.ModeratorIntensityTypicalDay = 0;
-                    }
-                    ////
-                    if(moderateIntensity==2){
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q43";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="2";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-                    }
-                    else{
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q43";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="1";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-
-                        Questions questions13= new Questions();
-                        questions13.type="behavioral";
-                        questions13.question="Q43a";
-                        questions13.member_id=memberMyself.MemberId;
-                        questions13.answer=moderateIntensity();
-                        questions13.date=currentDate;
-                        questions13.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions13);
-                        Questions questions14= new Questions();
-                        questions14.type="behavioral";
-                        questions14.question="Q43b";
-                        questions14.member_id=memberMyself.MemberId;
-                        questions14.answer= String.valueOf(moderateIntensityTypical);
-                        questions14.date=currentDate;
-                        questions14.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions14);
-
-                        Questions questions15= new Questions();
-                        questions15.type="behavioral";
-                        questions15.question="Q43c";
-                        questions15.member_id=memberMyself.MemberId;
-                        questions15.answer=edit_typical_day_moderate.getText().toString();
-                        questions15.date=currentDate;
-                        questions15.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-                    memberHabit.VigorousIntensityRecreationalYesNo=vigorousIntensityRecreational;
-                    memberHabit.VigorousIntensityRecreationalActivities=vigorousIntensityRecreational();
-                    memberHabit.VigorousIntensityRecreationalTypicalWeek=vigorousIntensityRecreationalTypical;
-                    try {
-                        memberHabit.VigorousIntensityRecreationalTypicalDay = Integer.parseInt(edit_typical_day_recreational.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.VigorousIntensityRecreationalTypicalDay = 0;
-                    }
-
-
-
-                    ////
-                    if(vigorousIntensityRecreational==2){
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q44";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="2";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-                    }
-                    else{
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q44";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="1";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-
-                        Questions questions13= new Questions();
-                        questions13.type="behavioral";
-                        questions13.question="Q44a";
-                        questions13.member_id=memberMyself.MemberId;
-                        questions13.answer=vigorousIntensityRecreational();
-                        questions13.date=currentDate;
-                        questions13.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions13);
-                        Questions questions14= new Questions();
-                        questions14.type="behavioral";
-                        questions14.question="Q44b";
-                        questions14.member_id=memberMyself.MemberId;
-                        questions14.answer= String.valueOf(vigorousIntensityRecreationalTypical);
-                        questions14.date=currentDate;
-                        questions14.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions14);
-
-                        Questions questions15= new Questions();
-                        questions15.type="behavioral";
-                        questions15.question="Q44c";
-                        questions15.member_id=memberMyself.MemberId;
-                        questions15.answer=edit_typical_day_recreational.getText().toString();
-                        questions15.date=currentDate;
-                        questions15.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-
-                    ////
-                    memberHabit.ModeratorIntensityRecreationalYesNo=moderateIntensityRecreational;
-                    memberHabit.ModeratorIntensityRecreationalActivities=moderateIntensityRecreational();
-                    memberHabit.ModeratorIntensityRecreationalTypicalWeek=moderateIntensityRecreationalTypical;
-                    try {
-                        memberHabit.ModeratorIntensityRecreationalTypicalDay = Integer.parseInt(edit_typical_day_moderate_recreational.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.ModeratorIntensityRecreationalTypicalDay = 0;
-                    }
-
-
-
-                    if(moderateIntensityRecreational==2){
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q45";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="2";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-                    }
-                    else{
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q45";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="1";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-
-                        Questions questions13= new Questions();
-                        questions13.type="behavioral";
-                        questions13.question="Q45a";
-                        questions13.member_id=memberMyself.MemberId;
-                        questions13.answer=moderateIntensityRecreational();
-                        questions13.date=currentDate;
-                        questions13.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions13);
-
-                        Questions questions14= new Questions();
-                        questions14.type="behavioral";
-                        questions14.question="Q45b";
-                        questions14.member_id=memberMyself.MemberId;
-                        questions14.answer= String.valueOf(moderateIntensityRecreationalTypical);
-                        questions14.date=currentDate;
-                        questions14.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions14);
-
-                        Questions questions15= new Questions();
-                        questions15.type="behavioral";
-                        questions15.question="Q45c";
-                        questions15.member_id=memberMyself.MemberId;
-                        questions15.answer=edit_typical_day_moderate_recreational.getText().toString();
-                        questions15.date=currentDate;
-                        questions15.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-
-                    memberHabit.ReclinigActivitiesYesNo=recliningActivities;
-                    try {
-                        memberHabit.ReclinigActivitiesTypicalDay = Integer.parseInt(edit_yes_reclining.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.ReclinigActivitiesTypicalDay = 0;
-                    }
-
-                    if(recliningActivities==2){
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q47";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="2";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-                    }
-                    else{
-                        Questions questions12= new Questions();
-                        questions12.type="behavioral";
-                        questions12.question="Q47";
-                        questions12.member_id=memberMyself.MemberId;
-                        questions12.answer="1";
-                        questions12.date=currentDate;
-                        questions12.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-
-
-                        Questions questions15= new Questions();
-                        questions15.type="behavioral";
-                        questions15.question="Q47c";
-                        questions15.member_id=memberMyself.MemberId;
-                        questions15.answer=edit_yes_reclining.getText().toString();
-                        questions15.date=currentDate;
-                        questions15.master_id=memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-                    Common.memberHabitRepository.insertToMemberHabit(memberHabit);
-
-                    showInfoDialog(mActivity,memberMyself.MemberId);
-
-                }
-                else {
-                    memberHabit.id = memberHabit1.id;
-                    memberHabit.SmokeYesNo = smokeYesNo;
-                    if (smokeYesNo == 2) {
-                        Questions questions = new Questions();
-                        questions.type = "behavioral";
-                        questions.question = "Q29";
-                        questions.member_id = memberMyself.MemberId;
-                        questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date = currentDate;
-                        questions.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    } else {
-
-                        try {
-                            memberHabit.SmokeYesYears = Integer.parseInt(edit_smoke_years.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.SmokeYesYears = 0;
-                        }
-                        try {
-                            memberHabit.SmokeYesPerday = Integer.parseInt(edit_smoke_stick.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.SmokeYesPerday = 0;
-                        }
-                        Questions questions = new Questions();
-                        questions.type = "behavioral";
-                        questions.question = "Q29";
-                        questions.member_id = memberMyself.MemberId;
-                        questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date = currentDate;
-                        questions.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-
-                        ////
-                        Questions questions1 = new Questions();
-                        questions1.type = "behavioral";
-                        questions1.question = "Q29a";
-                        questions1.member_id = memberMyself.MemberId;
-                        questions1.answer = edit_smoke_years.getText().toString();
-                        questions1.date = currentDate;
-                        questions1.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions1);
-
-                    }
-                    memberHabit.JordaYesNo = jordaYesNo;
-                    if (jordaYesNo == 2) {
-                        Questions questions = new Questions();
-                        questions.type = "behavioral";
-                        questions.question = "Q30";
-                        questions.member_id = memberMyself.MemberId;
-                        questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date = currentDate;
-                        questions.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    } else {
-                        try {
-                            memberHabit.JordaYears = Integer.parseInt(edit_jorda.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.JordaYears = 0;
-                        }
-                        Questions questions = new Questions();
-                        questions.type = "behavioral";
-                        questions.question = "Q30";
-                        questions.member_id = memberMyself.MemberId;
-                        questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date = currentDate;
-                        questions.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-
-                        ////
-                        Questions questions1 = new Questions();
-                        questions1.type = "behavioral";
-                        questions1.question = "Q30a";
-                        questions1.member_id = memberMyself.MemberId;
-                        questions1.answer = edit_jorda.getText().toString();
-                        questions1.date = currentDate;
-                        questions1.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    memberHabit.WorkplaceYesNo = workplaceYesNo;
-                    if (workplaceYesNo == 2) {
-                        Questions questions = new Questions();
-                        questions.type = "behavioral";
-                        questions.question = "Q31";
-                        questions.member_id = memberMyself.MemberId;
-                        questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date = currentDate;
-                        questions.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    } else {
-                        try {
-                            memberHabit.WorkplaceYears = Integer.parseInt(edit_workplace.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.WorkplaceYears = 0;
-                        }
-                        Questions questions = new Questions();
-                        questions.type = "behavioral";
-                        questions.question = "Q31";
-                        questions.member_id = memberMyself.MemberId;
-                        questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date = currentDate;
-                        questions.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
-
-                        ////
-                        Questions questions1 = new Questions();
-                        questions1.type = "behavioral";
-                        questions1.question = "Q31a";
-                        questions1.member_id = memberMyself.MemberId;
-                        questions1.answer = edit_workplace.getText().toString();
-                        questions1.date = currentDate;
-                        questions1.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    memberHabit.AlcoholYesNo = alcoholYesNo;
-                    if (alcoholYesNo == 2) {
+                    Questions questionsFor711 = Common.qustionsRepository.getQuestions("Q32", update);
+                    if (questionsFor711 == null) {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q32";
-                        questions.member_id = memberMyself.MemberId;
-                        questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "1";
+
                         questions.date = currentDate;
-                        questions.master_id = memberMyself.id;
+                        questions.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions);
                     } else {
-                        try {
-                            memberHabit.AlcoholYears = Integer.parseInt(edit_alcohol.getText().toString());
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                            memberHabit.AlcoholYears = 0;
-                        }
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q32";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberHabitsFor.MemberId;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date = new Date(System.currentTimeMillis());
-                        String currentDate = formatter.format(date);
-                        questions.date = currentDate;
-                        questions.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions);
 
-                        ////
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        questions.id = questionsFor711.id;
+                        Common.qustionsRepository.updateQuestions(questions);
+
+                    }
+
+
+                    ////
+                    Questions questionsFor451 = Common.qustionsRepository.getQuestions("Q32a", update);
+                    if (questionsFor451 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q32a";
-                        questions1.member_id = memberMyself.MemberId;
-                        questions1.answer = edit_alcohol.getText().toString();
+                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.answer = edit_smoke_years.getText().toString();
                         questions1.date = currentDate;
-                        questions1.master_id = memberMyself.id;
+                        questions1.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
+                    } else {
+                        Questions questions1 = new Questions();
+                        questions1.type = "behavioral";
+                        questions1.question = "Q32a";
+                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.answer = edit_smoke_years.getText().toString();
+                        questions1.date = currentDate;
+                        questions1.master_id = memberHabitsFor.id;
+                        questions1.id = questionsFor451.id;
+                        Common.qustionsRepository.updateQuestions(questions1);
+                    }
+                    Questions questionsFor4561 = Common.qustionsRepository.getQuestions("Q32b", update);
+                    if (questionsFor4561 == null) {
+                        Questions questions2 = new Questions();
+                        questions2.type = "behavioral";
+                        questions2.question = "Q32b";
+                        questions2.member_id = memberHabitsFor.MemberId;
+                        questions2.answer = edit_smoke_stick.getText().toString();
+                        questions2.date = currentDate;
+                        questions2.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions2);
+                    } else {
+                        Questions questions2 = new Questions();
+                        questions2.type = "behavioral";
+                        questions2.question = "Q32b";
+                        questions2.member_id = memberHabitsFor.MemberId;
+                        questions2.answer = edit_smoke_stick.getText().toString();
+                        questions2.date = currentDate;
+                        questions2.master_id = memberHabitsFor.id;
+
+                        Common.qustionsRepository.updateQuestions(questions2);
                     }
 
-                    memberHabit.FruitsTypicalWeek = typicalFruits;
-                    memberHabit.FruitsShowCard = fruitsShowCard;
-                    memberHabit.VegetablesTypicalWeek = typicalVegetables;
-                    memberHabit.VegetablesShowCard = vegetablesShowCard;
-                    memberHabit.SaltBuy = saltyBuy;
-                    memberHabit.TakingSalt = takingSalt;
+                }
+                if (jordaYesNo == 2) {
+                    Questions questionsFor1988 = Common.qustionsRepository.getQuestions("Q33", update);
+                    if (questionsFor1988 == null) {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q33";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "2";
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions);
+                    } else {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q33";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "2";
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        questions.id = questionsFor1988.id;
+                        Common.qustionsRepository.updateQuestions(questions);
+                    }
 
-
-                    Questions questions5 = new Questions();
-                    questions5.type = "behavioral";
-                    questions5.question = "Q35";
-                    questions5.member_id = memberMyself.MemberId;
-                    questions5.answer = String.valueOf(typicalFruits);
+                } else {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
+
+                    Questions questionsFor132 = Common.qustionsRepository.getQuestions("Q33", update);
+                    if (questionsFor132 == null) {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q33";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "1";
+
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions);
+                    } else {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q33";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "1";
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        questions.id = questionsFor132.id;
+                        Common.qustionsRepository.updateQuestions(questions);
+                    }
+
+
+                    ////
+                    Questions questionsFor8451 = Common.qustionsRepository.getQuestions("Q33a", update);
+                    if (questionsFor8451 == null) {
+                        Questions questions1 = new Questions();
+                        questions1.type = "behavioral";
+                        questions1.question = "Q33a";
+                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.answer = edit_jorda.getText().toString();
+                        questions1.date = currentDate;
+                        questions1.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions1);
+                    } else {
+                        Questions questions1 = new Questions();
+                        questions1.type = "behavioral";
+                        questions1.question = "Q33a";
+                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.answer = edit_jorda.getText().toString();
+                        questions1.date = currentDate;
+                        questions1.master_id = memberHabitsFor.id;
+                        questions1.id = questionsFor8451.id;
+                        Common.qustionsRepository.updateQuestions(questions1);
+                    }
+
+                }
+                memberHabit.WorkplaceYesNo = workplaceYesNo;
+                if (workplaceYesNo == 2) {
+                    Questions questionsFor1778 = Common.qustionsRepository.getQuestions("Q34", update);
+                    if (questionsFor1778 == null) {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q34";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "2";
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions);
+                    } else {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q34";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "2";
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        questions.id = questionsFor1778.id;
+                        Common.qustionsRepository.updateQuestions(questions);
+                    }
+
+                } else {
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+
+                    Questions questionsFor158 = Common.qustionsRepository.getQuestions("Q34", update);
+                    if (questionsFor158 == null) {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q34";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "1";
+
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions);
+                    } else {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q34";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "1";
+
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        questions.id = questionsFor158.id;
+                        Common.qustionsRepository.updateQuestions(questions);
+                    }
+
+
+                    ////
+                    Questions questionsFor441 = Common.qustionsRepository.getQuestions("Q34a", update);
+                    if (questionsFor441 == null) {
+                        Questions questions1 = new Questions();
+                        questions1.type = "behavioral";
+                        questions1.question = "Q34a";
+                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.answer = edit_workplace.getText().toString();
+                        questions1.date = currentDate;
+                        questions1.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions1);
+                    } else {
+                        Questions questions1 = new Questions();
+                        questions1.type = "behavioral";
+                        questions1.question = "Q34a";
+                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.answer = edit_workplace.getText().toString();
+                        questions1.date = currentDate;
+                        questions1.master_id = memberHabitsFor.id;
+                        questions1.id = questionsFor441.id;
+                        Common.qustionsRepository.updateQuestions(questions1);
+                    }
+
+                }
+                if (alcoholYesNo == 2) {
+                    Questions questionsFor781 = Common.qustionsRepository.getQuestions("Q35", update);
+                    if (questionsFor781 == null) {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q35";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "2";
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+
+                        Common.qustionsRepository.insertToQuestions(questions);
+                    } else {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q35";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "2";
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        questions.id = questionsFor781.id;
+                        Common.qustionsRepository.updateQuestions(questions);
+                    }
+
+                } else {
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = new Date(System.currentTimeMillis());
+                    String currentDate = formatter.format(date);
+
+                    Questions questionsFor151 = Common.qustionsRepository.getQuestions("Q35", update);
+                    if (questionsFor151 == null) {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q35";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "1";
+
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions);
+
+                    } else {
+                        Questions questions = new Questions();
+                        questions.type = "behavioral";
+                        questions.question = "Q35";
+                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.answer = "1";
+
+                        questions.date = currentDate;
+                        questions.master_id = memberHabitsFor.id;
+                        questions.id = questionsFor151.id;
+                        Common.qustionsRepository.updateQuestions(questions);
+
+                    }
+
+                    ////
+                    Questions questionsFor561 = Common.qustionsRepository.getQuestions("Q35a", update);
+                    if (questionsFor561 == null) {
+                        Questions questions1 = new Questions();
+                        questions1.type = "behavioral";
+                        questions1.question = "Q35a";
+                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.answer = edit_alcohol.getText().toString();
+                        questions1.date = currentDate;
+                        questions1.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions1);
+                    } else {
+                        Questions questions1 = new Questions();
+                        questions1.type = "behavioral";
+                        questions1.question = "Q35a";
+                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.answer = edit_alcohol.getText().toString();
+                        questions1.date = currentDate;
+                        questions1.master_id = memberHabitsFor.id;
+                        questions1.id = questionsFor561.id;
+                        Common.qustionsRepository.updateQuestions(questions1);
+                    }
+
+                }
+
+
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = new Date(System.currentTimeMillis());
+                String currentDate = formatter.format(date);
+                Questions questionsFor167 = Common.qustionsRepository.getQuestions("Q36", update);
+                if (questionsFor167 == null) {
+                    Questions questions5 = new Questions();
+                    questions5.type = "behavioral";
+                    questions5.question = "Q36";
+                    questions5.member_id = memberHabitsFor.MemberId;
+                    questions5.answer = String.valueOf(typicalFruits);
+
                     questions5.date = currentDate;
-                    questions5.master_id = memberMyself.id;
+                    questions5.master_id = memberHabitsFor.id;
                     Common.qustionsRepository.insertToQuestions(questions5);
-                    ///
+                } else {
+                    Questions questions5 = new Questions();
+                    questions5.type = "behavioral";
+                    questions5.question = "Q36";
+                    questions5.member_id = memberHabitsFor.MemberId;
+                    questions5.answer = String.valueOf(typicalFruits);
 
+                    questions5.date = currentDate;
+                    questions5.master_id = memberHabitsFor.id;
+                    questions5.id = questionsFor167.id;
+                    Common.qustionsRepository.updateQuestions(questions5);
+                }
 
+                ///
+
+                Questions questionsFor413 = Common.qustionsRepository.getQuestions("Q37", update);
+                if (questionsFor413 == null) {
                     Questions questions6 = new Questions();
                     questions6.type = "behavioral";
-                    questions6.question = "Q36";
-                    questions6.member_id = memberMyself.MemberId;
+                    questions6.question = "Q37";
+                    questions6.member_id = memberHabitsFor.MemberId;
                     questions6.answer = String.valueOf(fruitsShowCard);
                     questions6.date = currentDate;
-                    questions6.master_id = memberMyself.id;
+                    questions6.master_id = memberHabitsFor.id;
                     Common.qustionsRepository.insertToQuestions(questions6);
+                } else {
+                    Questions questions6 = new Questions();
+                    questions6.type = "behavioral";
+                    questions6.question = "Q37";
+                    questions6.member_id = memberHabitsFor.MemberId;
+                    questions6.answer = String.valueOf(fruitsShowCard);
+                    questions6.date = currentDate;
+                    questions6.master_id = memberHabitsFor.id;
+                    questions6.id = questionsFor413.id;
+                    Common.qustionsRepository.updateQuestions(questions6);
+                }
 
-                    ///
 
+                ///
 
+                Questions questionsFor26 = Common.qustionsRepository.getQuestions("Q38", update);
+                if (questionsFor26 == null) {
                     Questions questions7 = new Questions();
                     questions7.type = "behavioral";
-                    questions7.question = "Q37";
-                    questions7.member_id = memberMyself.MemberId;
+                    questions7.question = "Q38";
+                    questions7.member_id = memberHabitsFor.MemberId;
                     questions7.answer = String.valueOf(typicalVegetables);
                     questions7.date = currentDate;
-                    questions7.master_id = memberMyself.id;
+                    questions7.master_id = memberHabitsFor.id;
                     Common.qustionsRepository.insertToQuestions(questions7);
+                } else {
+                    Questions questions7 = new Questions();
+                    questions7.type = "behavioral";
+                    questions7.question = "Q38";
+                    questions7.member_id = memberHabitsFor.MemberId;
+                    questions7.answer = String.valueOf(typicalVegetables);
+                    questions7.date = currentDate;
+                    questions7.master_id = memberHabitsFor.id;
+                    questions7.id = questionsFor26.id;
+                    Common.qustionsRepository.updateQuestions(questions7);
+                }
 
-                    ///
 
+                ///
 
+                Questions questionsFor61 = Common.qustionsRepository.getQuestions("Q39", update);
+                if (questionsFor61 == null) {
                     Questions questions8 = new Questions();
                     questions8.type = "behavioral";
-                    questions8.question = "Q38";
-                    questions8.member_id = memberMyself.MemberId;
+                    questions8.question = "Q39";
+                    questions8.member_id = memberHabitsFor.MemberId;
                     questions8.answer = String.valueOf(vegetablesShowCard);
                     questions8.date = currentDate;
-                    questions8.master_id = memberMyself.id;
+                    questions8.master_id = memberHabitsFor.id;
                     Common.qustionsRepository.insertToQuestions(questions8);
+                } else {
+                    Questions questions8 = new Questions();
+                    questions8.type = "behavioral";
+                    questions8.question = "Q39";
+                    questions8.member_id = memberHabitsFor.MemberId;
+                    questions8.answer = String.valueOf(vegetablesShowCard);
+                    questions8.date = currentDate;
+                    questions8.master_id = memberHabitsFor.id;
+                    questions8.id = questionsFor61.id;
+                    Common.qustionsRepository.updateQuestions(questions8);
+                }
 
 
-                    ///
+                ///
 
-
+                Questions questionsFor45 = Common.qustionsRepository.getQuestions("Q39", update);
+                if (questionsFor45 == null) {
                     Questions questions9 = new Questions();
                     questions9.type = "behavioral";
                     questions9.question = "Q39";
-                    questions9.member_id = memberMyself.MemberId;
+                    questions9.member_id = memberHabitsFor.MemberId;
                     questions9.answer = String.valueOf(vegetablesShowCard);
                     questions9.date = currentDate;
-                    questions9.master_id = memberMyself.id;
+                    questions9.master_id = memberHabitsFor.id;
                     Common.qustionsRepository.insertToQuestions(questions9);
+                } else {
+                    Questions questions9 = new Questions();
+                    questions9.type = "behavioral";
+                    questions9.question = "Q39";
+                    questions9.member_id = memberHabitsFor.MemberId;
+                    questions9.answer = String.valueOf(vegetablesShowCard);
+                    questions9.date = currentDate;
+                    questions9.master_id = memberHabitsFor.id;
+                    questions9.id = questionsFor45.id;
+                    Common.qustionsRepository.updateQuestions(questions9);
+                }
 
 
-                    ///
+                ///
 
-
+                Questions questionsFor41 = Common.qustionsRepository.getQuestions("Q41", update);
+                if (questionsFor41 == null) {
                     Questions questions10 = new Questions();
                     questions10.type = "behavioral";
-                    questions10.question = "Q40";
-                    questions10.member_id = memberMyself.MemberId;
+                    questions10.question = "Q41";
+                    questions10.member_id = memberHabitsFor.MemberId;
                     questions10.answer = String.valueOf(saltyBuy);
                     questions10.date = currentDate;
-                    questions10.master_id = memberMyself.id;
+                    questions10.master_id = memberHabitsFor.id;
                     Common.qustionsRepository.insertToQuestions(questions10);
+                } else {
+                    Questions questions10 = new Questions();
+                    questions10.type = "behavioral";
+                    questions10.question = "Q41";
+                    questions10.member_id = memberHabitsFor.MemberId;
+                    questions10.answer = String.valueOf(saltyBuy);
+                    questions10.date = currentDate;
+                    questions10.master_id = memberHabitsFor.id;
+                    questions10.id = questionsFor41.id;
+                    Common.qustionsRepository.updateQuestions(questions10);
+                }
 
 
-                    ///
-
-
+                ///
+                Questions questionsFor13 = Common.qustionsRepository.getQuestions("Q42", update);
+                if (questionsFor13 == null) {
                     Questions questions11 = new Questions();
                     questions11.type = "behavioral";
-                    questions11.question = "Q41";
-                    questions11.member_id = memberMyself.MemberId;
+                    questions11.question = "Q42";
+                    questions11.member_id = memberHabitsFor.MemberId;
                     questions11.answer = String.valueOf(takingSalt);
                     questions11.date = currentDate;
-                    questions11.master_id = memberMyself.id;
+                    questions11.master_id = memberHabitsFor.id;
                     Common.qustionsRepository.insertToQuestions(questions11);
+                } else {
+                    Questions questions11 = new Questions();
+                    questions11.type = "behavioral";
+                    questions11.question = "Q42";
+                    questions11.member_id = memberHabitsFor.MemberId;
+                    questions11.answer = String.valueOf(takingSalt);
+                    questions11.date = currentDate;
+                    questions11.master_id = memberHabitsFor.id;
+                    questions11.id = questionsFor13.id;
+                    Common.qustionsRepository.updateQuestions(questions11);
+                }
 
 
-                    memberHabit.VigorousIntensityYesNo = vigorousIntensity;
-                    memberHabit.VigorousIntensityActivities = vigiriousIntensity();
-                    memberHabit.VigorousIntensityTypicalWeek = vigorousIntensityTypical;
+                memberHabit.VigorousIntensityYesNo = vigorousIntensity;
+                memberHabit.VigorousIntensityActivities = vigiriousIntensity();
+                memberHabit.VigorousIntensityTypicalWeek = vigorousIntensityTypical;
 
-                    if (vigorousIntensity == 2) {
-                        Questions questions12 = new Questions();
-                        questions12.type = "behavioral";
-                        questions12.question = "Q42";
-                        questions12.member_id = memberMyself.MemberId;
-                        questions12.answer = "2";
-                        questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-                    } else {
-                        Questions questions12 = new Questions();
-                        questions12.type = "behavioral";
-                        questions12.question = "Q42";
-                        questions12.member_id = memberMyself.MemberId;
-                        questions12.answer = "1";
-                        questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-
-                        Questions questions13 = new Questions();
-                        questions13.type = "behavioral";
-                        questions13.question = "Q42a";
-                        questions13.member_id = memberMyself.MemberId;
-                        questions13.answer = vigiriousIntensity();
-                        questions13.date = currentDate;
-                        questions13.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions13);
-                        Questions questions14 = new Questions();
-                        questions14.type = "behavioral";
-                        questions14.question = "Q42b";
-                        questions14.member_id = memberMyself.MemberId;
-                        questions14.answer = String.valueOf(vigorousIntensityTypical);
-                        questions14.date = currentDate;
-                        questions14.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions14);
-
-                        Questions questions15 = new Questions();
-                        questions15.type = "behavioral";
-                        questions15.question = "Q42c";
-                        questions15.member_id = memberMyself.MemberId;
-                        questions15.answer = edit_typical_day.getText().toString();
-                        questions15.date = currentDate;
-                        questions15.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-                    try {
-                        memberHabit.VigorousIntensityTypicalDay = Integer.parseInt(edit_typical_day.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.VigorousIntensityTypicalDay = 0;
-                    }
-                    //////
-                    memberHabit.ModeratorIntensityYesNo = moderateIntensity;
-                    memberHabit.ModeratorIntensityActivities = moderateIntensity();
-                    memberHabit.ModeratorIntensityTypicalWeek = moderateIntensityTypical;
-                    try {
-                        memberHabit.ModeratorIntensityTypicalDay = Integer.parseInt(edit_typical_day_moderate.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.ModeratorIntensityTypicalDay = 0;
-                    }
-                    ////
-                    if (moderateIntensity == 2) {
+                if (vigorousIntensity == 2) {
+                    Questions questionsFor14 = Common.qustionsRepository.getQuestions("Q43", update);
+                    if (questionsFor14 == null) {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q43";
-                        questions12.member_id = memberMyself.MemberId;
+                        questions12.member_id = memberHabitsFor.MemberId;
                         questions12.answer = "2";
                         questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
+                        questions12.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions12);
                     } else {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q43";
-                        questions12.member_id = memberMyself.MemberId;
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "2";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        questions12.id = questionsFor14.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
+
+                } else {
+                    Questions questionsFor6 = Common.qustionsRepository.getQuestions("Q43", update);
+                    if (questionsFor6 == null) {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q43";
+                        questions12.member_id = memberHabitsFor.MemberId;
                         questions12.answer = "1";
                         questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
+                        questions12.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions12);
+                    } else {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q43";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        questions12.id = questionsFor6.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
 
+                    Questions questionsFor8 = Common.qustionsRepository.getQuestions("Q43a", update);
+                    if (questionsFor8 == null) {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q43a";
-                        questions13.member_id = memberMyself.MemberId;
-                        questions13.answer = moderateIntensity();
+                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.answer = vigiriousIntensity();
                         questions13.date = currentDate;
-                        questions13.master_id = memberMyself.id;
+                        questions13.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions13);
+                    } else {
+                        Questions questions13 = new Questions();
+                        questions13.type = "behavioral";
+                        questions13.question = "Q43a";
+                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.answer = vigiriousIntensity();
+                        questions13.date = currentDate;
+                        questions13.master_id = memberHabitsFor.id;
+                        questions13.id = questionsFor8.id;
+                        Common.qustionsRepository.updateQuestions(questions13);
+                    }
+
+
+                    Questions questionsFor9 = Common.qustionsRepository.getQuestions("Q43b", update);
+                    if (questionsFor9 == null) {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q43b";
-                        questions14.member_id = memberMyself.MemberId;
-                        questions14.answer = String.valueOf(moderateIntensityTypical);
+                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.answer = String.valueOf(vigorousIntensityTypical);
                         questions14.date = currentDate;
-                        questions14.master_id = memberMyself.id;
+                        questions14.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions14);
+                    } else {
+                        Questions questions14 = new Questions();
+                        questions14.type = "behavioral";
+                        questions14.question = "Q43b";
+                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.answer = String.valueOf(vigorousIntensityTypical);
+                        questions14.date = currentDate;
+                        questions14.master_id = memberHabitsFor.id;
+                        questions14.id = questionsFor9.id;
+                        Common.qustionsRepository.updateQuestions(questions14);
+                    }
 
+                    Questions questionsFor19 = Common.qustionsRepository.getQuestions("Q43c", update);
+                    if (questionsFor19 == null) {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q43c";
-                        questions15.member_id = memberMyself.MemberId;
-                        questions15.answer = edit_typical_day_moderate.getText().toString();
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.answer = edit_typical_day.getText().toString();
                         questions15.date = currentDate;
-                        questions15.master_id = memberMyself.id;
+                        questions15.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-                    memberHabit.VigorousIntensityRecreationalYesNo = vigorousIntensityRecreational;
-                    memberHabit.VigorousIntensityRecreationalActivities = vigorousIntensityRecreational();
-                    memberHabit.VigorousIntensityRecreationalTypicalWeek = vigorousIntensityRecreationalTypical;
-                    try {
-                        memberHabit.VigorousIntensityRecreationalTypicalDay = Integer.parseInt(edit_typical_day_recreational.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.VigorousIntensityRecreationalTypicalDay = 0;
+                    } else {
+                        Questions questions15 = new Questions();
+                        questions15.type = "behavioral";
+                        questions15.question = "Q43c";
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.answer = edit_typical_day.getText().toString();
+                        questions15.date = currentDate;
+                        questions15.master_id = memberHabitsFor.id;
+                        questions15.id = questionsFor19.id;
+                        Common.qustionsRepository.updateQuestions(questions15);
                     }
 
+                }
 
-                    ////
-                    if (vigorousIntensityRecreational == 2) {
+                ////
+                if (moderateIntensity == 2) {
+                    Questions questionsFor15 = Common.qustionsRepository.getQuestions("Q44", update);
+                    if (questionsFor15 == null) {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q44";
-                        questions12.member_id = memberMyself.MemberId;
+                        questions12.member_id = memberHabitsFor.MemberId;
                         questions12.answer = "2";
                         questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
+                        questions12.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions12);
                     } else {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q44";
-                        questions12.member_id = memberMyself.MemberId;
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "2";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        questions12.id = questionsFor15.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
+
+                } else {
+                    Questions questionsFor111 = Common.qustionsRepository.getQuestions("Q44", update);
+                    if (questionsFor111 == null) {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q44";
+                        questions12.member_id = memberHabitsFor.MemberId;
                         questions12.answer = "1";
                         questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
+                        questions12.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions12);
+                    } else {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q44";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        questions12.id = questionsFor111.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
 
+                    Questions questionsFor91 = Common.qustionsRepository.getQuestions("Q44a", update);
+                    if (questionsFor91 == null) {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q44a";
-                        questions13.member_id = memberMyself.MemberId;
-                        questions13.answer = vigorousIntensityRecreational();
+                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.answer = moderateIntensity();
                         questions13.date = currentDate;
-                        questions13.master_id = memberMyself.id;
+                        questions13.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions13);
+                    } else {
+                        Questions questions13 = new Questions();
+                        questions13.type = "behavioral";
+                        questions13.question = "Q44a";
+                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.answer = moderateIntensity();
+                        questions13.date = currentDate;
+                        questions13.master_id = memberHabitsFor.id;
+                        questions13.id = questionsFor91.id;
+                        Common.qustionsRepository.updateQuestions(questions13);
+                    }
+
+                    Questions questionsFor89 = Common.qustionsRepository.getQuestions("Q44b", update);
+                    if (questionsFor89 == null) {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q44b";
-                        questions14.member_id = memberMyself.MemberId;
-                        questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
+                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.answer = String.valueOf(moderateIntensityTypical);
                         questions14.date = currentDate;
-                        questions14.master_id = memberMyself.id;
+                        questions14.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions14);
+                    } else {
+                        Questions questions14 = new Questions();
+                        questions14.type = "behavioral";
+                        questions14.question = "Q44b";
+                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.answer = String.valueOf(moderateIntensityTypical);
+                        questions14.date = currentDate;
+                        questions14.master_id = memberHabitsFor.id;
+                        questions14.id = questionsFor89.id;
+                        Common.qustionsRepository.updateQuestions(questions14);
+                    }
 
+                    Questions questionsFor67 = Common.qustionsRepository.getQuestions("Q44c", update);
+                    if (questionsFor67 == null) {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q44c";
-                        questions15.member_id = memberMyself.MemberId;
-                        questions15.answer = edit_typical_day_recreational.getText().toString();
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.answer = edit_typical_day_moderate.getText().toString();
                         questions15.date = currentDate;
-                        questions15.master_id = memberMyself.id;
+                        questions15.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions15);
+                    } else {
+                        Questions questions15 = new Questions();
+                        questions15.type = "behavioral";
+                        questions15.question = "Q44c";
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.answer = edit_typical_day_moderate.getText().toString();
+                        questions15.date = currentDate;
+                        questions15.master_id = memberHabitsFor.id;
+                        questions15.id = questionsFor67.id;
+                        Common.qustionsRepository.updateQuestions(questions15);
                     }
 
-                    ////
-                    memberHabit.ModeratorIntensityRecreationalYesNo = moderateIntensityRecreational;
-                    memberHabit.ModeratorIntensityRecreationalActivities = moderateIntensityRecreational();
-                    memberHabit.ModeratorIntensityRecreationalTypicalWeek = moderateIntensityRecreationalTypical;
-                    try {
-                        memberHabit.ModeratorIntensityRecreationalTypicalDay = Integer.parseInt(edit_typical_day_moderate_recreational.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.ModeratorIntensityRecreationalTypicalDay = 0;
-                    }
+                }
 
 
-                    if (moderateIntensityRecreational == 2) {
+                ////
+                if (vigorousIntensityRecreational == 2) {
+                    Questions questionsFor78 = Common.qustionsRepository.getQuestions("Q45", update);
+                    if (questionsFor78 == null) {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q45";
-                        questions12.member_id = memberMyself.MemberId;
+                        questions12.member_id = memberHabitsFor.MemberId;
                         questions12.answer = "2";
                         questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
+                        questions12.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions12);
                     } else {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q45";
-                        questions12.member_id = memberMyself.MemberId;
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "2";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        questions12.id = questionsFor78.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
+
+                } else {
+                    Questions questionsFor616 = Common.qustionsRepository.getQuestions("Q45", update);
+                    if (questionsFor616 == null) {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q45";
+                        questions12.member_id = memberHabitsFor.MemberId;
                         questions12.answer = "1";
                         questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
+                        questions12.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions12);
+                    } else {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q46";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        questions12.id = questionsFor616.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
 
+
+                    Questions questionsFor51 = Common.qustionsRepository.getQuestions("Q45a", update);
+                    if (questionsFor51 == null) {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q45a";
-                        questions13.member_id = memberMyself.MemberId;
-                        questions13.answer = moderateIntensityRecreational();
+                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.answer = vigorousIntensityRecreational();
                         questions13.date = currentDate;
-                        questions13.master_id = memberMyself.id;
+                        questions13.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions13);
+                    } else {
+                        Questions questions13 = new Questions();
+                        questions13.type = "behavioral";
+                        questions13.question = "Q45a";
+                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.answer = vigorousIntensityRecreational();
+                        questions13.date = currentDate;
+                        questions13.master_id = memberHabitsFor.id;
+                        questions13.id = questionsFor51.id;
+                        Common.qustionsRepository.updateQuestions(questions13);
+                    }
 
+
+                    Questions questionsFor18 = Common.qustionsRepository.getQuestions("Q45b", update);
+                    if (questionsFor18 == null) {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q45b";
-                        questions14.member_id = memberMyself.MemberId;
-                        questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
+                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
                         questions14.date = currentDate;
-                        questions14.master_id = memberMyself.id;
+                        questions14.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions14);
+                    } else {
+                        Questions questions14 = new Questions();
+                        questions14.type = "behavioral";
+                        questions14.question = "Q45b";
+                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
+                        questions14.date = currentDate;
+                        questions14.master_id = memberHabitsFor.id;
+                        questions14.id = questionsFor18.id;
+                        Common.qustionsRepository.updateQuestions(questions14);
+                    }
 
+                    Questions questionsFor241 = Common.qustionsRepository.getQuestions("Q45c", update);
+                    if (questionsFor241 == null) {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q45c";
-                        questions15.member_id = memberMyself.MemberId;
-                        questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.answer = edit_typical_day_recreational.getText().toString();
                         questions15.date = currentDate;
-                        questions15.master_id = memberMyself.id;
+                        questions15.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-
-                    memberHabit.ReclinigActivitiesYesNo = recliningActivities;
-                    try {
-                        memberHabit.ReclinigActivitiesTypicalDay = Integer.parseInt(edit_yes_reclining.getText().toString());
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                        memberHabit.ReclinigActivitiesTypicalDay = 0;
-                    }
-
-                    if (recliningActivities == 2) {
-                        Questions questions12 = new Questions();
-                        questions12.type = "behavioral";
-                        questions12.question = "Q47";
-                        questions12.member_id = memberMyself.MemberId;
-                        questions12.answer = "2";
-                        questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
                     } else {
-                        Questions questions12 = new Questions();
-                        questions12.type = "behavioral";
-                        questions12.question = "Q47";
-                        questions12.member_id = memberMyself.MemberId;
-                        questions12.answer = "1";
-                        questions12.date = currentDate;
-                        questions12.master_id = memberMyself.id;
-                        Common.qustionsRepository.insertToQuestions(questions12);
-
-
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
-                        questions15.question = "Q47c";
-                        questions15.member_id = memberMyself.MemberId;
+                        questions15.question = "Q45c";
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.answer = edit_typical_day_recreational.getText().toString();
+                        questions15.date = currentDate;
+                        questions15.master_id = memberHabitsFor.id;
+                        questions15.id = questionsFor241.id;
+                        Common.qustionsRepository.updateQuestions(questions15);
+                    }
+
+                }
+
+
+                if (moderateIntensityRecreational == 2) {
+                    Questions questionsFor31 = Common.qustionsRepository.getQuestions("Q46", update);
+                    if (questionsFor31 == null) {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q46";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "2";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions12);
+                    } else {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q46";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.id = questionsFor31.id;
+                        questions12.answer = "2";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
+
+                } else {
+                    Questions questionsFor21 = Common.qustionsRepository.getQuestions("Q46", update);
+                    if (questionsFor21 == null) {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q46";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions12);
+                    } else {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q46";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.id = questionsFor21.id;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
+
+                    Questions questionsFor178 = Common.qustionsRepository.getQuestions("Q46a", update);
+                    if (questionsFor178 == null) {
+                        Questions questions13 = new Questions();
+                        questions13.type = "behavioral";
+                        questions13.question = "Q46a";
+                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.answer = moderateIntensityRecreational();
+                        questions13.date = currentDate;
+                        questions13.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions13);
+                    } else {
+                        Questions questions13 = new Questions();
+                        questions13.type = "behavioral";
+                        questions13.question = "Q46a";
+                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.id = questionsFor178.id;
+                        questions13.answer = moderateIntensityRecreational();
+                        questions13.date = currentDate;
+                        questions13.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions13);
+                    }
+
+                    Questions questionsFor17 = Common.qustionsRepository.getQuestions("Q46b", update);
+                    if (questionsFor17 == null) {
+                        Questions questions14 = new Questions();
+                        questions14.type = "behavioral";
+                        questions14.question = "Q46b";
+                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
+                        questions14.date = currentDate;
+                        questions14.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions14);
+                    } else {
+                        Questions questions14 = new Questions();
+                        questions14.type = "behavioral";
+                        questions14.question = "Q46b";
+                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.id = questionsFor17.id;
+                        questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
+                        questions14.date = currentDate;
+                        questions14.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions14);
+                    }
+
+                    Questions questionsFor199 = Common.qustionsRepository.getQuestions("Q46c", update);
+                    if (questionsFor199 == null) {
+                        Questions questions15 = new Questions();
+                        questions15.type = "behavioral";
+                        questions15.question = "Q46c";
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
+                        questions15.date = currentDate;
+                        questions15.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions15);
+                    } else {
+                        Questions questions15 = new Questions();
+                        questions15.type = "behavioral";
+                        questions15.question = "Q46c";
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.id = questionsFor199.id;
+                        questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
+                        questions15.date = currentDate;
+                        questions15.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions15);
+                    }
+
+                }
+
+
+                if (recliningActivities == 2) {
+                    Questions questionsFor19 = Common.qustionsRepository.getQuestions("Q48", update);
+                    if (questionsFor19 == null) {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q48";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions12);
+                    } else {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q48";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.id = questionsFor19.id;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
+
+                } else {
+                    Questions questionsFor12 = Common.qustionsRepository.getQuestions("Q48", update);
+                    if (questionsFor12 == null) {
+                        Questions questions12 = new Questions();
+                        questions12.type = "behavioral";
+                        questions12.question = "Q48";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.insertToQuestions(questions12);
+                    } else {
+                        Questions questions12 = new Questions();
+                        questions12.id = questionsFor12.id;
+                        questions12.type = "behavioral";
+                        questions12.question = "Q48";
+                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.answer = "1";
+                        questions12.date = currentDate;
+                        questions12.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions12);
+                    }
+
+
+                    Questions questionsFor15 = Common.qustionsRepository.getQuestions("Q48a", update);
+                    if (questionsFor15 == null) {
+                        Questions questions15 = new Questions();
+                        questions15.type = "behavioral";
+                        questions15.question = "Q48a";
+                        questions15.member_id = memberHabitsFor.MemberId;
                         questions15.answer = edit_yes_reclining.getText().toString();
                         questions15.date = currentDate;
-                        questions15.master_id = memberMyself.id;
+                        questions15.master_id = memberHabitsFor.id;
                         Common.qustionsRepository.insertToQuestions(questions15);
-                    }
-                    Common.memberHabitRepository.updateMemberHabit(memberHabit);
-                    if (frag.equals("frag")) {
-                        ((CCUserHomeActivity) getActivity()).backForDetails();
                     } else {
-                        ((HouseholdHomeActivity) getActivity()).backForDetails();
+                        Questions questions15 = new Questions();
+                        questions15.id = questionsFor15.id;
+                        questions15.type = "behavioral";
+                        questions15.question = "Q48a";
+                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.answer = edit_yes_reclining.getText().toString();
+                        questions15.date = currentDate;
+                        questions15.master_id = memberHabitsFor.id;
+                        Common.qustionsRepository.updateQuestions(questions15);
+                    }
+
+                }
+                Common.memberHabitRepository.updateMemberHabit(memberHabit);
+                if (frag.equals("frag")) {
+                    ((CCUserHomeActivity) getActivity()).backForDetails();
+                } else {
+                    ((HouseholdHomeActivity) getActivity()).backForDetails();
+                }
+            } else {
+                int id = Common.memberMyselfRepository.maxValue();
+
+                MemberMyself memberMyself = Common.memberMyselfRepository.getMemberMyselfNo(id);
+                memberHabit.MemberId = memberMyself.MemberId;
+                MemberHabit memberHabits = Common.memberHabitRepository.getMemberHabitNo(memberMyself.MemberId);
+                if (smokeYesNo == -1 || jordaYesNo == -1 || workplaceYesNo == -1 || alcoholYesNo == -1 || takingSalt == -1 || vigorousIntensity == -1 || moderateIntensity == -1 || vigorousIntensityRecreational == -1 || moderateIntensityRecreational == -1 || recliningActivities == -1) {
+                    Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    if (memberHabits == null)
+                    {
+
+                        if (smokeYesNo == 2) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q32";
+                            questions.member_id = memberMyself.MemberId;
+                            questions.answer = "2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date = currentDate;
+                            questions.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+
+
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q32";
+                            questions.member_id = memberMyself.MemberId;
+                            questions.answer = "1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date = currentDate;
+                            questions.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1 = new Questions();
+                            questions1.type = "behavioral";
+                            questions1.question = "Q32a";
+                            questions1.member_id = memberMyself.MemberId;
+                            questions1.answer = edit_smoke_years.getText().toString();
+                            questions1.date = currentDate;
+                            questions1.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+
+                            Questions questions2 = new Questions();
+                            questions2.type = "behavioral";
+                            questions2.question = "Q32b";
+                            questions2.member_id = memberMyself.MemberId;
+                            questions2.answer = edit_smoke_stick.getText().toString();
+                            questions2.date = currentDate;
+                            questions2.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions2);
+
+                        }
+
+                        if (jordaYesNo == 2) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q33";
+                            questions.member_id = memberMyself.MemberId;
+                            questions.answer = "2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date = currentDate;
+                            questions.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            try {
+                                memberHabit.JordaYears = Integer.parseInt(edit_jorda.getText().toString());
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                memberHabit.JordaYears = 0;
+                            }
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q33";
+                            questions.member_id = memberMyself.MemberId;
+                            questions.answer = "1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date = currentDate;
+                            questions.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1 = new Questions();
+                            questions1.type = "behavioral";
+                            questions1.question = "Q33a";
+                            questions1.member_id = memberMyself.MemberId;
+                            questions1.answer = edit_jorda.getText().toString();
+                            questions1.date = currentDate;
+                            questions1.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                        }
+
+                        if (workplaceYesNo == 2) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q34";
+                            questions.member_id = memberMyself.MemberId;
+                            questions.answer = "2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date = currentDate;
+                            questions.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q34";
+                            questions.member_id = memberMyself.MemberId;
+                            questions.answer = "1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date = currentDate;
+                            questions.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1 = new Questions();
+                            questions1.type = "behavioral";
+                            questions1.question = "Q34a";
+                            questions1.member_id = memberMyself.MemberId;
+                            questions1.answer = edit_workplace.getText().toString();
+                            questions1.date = currentDate;
+                            questions1.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                        }
+                        if (alcoholYesNo == 2) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q35";
+                            questions.member_id = memberMyself.MemberId;
+                            questions.answer = "2";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date = currentDate;
+                            questions.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q35";
+                            questions.member_id = memberMyself.MemberId;
+                            questions.answer = "1";
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            questions.date = currentDate;
+                            questions.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+
+                            ////
+                            Questions questions1 = new Questions();
+                            questions1.type = "behavioral";
+                            questions1.question = "Q35a";
+                            questions1.member_id = memberMyself.MemberId;
+                            questions1.answer = edit_alcohol.getText().toString();
+                            questions1.date = currentDate;
+                            questions1.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions1);
+                        }
+
+
+                        Questions questions5 = new Questions();
+                        questions5.type = "behavioral";
+                        questions5.question = "Q36";
+                        questions5.member_id = memberMyself.MemberId;
+                        questions5.answer = String.valueOf(typicalFruits);
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        questions5.date = currentDate;
+                        questions5.master_id = memberMyself.id;
+                        Common.qustionsRepository.insertToQuestions(questions5);
+                        ///
+
+
+                        Questions questions6 = new Questions();
+                        questions6.type = "behavioral";
+                        questions6.question = "Q37";
+                        questions6.member_id = memberMyself.MemberId;
+                        questions6.answer = String.valueOf(fruitsShowCard);
+                        questions6.date = currentDate;
+                        questions6.master_id = memberMyself.id;
+                        Common.qustionsRepository.insertToQuestions(questions6);
+
+                        ///
+
+
+                        Questions questions7 = new Questions();
+                        questions7.type = "behavioral";
+                        questions7.question = "Q38";
+                        questions7.member_id = memberMyself.MemberId;
+                        questions7.answer = String.valueOf(typicalVegetables);
+                        questions7.date = currentDate;
+                        questions7.master_id = memberMyself.id;
+                        Common.qustionsRepository.insertToQuestions(questions7);
+
+                        ///
+
+
+                        Questions questions8 = new Questions();
+                        questions8.type = "behavioral";
+                        questions8.question = "Q39";
+                        questions8.member_id = memberMyself.MemberId;
+                        questions8.answer = String.valueOf(vegetablesShowCard);
+                        questions8.date = currentDate;
+                        questions8.master_id = memberMyself.id;
+                        Common.qustionsRepository.insertToQuestions(questions8);
+
+
+                        ///
+
+//
+//                        Questions questions9 = new Questions();
+//                        questions9.type = "behavioral";
+//                        questions9.question = "Q40";
+//                        questions9.member_id = memberMyself.MemberId;
+//                        questions9.answer = String.valueOf(vegetablesShowCard);
+//                        questions9.date = currentDate;
+//                        questions9.master_id = memberMyself.id;
+//                        Common.qustionsRepository.insertToQuestions(questions9);
+
+
+                        ///
+
+
+                        Questions questions10 = new Questions();
+                        questions10.type = "behavioral";
+                        questions10.question = "Q41";
+                        questions10.member_id = memberMyself.MemberId;
+                        questions10.answer = String.valueOf(saltyBuy);
+                        questions10.date = currentDate;
+                        questions10.master_id = memberMyself.id;
+                        Common.qustionsRepository.insertToQuestions(questions10);
+
+
+                        ///
+
+
+                        Questions questions11 = new Questions();
+                        questions11.type = "behavioral";
+                        questions11.question = "Q42";
+                        questions11.member_id = memberMyself.MemberId;
+                        questions11.answer = String.valueOf(takingSalt);
+                        questions11.date = currentDate;
+                        questions11.master_id = memberMyself.id;
+                        Common.qustionsRepository.insertToQuestions(questions11);
+
+
+                        if (vigorousIntensity == 2) {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q43";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "2";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+                        } else {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q43";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "1";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+
+                            Questions questions13 = new Questions();
+                            questions13.type = "behavioral";
+                            questions13.question = "Q43a";
+                            questions13.member_id = memberMyself.MemberId;
+                            questions13.answer = vigiriousIntensity();
+                            questions13.date = currentDate;
+                            questions13.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions13);
+                            Questions questions14 = new Questions();
+                            questions14.type = "behavioral";
+                            questions14.question = "Q43b";
+                            questions14.member_id = memberMyself.MemberId;
+                            questions14.answer = String.valueOf(vigorousIntensityTypical);
+                            questions14.date = currentDate;
+                            questions14.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions14);
+
+                            Questions questions15 = new Questions();
+                            questions15.type = "behavioral";
+                            questions15.question = "Q43c";
+                            questions15.member_id = memberMyself.MemberId;
+                            questions15.answer = edit_typical_day.getText().toString();
+                            questions15.date = currentDate;
+                            questions15.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions15);
+                        }
+
+                        ////
+                        if (moderateIntensity == 2) {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q44";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "2";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+                        } else {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q44";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "1";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+
+                            Questions questions13 = new Questions();
+                            questions13.type = "behavioral";
+                            questions13.question = "Q44a";
+                            questions13.member_id = memberMyself.MemberId;
+                            questions13.answer = moderateIntensity();
+                            questions13.date = currentDate;
+                            questions13.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions13);
+                            Questions questions14 = new Questions();
+                            questions14.type = "behavioral";
+                            questions14.question = "Q44b";
+                            questions14.member_id = memberMyself.MemberId;
+                            questions14.answer = String.valueOf(moderateIntensityTypical);
+                            questions14.date = currentDate;
+                            questions14.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions14);
+
+                            Questions questions15 = new Questions();
+                            questions15.type = "behavioral";
+                            questions15.question = "Q44c";
+                            questions15.member_id = memberMyself.MemberId;
+                            questions15.answer = edit_typical_day_moderate.getText().toString();
+                            questions15.date = currentDate;
+                            questions15.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions15);
+                        }
+
+
+                        ////
+                        if (vigorousIntensityRecreational == 2) {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q45";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "2";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+                        } else {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q45";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "1";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+
+                            Questions questions13 = new Questions();
+                            questions13.type = "behavioral";
+                            questions13.question = "Q45a";
+                            questions13.member_id = memberMyself.MemberId;
+                            questions13.answer = vigorousIntensityRecreational();
+                            questions13.date = currentDate;
+                            questions13.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions13);
+                            Questions questions14 = new Questions();
+                            questions14.type = "behavioral";
+                            questions14.question = "Q45b";
+                            questions14.member_id = memberMyself.MemberId;
+                            questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
+                            questions14.date = currentDate;
+                            questions14.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions14);
+
+                            Questions questions15 = new Questions();
+                            questions15.type = "behavioral";
+                            questions15.question = "Q45c";
+                            questions15.member_id = memberMyself.MemberId;
+                            questions15.answer = edit_typical_day_recreational.getText().toString();
+                            questions15.date = currentDate;
+                            questions15.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions15);
+                        }
+
+
+                        if (moderateIntensityRecreational == 2) {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q46";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "2";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+                        } else {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q46";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "1";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+
+                            Questions questions13 = new Questions();
+                            questions13.type = "behavioral";
+                            questions13.question = "Q46a";
+                            questions13.member_id = memberMyself.MemberId;
+                            questions13.answer = moderateIntensityRecreational();
+                            questions13.date = currentDate;
+                            questions13.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions13);
+
+                            Questions questions14 = new Questions();
+                            questions14.type = "behavioral";
+                            questions14.question = "Q46b";
+                            questions14.member_id = memberMyself.MemberId;
+                            questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
+                            questions14.date = currentDate;
+                            questions14.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions14);
+
+                            Questions questions15 = new Questions();
+                            questions15.type = "behavioral";
+                            questions15.question = "Q46c";
+                            questions15.member_id = memberMyself.MemberId;
+                            questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
+                            questions15.date = currentDate;
+                            questions15.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions15);
+                        }
+
+
+                        if (recliningActivities == 2) {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q48";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "2";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+                        } else {
+                            Questions questions12 = new Questions();
+                            questions12.type = "behavioral";
+                            questions12.question = "Q48";
+                            questions12.member_id = memberMyself.MemberId;
+                            questions12.answer = "1";
+                            questions12.date = currentDate;
+                            questions12.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions12);
+
+
+                            Questions questions15 = new Questions();
+                            questions15.type = "behavioral";
+                            questions15.question = "Q48a";
+                            questions15.member_id = memberMyself.MemberId;
+                            questions15.answer = edit_yes_reclining.getText().toString();
+                            questions15.date = currentDate;
+                            questions15.master_id = memberMyself.id;
+                            Common.qustionsRepository.insertToQuestions(questions15);
+                        }
+                        Common.memberHabitRepository.insertToMemberHabit(memberHabit);
+
+                        showInfoDialog(mActivity, memberMyself.MemberId);
+
+                    } else
+                        {
+                        memberHabit.id = memberHabits.id;
+                        if (smokeYesNo == 2) {
+                            Questions questions1 = Common.qustionsRepository.getQuestions("Q32", update);
+
+                            if (questions1 == null) {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.id = questions1.id;
+                                questions.question = "Q32";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "2";
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                Date date = new Date(System.currentTimeMillis());
+                                String currentDate = formatter.format(date);
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions);
+                            } else {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q32";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "2";
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                Date date = new Date(System.currentTimeMillis());
+                                String currentDate = formatter.format(date);
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions);
+                            }
+
+                        } else {
+
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+                            Questions questionsFor711 = Common.qustionsRepository.getQuestions("Q32", update);
+                            if (questionsFor711 == null) {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q32";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "1";
+
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions);
+                            } else {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q32";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "1";
+
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                questions.id = questionsFor711.id;
+                                Common.qustionsRepository.insertToQuestions(questions);
+
+                            }
+
+
+                            ////
+                            Questions questionsFor451 = Common.qustionsRepository.getQuestions("Q32a", update);
+                            if (questionsFor451 == null) {
+                                Questions questions1 = new Questions();
+                                questions1.type = "behavioral";
+                                questions1.question = "Q32a";
+                                questions1.member_id = memberHabits.MemberId;
+                                questions1.answer = edit_smoke_years.getText().toString();
+                                questions1.date = currentDate;
+                                questions1.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions1);
+                            } else {
+                                Questions questions1 = new Questions();
+                                questions1.type = "behavioral";
+                                questions1.question = "Q32a";
+                                questions1.member_id = memberHabits.MemberId;
+                                questions1.answer = edit_smoke_years.getText().toString();
+                                questions1.date = currentDate;
+                                questions1.master_id = memberHabits.id;
+                                questions1.id = questionsFor451.id;
+                                Common.qustionsRepository.updateQuestions(questions1);
+                            }
+                            Questions questionsFor4561 = Common.qustionsRepository.getQuestions("Q32b", update);
+                            if (questionsFor4561 == null) {
+                                Questions questions2 = new Questions();
+                                questions2.type = "behavioral";
+                                questions2.question = "Q32b";
+                                questions2.member_id = memberMyself.MemberId;
+                                questions2.answer = edit_smoke_stick.getText().toString();
+                                questions2.date = currentDate;
+                                questions2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questions2);
+                            } else {
+                                Questions questions2 = new Questions();
+                                questions2.type = "behavioral";
+                                questions2.question = "Q32b";
+                                questions2.member_id = memberMyself.MemberId;
+                                questions2.answer = edit_smoke_stick.getText().toString();
+                                questions2.date = currentDate;
+                                questions2.master_id = memberMyself.id;
+
+                                Common.qustionsRepository.updateQuestions(questions2);
+                            }
+
+                        }
+                        if (jordaYesNo == 2) {
+                            Questions questionsFor1988 = Common.qustionsRepository.getQuestions("Q33", update);
+                            if (questionsFor1988 == null) {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q33";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "2";
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                Date date = new Date(System.currentTimeMillis());
+                                String currentDate = formatter.format(date);
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions);
+                            } else {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q33";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "2";
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                Date date = new Date(System.currentTimeMillis());
+                                String currentDate = formatter.format(date);
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                questions.id = questionsFor1988.id;
+                                Common.qustionsRepository.updateQuestions(questions);
+                            }
+
+                        } else {
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+
+                            Questions questionsFor132 = Common.qustionsRepository.getQuestions("Q33", update);
+                            if (questionsFor132 == null) {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q33";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "1";
+
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions);
+                            } else {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q33";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "1";
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                questions.id = questionsFor132.id;
+                                Common.qustionsRepository.updateQuestions(questions);
+                            }
+
+
+                            ////
+                            Questions questionsFor8451 = Common.qustionsRepository.getQuestions("Q33a", update);
+                            if (questionsFor8451 == null) {
+                                Questions questions1 = new Questions();
+                                questions1.type = "behavioral";
+                                questions1.question = "Q33a";
+                                questions1.member_id = memberHabits.MemberId;
+                                questions1.answer = edit_jorda.getText().toString();
+                                questions1.date = currentDate;
+                                questions1.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions1);
+                            } else {
+                                Questions questions1 = new Questions();
+                                questions1.type = "behavioral";
+                                questions1.question = "Q33a";
+                                questions1.member_id = memberHabits.MemberId;
+                                questions1.answer = edit_jorda.getText().toString();
+                                questions1.date = currentDate;
+                                questions1.master_id = memberHabits.id;
+                                questions1.id = questionsFor8451.id;
+                                Common.qustionsRepository.updateQuestions(questions1);
+                            }
+
+                        }
+                        memberHabit.WorkplaceYesNo = workplaceYesNo;
+                        if (workplaceYesNo == 2) {
+                            Questions questionsFor1778 = Common.qustionsRepository.getQuestions("Q34", update);
+                            if (questionsFor1778 == null) {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q34";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "2";
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                Date date = new Date(System.currentTimeMillis());
+                                String currentDate = formatter.format(date);
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions);
+                            } else {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q34";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "2";
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                Date date = new Date(System.currentTimeMillis());
+                                String currentDate = formatter.format(date);
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                questions.id = questionsFor1778.id;
+                                Common.qustionsRepository.updateQuestions(questions);
+                            }
+
+                        } else {
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+
+                            Questions questionsFor158 = Common.qustionsRepository.getQuestions("Q34", update);
+                            if (questionsFor158 == null) {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q34";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "1";
+
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions);
+                            } else {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q34";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "1";
+
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                questions.id = questionsFor158.id;
+                                Common.qustionsRepository.updateQuestions(questions);
+                            }
+
+
+                            ////
+                            Questions questionsFor441 = Common.qustionsRepository.getQuestions("Q34a", update);
+                            if (questionsFor441 == null) {
+                                Questions questions1 = new Questions();
+                                questions1.type = "behavioral";
+                                questions1.question = "Q34a";
+                                questions1.member_id = memberHabits.MemberId;
+                                questions1.answer = edit_workplace.getText().toString();
+                                questions1.date = currentDate;
+                                questions1.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions1);
+                            } else {
+                                Questions questions1 = new Questions();
+                                questions1.type = "behavioral";
+                                questions1.question = "Q34a";
+                                questions1.member_id = memberHabits.MemberId;
+                                questions1.answer = edit_workplace.getText().toString();
+                                questions1.date = currentDate;
+                                questions1.master_id = memberHabits.id;
+                                questions1.id = questionsFor441.id;
+                                Common.qustionsRepository.updateQuestions(questions1);
+                            }
+
+                        }
+                        if (alcoholYesNo == 2) {
+                            Questions questionsFor781 = Common.qustionsRepository.getQuestions("Q35", update);
+                            if (questionsFor781 == null) {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q35";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "2";
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                Date date = new Date(System.currentTimeMillis());
+                                String currentDate = formatter.format(date);
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+
+                                Common.qustionsRepository.insertToQuestions(questions);
+                            } else {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q35";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "2";
+                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                Date date = new Date(System.currentTimeMillis());
+                                String currentDate = formatter.format(date);
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                questions.id = questionsFor781.id;
+                                Common.qustionsRepository.updateQuestions(questions);
+                            }
+
+                        } else {
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date = new Date(System.currentTimeMillis());
+                            String currentDate = formatter.format(date);
+
+                            Questions questionsFor151 = Common.qustionsRepository.getQuestions("Q35", update);
+                            if (questionsFor151 == null) {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q35";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "1";
+
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions);
+
+                            } else {
+                                Questions questions = new Questions();
+                                questions.type = "behavioral";
+                                questions.question = "Q35";
+                                questions.member_id = memberHabits.MemberId;
+                                questions.answer = "1";
+
+                                questions.date = currentDate;
+                                questions.master_id = memberHabits.id;
+                                questions.id = questionsFor151.id;
+                                Common.qustionsRepository.updateQuestions(questions);
+
+                            }
+
+                            ////
+                            Questions questionsFor561 = Common.qustionsRepository.getQuestions("Q35a", update);
+                            if (questionsFor561 == null) {
+                                Questions questions1 = new Questions();
+                                questions1.type = "behavioral";
+                                questions1.question = "Q35a";
+                                questions1.member_id = memberHabits.MemberId;
+                                questions1.answer = edit_alcohol.getText().toString();
+                                questions1.date = currentDate;
+                                questions1.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions1);
+                            } else {
+                                Questions questions1 = new Questions();
+                                questions1.type = "behavioral";
+                                questions1.question = "Q35a";
+                                questions1.member_id = memberHabits.MemberId;
+                                questions1.answer = edit_alcohol.getText().toString();
+                                questions1.date = currentDate;
+                                questions1.master_id = memberHabits.id;
+                                questions1.id = questionsFor561.id;
+                                Common.qustionsRepository.updateQuestions(questions1);
+                            }
+
+                        }
+
+
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        Date date = new Date(System.currentTimeMillis());
+                        String currentDate = formatter.format(date);
+                        Questions questionsFor167 = Common.qustionsRepository.getQuestions("Q36", update);
+                        if (questionsFor167 == null) {
+                            Questions questions5 = new Questions();
+                            questions5.type = "behavioral";
+                            questions5.question = "Q36";
+                            questions5.member_id = memberHabits.MemberId;
+                            questions5.answer = String.valueOf(typicalFruits);
+
+                            questions5.date = currentDate;
+                            questions5.master_id = memberHabits.id;
+                            Common.qustionsRepository.insertToQuestions(questions5);
+                        } else {
+                            Questions questions5 = new Questions();
+                            questions5.type = "behavioral";
+                            questions5.question = "Q36";
+                            questions5.member_id = memberHabits.MemberId;
+                            questions5.answer = String.valueOf(typicalFruits);
+
+                            questions5.date = currentDate;
+                            questions5.master_id = memberHabits.id;
+                            questions5.id = questionsFor167.id;
+                            Common.qustionsRepository.updateQuestions(questions5);
+                        }
+
+                        ///
+
+                        Questions questionsFor413 = Common.qustionsRepository.getQuestions("Q37", update);
+                        if (questionsFor413 == null) {
+                            Questions questions6 = new Questions();
+                            questions6.type = "behavioral";
+                            questions6.question = "Q37";
+                            questions6.member_id = memberHabits.MemberId;
+                            questions6.answer = String.valueOf(fruitsShowCard);
+                            questions6.date = currentDate;
+                            questions6.master_id = memberHabits.id;
+                            Common.qustionsRepository.insertToQuestions(questions6);
+                        } else {
+                            Questions questions6 = new Questions();
+                            questions6.type = "behavioral";
+                            questions6.question = "Q37";
+                            questions6.member_id = memberHabits.MemberId;
+                            questions6.answer = String.valueOf(fruitsShowCard);
+                            questions6.date = currentDate;
+                            questions6.master_id = memberHabits.id;
+                            questions6.id = questionsFor413.id;
+                            Common.qustionsRepository.updateQuestions(questions6);
+                        }
+
+
+                        ///
+
+                        Questions questionsFor26 = Common.qustionsRepository.getQuestions("Q38", update);
+                        if (questionsFor26 == null) {
+                            Questions questions7 = new Questions();
+                            questions7.type = "behavioral";
+                            questions7.question = "Q38";
+                            questions7.member_id = memberHabits.MemberId;
+                            questions7.answer = String.valueOf(typicalVegetables);
+                            questions7.date = currentDate;
+                            questions7.master_id = memberHabits.id;
+                            Common.qustionsRepository.insertToQuestions(questions7);
+                        } else {
+                            Questions questions7 = new Questions();
+                            questions7.type = "behavioral";
+                            questions7.question = "Q38";
+                            questions7.member_id = memberHabits.MemberId;
+                            questions7.answer = String.valueOf(typicalVegetables);
+                            questions7.date = currentDate;
+                            questions7.master_id = memberHabits.id;
+                            questions7.id = questionsFor26.id;
+                            Common.qustionsRepository.updateQuestions(questions7);
+                        }
+
+
+                        ///
+
+                        Questions questionsFor61 = Common.qustionsRepository.getQuestions("Q39", update);
+                        if (questionsFor61 == null) {
+                            Questions questions8 = new Questions();
+                            questions8.type = "behavioral";
+                            questions8.question = "Q39";
+                            questions8.member_id = memberHabits.MemberId;
+                            questions8.answer = String.valueOf(vegetablesShowCard);
+                            questions8.date = currentDate;
+                            questions8.master_id = memberHabits.id;
+                            Common.qustionsRepository.insertToQuestions(questions8);
+                        } else {
+                            Questions questions8 = new Questions();
+                            questions8.type = "behavioral";
+                            questions8.question = "Q39";
+                            questions8.member_id = memberHabits.MemberId;
+                            questions8.answer = String.valueOf(vegetablesShowCard);
+                            questions8.date = currentDate;
+                            questions8.master_id = memberHabits.id;
+                            questions8.id = questionsFor61.id;
+                            Common.qustionsRepository.updateQuestions(questions8);
+                        }
+
+
+                        ///
+
+                        Questions questionsFor45 = Common.qustionsRepository.getQuestions("Q39", update);
+                        if (questionsFor45 == null) {
+                            Questions questions9 = new Questions();
+                            questions9.type = "behavioral";
+                            questions9.question = "Q39";
+                            questions9.member_id = memberHabits.MemberId;
+                            questions9.answer = String.valueOf(vegetablesShowCard);
+                            questions9.date = currentDate;
+                            questions9.master_id = memberHabits.id;
+                            Common.qustionsRepository.insertToQuestions(questions9);
+                        } else {
+                            Questions questions9 = new Questions();
+                            questions9.type = "behavioral";
+                            questions9.question = "Q39";
+                            questions9.member_id = memberHabits.MemberId;
+                            questions9.answer = String.valueOf(vegetablesShowCard);
+                            questions9.date = currentDate;
+                            questions9.master_id = memberHabits.id;
+                            questions9.id = questionsFor45.id;
+                            Common.qustionsRepository.updateQuestions(questions9);
+                        }
+
+
+                        ///
+
+                        Questions questionsFor41 = Common.qustionsRepository.getQuestions("Q41", update);
+                        if (questionsFor41 == null) {
+                            Questions questions10 = new Questions();
+                            questions10.type = "behavioral";
+                            questions10.question = "Q41";
+                            questions10.member_id = memberHabits.MemberId;
+                            questions10.answer = String.valueOf(saltyBuy);
+                            questions10.date = currentDate;
+                            questions10.master_id = memberHabits.id;
+                            Common.qustionsRepository.insertToQuestions(questions10);
+                        } else {
+                            Questions questions10 = new Questions();
+                            questions10.type = "behavioral";
+                            questions10.question = "Q41";
+                            questions10.member_id = memberHabits.MemberId;
+                            questions10.answer = String.valueOf(saltyBuy);
+                            questions10.date = currentDate;
+                            questions10.master_id = memberHabits.id;
+                            questions10.id = questionsFor41.id;
+                            Common.qustionsRepository.updateQuestions(questions10);
+                        }
+
+
+                        ///
+                        Questions questionsFor13 = Common.qustionsRepository.getQuestions("Q42", update);
+                        if (questionsFor13 == null) {
+                            Questions questions11 = new Questions();
+                            questions11.type = "behavioral";
+                            questions11.question = "Q42";
+                            questions11.member_id = memberHabits.MemberId;
+                            questions11.answer = String.valueOf(takingSalt);
+                            questions11.date = currentDate;
+                            questions11.master_id = memberHabits.id;
+                            Common.qustionsRepository.insertToQuestions(questions11);
+                        } else {
+                            Questions questions11 = new Questions();
+                            questions11.type = "behavioral";
+                            questions11.question = "Q42";
+                            questions11.member_id = memberHabits.MemberId;
+                            questions11.answer = String.valueOf(takingSalt);
+                            questions11.date = currentDate;
+                            questions11.master_id = memberHabits.id;
+                            questions11.id = questionsFor13.id;
+                            Common.qustionsRepository.updateQuestions(questions11);
+                        }
+
+
+                        memberHabit.VigorousIntensityYesNo = vigorousIntensity;
+                        memberHabit.VigorousIntensityActivities = vigiriousIntensity();
+                        memberHabit.VigorousIntensityTypicalWeek = vigorousIntensityTypical;
+
+                        if (vigorousIntensity == 2) {
+                            Questions questionsFor14 = Common.qustionsRepository.getQuestions("Q43", update);
+                            if (questionsFor14 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q43";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "2";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q43";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "2";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                questions12.id = questionsFor14.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+                        } else {
+                            Questions questionsFor6 = Common.qustionsRepository.getQuestions("Q43", update);
+                            if (questionsFor6 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q43";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q43";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                questions12.id = questionsFor6.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+                            Questions questionsFor8 = Common.qustionsRepository.getQuestions("Q43a", update);
+                            if (questionsFor8 == null) {
+                                Questions questions13 = new Questions();
+                                questions13.type = "behavioral";
+                                questions13.question = "Q43a";
+                                questions13.member_id = memberHabits.MemberId;
+                                questions13.answer = vigiriousIntensity();
+                                questions13.date = currentDate;
+                                questions13.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions13);
+                            } else {
+                                Questions questions13 = new Questions();
+                                questions13.type = "behavioral";
+                                questions13.question = "Q43a";
+                                questions13.member_id = memberHabits.MemberId;
+                                questions13.answer = vigiriousIntensity();
+                                questions13.date = currentDate;
+                                questions13.master_id = memberHabits.id;
+                                questions13.id = questionsFor8.id;
+                                Common.qustionsRepository.updateQuestions(questions13);
+                            }
+
+
+                            Questions questionsFor9 = Common.qustionsRepository.getQuestions("Q43b", update);
+                            if (questionsFor9 == null) {
+                                Questions questions14 = new Questions();
+                                questions14.type = "behavioral";
+                                questions14.question = "Q43b";
+                                questions14.member_id = memberHabits.MemberId;
+                                questions14.answer = String.valueOf(vigorousIntensityTypical);
+                                questions14.date = currentDate;
+                                questions14.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions14);
+                            } else {
+                                Questions questions14 = new Questions();
+                                questions14.type = "behavioral";
+                                questions14.question = "Q43b";
+                                questions14.member_id = memberHabits.MemberId;
+                                questions14.answer = String.valueOf(vigorousIntensityTypical);
+                                questions14.date = currentDate;
+                                questions14.master_id = memberHabits.id;
+                                questions14.id = questionsFor9.id;
+                                Common.qustionsRepository.updateQuestions(questions14);
+                            }
+
+                            Questions questionsFor19 = Common.qustionsRepository.getQuestions("Q43c", update);
+                            if (questionsFor19 == null) {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q43c";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_typical_day.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions15);
+                            } else {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q43c";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_typical_day.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                questions15.id = questionsFor19.id;
+                                Common.qustionsRepository.updateQuestions(questions15);
+                            }
+
+                        }
+
+                        ////
+                        if (moderateIntensity == 2) {
+                            Questions questionsFor15 = Common.qustionsRepository.getQuestions("Q44", update);
+                            if (questionsFor15 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q44";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "2";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q44";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "2";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                questions12.id = questionsFor15.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+                        } else {
+                            Questions questionsFor111 = Common.qustionsRepository.getQuestions("Q44", update);
+                            if (questionsFor111 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q44";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q44";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                questions12.id = questionsFor111.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+                            Questions questionsFor91 = Common.qustionsRepository.getQuestions("Q44a", update);
+                            if (questionsFor91 == null) {
+                                Questions questions13 = new Questions();
+                                questions13.type = "behavioral";
+                                questions13.question = "Q44a";
+                                questions13.member_id = memberHabits.MemberId;
+                                questions13.answer = moderateIntensity();
+                                questions13.date = currentDate;
+                                questions13.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions13);
+                            } else {
+                                Questions questions13 = new Questions();
+                                questions13.type = "behavioral";
+                                questions13.question = "Q44a";
+                                questions13.member_id = memberHabits.MemberId;
+                                questions13.answer = moderateIntensity();
+                                questions13.date = currentDate;
+                                questions13.master_id = memberHabits.id;
+                                questions13.id = questionsFor91.id;
+                                Common.qustionsRepository.updateQuestions(questions13);
+                            }
+
+                            Questions questionsFor89 = Common.qustionsRepository.getQuestions("Q44b", update);
+                            if (questionsFor89 == null) {
+                                Questions questions14 = new Questions();
+                                questions14.type = "behavioral";
+                                questions14.question = "Q44b";
+                                questions14.member_id = memberHabits.MemberId;
+                                questions14.answer = String.valueOf(moderateIntensityTypical);
+                                questions14.date = currentDate;
+                                questions14.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions14);
+                            } else {
+                                Questions questions14 = new Questions();
+                                questions14.type = "behavioral";
+                                questions14.question = "Q44b";
+                                questions14.member_id = memberHabits.MemberId;
+                                questions14.answer = String.valueOf(moderateIntensityTypical);
+                                questions14.date = currentDate;
+                                questions14.master_id = memberHabits.id;
+                                questions14.id = questionsFor89.id;
+                                Common.qustionsRepository.updateQuestions(questions14);
+                            }
+
+                            Questions questionsFor67 = Common.qustionsRepository.getQuestions("Q44c", update);
+                            if (questionsFor67 == null) {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q44c";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_typical_day_moderate.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions15);
+                            } else {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q44c";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_typical_day_moderate.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                questions15.id = questionsFor67.id;
+                                Common.qustionsRepository.updateQuestions(questions15);
+                            }
+
+                        }
+
+
+                        ////
+                        if (vigorousIntensityRecreational == 2) {
+                            Questions questionsFor78 = Common.qustionsRepository.getQuestions("Q45", update);
+                            if (questionsFor78 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q45";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "2";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q45";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "2";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                questions12.id = questionsFor78.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+                        } else {
+                            Questions questionsFor616 = Common.qustionsRepository.getQuestions("Q45", update);
+                            if (questionsFor616 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q45";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q46";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                questions12.id = questionsFor616.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+
+                            Questions questionsFor51 = Common.qustionsRepository.getQuestions("Q45a", update);
+                            if (questionsFor51 == null) {
+                                Questions questions13 = new Questions();
+                                questions13.type = "behavioral";
+                                questions13.question = "Q45a";
+                                questions13.member_id = memberHabits.MemberId;
+                                questions13.answer = vigorousIntensityRecreational();
+                                questions13.date = currentDate;
+                                questions13.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions13);
+                            } else {
+                                Questions questions13 = new Questions();
+                                questions13.type = "behavioral";
+                                questions13.question = "Q45a";
+                                questions13.member_id = memberHabits.MemberId;
+                                questions13.answer = vigorousIntensityRecreational();
+                                questions13.date = currentDate;
+                                questions13.master_id = memberHabits.id;
+                                questions13.id = questionsFor51.id;
+                                Common.qustionsRepository.updateQuestions(questions13);
+                            }
+
+
+                            Questions questionsFor18 = Common.qustionsRepository.getQuestions("Q45b", update);
+                            if (questionsFor18 == null) {
+                                Questions questions14 = new Questions();
+                                questions14.type = "behavioral";
+                                questions14.question = "Q45b";
+                                questions14.member_id = memberHabits.MemberId;
+                                questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
+                                questions14.date = currentDate;
+                                questions14.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions14);
+                            } else {
+                                Questions questions14 = new Questions();
+                                questions14.type = "behavioral";
+                                questions14.question = "Q45b";
+                                questions14.member_id = memberHabits.MemberId;
+                                questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
+                                questions14.date = currentDate;
+                                questions14.master_id = memberHabits.id;
+                                questions14.id = questionsFor18.id;
+                                Common.qustionsRepository.updateQuestions(questions14);
+                            }
+
+                            Questions questionsFor241 = Common.qustionsRepository.getQuestions("Q45c", update);
+                            if (questionsFor241 == null) {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q45c";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_typical_day_recreational.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions15);
+                            } else {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q45c";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_typical_day_recreational.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                questions15.id = questionsFor241.id;
+                                Common.qustionsRepository.updateQuestions(questions15);
+                            }
+
+                        }
+
+
+                        if (moderateIntensityRecreational == 2) {
+                            Questions questionsFor31 = Common.qustionsRepository.getQuestions("Q46", update);
+                            if (questionsFor31 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q46";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "2";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q46";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.id = questionsFor31.id;
+                                questions12.answer = "2";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+                        } else {
+                            Questions questionsFor21 = Common.qustionsRepository.getQuestions("Q46", update);
+                            if (questionsFor21 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q46";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q46";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.id = questionsFor21.id;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+                            Questions questionsFor178 = Common.qustionsRepository.getQuestions("Q46a", update);
+                            if (questionsFor178 == null) {
+                                Questions questions13 = new Questions();
+                                questions13.type = "behavioral";
+                                questions13.question = "Q46a";
+                                questions13.member_id = memberHabits.MemberId;
+                                questions13.answer = moderateIntensityRecreational();
+                                questions13.date = currentDate;
+                                questions13.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions13);
+                            } else {
+                                Questions questions13 = new Questions();
+                                questions13.type = "behavioral";
+                                questions13.question = "Q46a";
+                                questions13.member_id = memberHabits.MemberId;
+                                questions13.id = questionsFor178.id;
+                                questions13.answer = moderateIntensityRecreational();
+                                questions13.date = currentDate;
+                                questions13.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions13);
+                            }
+
+                            Questions questionsFor17 = Common.qustionsRepository.getQuestions("Q46b", update);
+                            if (questionsFor17 == null) {
+                                Questions questions14 = new Questions();
+                                questions14.type = "behavioral";
+                                questions14.question = "Q46b";
+                                questions14.member_id = memberHabits.MemberId;
+                                questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
+                                questions14.date = currentDate;
+                                questions14.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions14);
+                            } else {
+                                Questions questions14 = new Questions();
+                                questions14.type = "behavioral";
+                                questions14.question = "Q46b";
+                                questions14.member_id = memberHabits.MemberId;
+                                questions14.id = questionsFor17.id;
+                                questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
+                                questions14.date = currentDate;
+                                questions14.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions14);
+                            }
+
+                            Questions questionsFor199 = Common.qustionsRepository.getQuestions("Q46c", update);
+                            if (questionsFor199 == null) {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q46c";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions15);
+                            } else {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q46c";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.id = questionsFor199.id;
+                                questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions15);
+                            }
+
+                        }
+
+
+                        if (recliningActivities == 2) {
+                            Questions questionsFor19 = Common.qustionsRepository.getQuestions("Q48", update);
+                            if (questionsFor19 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q48";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q48";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.id = questionsFor19.id;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+                        } else {
+                            Questions questionsFor12 = Common.qustionsRepository.getQuestions("Q48", update);
+                            if (questionsFor12 == null) {
+                                Questions questions12 = new Questions();
+                                questions12.type = "behavioral";
+                                questions12.question = "Q48";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions12);
+                            } else {
+                                Questions questions12 = new Questions();
+                                questions12.id = questionsFor12.id;
+                                questions12.type = "behavioral";
+                                questions12.question = "Q48";
+                                questions12.member_id = memberHabits.MemberId;
+                                questions12.answer = "1";
+                                questions12.date = currentDate;
+                                questions12.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions12);
+                            }
+
+
+                            Questions questionsFor15 = Common.qustionsRepository.getQuestions("Q48a", update);
+                            if (questionsFor15 == null) {
+                                Questions questions15 = new Questions();
+                                questions15.type = "behavioral";
+                                questions15.question = "Q48a";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_yes_reclining.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                Common.qustionsRepository.insertToQuestions(questions15);
+                            } else {
+                                Questions questions15 = new Questions();
+                                questions15.id = questionsFor15.id;
+                                questions15.type = "behavioral";
+                                questions15.question = "Q48a";
+                                questions15.member_id = memberHabits.MemberId;
+                                questions15.answer = edit_yes_reclining.getText().toString();
+                                questions15.date = currentDate;
+                                questions15.master_id = memberHabits.id;
+                                Common.qustionsRepository.updateQuestions(questions15);
+                            }
+
+                        }
+                        Common.memberHabitRepository.updateMemberHabit(memberHabit);
+                        if (frag.equals("frag")) {
+                            ((CCUserHomeActivity) getActivity()).backForDetails();
+                        } else {
+                            ((HouseholdHomeActivity) getActivity()).backForDetails();
+                        }
+
+
                     }
                 }
             }
+
+
+
 
 
 

@@ -594,7 +594,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                 if (memberIds!=null)
                 {
                     MemberMyself memberMyself = new MemberMyself();
-                    memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
+                    memberMyself.NationalId= edit_national_id.getText().toString();
                     memberMyself.MobileNumber= edit_mobile_number.getText().toString();
                     memberMyself.FullName= edit_name.getText().toString();
                     if (isNullOrEmpty(edit_birthday_date.getText().toString())){
@@ -625,7 +625,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 
 
                 else{
-                    MemberMyself myself=Common.memberMyselfRepository.getMemberMyself(edit_mobile_number.getText().toString());
+                    MemberMyself myself=Common.memberMyselfRepository.getMemberMyself(edit_national_id.getText().toString());
 
                     if(genderId==-1 || bloodGroupId==-1 ||religionId==-1 ||studyId==-1 ||maritialId==-1 ||livingId==-1 ||headId==-1||occupationId==-1){
                         Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
@@ -633,7 +633,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     else {
                         if (myself==null){
                             MemberMyself memberMyself = new MemberMyself();
-                            memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
+                            memberMyself.NationalId= edit_national_id.getText().toString();
                             memberMyself.MobileNumber= edit_mobile_number.getText().toString();
                             memberMyself.FullName= edit_name.getText().toString();
                             if (isNullOrEmpty(edit_birthday_date.getText().toString())){
@@ -665,7 +665,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                         }
                         else {
                             MemberMyself memberMyself = new MemberMyself();
-                            memberMyself.NationalId= Integer.parseInt(edit_national_id.getText().toString());
+                            memberMyself.NationalId=edit_national_id.getText().toString();
                             memberMyself.MobileNumber= edit_mobile_number.getText().toString();
                             memberMyself.FullName= edit_name.getText().toString();
                             if (isNullOrEmpty(edit_birthday_date.getText().toString())){
