@@ -56,8 +56,8 @@ public class HHCCSendingFragment extends Fragment implements TabLayout.OnTabSele
         tabLayout =  view.findViewById(R.id.tabLayout);
 
         //Adding the tabs using addTab() method
-        tabLayout.addTab(tabLayout.newTab().setText("Members"));
-        tabLayout.addTab(tabLayout.newTab().setText("Serveys"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sent But Not Synced"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sent And Synced"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

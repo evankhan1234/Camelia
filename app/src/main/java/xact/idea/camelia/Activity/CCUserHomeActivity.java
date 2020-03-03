@@ -210,6 +210,8 @@ public class CCUserHomeActivity extends AppCompatActivity {
         } else {
 
         }
+        backForDetails();
+
     }
 
     private void setFooter(String value) {

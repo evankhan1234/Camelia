@@ -70,7 +70,8 @@ public class CompleteFragment extends Fragment {
         display();
     }
 
-    public static void show(){
+    public static void show(Activity Activity){
+        mActivity=Activity;
         display();
     }
     private void initView() {

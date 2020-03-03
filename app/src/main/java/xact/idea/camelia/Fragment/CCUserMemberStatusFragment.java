@@ -130,10 +130,10 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
 
         if (fragment instanceof CCMemberStausDetailsFragment){
             int handle=     ((CCMemberStausDetailsFragment) fragment).handle();
-            CompleteFragment.show();
-            IncompleteFragment.show();
-            FollowUpFragment.show();
-            ReferralFragment.show();
+            CompleteFragment.show(mActivity);
+            IncompleteFragment.show(mActivity);
+            FollowUpFragment.show(mActivity);
+            ReferralFragment.show(mActivity);
             CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);
             CCUserMemberStatusFragment.viewPager.setOnTouchListener(new View.OnTouchListener()
             {

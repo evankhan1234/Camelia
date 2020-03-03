@@ -445,6 +445,669 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     }
                 }
             }
+
+            initJarda();
+            initWorkPlaceSmoke();
+            initAlcohol();
+            initFruitsTypical();
+            initFruitsShowCard();
+            initTypicalVegetable();
+            initVegetablesShowCard ();
+            initSaltBuy();
+            initTakingMeal();
+            initRecllining();
+            initVigorousIntensity ();
+            initModerateIntensity ();
+            initVigiriosIntensityRecreational ();
+            initModerateIntensityRecreational();
+        }
+    }
+
+    private void initJarda(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q33", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q33a", update);
+                    edit_jorda.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_jorda.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForJorda.size(); i++) {
+                if (yesNoArrayListForJorda.get(i).getId() == div) {
+                    spinner_jorda.setSelection(i);
+                }
+            }
+        }
+    }
+
+    private void initWorkPlaceSmoke(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q34", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q34a", update);
+                    edit_workplace.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_workplace.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForWorkplace.size(); i++) {
+                if (yesNoArrayListForWorkplace.get(i).getId() == div) {
+                    spinner_workplace.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initAlcohol(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q35", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q35a", update);
+                    edit_alcohol.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_alcohol.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForAlcohol.size(); i++) {
+                if (yesNoArrayListForAlcohol.get(i).getId() == div) {
+                    spinner_alcohol.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initFruitsTypical(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q36", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+
+            for (int i = 0; i < yesNoArrayListForFruits.size(); i++) {
+                if (yesNoArrayListForFruits.get(i).getId() == div) {
+                    spinner_fruits.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initFruitsShowCard(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q37", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+
+            for (int i = 0; i < yesNoArrayListForFruitsCard.size(); i++) {
+                if (yesNoArrayListForFruitsCard.get(i).getId() == div) {
+                    spinner_fruits_card.setSelection(i);
+                }
+            }
+        }
+    }
+
+    private void initTypicalVegetable(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q38", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+
+            for (int i = 0; i < yesNoArrayListForVegetables.size(); i++) {
+                if (yesNoArrayListForVegetables.get(i).getId() == div) {
+                    spinner_vegetables.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initVegetablesShowCard(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q39", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+
+            for (int i = 0; i < yesNoArrayListForVegetablesCard.size(); i++) {
+                if (yesNoArrayListForVegetablesCard.get(i).getId() == div) {
+                    spinner_vegetables_card.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initSaltBuy(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q41", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+
+            for (int i = 0; i < yesNoArrayListForSaltBuy.size(); i++) {
+                if (yesNoArrayListForSaltBuy.get(i).getId() == div) {
+                    spinner_salt_month.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initTakingMeal(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q42", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q42a", update);
+                    edit_yes_extra_salt.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_yes_extra_salt.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForTakingSalt.size(); i++) {
+                if (yesNoArrayListForTakingSalt.get(i).getId() == div) {
+                    spinner_salt_meal.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initVigorousIntensity(){
+        int YesNo = 0;
+        int YesNob = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q43", update);
+        Questions questions3= Common.qustionsRepository.getQuestions("Q43b", update);
+        Questions questions2= Common.qustionsRepository.getQuestions("Q43a", update);
+
+
+        try {
+            YesNob = Integer.parseInt(questions3.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+
+        if (questions2!=null){
+            String diac = questions2.answer;
+            String[] values = diac.split(",");
+            for (String s : values) {
+                Log.e("fdf", "dfdf" + s);
+                if(s.equals("1")){
+                    checkBoxHeaveyLoad.setChecked(true);
+                }
+                else if(s.equals("2")){
+                    checkBoxDigging.setChecked(true);
+                }
+                else if(s.equals("3")){
+                    checkBoxFurniture.setChecked(true);
+                }
+                else if(s.equals("4")){
+                    checkBoxPickingCrops.setChecked(true);
+                }
+                else if(s.equals("5")){
+                    checkBoxCuttingTrees.setChecked(true);
+                }
+                else if(s.equals("6")){
+                    checkBoxBreakUpPaddy.setChecked(true);
+                }
+                else if(s.equals("7")){
+                    checkBoxDrivingRickshaw.setChecked(true);
+                }
+                else if(s.equals("8")){
+                    checkBoxFishing.setChecked(true);
+                }else if(s.equals("9")){
+                    checkBoxPlouging.setChecked(true);
+                }else if(s.equals("10")){
+                    checkBoxHeaveyConstructionWork.setChecked(true);
+                }
+                else if(s.equals("11")){
+                    checkBoxHeaveyGoods.setChecked(true);
+                }
+                else if(s.equals("12")){
+                    checkBoxHeaveyGoodsHead.setChecked(true);
+                }else if(s.equals("13")){
+                    checkBoxSoldDigging.setChecked(true);
+                }
+                else if(s.equals("14")){
+                    checkBoxWashing.setChecked(true);
+                }
+                else if(s.equals("15")){
+                    checkBoxStepping.setChecked(true);
+                }
+                else if(s.equals("16")){
+                    checkBoxOthers.setChecked(true);
+                }
+
+            }
+        }
+
+
+        if (YesNob!=0){
+            for (int i = 0; i < yesNoArrayListForTypicalVigorous.size(); i++) {
+                if (yesNoArrayListForTypicalVigorous.get(i).getId() == YesNob) {
+                    spinner_typical_week.setSelection(i);
+                }
+            }
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q43c", update);
+                    edit_typical_day.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_typical_day.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForVigorousIntensityHeart.size(); i++) {
+                if (yesNoArrayListForVigorousIntensityHeart.get(i).getId() == div) {
+                    spinner_heart_show_card.setSelection(i);
+                }
+            }
+        }
+    }
+    //////////////
+
+    private void initModerateIntensity(){
+        int YesNo = 0;
+        int YesNob = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q44", update);
+        Questions questions3= Common.qustionsRepository.getQuestions("Q44b", update);
+        Questions questions2= Common.qustionsRepository.getQuestions("Q44a", update);
+
+
+        try {
+            YesNob = Integer.parseInt(questions3.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+
+        if (questions2!=null){
+            String diac = questions2.answer;
+            String[] values = diac.split(",");
+            for (String s : values) {
+                Log.e("fdf", "dfdf" + s);
+                if(s.equals("1")){
+                    checkBoxHouseHoldWork.setChecked(true);
+                }
+                else if(s.equals("2")){
+                    checkBoxGardening.setChecked(true);
+                }
+                else if(s.equals("3")){
+                    checkBoxMilkingCows.setChecked(true);
+                }
+                else if(s.equals("4")){
+                    checkBoxCultivatingLand.setChecked(true);
+                }
+                else if(s.equals("5")){
+                    checkBoxPlantingHarvest.setChecked(true);
+                }
+                else if(s.equals("6")){
+                    checkBoxWeavingCloth.setChecked(true);
+                }
+                else if(s.equals("7")){
+                    checkBoxWashingCloths.setChecked(true);
+                }
+                else if(s.equals("8")){
+                    checkBoxRearing.setChecked(true);
+                }else if(s.equals("9")){
+                    checkBoxMixingCement.setChecked(true);
+                }else if(s.equals("10")){
+                    checkBoxWoodWork.setChecked(true);
+                }
+                else if(s.equals("11")){
+                    checkBoxDrawingWater.setChecked(true);
+                }
+                else if(s.equals("12")){
+                    checkBoxCarryingLightWeight.setChecked(true);
+                }else if(s.equals("13")){
+                    checkBoxWashingCloths1.setChecked(true);
+                }
+                else if(s.equals("14")){
+                    checkBoxGardening1.setChecked(true);
+                }
+                else if(s.equals("15")){
+                    checkBoxMilkingCows1.setChecked(true);
+                }
+                else if(s.equals("16")){
+                    checkBoxRoping.setChecked(true);
+                }
+                else if(s.equals("17")){
+                    checkBoxFarming.setChecked(true);
+                }
+                else if(s.equals("18")){
+                    checkBoxParlour.setChecked(true);
+                }
+                else if(s.equals("19")){
+                    checkBoxCloth.setChecked(true);
+                } else if(s.equals("20")){
+                    checkBoxHouseHoldWork1.setChecked(true);
+                }
+                else if(s.equals("21")){
+                    checkBoxOthers1.setChecked(true);
+                }
+            }
+        }
+
+
+        if (YesNob!=0){
+            for (int i = 0; i < yesNoArrayListForModerate.size(); i++) {
+                if (yesNoArrayListForModerate.get(i).getId() == YesNob) {
+                    spinner_typical_week_moderate.setSelection(i);
+                }
+            }
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q44c", update);
+                    edit_typical_day_moderate.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_typical_day_moderate.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForModerateIntensityHeart.size(); i++) {
+                if (yesNoArrayListForModerateIntensityHeart.get(i).getId() == div) {
+                    spinner_heart_show_moderate_card.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initVigiriosIntensityRecreational(){
+        int YesNo = 0;
+        int YesNob = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q45", update);
+        Questions questions3= Common.qustionsRepository.getQuestions("Q45b", update);
+        Questions questions2= Common.qustionsRepository.getQuestions("Q45a", update);
+
+
+        try {
+            YesNob = Integer.parseInt(questions3.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        if (questions2!=null){
+            String diac = questions2.answer;
+            String[] values = diac.split(",");
+            for (String s : values) {
+                Log.e("fdf", "dfdf" + s);
+                if(s.equals("1")){
+                    checkBoxRunning.setChecked(true);
+                }
+                else if(s.equals("2")){
+                    checkBoxBadminton.setChecked(true);
+                }
+                else if(s.equals("3")){
+                    checkBoxSwimming.setChecked(true);
+                }
+                else if(s.equals("4")){
+                    checkBoxHockey.setChecked(true);
+                }
+                else if(s.equals("5")){
+                    checkBoxHadudu.setChecked(true);
+                }
+                else if(s.equals("6")){
+                    checkBoxFootbal.setChecked(true);
+                }
+                else if(s.equals("7")){
+                    checkBoxVolleyball.setChecked(true);
+                }
+                else if(s.equals("8")){
+                    checkBoxTenis.setChecked(true);
+                }
+                else if(s.equals("9")){
+                    checkBoxOthers_recreational.setChecked(true);
+                }
+            }
+        }
+
+
+        if (YesNob!=0){
+            for (int i = 0; i < yesNoArrayListForTypicalVigorousRecreation.size(); i++) {
+                if (yesNoArrayListForTypicalVigorousRecreation.get(i).getId() == YesNob) {
+                    spinner_typical_week_recreational.setSelection(i);
+                }
+            }
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q45c", update);
+                    edit_typical_day_recreational.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_typical_day_recreational.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForVigorousRecreationalHeart.size(); i++) {
+                if (yesNoArrayListForVigorousRecreationalHeart.get(i).getId() == div) {
+                    spinner_recreational_activities.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initModerateIntensityRecreational(){
+        int YesNo = 0;
+        int YesNob = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q46", update);
+        Questions questions3= Common.qustionsRepository.getQuestions("Q46b", update);
+        Questions questions2= Common.qustionsRepository.getQuestions("Q46a", update);
+
+
+        try {
+            YesNob = Integer.parseInt(questions3.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            YesNob = -1;
+        }
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+
+        if (questions2!=null){
+            String diac = questions2.answer;
+            String[] values = diac.split(",");
+            for (String s : values) {
+                Log.e("fdf", "dfdf" + s);
+                if(s.equals("1")){
+                    checkBoxFastWalking.setChecked(true);
+                }
+                else if(s.equals("2")){
+                    checkBoxJogging.setChecked(true);
+                }
+                else if(s.equals("3")){
+                    checkBoxCycling.setChecked(true);
+                }
+                else if(s.equals("4")){
+                    checkBoxCricket.setChecked(true);
+                }
+                else if(s.equals("5")){
+                    checkBoxYoga.setChecked(true);
+                }
+                else if(s.equals("6")){
+                    checkBoxAerobics.setChecked(true);
+                }
+                else if(s.equals("7")){
+                    checkBoxExercise.setChecked(true);
+                }
+                else if(s.equals("8")){
+                    checkBoxOthersDancing.setChecked(true);
+                }
+                else if(s.equals("9")){
+                    checkBoxOthers_moderate_recreational_others.setChecked(true);
+                }
+
+            }
+        }
+
+
+        if (YesNob!=0){
+            for (int i = 0; i < yesNoArrayListForModerateRecreational.size(); i++) {
+                if (yesNoArrayListForModerateRecreational.get(i).getId() == YesNob) {
+                    spinner_typical_week_moderate_recreational.setSelection(i);
+                }
+            }
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q46c", update);
+                    edit_typical_day_moderate_recreational.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_typical_day_moderate_recreational.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForModerateRecreationalHeartt.size(); i++) {
+                if (yesNoArrayListForModerateRecreationalHeartt.get(i).getId() == div) {
+                    spinner_moderate_intensity_recreational_activities.setSelection(i);
+                }
+            }
+        }
+    }
+    private void initRecllining(){
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q48", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if(div==1){
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q48a", update);
+                    edit_yes_reclining.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_yes_reclining.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForReclinig.size(); i++) {
+                if (yesNoArrayListForReclinig.get(i).getId() == div) {
+                    spinner_reclining.setSelection(i);
+                }
+            }
         }
     }
     private void initModerateIntensityRecreationClickListener() {
@@ -1739,7 +2402,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             return true;
         if (pos == 8 && checkBoxOthersDancing.isChecked())
             return true;
-        if (pos == 8 && checkBoxOthers_moderate_recreational_others.isChecked())
+        if (pos == 9 && checkBoxOthers_moderate_recreational_others.isChecked())
             return true;
         return false;
     }
@@ -1761,7 +2424,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             return true;
         if (pos == 8 && checkBoxTenis.isChecked())
             return true;
-        if (pos == 8 && checkBoxOthers_recreational.isChecked())
+        if (pos == 9 && checkBoxOthers_recreational.isChecked())
             return true;
         return false;
     }
@@ -2362,11 +3025,28 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     questions11.id = questionsFor13.id;
                     Common.qustionsRepository.updateQuestions(questions11);
                 }
+                Questions questionsFor137 = Common.qustionsRepository.getQuestions("Q42a", update);
+                if (questionsFor137 == null) {
+                    Questions questions11 = new Questions();
+                    questions11.type = "behavioral";
+                    questions11.question = "Q42a";
+                    questions11.member_id = memberHabitsFor.MemberId;
+                    questions11.answer = edit_yes_extra_salt.getText().toString();
+                    questions11.date = currentDate;
+                    questions11.master_id = memberHabitsFor.id;
+                    Common.qustionsRepository.insertToQuestions(questions11);
+                } else {
+                    Questions questions11 = new Questions();
+                    questions11.type = "behavioral";
+                    questions11.question = "Q42";
+                    questions11.member_id = memberHabitsFor.MemberId;
+                    questions11.answer = edit_yes_extra_salt.getText().toString();
+                    questions11.date = currentDate;
+                    questions11.master_id = memberHabitsFor.id;
+                    questions11.id = questionsFor137.id;
+                    Common.qustionsRepository.updateQuestions(questions11);
+                }
 
-
-                memberHabit.VigorousIntensityYesNo = vigorousIntensity;
-                memberHabit.VigorousIntensityActivities = vigiriousIntensity();
-                memberHabit.VigorousIntensityTypicalWeek = vigorousIntensityTypical;
 
                 if (vigorousIntensity == 2) {
                     Questions questionsFor14 = Common.qustionsRepository.getQuestions("Q43", update);
@@ -2637,7 +3317,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     } else {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
-                        questions12.question = "Q46";
+                        questions12.question = "Q45";
                         questions12.member_id = memberHabitsFor.MemberId;
                         questions12.answer = "1";
                         questions12.date = currentDate;
@@ -3160,6 +3840,15 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
 
                         ///
+
+                            Questions questions311 = new Questions();
+                        questions311.type = "behavioral";
+                        questions311.question = "Q42a";
+                        questions311.member_id = memberHabitsFor.MemberId;
+                        questions311.answer = edit_yes_extra_salt.getText().toString();
+                        questions311.date = currentDate;
+                        questions311.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions311);
 
 
                         Questions questions11 = new Questions();
@@ -3932,10 +4621,28 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Common.qustionsRepository.updateQuestions(questions11);
                         }
 
+                            Questions questionsFor137 = Common.qustionsRepository.getQuestions("Q42a", update);
+                            if (questionsFor137 == null) {
+                                Questions questions11 = new Questions();
+                                questions11.type = "behavioral";
+                                questions11.question = "Q42a";
+                                questions11.member_id = memberHabitsFor.MemberId;
+                                questions11.answer = edit_yes_extra_salt.getText().toString();
+                                questions11.date = currentDate;
+                                questions11.master_id = memberHabitsFor.id;
+                                Common.qustionsRepository.insertToQuestions(questions11);
+                            } else {
+                                Questions questions11 = new Questions();
+                                questions11.type = "behavioral";
+                                questions11.question = "Q42";
+                                questions11.member_id = memberHabitsFor.MemberId;
+                                questions11.answer = edit_yes_extra_salt.getText().toString();
+                                questions11.date = currentDate;
+                                questions11.master_id = memberHabitsFor.id;
+                                questions11.id = questionsFor137.id;
+                                Common.qustionsRepository.updateQuestions(questions11);
+                            }
 
-                        memberHabit.VigorousIntensityYesNo = vigorousIntensity;
-                        memberHabit.VigorousIntensityActivities = vigiriousIntensity();
-                        memberHabit.VigorousIntensityTypicalWeek = vigorousIntensityTypical;
 
                         if (vigorousIntensity == 2) {
                             Questions questionsFor14 = Common.qustionsRepository.getQuestions("Q43", update);
@@ -4206,7 +4913,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             } else {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
-                                questions12.question = "Q46";
+                                questions12.question = "Q45";
                                 questions12.member_id = memberHabits.MemberId;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;

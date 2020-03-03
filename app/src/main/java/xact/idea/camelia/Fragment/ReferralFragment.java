@@ -67,7 +67,8 @@ public class ReferralFragment extends Fragment {
         display();
         initView();
     }
-    public static void show(){
+    public static void show(Activity Activity){
+        mActivity=Activity;
         display();
     }
     private void initView() {
