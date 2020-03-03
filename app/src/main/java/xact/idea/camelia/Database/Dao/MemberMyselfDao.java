@@ -6,11 +6,13 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Flowable;
 import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.Members;
+import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
 @Dao
@@ -36,6 +38,10 @@ public interface MemberMyselfDao {
     void updateReciver(String date,String member);
     @Query("Select Count(id)  FROM MemberMyself")
     int value();
+    @Query("Select Count(id)  FROM MemberMyself  where Status='0' and CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
+    int notSync(Date from,Date to);
+    @Query("Select Count(id)  FROM MemberMyself  where Status='1' and CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
+    int Sync(Date from,Date to);
 
     @Query("Select Max(id)  FROM MemberMyself")
     int maxValue();
@@ -51,6 +57,11 @@ public interface MemberMyselfDao {
 
     @Delete
     void deleteMemberMyself(MemberMyself... MemberMyself);
+
+    @Query("SELECT ms.FullName,ms.CreatedDate,ms.MemberId,ms.UniqueId,hs.VillageName FROM  Household as hs inner join   MemberMyself as ms  on hs.UniqueId=ms.UniqueId where ms.Status='1' and ms.CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
+    Flowable<List<SentSyncModel>> getSyncMembers(Date from,Date to);
+    @Query("SELECT ms.FullName,ms.CreatedDate,ms.MemberId,ms.UniqueId,hs.VillageName FROM  Household as hs inner join   MemberMyself as ms  on hs.UniqueId=ms.UniqueId where ms.Status='0' and ms.CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
+    Flowable<List<SentSyncModel>> getNotSyncMembers(Date from,Date to);
 
     @Query("SELECT * FROM ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (SELECT ms.MemberIds,ms.Type FROM Measurements ms WHERE ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')GROUP BY ms.MemberIds,ms.type) q GROUP BY q.MemberIds HAVING COUNT(q.MemberIds) > 5 )q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId")
     Flowable<List<MemberMyself>> getCompleteMembers();

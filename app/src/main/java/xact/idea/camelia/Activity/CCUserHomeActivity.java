@@ -21,10 +21,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.util.Collections;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.disposables.CompositeDisposable;
+import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
+import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserDashBoardFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
@@ -32,8 +41,10 @@ import xact.idea.camelia.Fragment.CCUserMemberSummaryFragment;
 import xact.idea.camelia.HouseHoldFragment.HHCreateHouseholdFragment;
 import xact.idea.camelia.HouseHoldFragment.HHListFragment;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class CCUserHomeActivity extends AppCompatActivity {
     private TextView tv_home_menu;
@@ -66,6 +77,10 @@ public class CCUserHomeActivity extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     //IRetrofitApi mService;
     private Context mContext = null;
+    private TextView text_username;
+    private TextView text_email;
+    private TextView text_phone_number;
+    private CircleImageView imageView;
     private AppCompatImageView btn_footer_home;
     private AppCompatImageView btn_footer_dashboard;
     private AppCompatImageView btn_footer_member_status;
@@ -113,6 +128,21 @@ public class CCUserHomeActivity extends AppCompatActivity {
         tv_member_status_menu = findViewById(R.id.tv_member_status_menu);
         btn_footer_summary = findViewById(R.id.btn_footer_summary);
         tv_summary_menu = findViewById(R.id.tv_summary_menu);
+        imageView = findViewById(R.id.imageView);
+        text_username = findViewById(R.id.text_username);
+        text_email = findViewById(R.id.text_email);
+        text_phone_number = findViewById(R.id.text_phone_number);
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserHomeActivity.this));
+        Glide.with(this).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        imageView.setImageDrawable(resource);
+                    }
+                });
+        text_username.setText(auth.fullname);
+        text_email.setText(auth.email);
+        text_phone_number.setText(auth.role_name);
         btn_header_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

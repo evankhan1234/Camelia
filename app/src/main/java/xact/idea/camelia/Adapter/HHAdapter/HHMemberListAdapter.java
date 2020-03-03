@@ -1,6 +1,7 @@
 package xact.idea.camelia.Adapter.HHAdapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,14 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import xact.idea.camelia.Activity.CCUserActivity;
+import xact.idea.camelia.Activity.Household.HouseHoldActivity;
+import xact.idea.camelia.Activity.SpalashActivity;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapter.CCDashboardListiewHolder> {
 
@@ -84,6 +89,14 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 medicineInterface.postion(position,memberMyselfes.get(position).MemberId);
             }
         });
+        if (SharedPreferenceUtil.getUserRole(mActivity).equals("hh")){
+            holder.text_cc.setVisibility(View.VISIBLE);
+        }
+        else {
+
+            holder.text_cc.setVisibility(View.INVISIBLE);
+
+        }
     }
 
     @Override
@@ -99,6 +112,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         private TextView text_mobile_nmber;
         private TextView text_date_of;
         private TextView text_update;
+        private TextView text_cc;
 
 
         public CCDashboardListiewHolder(View itemView) {
@@ -109,6 +123,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             text_mobile_nmber=itemView.findViewById(R.id.text_mobile_nmber);
             text_date_of=itemView.findViewById(R.id.text_date_of);
             text_update=itemView.findViewById(R.id.text_update);
+            text_cc=itemView.findViewById(R.id.text_cc);
         }
     }
 }

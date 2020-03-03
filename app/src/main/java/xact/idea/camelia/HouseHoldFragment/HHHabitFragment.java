@@ -3844,10 +3844,10 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions311 = new Questions();
                         questions311.type = "behavioral";
                         questions311.question = "Q42a";
-                        questions311.member_id = memberHabitsFor.MemberId;
+                        questions311.member_id = memberMyself.MemberId;
                         questions311.answer = edit_yes_extra_salt.getText().toString();
                         questions311.date = currentDate;
-                        questions311.master_id = memberHabitsFor.id;
+                        questions311.master_id = memberMyself.id;
                             Common.qustionsRepository.insertToQuestions(questions311);
 
 

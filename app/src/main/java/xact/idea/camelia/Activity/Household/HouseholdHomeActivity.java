@@ -20,12 +20,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import java.util.Collections;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.disposables.CompositeDisposable;
 import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
+import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Fragment.CCUserDashBoardFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCUserMemberSummaryFragment;
@@ -34,17 +42,22 @@ import xact.idea.camelia.HouseHoldFragment.HHDashboardFragment;
 import xact.idea.camelia.HouseHoldFragment.HHListFragment;
 import xact.idea.camelia.HouseHoldFragment.HHMembersFragment;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 import static xact.idea.camelia.Utils.Utils.hideSoftKeyboard;
 
 public class HouseholdHomeActivity extends AppCompatActivity {
     private TextView tv_home_menu;
+    private TextView text_phone_number;
     private TextView tv_dashboard_menu;
     private TextView tv_member_status_menu;
     private TextView tv_summary_menu;
     private TextView tv_user_setup_menus;
+    private TextView text_username;
+    private TextView text_email;
     private TextView title;
     private ImageView btn_close_drawer;
     public static final int HOME_BTN = 0;
@@ -69,6 +82,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     //IRetrofitApi mService;
     private Context mContext = null;
+    private CircleImageView imageView;
     private AppCompatImageView btn_footer_home;
     private AppCompatImageView btn_footer_dashboard;
     private AppCompatImageView btn_footer_member_status;
@@ -91,6 +105,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         setFooter(sessionId);
     }
     private void initView() {
+        text_phone_number = findViewById(R.id.text_phone_number);
         rlt_root = findViewById(R.id.rlt_root);
         btn_header_status_back = findViewById(R.id.btn_header_status_back);
         rlt_header_status_details = findViewById(R.id.rlt_header_status_details);
@@ -112,6 +127,9 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         tv_member_status_menu = findViewById(R.id.tv_member_status_menu);
         btn_footer_summary = findViewById(R.id.btn_footer_summary);
         tv_summary_menu = findViewById(R.id.tv_summary_menu);
+        imageView = findViewById(R.id.imageView);
+        text_username = findViewById(R.id.text_username);
+        text_email = findViewById(R.id.text_email);
         btn_header_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +137,17 @@ public class HouseholdHomeActivity extends AppCompatActivity {
 
             }
         });
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseholdHomeActivity.this));
+        Glide.with(this).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        imageView.setImageDrawable(resource);
+                    }
+                });
+        text_username.setText(auth.fullname);
+        text_email.setText(auth.email);
+        text_phone_number.setText(auth.role_name);
 //        rlt_root.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

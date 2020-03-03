@@ -155,23 +155,25 @@
 
                     </LinearLayout>
                     <LinearLayout
+
                         android:layout_below="@+id/layout"
                         android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <TextView
+
                             android:layout_marginTop="20px"
                             android:backgroundTint="#00BCD4"
 
                             android:layout_weight="1"
                             android:textAlignment="center"
                             android:id="@+id/text_follow"
-                            android:layout_width="0dp"
+                            android:layout_width="350px"
                             android:layout_height="100px"
+                            android:minWidth="350px"
 
-
-                            android:layout_marginLeft="40px"
+                            android:layout_marginLeft="140px"
                             android:background="@drawable/btn_yes"
 
                             android:padding="15px"
@@ -185,7 +187,7 @@
                             android:textAlignment="center"
                             android:minWidth="350px"
                             android:id="@+id/text_referral"
-                            android:layout_width="0dp"
+                            android:layout_width="350px"
                             android:layout_height="100px"
 
 
@@ -198,6 +200,7 @@
                             android:textColor="@color/white"
                             android:textSize="40px" />
                         <TextView
+                            android:visibility="gone"
                             android:layout_marginTop="20px"
                             android:layout_weight="1"
                             android:textAlignment="center"
@@ -212,7 +215,7 @@
 
                             android:padding="15px"
                             android:tag="40"
-                            android:text="Visit"
+                            android:text="Add to UHC"
                             android:textColor="@color/white"
                             android:textSize="40px" />
                     </LinearLayout>
