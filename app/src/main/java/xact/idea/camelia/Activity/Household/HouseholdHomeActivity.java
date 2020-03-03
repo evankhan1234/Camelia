@@ -156,6 +156,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         } else {
 
         }
+        backForDetails();
     }
     public void backForDetails() {
         // Toast.makeText(mContext, "dsfdsf", Toast.LENGTH_SHORT).show();

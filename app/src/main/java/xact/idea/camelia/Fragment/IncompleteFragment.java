@@ -129,7 +129,8 @@ public class IncompleteFragment extends Fragment {
 
     }
 
-    public static void show(){
+    public static void show(Activity Activity){
+        mActivity=Activity;
         display();
     }
     @Override

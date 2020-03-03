@@ -293,6 +293,7 @@ public class CCBMIFragment extends Fragment {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("UnderWeight");
+                        message="UnderWeight";
                     }
                     else if(bmi>18.5 && bmi<=24.99){
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
@@ -301,6 +302,7 @@ public class CCBMIFragment extends Fragment {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Normal");
+                        message="UnderWeight";
                     }
                     else if(bmi>25 && bmi<=29.99){
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_yellow));
@@ -309,6 +311,7 @@ public class CCBMIFragment extends Fragment {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("OverWeight");
+                        message="OverWeight";
                     }
                     else if(bmi>24.99){
                         linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
@@ -317,6 +320,7 @@ public class CCBMIFragment extends Fragment {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Obese");
+                        message="Obese";
                     }
 
                 } catch (NumberFormatException e) {
