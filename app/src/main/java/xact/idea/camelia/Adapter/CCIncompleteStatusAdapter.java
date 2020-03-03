@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -158,7 +159,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         holder.text_visit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInfoDialog(mActivity,memberMyself.get(position).MemberId);
+               showInfoDialog(mActivity,memberMyself.get(position).MemberId);
             }
         });
     }
@@ -215,16 +216,30 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+        RadioButton radioRefer = infoDialog.findViewById(R.id.radioRefer);
+        RadioButton radioFollow = infoDialog.findViewById(R.id.radioFollow);
+        radioRefer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        radioFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = new Date(System.currentTimeMillis());
-                String currentDate = formatter.format(date);
-                Common.memberMyselfRepository.updateReciver(currentDate,member);
+//                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//                Date date = new Date(System.currentTimeMillis());
+//                String currentDate = formatter.format(date);
+//                Common.memberMyselfRepository.updateReciver(currentDate,member);
                 infoDialog.dismiss();
 
             }

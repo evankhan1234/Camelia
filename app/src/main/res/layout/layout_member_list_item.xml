@@ -166,7 +166,7 @@
                                     android:textSize="40px" />
 
                                 <TextView
-                                    android:id="@+id/text_wenjnight_analysis"
+                                    android:id="@+id/text_cc"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@id/linears3"

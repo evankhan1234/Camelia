@@ -18,7 +18,38 @@
 
         android:orientation="vertical"
         android:padding="40px">
+        <RadioGroup
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_marginTop="10px"
 
+            android:orientation="horizontal"
+
+            android:id="@+id/radioLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+
+                android:layout_marginRight="20px"
+                android:tag="35"
+                android:textSize="35px"
+                android:id="@+id/radioRefer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Refer"
+                android:checked="true" />
+
+            <RadioButton
+                android:tag="35"
+                android:textSize="35px"
+                android:layout_marginLeft="50px"
+                android:id="@+id/radioFollow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Follow" />
+
+        </RadioGroup>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +65,7 @@
                 android:layout_marginRight="0px"
                 android:gravity="center"
                 android:tag="45"
-                android:text="Member Successfully  Visit?"
+                android:text="Member Successfully Refer to UHC?"
                 android:textColor="@color/gray_black"
                 android:textSize="45px" />
         </RelativeLayout>

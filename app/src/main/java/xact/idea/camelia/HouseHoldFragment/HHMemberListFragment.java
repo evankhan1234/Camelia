@@ -3,8 +3,10 @@ package xact.idea.camelia.HouseHoldFragment;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -91,10 +94,123 @@ public class HHMemberListFragment extends Fragment {
         btn_member_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInfoDialog();
+
+                if (Common.memberIdRepository.size()<0){
+                    showInfoDialogagain(mActivity);
+                }
+                else{
+                    if (Common.memberIdRepository.size()==1){
+                        showInfoDialoga(mActivity);
+                    }
+                    else{
+                        showInfoDialog();
+                    }
+
+
+                }
 
             }
         });
+    }
+    public  void showInfoDialoga(final Context mContext) {
+
+        final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
+        LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.layout_confirm, null);
+
+        infoDialog.setContentView(v);
+        infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
+        Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
+        Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+        RadioButton radioRefer = infoDialog.findViewById(R.id.radioRefer);
+        RadioButton radioFollow = infoDialog.findViewById(R.id.radioFollow);
+        TextView tv_info = infoDialog.findViewById(R.id.tv_info);
+        tv_info.setText("You have 1 Member Id. please Sync");
+        radioRefer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        radioFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                showInfoDialog();
+//                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//                Date date = new Date(System.currentTimeMillis());
+//                String currentDate = formatter.format(date);
+//                Common.memberMyselfRepository.updateReciver(currentDate,member);
+                infoDialog.dismiss();
+
+            }
+        });
+        btn_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                infoDialog.dismiss();
+            }
+        });
+        infoDialog.show();
+    }
+    public  void showInfoDialogagain(final Context mContext) {
+
+        final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
+        LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.layout_confirm, null);
+
+        infoDialog.setContentView(v);
+        infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
+        Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
+        Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+        RadioButton radioRefer = infoDialog.findViewById(R.id.radioRefer);
+        RadioButton radioFollow = infoDialog.findViewById(R.id.radioFollow);
+        TextView tv_info = infoDialog.findViewById(R.id.tv_info);
+        tv_info.setText("You have 0 Member Id. please Sync");
+        radioRefer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        radioFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                showInfoDialog();
+//                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//                Date date = new Date(System.currentTimeMillis());
+//                String currentDate = formatter.format(date);
+//                Common.memberMyselfRepository.updateReciver(currentDate,member);
+                infoDialog.dismiss();
+
+            }
+        });
+        btn_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                infoDialog.dismiss();
+            }
+        });
+        infoDialog.show();
     }
     public   void display() {
         compositeDisposable.add(Common.memberMyselfRepository.getMemberMyselfItemById(uniqueId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {

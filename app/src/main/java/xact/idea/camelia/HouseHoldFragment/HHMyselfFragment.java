@@ -658,6 +658,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 
 
                             memberMyself.MemberId= memberId;
+                            memberMyself.Status= "0";
                             Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
 
                             Common.memberIdRepository.emptyMemberId(memberId);
