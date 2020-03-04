@@ -603,8 +603,17 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     else {
                         memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
                     }
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
-                    memberMyself.CreatedDate=date;
+                    Date date1 = null;
+                    String currentDate = formatter.format(date);
+                    try {
+                        date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    memberMyself.CreatedDate=date1;
                     memberMyself.id=memberIds.id;
                     memberMyself.GenderId=genderId;
                     memberMyself.BloodGroupId=bloodGroupId;
@@ -642,8 +651,18 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                             else {
                                 memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
                             }
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
-                            memberMyself.CreatedDate=date;
+                            Date date1 = null;
+                            String currentDate = formatter.format(date);
+                            try {
+                                date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                                // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            memberMyself.CreatedDate=date1;
+
                             memberMyself.GenderId=genderId;
                             memberMyself.BloodGroupId=bloodGroupId;
                             memberMyself.ReligionId=religionId;
@@ -675,8 +694,17 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                             else {
                                 memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
                             }
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
-                            memberMyself.CreatedDate=date;
+                            Date date1 = null;
+                            String currentDate = formatter.format(date);
+                            try {
+                                date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                                // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            memberMyself.CreatedDate=date1;
                             memberMyself.id=myself.id;
                             memberMyself.GenderId=genderId;
                             memberMyself.BloodGroupId=bloodGroupId;

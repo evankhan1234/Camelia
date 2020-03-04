@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,17 +17,20 @@ import java.util.Date;
 import java.util.List;
 
 import xact.idea.camelia.Database.Model.Survey;
+import xact.idea.camelia.Filter.NotSyncFilter;
+import xact.idea.camelia.Filter.SurveyFilter;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
-public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDashboardListiewHolder> {
+public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDashboardListiewHolder> implements Filterable {
 
 
     private Activity mActivity = null;
-    List<Survey> survey;
+   public List<Survey> survey;
     UccMemberClickListener uccMemberClickListeners;
+    SurveyFilter surveyFilter;
     public HHSurveysAdapter(Activity activity,List<Survey> surveys,UccMemberClickListener uccMemberClickListener) {
         mActivity = activity;
         survey=surveys;
@@ -109,6 +114,14 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
     @Override
     public int getItemCount() {
         return survey.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (surveyFilter == null) {
+            surveyFilter = new SurveyFilter(survey, this);
+        }
+        return surveyFilter;
     }
 
     public class CCDashboardListiewHolder extends RecyclerView.ViewHolder {

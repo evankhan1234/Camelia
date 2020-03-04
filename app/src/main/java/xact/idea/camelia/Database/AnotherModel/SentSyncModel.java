@@ -2,13 +2,15 @@ package xact.idea.camelia.Database.AnotherModel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class SentSyncModel {
     @SerializedName("FullName")
-    public int FullName;
+    public String FullName;
     @SerializedName("CreatedDate")
-    public String CreatedDate;
+    public Date CreatedDate;
     @SerializedName("MemberId")
-    public int MemberId;
+    public String MemberId;
     @SerializedName("UniqueId")
     public String UniqueId;
     @SerializedName("VillageName")

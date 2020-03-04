@@ -10,11 +10,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -52,6 +55,7 @@ public class HHSurveysListFragment extends Fragment {
     String uniqueId;
     String types;
     String frag;
+    EditText edit_content;
     public HHSurveysListFragment(String unique,String type,String frags){
         uniqueId=unique;
         types=type;
@@ -72,6 +76,7 @@ public class HHSurveysListFragment extends Fragment {
     }
 
     private void initView() {
+        edit_content =  view.findViewById(R.id.edit_content);
         btn_survey_create =  view.findViewById(R.id.btn_survey_create);
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
@@ -110,6 +115,24 @@ public class HHSurveysListFragment extends Fragment {
                     ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 }
 
+            }
+        });
+        edit_content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+
+                mAdapters.getFilter().filter(edit_content.getText().toString());
             }
         });
     }
