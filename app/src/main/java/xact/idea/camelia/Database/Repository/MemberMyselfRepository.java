@@ -1,10 +1,12 @@
 package xact.idea.camelia.Database.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Flowable;
 import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.Members;
+import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.DataSourcesInterface.IMemberMyselfDatasources;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
@@ -59,6 +61,26 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     @Override
     public int size() {
         return IMemberMyselfDatasources.size();
+    }
+
+    @Override
+    public int notSync(Date from, Date to) {
+        return IMemberMyselfDatasources.notSync(from, to);
+    }
+
+    @Override
+    public int Sync(Date from, Date to) {
+        return IMemberMyselfDatasources.Sync(from, to);
+    }
+
+    @Override
+    public Flowable<List<SentSyncModel>> getSyncMembers(Date from, Date to) {
+        return IMemberMyselfDatasources.getSyncMembers(from, to);
+    }
+
+    @Override
+    public Flowable<List<SentSyncModel>> getNotSyncMembers(Date from, Date to) {
+        return IMemberMyselfDatasources.getNotSyncMembers(from, to);
     }
 
     @Override

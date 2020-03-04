@@ -1,10 +1,12 @@
 package xact.idea.camelia.Database.DataSource;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Flowable;
 import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.Members;
+import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.Dao.MemberMyselfDao;
 import xact.idea.camelia.Database.DataSourcesInterface.IMemberMyselfDatasources;
 import xact.idea.camelia.Database.Model.MemberMyself;
@@ -60,6 +62,26 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     @Override
     public int size() {
         return MemberMyselfDao.value();
+    }
+
+    @Override
+    public int notSync(Date from, Date to) {
+        return MemberMyselfDao.notSync(from, to);
+    }
+
+    @Override
+    public int Sync(Date from, Date to) {
+        return MemberMyselfDao.Sync(from, to);
+    }
+
+    @Override
+    public Flowable<List<SentSyncModel>> getSyncMembers(Date from, Date to) {
+        return MemberMyselfDao.getSyncMembers(from, to);
+    }
+
+    @Override
+    public Flowable<List<SentSyncModel>> getNotSyncMembers(Date from, Date to) {
+        return MemberMyselfDao.getNotSyncMembers(from, to);
     }
 
     @Override

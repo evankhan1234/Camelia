@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,18 +26,21 @@ import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Activity.SpalashActivity;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Filter.MemberFilter;
+import xact.idea.camelia.Filter.NotSyncFilter;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
-public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapter.CCDashboardListiewHolder> {
+public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapter.CCDashboardListiewHolder> implements Filterable {
 
 
     private Activity mActivity = null;
     int row_index = 0;
-    List<MemberMyself> memberMyselfes;
+   public List<MemberMyself> memberMyselfes;
     MedicineInterface  medicineInterface;
+    MemberFilter memberFilter;
     public HHMemberListAdapter(Activity activity, List<MemberMyself> memberMyselfe, MedicineInterface  medicineInterfaces) {
         mActivity = activity;
         memberMyselfes=memberMyselfe;
@@ -102,6 +107,14 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
     @Override
     public int getItemCount() {
         return memberMyselfes.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (memberFilter == null) {
+            memberFilter = new MemberFilter(memberMyselfes, this);
+        }
+        return memberFilter;
     }
 
     public class CCDashboardListiewHolder extends RecyclerView.ViewHolder {

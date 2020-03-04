@@ -47,14 +47,10 @@ public class MemberMyself {
     public String UniqueId;
     @ColumnInfo(name = "VisitDate")
     public String VisitDate;
-    @ColumnInfo(name = "ReferDate")
-    public String ReferDate;
-    @ColumnInfo(name = "FollowDate")
-    public String FollowDate;
-    @ColumnInfo(name = "ReferToUHC")
-    public String ReferToUHC;
-    @ColumnInfo(name = "FollowClinic")
-    public String FollowClinic;
+    @ColumnInfo(name = "From")
+    public String From;
+    @ColumnInfo(name = "To")
+    public String To;
     @ColumnInfo(name = "Status")
     public String Status;
 }

@@ -8,8 +8,8 @@ public class MemberGetResponseModel extends ApiResponses {
     @SerializedName("total_record")
     public int total_record;
 
-    @SerializedName("referral_history")
-    public ArrayList<Data> referral_history;
+    @SerializedName("member")
+    public ArrayList<Data> member;
 
     public class Data{
         @SerializedName("id")
