@@ -50,6 +50,26 @@
                 android:text="Follow" />
 
         </RadioGroup>
+        <TextView
+            android:tag="40"
+            android:textStyle="bold"
+            android:textSize="40px"
+            android:textAlignment="center"
+            android:textColor="#000"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8px"
+            android:text="Visit Date"/>
+        <EditText
+            android:layout_marginTop="10px"
+            android:textColor="#000"
+            android:textAlignment="center"
+            android:focusable="false"
+            android:tag="35"
+
+            android:drawableRight="@drawable/ic_date_vector_dark"
+            android:textSize="35px" android:id="@+id/edit_date" android:background="@drawable/input_bg" android:padding="25px" android:layout_width="match_parent" android:layout_height="120px" android:layout_marginBottom="10px" android:text="12-12-2019" android:ems="10" android:inputType="textPersonName"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +85,7 @@
                 android:layout_marginRight="0px"
                 android:gravity="center"
                 android:tag="45"
-                android:text="Member Successfully Refer to UHC?"
+                android:text="Member Successfully Refer to CC?"
                 android:textColor="@color/gray_black"
                 android:textSize="45px" />
         </RelativeLayout>

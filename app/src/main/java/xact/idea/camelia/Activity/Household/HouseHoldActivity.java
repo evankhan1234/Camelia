@@ -19,10 +19,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.LoginActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
 import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
+import xact.idea.camelia.Database.DataSource.CCDataSources;
 import xact.idea.camelia.Database.DataSource.DistrictDataSources;
 import xact.idea.camelia.Database.DataSource.DivisionDataSources;
 import xact.idea.camelia.Database.DataSource.FemaleDataSources;
@@ -36,8 +38,10 @@ import xact.idea.camelia.Database.DataSource.MemberMedicineDataSources;
 import xact.idea.camelia.Database.DataSource.MemberMyselfDataSources;
 import xact.idea.camelia.Database.DataSource.OccupationDataSources;
 import xact.idea.camelia.Database.DataSource.QuestionsDataSources;
+import xact.idea.camelia.Database.DataSource.ReferralHistoryDatasources;
 import xact.idea.camelia.Database.DataSource.StudyClassDatasources;
 import xact.idea.camelia.Database.DataSource.SurveyDataSources;
+import xact.idea.camelia.Database.DataSource.UHCDataSources;
 import xact.idea.camelia.Database.DataSource.UnionDataSources;
 import xact.idea.camelia.Database.DataSource.UpazilaDatasources;
 import xact.idea.camelia.Database.DataSource.WardDatasources;
@@ -45,6 +49,7 @@ import xact.idea.camelia.Database.MainDataBase;
 import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.Block;
 import xact.idea.camelia.Database.Model.BloodGroup;
+import xact.idea.camelia.Database.Model.CCModel;
 import xact.idea.camelia.Database.Model.District;
 import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
@@ -53,12 +58,14 @@ import xact.idea.camelia.Database.Model.Medicine;
 import xact.idea.camelia.Database.Model.MemberId;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.StudyClass;
+import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
 import xact.idea.camelia.Database.Model.Ward;
 import xact.idea.camelia.Database.Repository.AuthRepository;
 import xact.idea.camelia.Database.Repository.BlockRepository;
 import xact.idea.camelia.Database.Repository.BloodGroupRepository;
+import xact.idea.camelia.Database.Repository.CCRepository;
 import xact.idea.camelia.Database.Repository.DistrictRepository;
 import xact.idea.camelia.Database.Repository.DivisionRepository;
 import xact.idea.camelia.Database.Repository.FemaleRepository;
@@ -72,14 +79,17 @@ import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
 import xact.idea.camelia.Database.Repository.QustionsRepository;
+import xact.idea.camelia.Database.Repository.ReferRepository;
 import xact.idea.camelia.Database.Repository.StudyClassRepository;
 import xact.idea.camelia.Database.Repository.SurveyRepository;
+import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
 import xact.idea.camelia.Network.IRetrofitApi;
 import xact.idea.camelia.NetworkModel.BlockResponses;
 import xact.idea.camelia.NetworkModel.BloodGroupResponses;
+import xact.idea.camelia.NetworkModel.CCModelresponse;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
@@ -89,6 +99,7 @@ import xact.idea.camelia.NetworkModel.MemberAlocatePostModel;
 import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
+import xact.idea.camelia.NetworkModel.UHCModel;
 import xact.idea.camelia.NetworkModel.UnionResponses;
 import xact.idea.camelia.NetworkModel.UpazilaResponses;
 import xact.idea.camelia.NetworkModel.WardResponses;
@@ -397,6 +408,26 @@ public class HouseHoldActivity extends AppCompatActivity {
         if (Common.memberIdRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
                 loadMemberId();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.uhcRepository.size() < 1) {
+            if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                loadUHC();
+
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.ccRepository.size() < 1) {
+            if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                loadCC();
+
             } else {
                 Snackbar snackbar = Snackbar
                         .make(relative, "No Internet", Snackbar.LENGTH_LONG);
@@ -773,6 +804,68 @@ public class HouseHoldActivity extends AppCompatActivity {
         }));
 
     }
+    private void loadCC() {
+        showLoadingProgress(HouseHoldActivity.this);
+        compositeDisposable.add(mService.getCC().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<CCModelresponse>() {
+            @Override
+            public void accept(CCModelresponse ccModelresponse) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(ccModelresponse));
+                for (CCModelresponse.Data cc : ccModelresponse.data) {
+                    CCModel ccModel = new CCModel();
+
+                    ccModel.CCId=cc.id;
+                    ccModel.name=cc.name;
+                    ccModel.short_name=cc.short_name;
+                    ccModel.information=cc.information;
+                    ccModel.district_code=cc.district_code;
+                    ccModel.division_code=cc.division_code;
+                    ccModel.upazila_code=cc.upazila_code;
+                    ccModel.union_code=cc.union_code;
+                    ccModel.block_code=cc.block_code;
+                    ccModel.ward_code=cc.ward_code;
+                    ccModel.status=cc.status;
+                    Common.ccRepository.insertToCCModel(ccModel);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    private void loadUHC() {
+        showLoadingProgress(HouseHoldActivity.this);
+        compositeDisposable.add(mService.getUHC().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<UHCModel>() {
+            @Override
+            public void accept(UHCModel uhcModel) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(uhcModel));
+                for (UHCModel.Data uhc : uhcModel.data) {
+                    UHC uhc1 = new UHC();
+                    uhc1.name=uhc.name;
+                    uhc1.code=uhc.code;
+                    uhc1.information=uhc.information;
+                    uhc1.district_code=uhc.district_code;
+                    uhc1.division_code=uhc.division_code;
+                    uhc1.upazila_code=uhc.upazila_code;
+                    uhc1.union_code=uhc.union_code;
+                    uhc1.block_code=uhc.block_code;
+                    uhc1.ward_code=uhc.ward_code;
+                    uhc1.status=uhc.status;
+                    Common.uhcRepository.insertToUHC(uhc1);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
     private void initDB() {
         Common.mainDatabase = MainDataBase.getInstance(this);
         Common.authRepository = AuthRepository.getInstance(AuthDataSources.getInstance(Common.mainDatabase.authDao()));
@@ -796,6 +889,9 @@ public class HouseHoldActivity extends AppCompatActivity {
         Common.surveyRepository = SurveyRepository.getInstance(SurveyDataSources.getInstance(Common.mainDatabase.surveyDao()));
         Common.memberIdRepository = MemberIdRepository.getInstance(MemberIdDatasources.getInstance(Common.mainDatabase.memberIdDao()));
         Common.qustionsRepository = QustionsRepository.getInstance(QuestionsDataSources.getInstance(Common.mainDatabase.questionsDao()));
+        Common.referRepository = ReferRepository.getInstance(ReferralHistoryDatasources.getInstance(Common.mainDatabase.referralHistoryDao()));
+        Common.ccRepository = CCRepository.getInstance(CCDataSources.getInstance(Common.mainDatabase.ccDao()));
+        Common.uhcRepository = UHCRepository.getInstance(UHCDataSources.getInstance(Common.mainDatabase.uhcDao()));
     }
 
     @Override

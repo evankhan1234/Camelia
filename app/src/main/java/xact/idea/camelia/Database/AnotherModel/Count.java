@@ -2,6 +2,8 @@ package xact.idea.camelia.Database.AnotherModel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class Count {
     @SerializedName("UHC")
     public int  UHC;
@@ -13,4 +15,6 @@ public class Count {
     public int  Follow;
     @SerializedName("Complete")
     public int  Complete;
+    @SerializedName("datetime")
+    public Date datetime;
 }

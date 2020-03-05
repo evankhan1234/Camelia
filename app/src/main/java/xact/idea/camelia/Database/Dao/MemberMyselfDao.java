@@ -39,6 +39,8 @@ public interface MemberMyselfDao {
     void updateReciver(String date,String member);
     @Query("Select Count(id)  FROM MemberMyself")
     int value();
+    @Query("UPDATE  MemberMyself SET `From`=:from,`To`=:to,VisitDate=:date where MemberId=:memberId")
+    void updateReciverAgain(String from,String to,String date,String memberId);
     @Query("Select Count(id)  FROM MemberMyself  where Status='0' and CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
     int notSync(Date from,Date to);
     @Query("Select Count(id)  FROM MemberMyself  where Status='1' and CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
@@ -75,6 +77,8 @@ public interface MemberMyselfDao {
 
     @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MemberId=Measure.MemberIds where  Measure.Refer='UHC' Group BY Member.id")
     Flowable<List<MemberMyself>> getReferMembersFor();
+    @Query("SELECT  * FROM MemberMyself as Member  where  Member.`To`='CC' Group BY Member.id")
+    Flowable<List<MemberMyself>> getReferMembersForCC();
 
     @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MemberId=Measure.MemberIds where  Measure.Refer='Follow' Group BY Member.id")
     Flowable<List<MemberMyself>> getFollowUpMembersFor();
@@ -97,7 +101,7 @@ public interface MemberMyselfDao {
 
     @Query("select sum(UHC) UHC,sum(Incomplete1) Incomplete1,sum(Incomplete2) Incomplete2,sum(Follow) Follow,sum(Total5) Complete from (\n" +
             "SELECT  Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as Member inner join (select distinct MemberIds,refer from Measurements) as Measure ON Member.MemberId=Measure.MemberIds where  \n" +
-            "Measure.Refer='UHC'\n" +
+            "Member.`To`='CC'\n" +
             "UNION all\n" +
             "SELECT  0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
             " left join  Measurements as Measure ON Member.MemberId=Measure.MemberIds  where Measure.id is null\n" +
@@ -160,10 +164,10 @@ public interface MemberMyselfDao {
 
     @Query("select datetime,sum(UHC) UHC,sum(Incomplete1) Incomplete1,sum(Incomplete2) Incomplete2,sum(Follow) Follow,sum(Total5) Complete from (\n" +
             "            SELECT datetime, Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as Member inner join (select distinct MemberIds,refer,datetime from Measurements where datetime between :from and :to) as Measure ON Member.MemberId=Measure.MemberIds where \n" +
-            "            Measure.Refer='UHC'\n" +
+            "           Member.`To`='CC'\n" +
             "            UNION all\n" +
             "            SELECT  datetime,0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
-            "            left join  Measurements as Measure ON Member.MemberId=Measure.MemberIds  where Measure.id is null and datetime between :from and :to\n" +
+            "            left join  Measurements as Measure ON Member.MemberId=Measure.MemberIds  where Measure.id is null and Member.CreatedDate between :from and :to\n" +
             "            UNION all\n" +
             "            SELECT datetime,0 UHC,0 Incomplete1,count(*) Incomplete2,0 Follow,0 Complete FROM\n" +
             "            ( SELECT datetime, q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
@@ -190,14 +194,14 @@ public interface MemberMyselfDao {
             "            GROUP BY q.MemberIds,datetime\n" +
             "            HAVING COUNT(q.MemberIds) > 5\n" +
             "            ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId) group by datetime")
-    Count TotalCountByDateRange(Date from ,Date to);
+    Flowable<List<Count>> TotalCountByDateRange(Date from ,Date to);
 
     @Query("select sum(UHC) UHC,sum(Incomplete1) Incomplete1,sum(Incomplete2) Incomplete2,sum(Follow) Follow,sum(Total5) Complete from (\n" +
             "            SELECT  Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as Member inner join (select distinct MemberIds,refer from Measurements where datetime = :from) as Measure ON Member.MemberId=Measure.MemberIds where \n" +
-            "            Measure.Refer='UHC'\n" +
+            "            Member.`To`='CC'\n" +
             "            UNION all\n" +
             "            SELECT  0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
-            "            left join  Measurements as Measure ON Member.MemberId = Measure.MemberIds  where Measure.id is null and datetime = :from\n" +
+            "            left join  Measurements as Measure ON Member.MemberId = Measure.MemberIds  where Measure.id is null and Member.CreatedDate = :from\n" +
             "            UNION all\n" +
             "            SELECT 0 UHC,0 Incomplete1,count(*) Incomplete2,0 Follow,0 Complete FROM\n" +
             "            ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +

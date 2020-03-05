@@ -184,7 +184,9 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
        else  if (value.equals("4")){
            transaction.replace(R.id.rlt_details4_fragment, f, f.getClass().getSimpleName());
        }
-
+       else  if (value.equals("5")){
+           transaction.replace(R.id.rlt_details5_fragment, f, f.getClass().getSimpleName());
+       }
         transaction.addToBackStack(f.getClass().getSimpleName());
         transaction.commit();
         tabLayout.setVisibility(View.GONE);

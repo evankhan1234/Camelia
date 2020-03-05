@@ -57,7 +57,7 @@ public class ReferralFragment extends Fragment {
         @Override
         public void postion(int position,String Type) {
 
-            ((CCUserHomeActivity) mActivity).openStatusDetails(position,Type,"3");
+            ((CCUserHomeActivity) mActivity).openStatusDetails(position,Type,"5");
         }
     };
 
@@ -79,7 +79,7 @@ public class ReferralFragment extends Fragment {
     }
 
     public static  void display() {
-        compositeDisposable.add(Common.memberMyselfRepository.getReferMembersFor().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
+        compositeDisposable.add(Common.memberMyselfRepository.getReferMembersForCC().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));

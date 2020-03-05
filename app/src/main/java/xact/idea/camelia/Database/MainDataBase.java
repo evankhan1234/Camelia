@@ -12,6 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import xact.idea.camelia.Database.Dao.AuthDao;
 import xact.idea.camelia.Database.Dao.BlockDao;
 import xact.idea.camelia.Database.Dao.BloodGroupDao;
+import xact.idea.camelia.Database.Dao.CCDao;
 import xact.idea.camelia.Database.Dao.DistrictDao;
 import xact.idea.camelia.Database.Dao.DivisionDao;
 import xact.idea.camelia.Database.Dao.FemaleDao;
@@ -26,14 +27,17 @@ import xact.idea.camelia.Database.Dao.MemberMedicineDao;
 import xact.idea.camelia.Database.Dao.MemberMyselfDao;
 import xact.idea.camelia.Database.Dao.OccupationDao;
 import xact.idea.camelia.Database.Dao.QuestionsDao;
+import xact.idea.camelia.Database.Dao.ReferralHistoryDao;
 import xact.idea.camelia.Database.Dao.StudyClassDao;
 import xact.idea.camelia.Database.Dao.SurveyDao;
+import xact.idea.camelia.Database.Dao.UHCDao;
 import xact.idea.camelia.Database.Dao.UnionDao;
 import xact.idea.camelia.Database.Dao.UpazilaDao;
 import xact.idea.camelia.Database.Dao.WardDao;
 import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.Block;
 import xact.idea.camelia.Database.Model.BloodGroup;
+import xact.idea.camelia.Database.Model.CCModel;
 import xact.idea.camelia.Database.Model.District;
 import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
@@ -48,13 +52,15 @@ import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.Questions;
+import xact.idea.camelia.Database.Model.ReferHistory;
 import xact.idea.camelia.Database.Model.StudyClass;
 import xact.idea.camelia.Database.Model.Survey;
+import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
 import xact.idea.camelia.Database.Model.Ward;
 
-@Database(entities = {Auth.class, Block.class, BloodGroup.class, District.class,Division.class, Female.class, MaritialStatus.class, Occupation.class, StudyClass.class, Unions.class, Upazila.class, Ward.class, HouseHold.class, Measurements.class, Medicine.class, MemberHabit.class, MemberMedicine.class, MemberMyself.class, Survey.class, MeasurementDetails.class, MemberId.class, Questions.class}, version =3,exportSchema = false)
+@Database(entities = {Auth.class, Block.class, BloodGroup.class, District.class,Division.class, Female.class, MaritialStatus.class, Occupation.class, StudyClass.class, Unions.class, Upazila.class, Ward.class, HouseHold.class, Measurements.class, Medicine.class, MemberHabit.class, MemberMedicine.class, MemberMyself.class, Survey.class, MeasurementDetails.class, MemberId.class, Questions.class, ReferHistory.class, CCModel.class, UHC.class}, version =3,exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class MainDataBase extends RoomDatabase {
     public abstract DivisionDao divisionDao();
@@ -79,6 +85,9 @@ public abstract class MainDataBase extends RoomDatabase {
     public abstract MeasurementDetailsDao measurementDetailsDao();
     public abstract MemberIdDao memberIdDao();
     public abstract QuestionsDao questionsDao();
+    public abstract ReferralHistoryDao referralHistoryDao();
+    public abstract UHCDao uhcDao();
+    public abstract CCDao ccDao();
 
     private static MainDataBase instance;
 
