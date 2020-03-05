@@ -80,6 +80,16 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
+    public Flowable<List<MemberMyself>> getReferMembersForCC() {
+        return IMemberMyselfDatasources.getReferMembersForCC();
+    }
+
+    @Override
+    public void updateReciverAgain(String from, String to, String date, String memberId) {
+        IMemberMyselfDatasources.updateReciverAgain(from, to, date, memberId);
+    }
+
+    @Override
     public Flowable<List<SentSyncModel>> getSyncMembers(Date from, Date to) {
         return IMemberMyselfDatasources.getSyncMembers(from, to);
     }
@@ -87,6 +97,16 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     @Override
     public Flowable<List<SentSyncModel>> getNotSyncMembers(Date from, Date to) {
         return IMemberMyselfDatasources.getNotSyncMembers(from, to);
+    }
+
+    @Override
+    public  Flowable<List<Count>> TotalCountByDateRange(Date from, Date to) {
+        return IMemberMyselfDatasources.TotalCountByDateRange(from, to);
+    }
+
+    @Override
+    public Count TotalCountByDate(Date from) {
+        return IMemberMyselfDatasources.TotalCountByDate(from);
     }
 
     @Override

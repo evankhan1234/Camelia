@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -239,7 +240,10 @@ public class HHMemberListFragment extends Fragment {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));
-                mAdapters = new HHMemberListAdapter(mActivity,memberMyselfes,medicineInterface);
+
+                FragmentActivity activity = (FragmentActivity)mActivity;
+                FragmentManager manager = activity.getSupportFragmentManager();
+                mAdapters = new HHMemberListAdapter(mActivity,memberMyselfes,medicineInterface,manager);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {

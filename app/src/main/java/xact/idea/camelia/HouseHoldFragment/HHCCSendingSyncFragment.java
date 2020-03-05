@@ -58,9 +58,10 @@ public class HHCCSendingSyncFragment extends Fragment {
     RecyclerView rcl_this_customer_list;
     static EditText edit_start_date;
     static EditText edit_end_date;
+    Button btn_yes;
      EditText edit_content;
     ProgressBar progress_bar;
-    Button btn_yes;
+
     TextView text_member;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,11 +79,12 @@ public class HHCCSendingSyncFragment extends Fragment {
     private void initView() {
         edit_content =  view.findViewById(R.id.edit_content);
         text_member =  view.findViewById(R.id.text_member);
-        btn_yes =  view.findViewById(R.id.btn_yes);
+
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         progress_bar =  view.findViewById(R.id.progress_bar);
         edit_start_date =  view.findViewById(R.id.edit_start_date);
         edit_end_date =  view.findViewById(R.id.edit_end_date);
+        btn_yes =  view.findViewById(R.id.btn_yes);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);

@@ -8,6 +8,7 @@ import xact.idea.camelia.NetworkModel.AuthPost;
 import xact.idea.camelia.NetworkModel.AuthResponse;
 import xact.idea.camelia.NetworkModel.BlockResponses;
 import xact.idea.camelia.NetworkModel.BloodGroupResponses;
+import xact.idea.camelia.NetworkModel.CCModelresponse;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
@@ -37,6 +38,7 @@ import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.ReferallPostModel;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
+import xact.idea.camelia.NetworkModel.UHCModel;
 import xact.idea.camelia.NetworkModel.UnionResponses;
 import xact.idea.camelia.NetworkModel.UpazilaResponses;
 import xact.idea.camelia.NetworkModel.WardResponses;
@@ -94,4 +96,9 @@ public interface IRetrofitApi {
     io.reactivex.Observable<MemberGetResponseModel> getMemberShow(@Body MemberAlocatePostModel memberAlocatePostModel);
     @POST("household/view")
     io.reactivex.Observable<HouseholdGetResponseModel> getHouseholdShow(@Body HouseholdPostModel householdPostModel);
+
+    @GET("cc/list")
+    io.reactivex.Observable<UHCModel> getUHC();
+    @GET("uhc/list")
+    io.reactivex.Observable<CCModelresponse> getCC();
 }

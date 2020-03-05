@@ -24,9 +24,12 @@ public interface IMemberMyselfDatasources {
     int size();
     int notSync(Date from,Date to);
     int Sync(Date from,Date to);
+    Flowable<List<MemberMyself>> getReferMembersForCC();
+    void updateReciverAgain(String from,String to,String date,String memberId);
     Flowable<List<SentSyncModel>> getSyncMembers(Date from,Date to);
     Flowable<List<SentSyncModel>> getNotSyncMembers(Date from, Date to);
-
+    Flowable<List<Count>> TotalCountByDateRange(Date from ,Date to);
+    Count TotalCountByDate(Date from);
     void updateReciver(String date,String member);
     Flowable<List<MemberMyself>> getInCompleteMembers();
     Flowable<List<MemberMyself>> getCompleteMembers();

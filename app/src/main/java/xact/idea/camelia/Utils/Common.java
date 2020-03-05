@@ -5,6 +5,7 @@ import xact.idea.camelia.Database.MainDataBase;
 import xact.idea.camelia.Database.Repository.AuthRepository;
 import xact.idea.camelia.Database.Repository.BlockRepository;
 import xact.idea.camelia.Database.Repository.BloodGroupRepository;
+import xact.idea.camelia.Database.Repository.CCRepository;
 import xact.idea.camelia.Database.Repository.DistrictRepository;
 import xact.idea.camelia.Database.Repository.DivisionRepository;
 import xact.idea.camelia.Database.Repository.FemaleRepository;
@@ -19,8 +20,10 @@ import xact.idea.camelia.Database.Repository.MemberMedicineRepository;
 import xact.idea.camelia.Database.Repository.MemberMyselfRepository;
 import xact.idea.camelia.Database.Repository.OccupationRepository;
 import xact.idea.camelia.Database.Repository.QustionsRepository;
+import xact.idea.camelia.Database.Repository.ReferRepository;
 import xact.idea.camelia.Database.Repository.StudyClassRepository;
 import xact.idea.camelia.Database.Repository.SurveyRepository;
+import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
@@ -51,6 +54,9 @@ public abstract class Common {
     public static MeasurementDetailsRepository measurementDetailsRepository;
     public static MemberIdRepository memberIdRepository;
     public static QustionsRepository qustionsRepository;
+    public static CCRepository ccRepository;
+    public static UHCRepository uhcRepository;
+    public static ReferRepository referRepository;
 
     public static final String BASE_URL_XACT = "http://demo.xactidea.com/camelia/api/";
 
