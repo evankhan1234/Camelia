@@ -95,25 +95,24 @@
 
 
                             <TextView
-                                android:id="@+id/tv_name"
+                                android:id="@+id/tv_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:tag="60"
-                                android:text="January 20, 2020"
-
+                                android:text=""
                                 android:textColor="@color/white"
                                 android:textSize="60px" />
 
 
 
                             <TextView
-                                android:id="@+id/tv_room_no"
+                                android:id="@+id/tv_total_member"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:singleLine="true"
                                 android:tag="60"
-                                android:text="34 Persons"
+                                android:text="0 Persons"
                                 android:textColor="@color/white"
                                 android:textSize="60px" />
 
@@ -175,6 +174,7 @@
                                 android:text="Male"
                                 />
                             <TextView
+                                android:id="@+id/tv_male"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -217,6 +217,7 @@
                                 android:text="Female"
                                 />
                             <TextView
+                                android:id="@+id/tv_female"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -259,6 +260,7 @@
                                 android:text="Pregnant"
                                 />
                             <TextView
+                                android:id="@+id/tv_pregnant"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -267,7 +269,7 @@
                                 android:layout_marginTop="15px"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="14 Persons"
+                                android:text="0 Persons"
                                 />
 
                         </RelativeLayout>
@@ -301,6 +303,7 @@
                                 android:text="Diabetes"
                                 />
                             <TextView
+                                android:id="@+id/tv_diabetes"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -343,6 +346,7 @@
                                 android:text="Hypertension"
                                 />
                             <TextView
+                                android:id="@+id/tv_hypertension"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -385,6 +389,7 @@
                                 android:text="Heart Disease"
                                 />
                             <TextView
+                                android:id="@+id/tv_heart_disease"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -427,6 +432,7 @@
                                 android:text="Stroke"
                                 />
                             <TextView
+                                android:id="@+id/tv_stroke"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -469,17 +475,18 @@
                                 android:layout_height="wrap_content"
                                 android:text="TIA"
                                 />
+
                             <TextView
-                                android:textStyle="bold"
-                                android:tag="50"
-                                android:textSize="50px"
-                                android:textColor="@color/gray_black"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginTop="15px"
+                                android:id="@+id/tv_lung"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginTop="15px"
+                                android:tag="50"
                                 android:text="13 Persons"
-                                />
+                                android:textColor="@color/gray_black"
+                                android:textSize="50px"
+                                android:textStyle="bold" />
 
                         </RelativeLayout>
 
@@ -512,6 +519,7 @@
                                 android:text="COPD"
                                 />
                             <TextView
+                                android:id="@+id/tv_ashma"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -554,6 +562,7 @@
                                 android:text="CKD"
                                 />
                             <TextView
+                                android:id="@+id/tv_kidney"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -596,6 +605,7 @@
                                 android:text="Cancer"
                                 />
                             <TextView
+                                android:id="@+id/tv_cancer"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"
@@ -638,6 +648,7 @@
                                 android:text="Disablity"
                                 />
                             <TextView
+                                android:id="@+id/tv_disability"
                                 android:textStyle="bold"
                                 android:tag="50"
                                 android:textSize="50px"

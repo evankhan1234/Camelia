@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import xact.idea.camelia.Database.AnotherModel.Count;
+import xact.idea.camelia.Database.AnotherModel.HHDashboardModel;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.DataSourcesInterface.IMemberMyselfDatasources;
@@ -51,6 +52,11 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     @Override
     public int maxValue() {
         return IMemberMyselfDatasources.maxValue();
+    }
+
+    @Override
+    public HHDashboardModel hhModel() {
+        return IMemberMyselfDatasources.hhModel();
     }
 
     @Override

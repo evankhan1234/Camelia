@@ -625,6 +625,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     memberMyself.HouseHeadId=headId;
                     memberMyself.MemberId= memberIds.MemberId;
                     memberMyself.UniqueId=uniqueId;
+                    memberMyself.Status= memberIds.Status;
                     Common.memberMyselfRepository.updateMemberMyself(memberMyself);
                     HHCreateMemberFragment.nextPage(1);
                     HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
@@ -706,6 +707,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                             }
                             memberMyself.CreatedDate=date1;
                             memberMyself.id=myself.id;
+                            memberMyself.Status= myself.Status;
                             memberMyself.GenderId=genderId;
                             memberMyself.BloodGroupId=bloodGroupId;
                             memberMyself.ReligionId=religionId;

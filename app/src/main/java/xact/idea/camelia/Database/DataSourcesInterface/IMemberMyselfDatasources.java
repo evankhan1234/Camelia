@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import xact.idea.camelia.Database.AnotherModel.Count;
+import xact.idea.camelia.Database.AnotherModel.HHDashboardModel;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.Model.MemberMyself;
@@ -18,6 +19,7 @@ public interface IMemberMyselfDatasources {
     MemberMyself getMemberMyselfForHousehold(String MemberMyselfItem);
     void emptyMemberMyself();
     int maxValue();
+    HHDashboardModel hhModel();
     MemberMyself getMemberId(String MemberMyselfItem);
     int size();
     int notSync(Date from,Date to);
