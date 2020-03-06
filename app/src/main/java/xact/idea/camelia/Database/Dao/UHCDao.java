@@ -17,6 +17,14 @@ public interface UHCDao {
     Flowable<List<UHC>> getUHCItems();
     @Query("SELECT * FROM UHC WHERE id=:UHCItemId")
     Flowable<List<UHC>> getUHCItemById(int UHCItemId);
+    @Query("SELECT * FROM UHC WHERE division_code=:DivisionId AND district_code=:DistrictId AND upazila_code=:Upazila AND division_code=:Union")
+    Flowable<List<UHC>> getUHCItemByFour(String DivisionId,String DistrictId,String Upazila,String Union);
+    @Query("SELECT * FROM UHC WHERE division_code=:DivisionId AND district_code=:DistrictId AND upazila_code=:Upazila")
+    Flowable<List<UHC>> getUHCItemByThree(String DivisionId,String DistrictId,String Upazila);
+    @Query("SELECT * FROM UHC WHERE division_code=:DivisionId AND district_code=:DistrictId ")
+    Flowable<List<UHC>> getUHCItemByTwo(String DivisionId,String DistrictId);
+    @Query("SELECT * FROM UHC WHERE division_code=:DivisionId ")
+    Flowable<List<UHC>> getUHCItemByOne(String DivisionId);
     @Query("SELECT * FROM UHC WHERE UHCId=:UHCItem")
     UHC getUHC(String UHCItem);
     @Query("SELECT * FROM UHC WHERE UHCId=:UHCItem")

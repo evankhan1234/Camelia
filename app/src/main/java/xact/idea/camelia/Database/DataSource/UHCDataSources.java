@@ -48,6 +48,26 @@ public class UHCDataSources implements IUHCDataSources {
     }
 
     @Override
+    public Flowable<List<UHC>> getUHCItemByFour(String DivisionId, String DistrictId, String Upazila, String Union) {
+        return UHCDao.getUHCItemByFour(DivisionId, DistrictId, Upazila, Union);
+    }
+
+    @Override
+    public Flowable<List<UHC>> getUHCItemByThree(String DivisionId, String DistrictId, String Upazila) {
+        return UHCDao.getUHCItemByThree(DivisionId, DistrictId, Upazila);
+    }
+
+    @Override
+    public Flowable<List<UHC>> getUHCItemByTwo(String DivisionId, String DistrictId) {
+        return UHCDao.getUHCItemByTwo(DivisionId, DistrictId);
+    }
+
+    @Override
+    public Flowable<List<UHC>> getUHCItemByOne(String DivisionId) {
+        return UHCDao.getUHCItemByOne(DivisionId);
+    }
+
+    @Override
     public UHC getUHCNo(String UHCItem) {
         return UHCDao.getUHCNo(UHCItem);
     }

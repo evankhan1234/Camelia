@@ -174,7 +174,7 @@ public interface MemberMyselfDao {
             "            \n" +
             "            SELECT ms.datetime,ms.MemberIds,ms.Type FROM (select distinct MemberIds,type,datetime from Measurements where datetime between :from and :to) ms\n" +
             "            WHERE\n" +
-            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes','N/A')\n" +
             "            GROUP BY ms.MemberIds,ms.type,ms.datetime\n" +
             "            ) q\n" +
             "            GROUP BY q.MemberIds,datetime\n" +
@@ -208,7 +208,7 @@ public interface MemberMyselfDao {
             "            \n" +
             "            SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements where datetime = :from) ms\n" +
             "            WHERE\n" +
-            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes','N/A')\n" +
             "            GROUP BY ms.MemberIds,ms.type\n" +
             "            ) q\n" +
             "            GROUP BY q.MemberIds\n" +

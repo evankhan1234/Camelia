@@ -262,6 +262,7 @@
                             android:layout_marginTop="10px"
                             android:background="@drawable/gradient_color_top" />
                         <RelativeLayout
+                            android:visibility="gone"
                             android:layout_marginTop="15px"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -273,6 +274,7 @@
                                 android:layout_height="80px" />
 
                             <TextView
+                                android:visibility="gone"
                                 android:tag="45"
                                 android:textSize="45px"
                                 android:textColor="@color/gray_black"
@@ -297,6 +299,7 @@
                         </RelativeLayout>
 
                         <View
+                            android:visibility="gone"
 
                             android:layout_width="match_parent"
                             android:layout_height="5px"
@@ -359,7 +362,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="130px"
                     android:orientation="horizontal"
-                    android:weightSum="6"
+                    android:weightSum="5"
                     android:id="@+id/layout_header"
 
                     >
@@ -442,21 +445,7 @@
 
                         android:background="@drawable/cell_shape"
                         android:id="@+id/text_amounsvt" />
-                    <TextView
-                        android:textStyle="bold"
-                        android:textColor="@color/white"
-                        android:paddingTop="10px"
-                        android:paddingBottom="10px"
-                        android:tag="40"
-                        android:textSize="40px"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:text="Obese (WC)"
-                        android:gravity="center|center_vertical"
-                        android:layout_weight="1"
 
-                        android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amouvnt" />
                     <TextView
                         android:textStyle="bold"
                         android:textColor="@color/white"

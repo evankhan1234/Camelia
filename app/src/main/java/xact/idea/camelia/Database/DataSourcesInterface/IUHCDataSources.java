@@ -16,6 +16,13 @@ public interface IUHCDataSources {
 
     int size();
 
+    Flowable<List<UHC>> getUHCItemByFour(String DivisionId,String DistrictId,String Upazila,String Union);
+
+    Flowable<List<UHC>> getUHCItemByThree(String DivisionId,String DistrictId,String Upazila);
+
+    Flowable<List<UHC>> getUHCItemByTwo(String DivisionId,String DistrictId);
+
+    Flowable<List<UHC>> getUHCItemByOne(String DivisionId);
     UHC getUHCNo(String UHCItem);
 
     void insertToUHC(UHC... UHC);

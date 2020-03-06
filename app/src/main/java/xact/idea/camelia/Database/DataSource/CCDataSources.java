@@ -43,6 +43,26 @@ public class CCDataSources implements ICCDatasources {
     }
 
     @Override
+    public Flowable<List<CCModel>> getCCModelItemByFour(String DivisionId, String DistrictId, String Upazila, String Union) {
+        return CCModelDao.getCCModelItemByFour(DivisionId, DistrictId, Upazila, Union);
+    }
+
+    @Override
+    public Flowable<List<CCModel>> getCCModelItemByThree(String DivisionId, String DistrictId, String Upazila) {
+        return CCModelDao.getCCModelItemByThree(DivisionId, DistrictId, Upazila);
+    }
+
+    @Override
+    public Flowable<List<CCModel>> getCCModelItemByTwo(String DivisionId, String DistrictId) {
+        return CCModelDao.getCCModelItemByTwo(DivisionId, DistrictId);
+    }
+
+    @Override
+    public Flowable<List<CCModel>> getCCModelItemByOne(String DivisionId) {
+        return CCModelDao.getCCModelItemByOne(DivisionId);
+    }
+
+    @Override
     public int size() {
         return CCModelDao.value();
     }

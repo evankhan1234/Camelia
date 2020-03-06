@@ -42,6 +42,26 @@ public class CCRepository implements ICCDatasources {
     }
 
     @Override
+    public Flowable<List<CCModel>> getCCModelItemByFour(String DivisionId, String DistrictId, String Upazila, String Union) {
+        return ICCDatasources.getCCModelItemByFour(DivisionId, DistrictId, Upazila, Union);
+    }
+
+    @Override
+    public Flowable<List<CCModel>> getCCModelItemByThree(String DivisionId, String DistrictId, String Upazila) {
+        return ICCDatasources.getCCModelItemByThree(DivisionId, DistrictId, Upazila);
+    }
+
+    @Override
+    public Flowable<List<CCModel>> getCCModelItemByTwo(String DivisionId, String DistrictId) {
+        return ICCDatasources.getCCModelItemByTwo(DivisionId, DistrictId);
+    }
+
+    @Override
+    public Flowable<List<CCModel>> getCCModelItemByOne(String DivisionId) {
+        return ICCDatasources.getCCModelItemByOne(DivisionId);
+    }
+
+    @Override
     public int size() {
         return ICCDatasources.size();
     }
