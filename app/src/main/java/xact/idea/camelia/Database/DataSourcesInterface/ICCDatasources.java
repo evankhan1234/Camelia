@@ -15,6 +15,13 @@ public interface ICCDatasources {
 
     void emptyCCModel();
 
+    Flowable<List<CCModel>> getCCModelItemByFour(String DivisionId, String DistrictId, String Upazila, String Union);
+
+    Flowable<List<CCModel>> getCCModelItemByThree(String DivisionId,String DistrictId,String Upazila);
+
+    Flowable<List<CCModel>> getCCModelItemByTwo(String DivisionId,String DistrictId);
+
+    Flowable<List<CCModel>> getCCModelItemByOne(String DivisionId);
     int size();
 
     CCModel getCCModelNo(String CCModelItem);

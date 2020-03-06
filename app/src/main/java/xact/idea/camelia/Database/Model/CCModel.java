@@ -35,4 +35,8 @@ public class CCModel {
     public int status;
 
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

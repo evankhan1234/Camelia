@@ -10,9 +10,11 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,6 +35,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,8 +46,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.CCUserActivity;
+import xact.idea.camelia.Database.Model.Auth;
+import xact.idea.camelia.Database.Model.CCModel;
 import xact.idea.camelia.Database.Model.Division;
+import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Database.Model.ReferHistory;
+import xact.idea.camelia.Database.Model.UHC;
+import xact.idea.camelia.Database.Model.Upazila;
 import xact.idea.camelia.Fragment.CCBloodPressureFragment;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
@@ -54,7 +68,11 @@ import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.CustomDialog;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
+
+import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
+import static xact.idea.camelia.Utils.Utils.showLoadingProgress;
 
 public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncompleteStatusAdapter.CCIncompleteStatusListiewHolder> {
 
@@ -67,7 +85,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     List<MemberMyself> memberMyself;
     androidx.fragment.app.FragmentManager fragmentManagers;
     Context context;
-
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     public CCIncompleteStatusAdapter(Activity activity, List<MemberMyself> memberMyselfes, MedicineInterface uccMemberClickListeners, FragmentManager fragmentManager) {
         mActivity = activity;
         uccMemberClickListener=uccMemberClickListeners;
@@ -254,9 +272,10 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     }
 
     public  void showInfoDialogFollow(final Activity mContext, final String member) {
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         ArrayAdapter<ClinicModel> divisionArrayAdapter;
-        List<ClinicModel> clinicModelArrayList = new ArrayList<>();
-        clinicModelArrayList=Utils.getClinicList();
+//        List<CCModel> clinicModelArrayList = new ArrayList<>();
+//        clinicModelArrayList=Utils.getClinicList();
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.layout_followup, null);
@@ -266,10 +285,18 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
-        Spinner spinner=infoDialog.findViewById(R.id.spinner_sex);
+        final Spinner spinner=infoDialog.findViewById(R.id.spinner_sex);
         edit_date=infoDialog.findViewById(R.id.edit_date);
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         final Date date = new Date(System.currentTimeMillis());
+         Date date1 = null;
+        String currentDate = formatter.format(date);
+        try {
+            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+            // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         edit_date.setText(formatter.format(date));
         edit_date.setOnClickListener(new View.OnClickListener() {
 
@@ -286,18 +313,74 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
 
             }
         });
-        divisionArrayAdapter = new ArrayAdapter<ClinicModel>(mActivity, android.R.layout.simple_spinner_item, clinicModelArrayList);
-        divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(divisionArrayAdapter);
 
+        String divisionId="";
+        String districtId="";
+        String upazilaId="";
+        String unionId="";
+        final String[] refer = {""};
+        divisionId=auth.division;
+        districtId=auth.district;
+        upazilaId=auth.upazila;
+        unionId=auth.union;
+        compositeDisposable.add(Common.ccRepository.getCCModelItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
+            @Override
+            public void accept(List<CCModel> customers) throws Exception {
+                Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+
+                ArrayAdapter<CCModel> divisionArrayAdapter;
+                List<CCModel> centerModelArrayList = new ArrayList<>();
+
+                centerModelArrayList=customers;
+                divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+                divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(divisionArrayAdapter);
+
+                final List<CCModel> finalCenterModelArrayList = centerModelArrayList;
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+
+                        refer[0] =finalCenterModelArrayList.get(position).name;
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                dismissLoadingProgress();
+
+            }
+        }));
 
         CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
+        final Date finalDate = date1;
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
+                Common.memberMyselfRepository.updateReciverAgain("CC", "Follow", edit_date.getText().toString(), member);
+                ReferHistory referHistory = new ReferHistory();
+                referHistory.From = "CC";
+                referHistory.To = refer[0];
+                referHistory.VisitDate = edit_date.getText().toString();
+                referHistory.MemberId = member;
+                Common.referRepository.insertToReferHistory(referHistory);
 
+                Measurements measurements = new Measurements();
+                measurements.DateTime= finalDate;
+                measurements.MemberIds=member;
+                measurements.Message="N/A";
+                measurements.Type="N/A";
+                measurements.Result=0.0;
+                measurements.Refer="Follow";
+                Common.measurementsRepository.insertToMeasurements(measurements);
+                Log.e("sp_water", "" + refer[0]);
                 infoDialog.dismiss();
+
 
             }
         });
@@ -312,9 +395,12 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
      static EditText edit_date;
      static EditText edit_dates;
     public  void showInfoDialogRefer(final Context mContext, final String member) {
-        ArrayAdapter<CenterModel> divisionArrayAdapter;
-        List<CenterModel> centerModelArrayList = new ArrayList<>();
-        centerModelArrayList=Utils.getCenterList();
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
+        showLoadingProgress(mActivity);
+
+
+
+
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.layout_referral, null);
@@ -324,10 +410,18 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
-        Spinner spinner=infoDialog.findViewById(R.id.spinner_sex);
+        final Spinner spinner=infoDialog.findViewById(R.id.spinner_sex);
          edit_dates=infoDialog.findViewById(R.id.edit_date);
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         final Date date = new Date(System.currentTimeMillis());
+        Date date1 = null;
+        String currentDate = formatter.format(date);
+        try {
+            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+            // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         edit_dates.setText(formatter.format(date));
         edit_dates.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -337,16 +431,145 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 newFragment.show(fragmentManagers, "DatePicker");
             }
         });
-        divisionArrayAdapter = new ArrayAdapter<CenterModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
-        divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(divisionArrayAdapter);
+        String divisionId="";
+        String districtId="";
+        String upazilaId="";
+        String unionId="";
+        final String[] refer = {""};
+        divisionId=auth.division;
+        districtId=auth.district;
+        upazilaId=auth.upazila;
+        unionId=auth.union;
+        compositeDisposable.add(Common.uhcRepository.getUHCItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<UHC>>() {
+            @Override
+            public void accept(List<UHC> customers) throws Exception {
+                Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+
+                ArrayAdapter<UHC> divisionArrayAdapter;
+                List<UHC> centerModelArrayList = new ArrayList<>();
+
+                centerModelArrayList=customers;
+                divisionArrayAdapter = new ArrayAdapter<UHC>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+                divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(divisionArrayAdapter);
+                final List<UHC> finalCenterModelArrayList = centerModelArrayList;
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+
+                        refer[0] = finalCenterModelArrayList.get(position).name;
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                dismissLoadingProgress();
+
+            }
+        }));
+//        if(divisionId!=null && districtId!=null  && upazilaId!=null  && unionId!=null ){
+//            compositeDisposable.add(Common.uhcRepository.getUHCItemByFour(divisionId,districtId,upazilaId,unionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<UHC>>() {
+//                @Override
+//                public void accept(List<UHC> customers) throws Exception {
+//                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+//
+//                    ArrayAdapter<UHC> divisionArrayAdapter;
+//                    List<UHC> centerModelArrayList = new ArrayList<>();
+//
+//                    centerModelArrayList=customers;
+//                    divisionArrayAdapter = new ArrayAdapter<UHC>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+//                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    spinner.setAdapter(divisionArrayAdapter);
+//                    dismissLoadingProgress();
+//
+//                }
+//            }));
+//        }
+//        else if(divisionId!=null && districtId!=null  && upazilaId!=null){
+//            compositeDisposable.add(Common.uhcRepository.getUHCItemByThree(divisionId,districtId,upazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<UHC>>() {
+//                @Override
+//                public void accept(List<UHC> customers) throws Exception {
+//                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+//
+//                    ArrayAdapter<UHC> divisionArrayAdapter;
+//                    List<UHC> centerModelArrayList = new ArrayList<>();
+//
+//                    centerModelArrayList=customers;
+//                    divisionArrayAdapter = new ArrayAdapter<UHC>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+//                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    spinner.setAdapter(divisionArrayAdapter);
+//                    dismissLoadingProgress();
+//
+//                }
+//            }));
+//        }
+//        else if(divisionId!=null && districtId!=null  ){
+//            compositeDisposable.add(Common.uhcRepository.getUHCItemByTwo(divisionId,districtId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<UHC>>() {
+//                @Override
+//                public void accept(List<UHC> customers) throws Exception {
+//                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+//
+//                    ArrayAdapter<UHC> divisionArrayAdapter;
+//                    List<UHC> centerModelArrayList = new ArrayList<>();
+//
+//                    centerModelArrayList=customers;
+//                    divisionArrayAdapter = new ArrayAdapter<UHC>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+//                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    spinner.setAdapter(divisionArrayAdapter);
+//                    dismissLoadingProgress();
+//
+//                }
+//            }));
+//        }
+//        else if(divisionId!=null  ){
+//            compositeDisposable.add(Common.uhcRepository.getUHCItemByOne(divisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<UHC>>() {
+//                @Override
+//                public void accept(List<UHC> customers) throws Exception {
+//                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+//
+//                    ArrayAdapter<UHC> divisionArrayAdapter;
+//                    List<UHC> centerModelArrayList = new ArrayList<>();
+//
+//                    centerModelArrayList=customers;
+//                    divisionArrayAdapter = new ArrayAdapter<UHC>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+//                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    spinner.setAdapter(divisionArrayAdapter);
+//                    dismissLoadingProgress();
+//
+//                }
+//            }));
+//        }
+//        else{
+//
+//        }
         CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
+        final Date finalDate = date1;
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
+                Common.memberMyselfRepository.updateReciverAgain("CC", "UHC", edit_dates.getText().toString(), member);
+                ReferHistory referHistory = new ReferHistory();
+                referHistory.From = "CC";
+                referHistory.To = refer[0];
+                referHistory.VisitDate = edit_dates.getText().toString();
+                referHistory.MemberId = member;
+                Common.referRepository.insertToReferHistory(referHistory);
 
+                Measurements measurements = new Measurements();
+                measurements.DateTime= finalDate;
+                measurements.MemberIds=member;
+                measurements.Message="N/A";
+                measurements.Type="N/A";
+                measurements.Result=0.0;
+                measurements.Refer="UHC";
+                Common.measurementsRepository.insertToMeasurements(measurements);
                 infoDialog.dismiss();
+
 
             }
         });

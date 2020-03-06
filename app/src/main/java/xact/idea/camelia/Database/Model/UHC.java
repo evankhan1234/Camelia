@@ -33,4 +33,9 @@ public class UHC {
     public int block_code;
     @ColumnInfo(name = "status")
     public int status;
+
+    @Override
+    public String toString() {
+        return  name ;
+    }
 }
