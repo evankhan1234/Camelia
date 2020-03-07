@@ -155,8 +155,18 @@ public class CCFastingGlucosreFragment extends Fragment {
                             view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     // Hide the soft keyboard
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    final Date date = new Date(System.currentTimeMillis());
+                    Date date1 = null;
+                    String currentDate = formatter.format(date);
+                    try {
+                        date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     Measurements measurements = new Measurements();
-                    measurements.DateTime=date;
+                    measurements.DateTime=date1;
                     measurements.MemberIds=type;
                     measurements.Message=message;
                     measurements.Result=total;
@@ -166,7 +176,7 @@ public class CCFastingGlucosreFragment extends Fragment {
 
                     int memberId= Common.measurementsRepository.maxValue();
                     MeasurementDetails measurementDetails= new MeasurementDetails();
-                    measurementDetails.DateTime=date;
+                    measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;
                     measurementDetails.Name="Pulse";
                     measurementDetails.Result= Double.parseDouble(edit_pulse.getText().toString());

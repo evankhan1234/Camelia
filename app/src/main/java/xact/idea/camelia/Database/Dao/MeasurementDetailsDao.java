@@ -15,7 +15,7 @@ import xact.idea.camelia.Database.Model.MeasurementDetails;
 public interface MeasurementDetailsDao {
     @Query("SELECT * FROM MeasurementDetails")
     Flowable<List<MeasurementDetails>> getMeasurementsItems();
-    @Query("SELECT * FROM MeasurementDetails WHERE id=:MeasurementsId")
+    @Query("SELECT * FROM MeasurementDetails WHERE MeasurementId=:MeasurementsId")
     Flowable<List<MeasurementDetails>> getMeasurementsItemById(int MeasurementsId);
     @Query("SELECT * FROM MeasurementDetails WHERE id=:MeasurementsItem")
     MeasurementDetails getMeasurements(String MeasurementsItem);

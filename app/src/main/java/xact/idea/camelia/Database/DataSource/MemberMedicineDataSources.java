@@ -26,7 +26,7 @@ public class MemberMedicineDataSources implements IMemberMedicineDataSources {
     }
 
     @Override
-    public Flowable<List<MemberMedicine>> getMemberMedicineItemById(int MemberMedicineItemId) {
+    public Flowable<List<MemberMedicine>> getMemberMedicineItemById(String MemberMedicineItemId) {
         return MemberMedicineDao.getMemberMedicineItemById(MemberMedicineItemId);
     }
 

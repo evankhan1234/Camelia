@@ -9,7 +9,7 @@ public class MemberUploadModel {
     public String user_credential;
     @SerializedName("data")
     public ArrayList<Data> data;
-    public class Data {
+    public static class Data {
         @SerializedName("id")
         public int id;
         @SerializedName("household_uniqe_id")
@@ -23,13 +23,15 @@ public class MemberUploadModel {
         @SerializedName("mobile_number")
         public String mobile_number;
         @SerializedName("head_of_house")
-        public String natiohead_of_housenal_id;
+        public String head_of_house;
         @SerializedName("birth_date")
         public String birth_date;
         @SerializedName("date_of_data_collection")
         public String date_of_data_collection;
         @SerializedName("sex")
         public String sex;
+        @SerializedName("national_id")
+        public String national_id;
         @SerializedName("religion")
         public String religion;
         @SerializedName("education")

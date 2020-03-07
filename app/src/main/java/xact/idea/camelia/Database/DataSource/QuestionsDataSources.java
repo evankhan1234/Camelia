@@ -28,8 +28,8 @@ public class QuestionsDataSources implements IQuestionsDataSources {
     }
 
     @Override
-    public Flowable<List<Questions>> getQuestionsItemById(int QuestionsItemId) {
-        return QuestionsDao.getQuestionsItemById(QuestionsItemId);
+    public Flowable<List<Questions>> getQuestionsItemById(String QuestionsItemId,String MemberId) {
+        return QuestionsDao.getQuestionsItemById(QuestionsItemId,MemberId);
     }
 
     @Override

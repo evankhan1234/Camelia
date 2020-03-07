@@ -710,7 +710,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         MemberMedicine memberMedicine = Common.memberMedicineRepository.getMemberMedicineNo(update);
 
 
-        if (memberMedicine != null) {
+        if (memberMedicine != null)
+        {
             int DiabetisYesNo = 0;
             Questions questions1 = Common.qustionsRepository.getQuestions("Q49", update);
             try {

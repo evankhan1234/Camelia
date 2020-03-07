@@ -181,7 +181,7 @@ public class CCUserDashBoardFragment extends Fragment {
 
 
 
-        edit_end_date.setText(""+days+"-"+months+"-"+year);
+
 
         Date date1 = new Date();
         Calendar c = Calendar.getInstance();
@@ -192,7 +192,10 @@ public class CCUserDashBoardFragment extends Fragment {
         c.add(Calendar.DATE, 6);
         Date end = c.getTime();
         SimpleDateFormat formatters = new SimpleDateFormat("dd-MM-yyyy");
-        String currentDate = formatters.format(end);
+        Date date2 = new Date(System.currentTimeMillis());
+        String currentDate = formatter.format(end);
+        String currentDate2 = formatter.format(date2);
+        edit_end_date.setText(currentDate2);
         edit_start_date.setText(currentDate);
         btn_yes =view.findViewById(R.id.btn_yes);
         btn_yes.setOnClickListener(new View.OnClickListener() {

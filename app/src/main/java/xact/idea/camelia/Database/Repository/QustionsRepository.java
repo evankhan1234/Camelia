@@ -27,8 +27,8 @@ public class QustionsRepository implements IQuestionsDataSources {
     }
 
     @Override
-    public Flowable<List<Questions>> getQuestionsItemById(int QuestionsItemId) {
-        return IQuestionsDatasources.getQuestionsItemById(QuestionsItemId);
+    public Flowable<List<Questions>> getQuestionsItemById(String QuestionsItemId,String MemberId) {
+        return IQuestionsDatasources.getQuestionsItemById(QuestionsItemId,MemberId);
     }
 
     @Override

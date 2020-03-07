@@ -10,7 +10,7 @@ public class HouseholdUploadModel {
     @SerializedName("data")
     public ArrayList<Data> data;
 
-    public class Data {
+    public static class Data {
         @SerializedName("household_uniqe_id")
         public String household_uniqe_id;
         @SerializedName("division_id")

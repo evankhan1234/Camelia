@@ -157,8 +157,18 @@ public class CCWHRFragment extends Fragment {
                             view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     // Hide the soft keyboard
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    final Date date = new Date(System.currentTimeMillis());
+                    Date date1 = null;
+                    String currentDate = formatter.format(date);
+                    try {
+                        date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     Measurements measurements = new Measurements();
-                    measurements.DateTime=date;
+                    measurements.DateTime=date1;
                     measurements.MemberIds=type;
                     measurements.Message=message;
                     measurements.Type="WHR";
@@ -167,14 +177,14 @@ public class CCWHRFragment extends Fragment {
                     Common.measurementsRepository.insertToMeasurements(measurements);
                     int memberId= Common.measurementsRepository.maxValue();
                     MeasurementDetails measurementDetails= new MeasurementDetails();
-                    measurementDetails.DateTime=date;
+                    measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;
                     measurementDetails.Name="Waist";
                     measurementDetails.Result= Double.parseDouble(edit_waist.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
 
                     MeasurementDetails measurementDetails1= new MeasurementDetails();
-                    measurementDetails.DateTime=date;
+                    measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;
                     measurementDetails.Name="Hp";
                     measurementDetails.Result= Double.parseDouble(edit_hp.getText().toString());

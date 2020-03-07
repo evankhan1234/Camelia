@@ -10,9 +10,9 @@ public class MemberBehaviorialUploadModel {
     @SerializedName("data")
     public ArrayList<Data> data;
 
-    public class Data {
-        @SerializedName("id")
-        public int id;
+    public static class Data {
+//        @SerializedName("id")
+//        public int id;
         @SerializedName("household_uniqe_id")
         public String household_uniqe_id;
         @SerializedName("member_id")
@@ -21,22 +21,22 @@ public class MemberBehaviorialUploadModel {
         public String member_national_id;
         @SerializedName("member_unique_code")
         public String member_unique_code;
-        @SerializedName("note")
-        public String note;
+//        @SerializedName("note")
+//        public String note;
         @SerializedName("status")
         public String status;
         @SerializedName("created_at")
         public String created_at;
-        @SerializedName("created_by")
-        public String created_by;
-        @SerializedName("updated_at")
-        public String updated_at;
+//        @SerializedName("created_by")
+//        public String created_by;
+//        @SerializedName("updated_at")
+//        public String updated_at;
         @SerializedName("update_no")
         public String update_no;
         @SerializedName("details")
         public ArrayList<Details> details;
 
-        public class Details{
+        public static class Details{
             @SerializedName("id")
             public int id;
             @SerializedName("master_id")
@@ -51,12 +51,12 @@ public class MemberBehaviorialUploadModel {
             public String answer;
             @SerializedName("created_at")
             public String created_at;
-            @SerializedName("created_by")
-            public String created_by;
-            @SerializedName("updated_at")
-            public String updated_at;
-            @SerializedName("update_no")
-            public String update_no;
+//            @SerializedName("created_by")
+//            public String created_by;
+//            @SerializedName("updated_at")
+//            public String updated_at;
+//            @SerializedName("update_no")
+//            public String update_no;
 
         }
     }
