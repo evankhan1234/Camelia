@@ -8,7 +8,7 @@ import xact.idea.camelia.Database.Model.MemberMedicine;
 public interface IMemberMedicineDataSources {
     Flowable<List<MemberMedicine>> getMemberMedicineItems();
 
-    Flowable<List<MemberMedicine>> getMemberMedicineItemById(int MemberMedicineItemId);
+    Flowable<List<MemberMedicine>> getMemberMedicineItemById(String MemberMedicineItemId);
 
     MemberMedicine getMemberMedicine(String MemberMedicineItem);
 

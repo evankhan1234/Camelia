@@ -15,8 +15,8 @@ import xact.idea.camelia.Database.Model.Questions;
 public interface QuestionsDao {
     @Query("SELECT * FROM Questions")
     Flowable<List<Questions>> getQuestionsItems();
-    @Query("SELECT * FROM Questions WHERE id=:QuestionsItemId")
-    Flowable<List<Questions>> getQuestionsItemById(int QuestionsItemId);
+    @Query("SELECT * FROM Questions WHERE type=:QuestionsItemId AND member_id=:MemberId")
+    Flowable<List<Questions>> getQuestionsItemById(String QuestionsItemId,String MemberId);
     @Query("SELECT * FROM Questions WHERE question=:QuestionsItem AND member_id=:MemberId")
     Questions getQuestions(String QuestionsItem,String MemberId);
     @Query("SELECT * FROM Questions WHERE type=:QuestionsItem")

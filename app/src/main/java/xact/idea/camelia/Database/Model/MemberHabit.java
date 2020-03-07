@@ -5,12 +5,20 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 @Entity(tableName = "MemberHabit")
 public class MemberHabit {
     @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
+    @SerializedName("household_uniqe_id")
+    public String household_uniqe_id;
+    @SerializedName("member_national_id")
+    public String member_national_id;
+    @SerializedName("member_unique_code")
+    public String member_unique_code;
     @ColumnInfo(name = "MemberId")
     public String MemberId;
     @ColumnInfo(name = "SmokeYesNo")

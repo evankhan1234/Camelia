@@ -88,15 +88,14 @@ public interface IRetrofitApi {
     io.reactivex.Observable<LabReportsResponseModel> getLabReports(@Body ReferallPostModel referallPostModel);
     @POST("member/measurements")
     io.reactivex.Observable<MeasurementsGetResponseModel> getMeasurementsGetResponse(@Body ReferallPostModel referallPostModel);
-    @POST("member/prescription")
+    @POST("member/prescriptions")
     io.reactivex.Observable<MemberPrescriptionGetResponseModel> getMemberPrescription(@Body ReferallPostModel referallPostModel);
     @POST("memberid/allocate")
     io.reactivex.Observable<MemberAlocateResponseModel> getMemberAlocate(@Body MemberAlocatePostModel memberAlocatePostModel);
     @POST("members/show")
-    io.reactivex.Observable<MemberGetResponseModel> getMemberShow(@Body MemberAlocatePostModel memberAlocatePostModel);
+    io.reactivex.Observable<MemberGetResponseModel> getMemberShow(@Body ReferallPostModel memberAlocatePostModel);
     @POST("household/view")
     io.reactivex.Observable<HouseholdGetResponseModel> getHouseholdShow(@Body HouseholdPostModel householdPostModel);
-
     @GET("cc/list")
     io.reactivex.Observable<UHCModel> getUHC();
     @GET("uhc/list")

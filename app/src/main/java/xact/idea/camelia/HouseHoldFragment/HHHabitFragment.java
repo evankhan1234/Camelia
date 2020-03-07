@@ -3582,6 +3582,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     }
 
                 }
+                memberHabit.household_uniqe_id = memberHabitsFor.household_uniqe_id;
+                memberHabit.member_unique_code = "";
+                memberHabit.member_national_id = String.valueOf(memberHabitsFor.member_national_id);
                 Common.memberHabitRepository.updateMemberHabit(memberHabit);
                 if (frag.equals("frag")) {
                     ((CCUserHomeActivity) getActivity()).backForDetails();
@@ -3593,6 +3596,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
                 MemberMyself memberMyself = Common.memberMyselfRepository.getMemberMyselfNo(id);
                 memberHabit.MemberId = memberMyself.MemberId;
+                memberHabit.household_uniqe_id = memberMyself.UniqueId;
+                memberHabit.member_unique_code = "";
+                memberHabit.member_national_id = String.valueOf(memberMyself.NationalId);
                 MemberHabit memberHabits = Common.memberHabitRepository.getMemberHabitNo(memberMyself.MemberId);
                 if (smokeYesNo == -1 || jordaYesNo == -1 || workplaceYesNo == -1 || alcoholYesNo == -1 || takingSalt == -1 || vigorousIntensity == -1 || moderateIntensity == -1 || vigorousIntensityRecreational == -1 || moderateIntensityRecreational == -1 || recliningActivities == -1) {
                     Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
@@ -5178,6 +5184,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             }
 
                         }
+                            memberHabit.household_uniqe_id = memberHabits.household_uniqe_id;
+                            memberHabit.member_unique_code = "";
+                            memberHabit.member_national_id = String.valueOf(memberHabits.member_national_id);
                         Common.memberHabitRepository.updateMemberHabit(memberHabit);
                         if (frag.equals("frag")) {
                             ((CCUserHomeActivity) getActivity()).backForDetails();

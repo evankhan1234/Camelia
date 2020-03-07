@@ -152,14 +152,14 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
 
-                                    android:minWidth="300px"
+                                    android:minWidth="350px"
 
                                     android:layout_marginLeft="40px"
                                     android:background="@drawable/status_accepted"
 
                                     android:padding="15px"
                                     android:tag="40"
-                                    android:text="Update"
+                                    android:text="View/Update"
                                     android:layout_marginRight="10px"
 
                                     android:textColor="@color/white"
@@ -176,7 +176,7 @@
                                     android:layout_marginRight="10px"
 
                                     android:background="@drawable/status_processing"
-                                    android:minWidth="300px"
+                                    android:minWidth="350px"
 
                                     android:padding="15px"
                                     android:tag="40"

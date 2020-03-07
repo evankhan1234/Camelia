@@ -8,7 +8,7 @@ import xact.idea.camelia.Database.Model.Questions;
 public interface IQuestionsDataSources {
     Flowable<List<Questions>> getQuestionsItems();
 
-    Flowable<List<Questions>> getQuestionsItemById(int QuestionsItemId);
+    Flowable<List<Questions>> getQuestionsItemById(String QuestionsItemId,String MemberId);
 
     Questions getQuestions(String QuestionsItem,String MemberId);
 

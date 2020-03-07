@@ -143,7 +143,7 @@ public class HHCCSendingNotSyncFragment extends Fragment {
 
 
 
-        edit_end_date.setText(""+days+"-"+months+"-"+year);
+      //  edit_end_date.setText(""+days+"-"+months+"-"+year);
 
         Date date = new Date();
         Calendar c = Calendar.getInstance();
@@ -155,8 +155,11 @@ public class HHCCSendingNotSyncFragment extends Fragment {
         Date end = c.getTime();
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+         Date date2 = new Date(System.currentTimeMillis());
         String currentDate = formatter.format(end);
+        String currentDate2 = formatter.format(date2);
         edit_start_date.setText(currentDate);
+        edit_end_date.setText(currentDate2);
         btn_yes =view.findViewById(R.id.btn_yes);
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -164,9 +164,9 @@ public interface MemberMyselfDao {
 
     @Query("select datetime,sum(UHC) UHC,sum(Incomplete1) Incomplete1,sum(Incomplete2) Incomplete2,sum(Follow) Follow,sum(Total5) Complete from (\n" +
             "            SELECT datetime, Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as Member inner join (select distinct MemberIds,refer,datetime from Measurements where datetime between :from and :to) as Measure ON Member.MemberId=Measure.MemberIds where \n" +
-            "           Member.`To`='CC'\n" +
+            "            Measure.Refer='UHC'\n" +
             "            UNION all\n" +
-            "            SELECT  datetime,0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
+            "            SELECT CreatedDate datetime,0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
             "            left join  Measurements as Measure ON Member.MemberId=Measure.MemberIds  where Measure.id is null and Member.CreatedDate between :from and :to\n" +
             "            UNION all\n" +
             "            SELECT datetime,0 UHC,0 Incomplete1,count(*) Incomplete2,0 Follow,0 Complete FROM\n" +
@@ -174,7 +174,7 @@ public interface MemberMyselfDao {
             "            \n" +
             "            SELECT ms.datetime,ms.MemberIds,ms.Type FROM (select distinct MemberIds,type,datetime from Measurements where datetime between :from and :to) ms\n" +
             "            WHERE\n" +
-            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes','N/A')\n" +
+            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
             "            GROUP BY ms.MemberIds,ms.type,ms.datetime\n" +
             "            ) q\n" +
             "            GROUP BY q.MemberIds,datetime\n" +
@@ -193,7 +193,8 @@ public interface MemberMyselfDao {
             "            ) q\n" +
             "            GROUP BY q.MemberIds,datetime\n" +
             "            HAVING COUNT(q.MemberIds) > 5\n" +
-            "            ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId) group by datetime")
+            "            ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId) where datetime is not null \n" +
+            "             group by datetime")
     Flowable<List<Count>> TotalCountByDateRange(Date from ,Date to);
 
     @Query("select sum(UHC) UHC,sum(Incomplete1) Incomplete1,sum(Incomplete2) Incomplete2,sum(Follow) Follow,sum(Total5) Complete from (\n" +
@@ -208,7 +209,7 @@ public interface MemberMyselfDao {
             "            \n" +
             "            SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements where datetime = :from) ms\n" +
             "            WHERE\n" +
-            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes','N/A')\n" +
+            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
             "            GROUP BY ms.MemberIds,ms.type\n" +
             "            ) q\n" +
             "            GROUP BY q.MemberIds\n" +

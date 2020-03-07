@@ -9,7 +9,7 @@ public class MesaurementUploadModel {
     public String user_credential;
     @SerializedName("data")
     public ArrayList<Data> data;
-    public class Data {
+    public static class Data {
         @SerializedName("id")
         public int id;
         @SerializedName("member_id")
@@ -22,21 +22,19 @@ public class MesaurementUploadModel {
         public String result;
         @SerializedName("referral_status")
         public String referral_status;
-        @SerializedName("result_status")
-        public String result_status;
+//        @SerializedName("result_status")
+//        public String result_status;
         @SerializedName("message")
         public String message;
         @SerializedName("status")
         public String status;
         @SerializedName("created_at")
         public String created_at;
-        @SerializedName("updated_at")
-        public String updated_at;
         @SerializedName("update_no")
         public String update_no;
         @SerializedName("attr_values")
         public ArrayList<AttrValues> attr_values;
-        public class AttrValues {
+        public static class AttrValues {
             @SerializedName("id")
             public int id;
             @SerializedName("measurement_id")
@@ -49,8 +47,8 @@ public class MesaurementUploadModel {
             public String status;
             @SerializedName("created_at")
             public String created_at;
-            @SerializedName("updated_at")
-            public String updated_at;
+            @SerializedName("update_no")
+            public String update_no;
         }
     }
 }

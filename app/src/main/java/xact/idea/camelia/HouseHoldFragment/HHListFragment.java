@@ -140,7 +140,6 @@ public class HHListFragment extends Fragment {
             @Override
             public void accept(List<HouseHold> houseHolds) throws Exception {
                 houseHoldArrayList=houseHolds;
-                Log.e("fsd","dfsdf"+new Gson().toJson(houseHolds));
                 mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);

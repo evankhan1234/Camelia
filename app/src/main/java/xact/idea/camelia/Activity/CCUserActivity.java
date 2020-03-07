@@ -15,6 +15,12 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -55,9 +61,13 @@ import xact.idea.camelia.Database.Model.District;
 import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
 import xact.idea.camelia.Database.Model.MaritialStatus;
+import xact.idea.camelia.Database.Model.MeasurementDetails;
+import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.Medicine;
 import xact.idea.camelia.Database.Model.MemberId;
+import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.Occupation;
+import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.Database.Model.StudyClass;
 import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Unions;
@@ -96,9 +106,13 @@ import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
+import xact.idea.camelia.NetworkModel.MeasurementResponseModel;
+import xact.idea.camelia.NetworkModel.MedicalHistoryResponseModel;
+import xact.idea.camelia.NetworkModel.MedicalHistoryUpload;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
 import xact.idea.camelia.NetworkModel.MemberAlocatePostModel;
 import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
+import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UHCModel;
@@ -120,6 +134,7 @@ public class CCUserActivity extends AppCompatActivity {
     LinearLayout linear_member_status;
     LinearLayout linear_summary;
     LinearLayout linear_logout;
+    LinearLayout linear_sync;
     LinearLayout linear_household_member;
     TextView tv_store;
     IRetrofitApi mService;
@@ -134,6 +149,7 @@ public class CCUserActivity extends AppCompatActivity {
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.root_rlt_dashboard));
         linear_dashboard = findViewById(R.id.linear_dashboard);
         linear_logout = findViewById(R.id.linear_logout);
+        linear_sync = findViewById(R.id.linear_sync);
         linear_member_status = findViewById(R.id.linear_member_status);
         linear_summary = findViewById(R.id.linear_summary);
         linear_household_member = findViewById(R.id.linear_household_member);
@@ -190,8 +206,93 @@ public class CCUserActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        linear_sync.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMeasurements();
+            }
+        });
     }
 
+    private void loadMeasurements() {
+
+        showLoadingProgress(CCUserActivity.this);
+
+        compositeDisposable.add(Common.measurementsRepository.getMeasurementsItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
+            @Override
+            public void accept(List<Measurements> memberMedicineList) throws Exception {
+                MesaurementUploadModel data = new MesaurementUploadModel();
+                ArrayList<MesaurementUploadModel.Data> medicalHistoryUploadList = new ArrayList<>();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = new Date(System.currentTimeMillis());
+                Date date1 = null;
+                Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+                String currentDate = formatter.format(date);
+                ArrayList<MesaurementUploadModel.Data.AttrValues> memberMyselvesdetails = new ArrayList<>();
+                for (Measurements measurements : memberMedicineList) {
+                    MesaurementUploadModel.Data mdata = new MesaurementUploadModel.Data();
+                    mdata.id = measurements.id;
+                    mdata.member_id = measurements.MemberIds;
+                    mdata.message = measurements.Message;
+                    memberMyselvesdetails = getAttrDetailsData(measurements.id,currentDate);
+                    mdata.referral_status = measurements.Refer;
+                    mdata.type = measurements.Type;
+                    mdata.result = String.valueOf(measurements.Result);
+                    mdata.status = "1";
+                    mdata.update_no = "0";
+                    mdata.created_at = currentDate;
+                    mdata.datetime = currentDate;
+                    mdata.attr_values = memberMyselvesdetails;
+                    medicalHistoryUploadList.add(mdata);
+
+
+                    dismissLoadingProgress();
+                }
+                data.data = medicalHistoryUploadList;
+                data.user_credential = auth.email;
+                //   medicalHistoryUploadList.clear();
+
+                compositeDisposable.add(mService.postMeasurementUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MeasurementResponseModel>() {
+                    @Override
+                    public void accept(MeasurementResponseModel memberResponseModel) throws Exception {
+                        Log.e("Measurement", "Measurement" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("Measurement", "Measurement" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+                Log.e("sync2", "sync2" + new Gson().toJson(data));
+                Log.e("sync2", "sync2" + new Gson().toJson(data));
+            }
+        }));
+
+    }
+    private ArrayList<MesaurementUploadModel.Data.AttrValues> getAttrDetailsData(int id,String Date) {
+        final ArrayList<MesaurementUploadModel.Data.AttrValues> memberMyselves = new ArrayList<>();
+        showLoadingProgress(CCUserActivity.this);
+
+        Flowable<List<MeasurementDetails>> questionsList = Common.measurementDetailsRepository.getMeasurementsItemById(id);
+
+        for (MeasurementDetails questions : questionsList.blockingFirst()) {
+            MesaurementUploadModel.Data.AttrValues mdata = new MesaurementUploadModel.Data.AttrValues();
+
+            mdata.created_at = Date;
+            mdata.id = questions.id;
+            mdata.measurement_id= String.valueOf(questions.id);
+            mdata.name= String.valueOf(questions.Name);
+            mdata.value= String.valueOf(questions.Result);
+            mdata.status= "1";
+            mdata.update_no= "0";
+
+            memberMyselves.add(mdata);
+            dismissLoadingProgress();
+        }
+        return memberMyselves;
+    }
     @Override
     protected void onResume() {
         super.onResume();
