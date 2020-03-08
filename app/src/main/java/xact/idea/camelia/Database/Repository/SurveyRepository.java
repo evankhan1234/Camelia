@@ -51,6 +51,11 @@ public class SurveyRepository implements ISurveyDataSources {
     }
 
     @Override
+    public int maxValue() {
+        return ISurveyDataSources.maxValue();
+    }
+
+    @Override
     public Survey getSurveyNo(String SurveyItem) {
         return ISurveyDataSources.getSurveyNo(SurveyItem);
     }

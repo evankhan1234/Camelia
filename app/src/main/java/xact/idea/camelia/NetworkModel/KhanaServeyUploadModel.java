@@ -8,9 +8,9 @@ public class KhanaServeyUploadModel {
     @SerializedName("user_credential")
     public String user_credential;
     @SerializedName("data")
-    public ArrayList<MemberBehaviorialUploadModel.Data> data;
+    public ArrayList<Data> data;
 
-    public class Data {
+    public static class Data {
         @SerializedName("id")
         public int id;
         @SerializedName("household_uniqe_id")
@@ -23,14 +23,14 @@ public class KhanaServeyUploadModel {
         public String created_at;
         @SerializedName("created_by")
         public String created_by;
-        @SerializedName("updated_at")
-        public String updated_at;
+//        @SerializedName("updated_at")
+//        public String updated_at;
         @SerializedName("update_no")
         public String update_no;
         @SerializedName("khana_details")
         public ArrayList<KhanaDetails> khana_details;
 
-        public class KhanaDetails{
+        public static class KhanaDetails{
             @SerializedName("id")
             public int id;
             @SerializedName("master_id")
@@ -43,10 +43,10 @@ public class KhanaServeyUploadModel {
             public String answer;
             @SerializedName("created_at")
             public String created_at;
-            @SerializedName("created_by")
-            public String created_by;
-            @SerializedName("updated_at")
-            public String updated_at;
+//            @SerializedName("created_by")
+//            public String created_by;
+//            @SerializedName("updated_at")
+//            public String updated_at;
             @SerializedName("update_no")
             public String update_no;
 

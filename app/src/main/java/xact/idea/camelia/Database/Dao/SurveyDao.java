@@ -25,6 +25,8 @@ public interface SurveyDao {
     int value();
     @Query("DELETE  FROM Survey")
     void emptySurvey();
+    @Query("Select Max(id)  FROM Survey")
+    int maxValue();
     @Query("DELETE  FROM Survey WHERE id=:id")
     void deleteSurveyById(int id);
     @Insert

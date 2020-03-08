@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import xact.idea.camelia.Database.AnotherModel.Count;
@@ -46,7 +48,11 @@ public class CCDashboardAdapter extends RecyclerView.Adapter<CCDashboardAdapter.
         holder.text_incomplete.setText(String.valueOf(count));
         holder.text_complete.setText(String.valueOf(countList.get(position).Complete));
         holder.text_referral.setText(String.valueOf(countList.get(position).UHC));
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String currentDate = formatter.format(countList.get(position).datetime);
         holder.text_follow_up.setText(String.valueOf(countList.get(position).Follow));
+        holder.text_date.setText(currentDate);
     }
 
     @Override

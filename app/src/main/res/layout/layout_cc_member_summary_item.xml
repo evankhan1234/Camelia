@@ -40,7 +40,7 @@
                 android:layout_width="0dp"
 
                 android:layout_height="match_parent"
-                android:text="2019-10-11"
+                android:text="08-03-2020"
                 android:gravity="center|center_vertical"
                 android:layout_weight="1"
                 android:background="@drawable/cell_shape"
@@ -71,7 +71,7 @@
                 android:layout_weight="1"
 
                 android:background="@drawable/cell_shape"
-                android:id="@+id/text_incomplete" />
+                android:id="@+id/text_hypertension" />
 
             <TextView
                 android:paddingTop="10px"
@@ -86,7 +86,7 @@
                 android:layout_weight="1"
 
                 android:background="@drawable/cell_shape"
-                android:id="@+id/text_complete" />
+                android:id="@+id/text_diabteic" />
 
 
             <TextView
@@ -101,7 +101,7 @@
                 android:layout_weight="1"
 
                 android:background="@drawable/cell_shape"
-                android:id="@+id/text_referral" />
+                android:id="@+id/text_bmi" />
 
             <TextView
                 android:paddingTop="10px"
@@ -115,7 +115,7 @@
                 android:layout_weight="1"
 
                 android:background="@drawable/cell_shape"
-                android:id="@+id/text_follow_upc" />
+                android:id="@+id/text_weight_number" />
         </LinearLayout>
 
         <TableLayout

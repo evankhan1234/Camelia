@@ -193,8 +193,8 @@ public class CCUserDashBoardFragment extends Fragment {
         Date end = c.getTime();
         SimpleDateFormat formatters = new SimpleDateFormat("dd-MM-yyyy");
         Date date2 = new Date(System.currentTimeMillis());
-        String currentDate = formatter.format(end);
-        String currentDate2 = formatter.format(date2);
+        String currentDate = formatters.format(end);
+        String currentDate2 = formatters.format(date2);
         edit_end_date.setText(currentDate2);
         edit_start_date.setText(currentDate);
         btn_yes =view.findViewById(R.id.btn_yes);

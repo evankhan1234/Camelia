@@ -14,6 +14,7 @@ import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.HHDashboardModel;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
+import xact.idea.camelia.Database.AnotherModel.SummaryModel;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
 @Dao
@@ -134,8 +135,7 @@ public interface MemberMyselfDao {
     Count TotalCount();
 
 
-    @Query("\n" +
-            "select sum(dibatis) dibatis,  sum(hypertension) hypertension, sum(heartdisease) heartdisease,sum(stroke) stroke, sum(Lung) Lung, sum(Ashma) Ashma, sum(Kidney) Kidney, sum(Cancer) Cancer, sum(Mental) Mental,sum(male) Male,sum(female) female,sum(total_member) total_member  from (\n" +
+    @Query("select sum(dibatis) dibatis,  sum(hypertension) hypertension, sum(heartdisease) heartdisease,sum(stroke) stroke, sum(Lung) Lung, sum(Ashma) Ashma, sum(Kidney) Kidney, sum(Cancer) Cancer, sum(Mental) Mental,sum(male) Male,sum(female) female,sum(total_member) total_member  from (\n" +
             "Select count(*) dibatis, 0 hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,0 Mental,0 Male,0 female,0 total_member   from MemberMyself as ms inner join Questions as qs on ms.MemberId=qs.member_id where qs.question='Q49' and qs.answer='1'\n" +
             "union all\n" +
             "Select 0 dibatis, count(*) hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,0 Mental,0 Male,0 female,0 total_member   from MemberMyself as ms inner join Questions as qs on ms.MemberId=qs.member_id where qs.question='Q50' and qs.answer='1'\n" +
@@ -154,11 +154,11 @@ public interface MemberMyselfDao {
             "union all\n" +
             "Select 0 dibatis,0 hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,count(*) Mental,0 Male,0 female,0 total_member  from MemberMyself as ms inner join Questions as qs on ms.MemberId=qs.member_id where qs.question='Q53' and qs.answer='1' \n" +
             "union all\n" +
-            "Select 0 dibatis,0 hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,count(*) Mental,count(*) Male,0 female,0 total_member from MemberMyself where GenderId='1'\n" +
+            "Select 0 dibatis,0 hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,0 Mental,count(*) Male,0 female,0 total_member from MemberMyself where GenderId='1'\n" +
             "union all\n" +
-            "Select 0 dibatis,0 hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,count(*) Mental,0 Male,count(*) Female,0 total_member from MemberMyself where GenderId='2' \n" +
+            "Select 0 dibatis,0 hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,0 Mental,0 Male,count(*) Female,0 total_member from MemberMyself where GenderId='2' \n" +
             "union all\n" +
-            "Select 0 dibatis,0 hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,count(*) Mental,0 Male,0 Female,count(*) total_member from MemberMyself\n" +
+            "Select 0 dibatis,0 hypertension,0 heartdisease,0 stroke,0 Lung,0 Ashma,0 Kidney,0 Cancer,0 Mental,0 Male,0 Female,count(*) total_member from MemberMyself\n" +
             ")\n")
     HHDashboardModel hhModel();
 
@@ -230,5 +230,26 @@ public interface MemberMyselfDao {
             "            HAVING COUNT(q.MemberIds) > 5\n" +
             "            ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId)")
     Count TotalCountByDate(Date from);
+
+
+    @Query("SELECT DateTime as DateTimes, sum(Hypertension) Hypertension, sum(Obese) Obese,sum(OverWeight) OverWeight,sum(Diabetes) Diabetes FROM (\n" +
+            "SELECT DateTime ,count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Hypertension = Refer to UHC!' and  Datetime=:from GROUP BY DateTime\n" +
+            "union all\n" +
+            "SELECT DateTime, 0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Obese' and  Datetime=:from GROUP BY DateTime\n" +
+            "union all\n" +
+            "SELECT DateTime, 0 Hypertension, 0 Obese, count(*) OverWeight, 0 Diabetes  FROM Measurements where Message='OverWeight = Refer to UHC!' and  Datetime=:from GROUP BY DateTime\n" +
+            "union all\n" +
+            "SELECT DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where Message='Diabetes = Refer to UHC!' and  Datetime=:from GROUP BY DateTime) ")
+    SummaryModel TotalSum(Date from);
+
+    @Query("SELECT DateTime as DateTimes ,sum(Hypertension) Hypertension, sum(Obese) Obese,sum(OverWeight) OverWeight,sum(Diabetes) Diabetes FROM (\n" +
+            "SELECT  DateTime,count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Hypertension = Refer to UHC!' and  Datetime between :from and :to GROUP BY DateTime\n" +
+            "union all\n" +
+            "SELECT DateTime,0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Obese' and  Datetime between :from and :to GROUP BY DateTime\n" +
+            "union all\n" +
+            "SELECT DateTime, 0 Hypertension, 0 Obese, count(*) OverWeight, 0 Diabetes  FROM Measurements where Message='OverWeight = Refer to UHC!' and  Datetime between :from and :to GROUP BY DateTime\n" +
+            "union all\n" +
+            "SELECT DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where Message='Diabetes = Refer to UHC!' and  Datetime between :from and:to GROUP BY DateTime) ")
+    Flowable<List<SummaryModel>> TotalListOfSum(Date from ,Date to);
 
 }

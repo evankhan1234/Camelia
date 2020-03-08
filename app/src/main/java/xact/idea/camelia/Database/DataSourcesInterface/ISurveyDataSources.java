@@ -15,7 +15,7 @@ public interface ISurveyDataSources {
     void emptySurvey();
     void deleteSurveyById(int id);
     int size();
-
+    int maxValue();
     Survey getSurveyNo(String SurveyItem);
 
     void insertToSurvey(Survey... Survey);

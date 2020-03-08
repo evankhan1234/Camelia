@@ -204,7 +204,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
              //   loadHousehold();
-                medicineList();
+             //   medicineList();
                 //getBehaviorialList();
             }
         });

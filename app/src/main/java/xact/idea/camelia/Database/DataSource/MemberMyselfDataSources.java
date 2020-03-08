@@ -8,6 +8,7 @@ import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.HHDashboardModel;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
+import xact.idea.camelia.Database.AnotherModel.SummaryModel;
 import xact.idea.camelia.Database.Dao.MemberMyselfDao;
 import xact.idea.camelia.Database.DataSourcesInterface.IMemberMyselfDatasources;
 import xact.idea.camelia.Database.Model.MemberMyself;
@@ -83,6 +84,16 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     @Override
     public Flowable<List<MemberMyself>> getReferMembersForCC() {
         return MemberMyselfDao.getReferMembersForCC();
+    }
+
+    @Override
+    public Flowable<List<SummaryModel>> TotalListOfSum(Date from, Date to) {
+        return MemberMyselfDao.TotalListOfSum(from, to);
+    }
+
+    @Override
+    public SummaryModel TotalSum(Date from) {
+        return MemberMyselfDao.TotalSum(from);
     }
 
     @Override
