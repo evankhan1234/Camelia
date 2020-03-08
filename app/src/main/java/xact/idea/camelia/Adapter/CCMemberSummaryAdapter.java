@@ -51,10 +51,11 @@ public class CCMemberSummaryAdapter extends RecyclerView.Adapter<CCMemberSummary
          holder.text_hypertension.setText(String.valueOf(countList.get(position).Hypertension));
          holder.text_bmi.setText(String.valueOf(countList.get(position).Obese));
 
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-//        String currentDate = formatter.format(countList.get(position).DateTimes);
-//
-//        holder.text_date.setText(currentDate);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        String currentDate = formatter.format(countList.get(position).DateTime);
+
+
+        holder.text_date.setText(currentDate);
 
 
     }

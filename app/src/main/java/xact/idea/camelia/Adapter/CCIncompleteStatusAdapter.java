@@ -184,7 +184,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
 
     @Override
     public int getItemCount() {
-        // Log.e("evan", "sd" + messageEntities.size());
+
         return memberMyself.size();
     }
 
@@ -356,28 +356,27 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             }
         }));
 
-        CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
+        CorrectSizeUtil.getInstance(mContext).correctSize(main_root);
         final Date finalDate = date1;
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                Common.memberMyselfRepository.updateReciverAgain("CC", "Follow", edit_date.getText().toString(), member);
+                Common.memberMyselfRepository.updateReciverAgain("CC", refer[0], edit_date.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = refer[0];
                 referHistory.VisitDate = edit_date.getText().toString();
                 referHistory.MemberId = member;
                 Common.referRepository.insertToReferHistory(referHistory);
-
-                Measurements measurements = new Measurements();
-                measurements.DateTime= finalDate;
-                measurements.MemberIds=member;
-                measurements.Message="N/A";
-                measurements.Type="N/A";
-                measurements.Result=0.0;
-                measurements.Refer="Follow";
-                Common.measurementsRepository.insertToMeasurements(measurements);
+//                Measurements measurements = new Measurements();
+//                measurements.DateTime= finalDate;
+//                measurements.MemberIds=member;
+//                measurements.Message="N/A";
+//                measurements.Type="N/A";
+//                measurements.Result=0.0;
+//                measurements.Refer="Follow";
+//                Common.measurementsRepository.insertToMeasurements(measurements);
                 Log.e("sp_water", "" + refer[0]);
                 infoDialog.dismiss();
 
@@ -552,22 +551,22 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                Common.memberMyselfRepository.updateReciverAgain("CC", "UHC", edit_dates.getText().toString(), member);
+                Common.memberMyselfRepository.updateReciverAgain("UHC",   refer[0], edit_dates.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
-                referHistory.From = "CC";
+                referHistory.From = "UHC";
                 referHistory.To = refer[0];
                 referHistory.VisitDate = edit_dates.getText().toString();
                 referHistory.MemberId = member;
                 Common.referRepository.insertToReferHistory(referHistory);
 
-                Measurements measurements = new Measurements();
-                measurements.DateTime= finalDate;
-                measurements.MemberIds=member;
-                measurements.Message="N/A";
-                measurements.Type="N/A";
-                measurements.Result=0.0;
-                measurements.Refer="UHC";
-                Common.measurementsRepository.insertToMeasurements(measurements);
+//                Measurements measurements = new Measurements();
+//                measurements.DateTime= finalDate;
+//                measurements.MemberIds=member;
+//                measurements.Message="N/A";
+//                measurements.Type="N/A";
+//                measurements.Result=0.0;
+//                measurements.Refer="UHC";
+//                Common.measurementsRepository.insertToMeasurements(measurements);
                 infoDialog.dismiss();
 
 

@@ -235,7 +235,6 @@ public class CCUserMemberSummaryFragment extends Fragment {
         progress_bar.setVisibility(View.VISIBLE);
         String startDate = edit_start_date.getText().toString();
         String endDate = edit_end_date.getText().toString();
-        MemberMyself memberMyself = Common.memberMyselfRepository.getMemberId("000000032");
         Date date1 = null;
         Date date2 = null;
         try {

@@ -232,7 +232,7 @@ public interface MemberMyselfDao {
     Count TotalCountByDate(Date from);
 
 
-    @Query("SELECT DateTime as DateTimes, sum(Hypertension) Hypertension, sum(Obese) Obese,sum(OverWeight) OverWeight,sum(Diabetes) Diabetes FROM (\n" +
+    @Query("SELECT DateTime , sum(Hypertension) Hypertension, sum(Obese) Obese,sum(OverWeight) OverWeight,sum(Diabetes) Diabetes FROM (\n" +
             "SELECT DateTime ,count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Hypertension = Refer to UHC!' and  Datetime=:from GROUP BY DateTime\n" +
             "union all\n" +
             "SELECT DateTime, 0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Obese' and  Datetime=:from GROUP BY DateTime\n" +
@@ -242,14 +242,14 @@ public interface MemberMyselfDao {
             "SELECT DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where Message='Diabetes = Refer to UHC!' and  Datetime=:from GROUP BY DateTime) ")
     SummaryModel TotalSum(Date from);
 
-    @Query("SELECT DateTime as DateTimes ,sum(Hypertension) Hypertension, sum(Obese) Obese,sum(OverWeight) OverWeight,sum(Diabetes) Diabetes FROM (\n" +
-            "SELECT  DateTime,count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Hypertension = Refer to UHC!' and  Datetime between :from and :to GROUP BY DateTime\n" +
+    @Query("SELECT DateTime, sum(Hypertension) Hypertension, sum(Obese) Obese,sum(OverWeight) OverWeight,sum(Diabetes) Diabetes FROM (\n" +
+            "SELECT MemberIds,DateTime, count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Hypertension = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
             "union all\n" +
-            "SELECT DateTime,0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Obese' and  Datetime between :from and :to GROUP BY DateTime\n" +
+            "SELECT MemberIds,DateTime, 0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Obese' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
             "union all\n" +
-            "SELECT DateTime, 0 Hypertension, 0 Obese, count(*) OverWeight, 0 Diabetes  FROM Measurements where Message='OverWeight = Refer to UHC!' and  Datetime between :from and :to GROUP BY DateTime\n" +
+            "SELECT MemberIds,DateTime, 0 Hypertension, 0 Obese, count(*) OverWeight, 0 Diabetes  FROM Measurements where Message='OverWeight = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
             "union all\n" +
-            "SELECT DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where Message='Diabetes = Refer to UHC!' and  Datetime between :from and:to GROUP BY DateTime) ")
+            "SELECT MemberIds,DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where Message='Diabetes = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime) where DateTime is not null group by DateTime")
     Flowable<List<SummaryModel>> TotalListOfSum(Date from ,Date to);
 
 }

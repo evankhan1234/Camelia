@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,6 +21,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -30,18 +34,26 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Activity.SpalashActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
+import xact.idea.camelia.Database.Model.Auth;
+import xact.idea.camelia.Database.Model.CCModel;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.ReferHistory;
 import xact.idea.camelia.Filter.MemberFilter;
@@ -53,8 +65,10 @@ import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.CustomDialog;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
-public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapter.CCDashboardListiewHolder> implements Filterable {
+import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
 
+public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapter.CCDashboardListiewHolder> implements Filterable {
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private Activity mActivity = null;
     int row_index = 0;
@@ -172,12 +186,13 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.layout_confirm, null);
-
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         infoDialog.setContentView(v);
         infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+        final Spinner spinner=infoDialog.findViewById(R.id.spinner_sex);
         RadioButton radioRefer = infoDialog.findViewById(R.id.radioRefer);
         RadioButton radioFollow = infoDialog.findViewById(R.id.radioFollow);
         edit_date = infoDialog.findViewById(R.id.edit_date);
@@ -192,6 +207,47 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 newFragment.show(fragmentManagers, "DatePicker");
             }
         });
+        String divisionId="";
+        String districtId="";
+        String upazilaId="";
+        String unionId="";
+        final String[] refer = {""};
+        divisionId=auth.division;
+        districtId=auth.district;
+        upazilaId=auth.upazila;
+        unionId=auth.union;
+        compositeDisposable.add(Common.ccRepository.getCCModelItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
+            @Override
+            public void accept(List<CCModel> customers) throws Exception {
+                Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+
+                ArrayAdapter<CCModel> divisionArrayAdapter;
+                List<CCModel> centerModelArrayList = new ArrayList<>();
+
+                centerModelArrayList=customers;
+                divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+                divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(divisionArrayAdapter);
+
+                final List<CCModel> finalCenterModelArrayList = centerModelArrayList;
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+
+                        refer[0] =finalCenterModelArrayList.get(position).name;
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                dismissLoadingProgress();
+
+            }
+        }));
         radioRefer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,10 +266,10 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                Common.memberMyselfRepository.updateReciverAgain("HH", "CC", edit_date.getText().toString(), member);
+                Common.memberMyselfRepository.updateReciverAgain("CC",  refer[0], edit_date.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
-                referHistory.From = "HH";
-                referHistory.To = "CC";
+                referHistory.From = "CC";
+                referHistory.To =  refer[0];
                 referHistory.VisitDate = edit_date.getText().toString();
                 referHistory.MemberId = member;
                 Common.referRepository.insertToReferHistory(referHistory);
