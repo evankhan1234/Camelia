@@ -5,9 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import xact.idea.camelia.Database.AnotherModel.SummaryModel;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
@@ -17,12 +22,13 @@ public class CCMemberSummaryAdapter extends RecyclerView.Adapter<CCMemberSummary
     private Activity mActivity = null;
     //  private List<Department> messageEntities;
     int row_index = 0;
-
-    public CCMemberSummaryAdapter(Activity activity) {
+    List<SummaryModel> countList;
+    public CCMemberSummaryAdapter(Activity activity,List<SummaryModel> countLists) {
         mActivity = activity;
         //messageEntities = messageEntitie;
         //mClick = mClicks;
         // clickInterface=clickInterfaces;
+        countList=countLists;
     }
 
 
@@ -40,11 +46,15 @@ public class CCMemberSummaryAdapter extends RecyclerView.Adapter<CCMemberSummary
 
 
         //    Log.e("Evan", "SDfs" + messageEntities.get(position));
-        //  holder.btn_department.setHint(messageEntities.get(position).DepartmentName);
+         holder.text_weight_number.setText(String.valueOf(countList.get(position).OverWeight));
+         holder.text_diabteic.setText(String.valueOf(countList.get(position).Diabetes));
+         holder.text_hypertension.setText(String.valueOf(countList.get(position).Hypertension));
+         holder.text_bmi.setText(String.valueOf(countList.get(position).Obese));
 
-
-
-
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+//        String currentDate = formatter.format(countList.get(position).DateTimes);
+//
+//        holder.text_date.setText(currentDate);
 
 
     }
@@ -52,18 +62,26 @@ public class CCMemberSummaryAdapter extends RecyclerView.Adapter<CCMemberSummary
     @Override
     public int getItemCount() {
         // Log.e("evan", "sd" + messageEntities.size());
-        return 20;
+        return countList.size();
     }
 
     public class CCDashboardListiewHolder extends RecyclerView.ViewHolder {
 
-        private Button btn_department;
+        private TextView text_date;
+        private TextView text_hypertension;
+        private TextView text_diabteic;
+        private TextView text_bmi;
+        private TextView text_weight_number;
 
 
         public CCDashboardListiewHolder(View itemView) {
             super(itemView);
 
-            //  btn_department = itemView.findViewById(R.id.btn_department);
+            text_date = itemView.findViewById(R.id.text_date);
+            text_hypertension = itemView.findViewById(R.id.text_hypertension);
+            text_diabteic = itemView.findViewById(R.id.text_diabteic);
+            text_bmi = itemView.findViewById(R.id.text_bmi);
+            text_weight_number = itemView.findViewById(R.id.text_weight_number);
 
 
         }

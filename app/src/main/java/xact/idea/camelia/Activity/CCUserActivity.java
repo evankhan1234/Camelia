@@ -69,6 +69,7 @@ import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.Database.Model.StudyClass;
+import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
@@ -105,6 +106,8 @@ import xact.idea.camelia.NetworkModel.CCModelresponse;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
+import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
+import xact.idea.camelia.NetworkModel.KhanaServeyUploadModel;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
 import xact.idea.camelia.NetworkModel.MeasurementResponseModel;
 import xact.idea.camelia.NetworkModel.MedicalHistoryResponseModel;
@@ -209,7 +212,8 @@ public class CCUserActivity extends AppCompatActivity {
         linear_sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMeasurements();
+            //    loadMeasurements();
+                //loadSurvey();
             }
         });
     }
@@ -271,6 +275,60 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+    private void loadSurvey() {
+
+        showLoadingProgress(CCUserActivity.this);
+
+        compositeDisposable.add(Common.surveyRepository.getSurveyItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Survey>>() {
+            @Override
+            public void accept(List<Survey> memberMedicineList) throws Exception {
+                KhanaServeyUploadModel data = new KhanaServeyUploadModel();
+                ArrayList<KhanaServeyUploadModel.Data> medicalHistoryUploadList = new ArrayList<>();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
+                Date date = new Date(System.currentTimeMillis());
+                Date date1 = null;
+                Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+
+                ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselvesdetails = new ArrayList<>();
+                for (Survey measurements : memberMedicineList) {
+                    KhanaServeyUploadModel.Data mdata = new KhanaServeyUploadModel.Data();
+                    mdata.id = measurements.id;
+
+
+                    String currentDate = formatter.format(measurements.CreatedDate);
+                    memberMyselvesdetails = getKhanaDetailsData(String.valueOf(measurements.id),currentDate);
+                    mdata.status = "1";
+                    mdata.update_no = "0";
+                    mdata.created_by = "0";
+                    mdata.created_at = currentDate;
+                    mdata.household_uniqe_id = measurements.UniqueId;
+                    mdata.khana_details = memberMyselvesdetails;
+                    medicalHistoryUploadList.add(mdata);
+                    dismissLoadingProgress();
+                }
+                data.data = medicalHistoryUploadList;
+                data.user_credential = auth.email;
+                //   medicalHistoryUploadList.clear();
+
+                compositeDisposable.add(mService.postKhanaServeyUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<KhanaServeyResponseModel>() {
+                    @Override
+                    public void accept(KhanaServeyResponseModel memberResponseModel) throws Exception {
+                        Log.e("KhanaServey", "KhanaServey" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("KhanaServey", "KhanaServey" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+                Log.e("sync2", "sync2" + new Gson().toJson(data));
+                Log.e("sync2", "sync2" + new Gson().toJson(data));
+            }
+        }));
+
+    }
     private ArrayList<MesaurementUploadModel.Data.AttrValues> getAttrDetailsData(int id,String Date) {
         final ArrayList<MesaurementUploadModel.Data.AttrValues> memberMyselves = new ArrayList<>();
         showLoadingProgress(CCUserActivity.this);
@@ -286,6 +344,26 @@ public class CCUserActivity extends AppCompatActivity {
             mdata.name= String.valueOf(questions.Name);
             mdata.value= String.valueOf(questions.Result);
             mdata.status= "1";
+            mdata.update_no= "0";
+
+            memberMyselves.add(mdata);
+            dismissLoadingProgress();
+        }
+        return memberMyselves;
+    }
+    private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id,String Date) {
+        final ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselves = new ArrayList<>();
+        showLoadingProgress(CCUserActivity.this);
+
+        Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("survey",id);
+
+        for (Questions questions : questionsList.blockingFirst()) {
+            KhanaServeyUploadModel.Data.KhanaDetails mdata = new KhanaServeyUploadModel.Data.KhanaDetails();
+
+            mdata.id= Integer.parseInt(questions.member_id);
+            mdata.question= questions.question;
+            mdata.answer= questions.answer;
+            mdata.created_at=Date;
             mdata.update_no= "0";
 
             memberMyselves.add(mdata);

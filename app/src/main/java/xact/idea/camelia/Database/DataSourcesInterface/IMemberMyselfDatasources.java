@@ -8,6 +8,7 @@ import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.HHDashboardModel;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
+import xact.idea.camelia.Database.AnotherModel.SummaryModel;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
 public interface IMemberMyselfDatasources {
@@ -25,6 +26,8 @@ public interface IMemberMyselfDatasources {
     int notSync(Date from,Date to);
     int Sync(Date from,Date to);
     Flowable<List<MemberMyself>> getReferMembersForCC();
+    Flowable<List<SummaryModel>> TotalListOfSum(Date from , Date to);
+    SummaryModel TotalSum(Date from);
     void updateReciverAgain(String from,String to,String date,String memberId);
     Flowable<List<SentSyncModel>> getSyncMembers(Date from,Date to);
     Flowable<List<SentSyncModel>> getNotSyncMembers(Date from, Date to);

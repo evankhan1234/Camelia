@@ -17,7 +17,7 @@
             android:id="@+id/relative"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20px"
+            android:layout_marginTop="30px"
             android:alpha="1.5"
             tools:context=".ui.dashboard.DashBoardFragment">
 
@@ -48,6 +48,7 @@
                 android:textSize="58px" />
             <RelativeLayout
                 android:layout_marginLeft="43px"
+                android:layout_marginTop="60px"
                 android:layout_marginRight="43px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/store_rlt"
-                android:layout_marginTop="10px">
+                android:layout_marginTop="60px">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,11 +106,11 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="500px"
+                        android:layout_height="400px"
                         android:layout_weight="1"
                         android:layout_marginTop="0px"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:weightSum="3">
                         <LinearLayout
                             android:backgroundTint="@color/colorPrimary"
                             android:id="@+id/linear_dashboard"
@@ -118,7 +119,7 @@
                             android:layout_marginLeft="1px"
                             android:layout_marginRight="5px"
                             android:layout_weight="1"
-                            android:background="@drawable/white_bx"
+                            android:background="@drawable/background_black"
 
                             android:orientation="vertical"
 
@@ -129,7 +130,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginLeft="1px"
-                                android:layout_marginTop="100px"
+                                android:layout_marginTop="50px"
                                 android:src="@drawable/speedometer" />
 
                             <TextView
@@ -137,11 +138,11 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
-                                android:tag="52"
+                                android:tag="42"
                                 android:textStyle="bold"
                                 android:text="Dashboard"
                                 android:textColor="@color/white"
-                                android:textSize="52px" />
+                                android:textSize="42px" />
 
 
                         </LinearLayout>
@@ -153,7 +154,7 @@
                             android:layout_marginLeft="1px"
                             android:layout_marginRight="5px"
                             android:layout_weight="1"
-                            android:background="@drawable/white_bx"
+                            android:background="@drawable/background_black"
 
                             android:orientation="vertical"
 
@@ -164,7 +165,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginLeft="1px"
-                                android:layout_marginTop="100px"
+                                android:layout_marginTop="50px"
                                 android:src="@drawable/customers" />
 
                             <TextView
@@ -173,47 +174,16 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
-                                android:tag="52"
+                                android:tag="42"
 
                                 android:layout_marginLeft="15px"
                                 android:layout_marginRight="10px"
                                 android:text="Household     Members"
                                 android:textColor="@color/white"
-                                android:textSize="52px" />
+                                android:textSize="42px" />
 
 
                         </LinearLayout>
-
-
-
-                    </LinearLayout>
-
-
-
-
-
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:layout_marginLeft="23px"
-                    android:layout_marginRight="23px"
-
-
-                    android:alpha="1.5"
-                    android:orientation="vertical"
-                    android:weightSum="2">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="500px"
-                        android:layout_weight="1"
-                        android:layout_marginTop="0px"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
                         <LinearLayout
                             android:backgroundTint="@color/colorPrimary"
                             android:id="@+id/linear_member_status"
@@ -222,7 +192,7 @@
                             android:layout_marginLeft="1px"
                             android:layout_marginRight="5px"
                             android:layout_weight="1"
-                            android:background="@drawable/white_bx"
+                            android:background="@drawable/background_black"
 
                             android:orientation="vertical"
 
@@ -233,7 +203,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginLeft="1px"
-                                android:layout_marginTop="100px"
+                                android:layout_marginTop="50px"
                                 android:src="@drawable/customers" />
 
                             <TextView
@@ -242,51 +212,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
-                                android:tag="52"
+                                android:tag="42"
                                 android:text="Member Status"
                                 android:textColor="@color/white"
-                                android:textSize="52px" />
+                                android:textSize="42px" />
 
 
                         </LinearLayout>
-                        <LinearLayout
-                            android:backgroundTint="@color/colorPrimary"
-                            android:id="@+id/linear_summary"
-                            android:layout_width="0px"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="1px"
-                            android:layout_marginRight="5px"
-                            android:layout_weight="1"
-                            android:background="@drawable/white_bx"
-
-                            android:orientation="vertical"
-
-                            >
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginLeft="1px"
-                                android:layout_marginTop="100px"
-                                android:src="@drawable/credibility" />
-
-                            <TextView
-                                android:textStyle="bold"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="28px"
-                                android:gravity="center_horizontal"
-                                android:tag="52"
-                                android:text="Summary"
-                                android:textColor="@color/white"
-                                android:textSize="52px" />
-
-
-                        </LinearLayout>
-
-
-
 
 
                     </LinearLayout>
@@ -305,18 +237,55 @@
                     android:layout_marginLeft="23px"
                     android:layout_marginRight="23px"
 
-
+                    android:layout_marginTop="20px"
                     android:alpha="1.5"
                     android:orientation="vertical"
                     android:weightSum="2">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="500px"
+                        android:layout_height="400px"
                         android:layout_weight="1"
                         android:layout_marginTop="0px"
                         android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:backgroundTint="@color/colorPrimary"
+                            android:id="@+id/linear_summary"
+                            android:layout_width="0px"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="1px"
+                            android:layout_marginRight="5px"
+                            android:layout_weight="1"
+                            android:background="@drawable/background_black"
+
+                            android:orientation="vertical"
+
+                            >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="1px"
+                                android:layout_marginTop="50px"
+                                android:src="@drawable/credibility" />
+
+                            <TextView
+                                android:textStyle="bold"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="28px"
+                                android:gravity="center_horizontal"
+                                android:tag="42"
+                                android:text="Summary"
+                                android:textColor="@color/white"
+                                android:textSize="42px" />
+
+
+                        </LinearLayout>
+
                         <LinearLayout
                             android:backgroundTint="@color/colorPrimary"
                             android:id="@+id/linear_logout"
@@ -325,7 +294,7 @@
                             android:layout_marginLeft="1px"
                             android:layout_marginRight="5px"
                             android:layout_weight="1"
-                            android:background="@drawable/white_bx"
+                            android:background="@drawable/background_black"
 
                             android:orientation="vertical"
 
@@ -335,7 +304,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginLeft="1px"
-                                android:layout_marginTop="100px"
+                                android:layout_marginTop="50px"
                                 android:src="@drawable/logout" />
 
                             <TextView
@@ -344,10 +313,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
-                                android:tag="52"
+                                android:tag="42"
                                 android:text="Logout"
                                 android:textColor="@color/white"
-                                android:textSize="52px" />
+                                android:textSize="42px" />
 
 
                         </LinearLayout>
@@ -359,7 +328,7 @@
                             android:layout_marginLeft="1px"
                             android:layout_marginRight="5px"
                             android:layout_weight="1"
-                            android:background="@drawable/white_bx"
+                            android:background="@drawable/background_black"
                             android:backgroundTint="@color/colorPrimary"
 
                             android:orientation="vertical"
@@ -371,7 +340,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginLeft="1px"
-                                android:layout_marginTop="100px"
+                                android:layout_marginTop="50px"
                                 android:src="@drawable/sync" />
                             <TextView
                                 android:textStyle="bold"
@@ -379,14 +348,15 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
-                                android:tag="52"
+                                android:tag="42"
 
                                 android:text="Sync"
                                 android:textColor="@color/white"
-                                android:textSize="52px" />
+                                android:textSize="42px" />
 
 
                         </LinearLayout>
+
 
 
                     </LinearLayout>
@@ -398,6 +368,7 @@
 
 
                 </LinearLayout>
+
                 <TextView
 
                     android:id="@+id/tv_date"
@@ -405,7 +376,7 @@
                     android:layout_height="70px"
                     android:layout_marginBottom="30px"
 
-                    android:layout_marginTop="37px"
+                    android:layout_marginTop="107px"
                     android:alpha="1.5"
                     android:gravity="center_horizontal"
                     android:letterSpacing=".01"

@@ -89,20 +89,20 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
         holder.text_sanitary.setText(Html.fromHtml(sanitary));
         holder.text_bondho.setText(Html.fromHtml(bondhoChula));
         holder.text_biomas_fuel.setText(Html.fromHtml(biomasFuel));
-        holder.text_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Common.surveyRepository.deleteSurveyById(survey.get(position).id);
-                notifyDataSetChanged();
-            }
-        });
-        holder.text_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Common.surveyRepository.deleteSurveyById(survey.get(position).id);
-                notifyDataSetChanged();
-            }
-        });
+//        holder.text_delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Common.surveyRepository.deleteSurveyById(survey.get(position).id);
+//                notifyDataSetChanged();
+//            }
+//        });
+//        holder.text_delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Common.surveyRepository.deleteSurveyById(survey.get(position).id);
+//                notifyDataSetChanged();
+//            }
+//        });
         holder.text_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
