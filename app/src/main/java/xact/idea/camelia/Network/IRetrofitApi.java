@@ -96,8 +96,8 @@ public interface IRetrofitApi {
     io.reactivex.Observable<MemberGetResponseModel> getMemberShow(@Body ReferallPostModel memberAlocatePostModel);
     @POST("household/view")
     io.reactivex.Observable<HouseholdGetResponseModel> getHouseholdShow(@Body HouseholdPostModel householdPostModel);
-    @GET("cc/list")
-    io.reactivex.Observable<UHCModel> getUHC();
     @GET("uhc/list")
+    io.reactivex.Observable<UHCModel> getUHC();
+    @GET("cc/list")
     io.reactivex.Observable<CCModelresponse> getCC();
 }
