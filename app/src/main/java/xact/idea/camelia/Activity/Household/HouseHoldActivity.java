@@ -105,6 +105,7 @@ import xact.idea.camelia.NetworkModel.CCModelresponse;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
+import xact.idea.camelia.NetworkModel.HouseholdListResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
@@ -115,9 +116,11 @@ import xact.idea.camelia.NetworkModel.MemberAlocatePostModel;
 import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
+import xact.idea.camelia.NetworkModel.MemberGetResponseModel;
 import xact.idea.camelia.NetworkModel.MemberResponseModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
+import xact.idea.camelia.NetworkModel.ReferallPostModel;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UHCModel;
 import xact.idea.camelia.NetworkModel.UnionResponses;
@@ -130,6 +133,7 @@ import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
+import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.showLoadingProgress;
 
 public class HouseHoldActivity extends AppCompatActivity {
@@ -203,9 +207,11 @@ public class HouseHoldActivity extends AppCompatActivity {
         linear_sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   loadHousehold();
-             //   medicineList();
-                //getBehaviorialList();
+//                loadHousehold();
+//                medicineList();
+//                getBehaviorialList();
+
+                downloadHousehold();
             }
         });
     }
@@ -248,21 +254,21 @@ public class HouseHoldActivity extends AppCompatActivity {
                 model.data = syncMember;
                 Log.e("sync", "sync" + new Gson().toJson(householdUpload));
                 Log.e("sync1", "sync1" + new Gson().toJson(model));
-//                showLoadingProgress(HouseHoldActivity.this);
-//                compositeDisposable.add(mService.postHouseholdUpload(householdUpload).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdResponseModel>() {
-//                    @Override
-//                    public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
-//                        Log.e("HouseholdResponseModel", "HouseholdResponseModel" + new Gson().toJson(memberResponseModel));
-//                        dismissLoadingProgress();
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        Log.e("HouseholdResponseModel", "HouseholdResponseModel" + throwable.getMessage());
-//                        dismissLoadingProgress();
-//                    }
-//                }));
-//
+                showLoadingProgress(HouseHoldActivity.this);
+                compositeDisposable.add(mService.postHouseholdUpload(householdUpload).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdResponseModel>() {
+                    @Override
+                    public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
+                        Log.e("HouseholdResponseModel", "HouseholdResponseModel" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("HouseholdResponseModel", "HouseholdResponseModel" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+
                 showLoadingProgress(HouseHoldActivity.this);
                 compositeDisposable.add(mService.postMemberUpload(model).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberResponseModel>() {
                     @Override
@@ -304,21 +310,16 @@ public class HouseHoldActivity extends AppCompatActivity {
                     mdata.member_id = memberMedicine.MemberId;
                     mdata.member_national_id = memberMedicine.member_national_id;
                     memberMyselvesdetails = getMedicalHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
-//                    memberMyselvesdetails.addAll(getMedicalHistoryDetailsData(memberMedicine.MemberId,currentDate,memberMedicine.id));
                     mdata.member_unique_code = memberMedicine.household_uniqe_id;
                     mdata.status = "1";
                     mdata.update_no = "0";
                     mdata.created_at = currentDate;
                     mdata.details = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
-
-
                     dismissLoadingProgress();
                 }
                 data.data = medicalHistoryUploadList;
                 data.user_credential = auth.email;
-                //   medicalHistoryUploadList.clear();
-
                 compositeDisposable.add(mService.postMedicalHistoryUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MedicalHistoryResponseModel>() {
                     @Override
                     public void accept(MedicalHistoryResponseModel memberResponseModel) throws Exception {
@@ -332,7 +333,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                         dismissLoadingProgress();
                     }
                 }));
-                Log.e("sync2", "sync2" + new Gson().toJson(data));
                 Log.e("sync2", "sync2" + new Gson().toJson(data));
             }
         }));
@@ -370,7 +370,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                 }
                 data.data = medicalHistoryUploadList;
                 data.user_credential = auth.email;
-                //   medicalHistoryUploadList.clear();
                 showLoadingProgress(HouseHoldActivity.this);
                 compositeDisposable.add(mService.postMemberBehaviorialUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberBehaviorialResponseModel>() {
                     @Override
@@ -412,7 +411,6 @@ public class HouseHoldActivity extends AppCompatActivity {
             mData.mobile_number = memberMyself.MobileNumber;
             mData.referred_to = memberMyself.To;
             mData.id = memberMyself.id;
-
             mData.refer_to_id = memberMyself.From;
             mData.national_id = memberMyself.NationalId;
             mData.marital_status = String.valueOf(memberMyself.MaritialId);
@@ -432,22 +430,17 @@ public class HouseHoldActivity extends AppCompatActivity {
         final ArrayList<MedicalHistoryUpload.Data> memberMyselves = new ArrayList<>();
         final ArrayList<MedicalHistoryUpload.Data.Details> memberMyselvesdetails = new ArrayList<>();
         showLoadingProgress(HouseHoldActivity.this);
-
         Flowable<List<MemberMedicine>> memberMedicineList = Common.memberMedicineRepository.getMemberMedicineItems();
-
         for (MemberMedicine memberMedicine : memberMedicineList.blockingFirst()) {
             MedicalHistoryUpload.Data mdata = new MedicalHistoryUpload.Data();
             mdata.household_uniqe_id = memberMedicine.household_uniqe_id;
             mdata.member_id = memberMedicine.MemberId;
             mdata.member_national_id = memberMedicine.member_national_id;
-            //    memberMyselvesdetails.addAll(getMedicalHistoryDetailsData(memberMedicine.MemberId,date,memberMedicine.id));
             mdata.household_uniqe_id = memberMedicine.member_unique_code;
             mdata.status = "1";
             mdata.created_at = date;
             mdata.details = memberMyselvesdetails;
             memberMyselves.add(mdata);
-
-
             dismissLoadingProgress();
         }
         Log.e("sync4", "sync4" + new Gson().toJson(memberMyselves));
@@ -457,9 +450,7 @@ public class HouseHoldActivity extends AppCompatActivity {
     private ArrayList<MedicalHistoryUpload.Data.Details> getMedicalHistoryDetailsData(String memberId, String date, int id) {
         final ArrayList<MedicalHistoryUpload.Data.Details> memberMyselves = new ArrayList<>();
         showLoadingProgress(HouseHoldActivity.this);
-
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("medicine", memberId);
-
         for (Questions questions : questionsList.blockingFirst()) {
             MedicalHistoryUpload.Data.Details mdata = new MedicalHistoryUpload.Data.Details();
             mdata.parent_question = "";
@@ -477,9 +468,7 @@ public class HouseHoldActivity extends AppCompatActivity {
     private ArrayList<MemberBehaviorialUploadModel.Data.Details> getBeahviorialHistoryDetailsData(String memberId, String date, int id) {
         final ArrayList<MemberBehaviorialUploadModel.Data.Details> memberMyselves = new ArrayList<>();
         showLoadingProgress(HouseHoldActivity.this);
-
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("behavioral", memberId);
-
         for (Questions questions : questionsList.blockingFirst()) {
             MemberBehaviorialUploadModel.Data.Details mdata = new MemberBehaviorialUploadModel.Data.Details();
             mdata.parent_question = "";
@@ -1224,6 +1213,210 @@ public class HouseHoldActivity extends AppCompatActivity {
         Common.uhcRepository = UHCRepository.getInstance(UHCDataSources.getInstance(Common.mainDatabase.uhcDao()));
     }
 
+
+    private void downloadHousehold(){
+        showLoadingProgress(HouseHoldActivity.this);
+
+        final Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
+        compositeDisposable.add(mService.getHouseholdList().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdListResponseModel>() {
+            @Override
+            public void accept(HouseholdListResponseModel uhcModel) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(uhcModel));
+                for (HouseholdListResponseModel.Data house : uhcModel.data) {
+
+                    if (auth.division.equals(house.division_id) && auth.district.equals(house.district_id)){
+                        HouseHold houseHold = new HouseHold();
+                        HouseHold houseHoldNew=Common.householdRepository.getHouseHold(house.household_uniqe_id);
+
+                        if(houseHoldNew!=null){
+                            houseHold.MemberId = 100000000;
+                            houseHold.id = houseHoldNew.id;
+                            houseHold.BlockId = Integer.parseInt(house.block_id);
+                            houseHold.DistrictId = Integer.parseInt(house.district_id);;
+                            houseHold.DivisionId = Integer.parseInt(house.division_id);;
+                            houseHold.UpazilaId = Integer.parseInt(house.upazila_id);;
+                            houseHold.UnionId = Integer.parseInt(house.union_id);;
+                            houseHold.WordId = Integer.parseInt(house.ward_id);;
+                            houseHold.HH = Integer.parseInt(house.hh_number);
+                            houseHold.SHH = Integer.parseInt(house.sub_hh_number);
+                            houseHold.UniqueId = house.household_uniqe_id;
+                            downloadMember(house.household_uniqe_id);
+                            houseHold.VillageName = house.village;
+                            houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
+                            houseHold.FamilyMember = Integer.parseInt(house.family_member);
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+                            Date date = null;
+                            try {
+                                date = new SimpleDateFormat("yyyy-MM-dd").parse(house.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date);
+                            houseHold.DateValue = currentDate;
+                            houseHold.Date = date;
+                            Common.householdRepository.updateHouseHold(houseHold);
+                        }
+                        else{
+                            houseHold.MemberId = 100000000;
+                            houseHold.BlockId = Integer.parseInt(house.block_id);
+                            houseHold.DistrictId = Integer.parseInt(house.district_id);;
+                            houseHold.DivisionId = Integer.parseInt(house.division_id);;
+                            houseHold.UpazilaId = Integer.parseInt(house.upazila_id);;
+                            houseHold.UnionId = Integer.parseInt(house.union_id);;
+                            houseHold.WordId = Integer.parseInt(house.ward_id);;
+                            houseHold.HH = Integer.parseInt(house.hh_number);
+                            houseHold.SHH = Integer.parseInt(house.sub_hh_number);
+                            houseHold.UniqueId = house.household_uniqe_id;
+                            houseHold.VillageName = house.village;
+                            downloadMember(house.household_uniqe_id);
+                            houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
+                            houseHold.FamilyMember = Integer.parseInt(house.family_member);
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+                            Date date = null;
+                            try {
+                                date = new SimpleDateFormat("yyyy-MM-dd").parse(house.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date);
+                            houseHold.DateValue = currentDate;
+                            houseHold.Date = date;
+                            Common.householdRepository.insertToHouseHold(houseHold);
+                        }
+
+                    }
+
+
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+    }
+
+    private void downloadMember(String uniueId){
+        showLoadingProgress(HouseHoldActivity.this);
+        Log.e("asdas", "asd" + uniueId);
+        ReferallPostModel referallPostModel = new ReferallPostModel();
+        referallPostModel.unique_code=uniueId;
+        compositeDisposable.add(mService.getMemberShow(referallPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberGetResponseModel>() {
+            @Override
+            public void accept(MemberGetResponseModel memberGetResponseModel) throws Exception {
+
+                Log.e("evan", "asd" + new Gson().toJson(memberGetResponseModel));
+                MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(memberGetResponseModel.member.member_id);
+                if (memberMyself1 != null) {
+                    MemberMyself memberMyself = new MemberMyself();
+                    memberMyself.id = memberMyself1.id;
+                    memberMyself.NationalId = memberGetResponseModel.member.national_id;
+                    memberMyself.MobileNumber = memberGetResponseModel.member.mobile_number;
+                    memberMyself.FullName = memberGetResponseModel.member.name;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+                    Date date1 = null;
+
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.birth_date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Date date2 = null;
+                    try {
+                        date2 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.created_at);
+                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Date date3 = null;
+                    try {
+                        date3 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.death_date);
+                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String birthDate = formatter.format(date1);
+                    String deathDate = formatter.format(date3);
+                    memberMyself.DateOfBirth = birthDate;
+                    memberMyself.DateOfDeath = deathDate;
+                    memberMyself.CreatedDate = date2;
+                    memberMyself.GenderId = Integer.parseInt(memberGetResponseModel.member.sex);
+                    memberMyself.BloodGroupId =  Integer.parseInt(memberGetResponseModel.member.blood_group);
+                    memberMyself.ReligionId =  Integer.parseInt(memberGetResponseModel.member.religion);
+                    memberMyself.StudyId = Integer.parseInt(memberGetResponseModel.member.education);
+                    memberMyself.MaritialId = Integer.parseInt(memberGetResponseModel.member.marital_status);
+                    memberMyself.OccupationId = Integer.parseInt(memberGetResponseModel.member.occupation);
+                    memberMyself.LivingId = Integer.parseInt(memberGetResponseModel.member.living_status);
+                    memberMyself.HouseHeadId = Integer.parseInt(memberGetResponseModel.member.head_of_house);
+                    memberMyself.UniqueId = memberGetResponseModel.member.household_uniqe_id;
+                    memberMyself.VisitDate = memberGetResponseModel.member.visit_date;
+                    memberMyself.MemberId = memberGetResponseModel.member.member_id;
+                    memberMyself.Status = "1";
+                    Common.memberMyselfRepository.updateMemberMyself(memberMyself);
+
+                }
+                else{
+                    MemberMyself memberMyself = new MemberMyself();
+                    memberMyself.NationalId = memberGetResponseModel.member.national_id;
+                    memberMyself.MobileNumber = memberGetResponseModel.member.mobile_number;
+                    memberMyself.FullName = memberGetResponseModel.member.name;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+                    Date date1 = null;
+
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.birth_date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Date date2 = null;
+                    try {
+                        date2 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.created_at);
+                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    Date date3 = null;
+                    try {
+                        date3 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.death_date);
+                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String birthDate = formatter.format(date1);
+                    String deathDate = formatter.format(date3);
+                    memberMyself.DateOfBirth = birthDate;
+                    memberMyself.DateOfDeath = deathDate;
+                    memberMyself.CreatedDate = date2;
+                    memberMyself.GenderId = Integer.parseInt(memberGetResponseModel.member.sex);
+                    memberMyself.BloodGroupId =  Integer.parseInt(memberGetResponseModel.member.blood_group);
+                    memberMyself.ReligionId =  Integer.parseInt(memberGetResponseModel.member.religion);
+                    memberMyself.StudyId = Integer.parseInt(memberGetResponseModel.member.education);
+                    memberMyself.MaritialId = Integer.parseInt(memberGetResponseModel.member.marital_status);
+                    memberMyself.OccupationId = Integer.parseInt(memberGetResponseModel.member.occupation);
+                    memberMyself.LivingId = Integer.parseInt(memberGetResponseModel.member.living_status);
+                    memberMyself.HouseHeadId = Integer.parseInt(memberGetResponseModel.member.head_of_house);
+                    memberMyself.UniqueId = memberGetResponseModel.member.household_uniqe_id;
+                    memberMyself.VisitDate = memberGetResponseModel.member.visit_date;
+                    memberMyself.MemberId = memberGetResponseModel.member.member_id;
+                    memberMyself.Status = "1";
+                    Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+                Log.e("evan", "asd" + throwable.getMessage());
+            }
+        }));
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

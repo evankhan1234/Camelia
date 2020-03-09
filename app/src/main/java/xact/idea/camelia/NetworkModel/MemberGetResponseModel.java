@@ -9,7 +9,7 @@ public class MemberGetResponseModel extends ApiResponses {
     public int total_record;
 
     @SerializedName("member")
-    public ArrayList<Data> member;
+    public Data member;
 
     public class Data{
         @SerializedName("id")
@@ -25,9 +25,11 @@ public class MemberGetResponseModel extends ApiResponses {
         @SerializedName("mobile_number")
         public String mobile_number;
         @SerializedName("head_of_house")
-        public String natiohead_of_housenal_id;
+        public String head_of_house;
         @SerializedName("birth_date")
         public String birth_date;
+        @SerializedName("national_id")
+        public String national_id;
         @SerializedName("date_of_data_collection")
         public String date_of_data_collection;
         @SerializedName("sex")
@@ -64,9 +66,10 @@ public class MemberGetResponseModel extends ApiResponses {
         public String updated_at;
         @SerializedName("updated_by")
         public String updated_by;
-
-        @SerializedName("medical_history_details")
-        public ArrayList<Visit> medical_history_details;
+        @SerializedName("behavioral_info")
+        public ArrayList<Behavior> behavioral_info;
+        @SerializedName("medical_history")
+        public ArrayList<Visit> medical_history;
         public class Visit{
             @SerializedName("id")
             public int id;
@@ -89,8 +92,7 @@ public class MemberGetResponseModel extends ApiResponses {
             @SerializedName("update_no")
             public String update_no;
         }
-        @SerializedName("behavioral_info")
-        public ArrayList<Behavior> behavioral_info;
+
         public class Behavior{
             @SerializedName("id")
             public int id;

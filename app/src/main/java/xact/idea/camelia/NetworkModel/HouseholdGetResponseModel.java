@@ -8,7 +8,7 @@ public class HouseholdGetResponseModel {
     @SerializedName("total_record")
     public int total_record;
     @SerializedName("householdinfo")
-    public ArrayList<Data> householdinfo;
+    public ArrayList<Data> data;
 
     public class Data {
         @SerializedName("id")

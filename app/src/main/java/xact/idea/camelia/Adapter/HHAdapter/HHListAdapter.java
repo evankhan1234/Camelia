@@ -71,7 +71,7 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
             number = "<b><font color=#000 >Phone Number :  </font></b> <font color=#444444>N/A</font>";
         }
 
-        Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+        Glide.with(mActivity).load("https://cdn4.vectorstock.com/i/1000x1000/84/88/home-icon-mobile-app-and-web-site-start-main-page-vector-23828488.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
                 .into(new SimpleTarget<GlideDrawable>() {
                     @Override
                     public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {

@@ -18,7 +18,7 @@ public interface HouseholdDao {
     Flowable<List<HouseHold>> getHouseholdItems();
     @Query("SELECT * FROM HouseHold WHERE id=:HouseholdId")
     Flowable<List<HouseHold>> getHouseholdItemById(int HouseholdId);
-    @Query("SELECT * FROM HouseHold WHERE id=:HouseholdItem")
+    @Query("SELECT * FROM HouseHold WHERE UniqueId=:HouseholdItem")
     HouseHold getHousehold(String HouseholdItem);
     @Query("SELECT * FROM HouseHold WHERE id=:HouseholdItem")
     HouseHold getHouseholdNo(String HouseholdItem);

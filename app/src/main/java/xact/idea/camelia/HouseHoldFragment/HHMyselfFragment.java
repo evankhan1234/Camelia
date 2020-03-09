@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,6 +48,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.LoginActivity;
 import xact.idea.camelia.Database.Model.BloodGroup;
 import xact.idea.camelia.Database.Model.Female;
 import xact.idea.camelia.Database.Model.MaritialStatus;
@@ -159,13 +162,38 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         initView();
 
         load();
+        showLoadingProgress(mActivity);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                initalizeSpinner();
+                        load();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        initalizeSpinner();
+                                        dismissLoadingProgress();
+
+                                    }
+                                });
+
+                            }
+                        }, 100);
+
+
+                    }
+                });
+
             }
-        }, 300);
+        }, 30);
+
         // display();
         return view;
     }
@@ -896,4 +924,5 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         super.onStop();
         compositeDisposable.clear();
     }
+
 }
