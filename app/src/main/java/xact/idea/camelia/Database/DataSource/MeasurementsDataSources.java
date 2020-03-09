@@ -46,6 +46,11 @@ public class MeasurementsDataSources implements IMeasurementsDatasources {
     }
 
     @Override
+    public Measurements getMeasurementsDownloadNo(String MeasurementsId, String MemberId) {
+        return MeasurementsDao.getMeasurementsDownloadNo(MeasurementsId, MemberId);
+    }
+
+    @Override
     public int size() {
         return MeasurementsDao.value();
     }

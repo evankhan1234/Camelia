@@ -21,6 +21,8 @@ public interface MeasurementsDao {
     Measurements getMeasurements(String MeasurementsItem);
     @Query("SELECT * FROM Measurements WHERE id=:MeasurementsItem")
     Measurements getMeasurementsNo(String MeasurementsItem);
+    @Query("SELECT * FROM Measurements WHERE Type=:MeasurementsId AND MemberIds=:MemberId")
+    Measurements getMeasurementsDownloadNo(String MeasurementsId,String MemberId);
     @Query("Select Count(id)  FROM Measurements Where MemberIds=:Id")
     int valueFor(String Id);
     @Query("Select Count(id)  FROM Measurements")

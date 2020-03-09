@@ -41,6 +41,8 @@ public class KhanaServeyUploadModel {
             public String question;
             @SerializedName("answer")
             public String answer;
+            @SerializedName("question_type")
+            public String question_type;
             @SerializedName("created_at")
             public String created_at;
 //            @SerializedName("created_by")
