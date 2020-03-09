@@ -51,6 +51,8 @@ public class MedicalHistoryUpload {
             public String answer;
             @SerializedName("created_at")
             public String created_at;
+            @SerializedName("question_type")
+            public String question_type;
 //            @SerializedName("created_by")
 //            public String created_by;
 //            @SerializedName("updated_at")

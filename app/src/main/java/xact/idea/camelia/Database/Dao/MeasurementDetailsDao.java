@@ -19,7 +19,7 @@ public interface MeasurementDetailsDao {
     Flowable<List<MeasurementDetails>> getMeasurementsItemById(int MeasurementsId);
     @Query("SELECT * FROM MeasurementDetails WHERE id=:MeasurementsItem")
     MeasurementDetails getMeasurements(String MeasurementsItem);
-    @Query("SELECT * FROM MeasurementDetails WHERE id=:MeasurementsItem")
+    @Query("SELECT * FROM MeasurementDetails WHERE MeasurementId=:MeasurementsItem")
     MeasurementDetails getMeasurementsNo(String MeasurementsItem);
     @Query("Select Count(id)  FROM MeasurementDetails")
     int value();

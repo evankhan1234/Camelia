@@ -91,6 +91,9 @@ public class MemberGetResponseModel extends ApiResponses {
             public String updated_at;
             @SerializedName("update_no")
             public String update_no;
+            @SerializedName("question_type")
+            public String question_type;
+
         }
 
         public class Behavior{
@@ -114,6 +117,8 @@ public class MemberGetResponseModel extends ApiResponses {
             public String updated_at;
             @SerializedName("update_no")
             public String update_no;
+            @SerializedName("question_type")
+            public String question_type;
         }
     }
 }

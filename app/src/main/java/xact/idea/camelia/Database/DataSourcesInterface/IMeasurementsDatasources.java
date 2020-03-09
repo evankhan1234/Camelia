@@ -13,6 +13,7 @@ public interface IMeasurementsDatasources {
     Measurements getMeasurements(String MeasurementsItem);
     int maxValue();
     void emptyMeasurements();
+    Measurements getMeasurementsDownloadNo(String MeasurementsId,String MemberId);
 
     int size();
     int valueFor(String Id);

@@ -39,6 +39,8 @@ public class MemberBehaviorialUploadModel {
         public static class Details{
             @SerializedName("id")
             public int id;
+            @SerializedName("question_type")
+            public String question_type;
             @SerializedName("master_id")
             public int master_id;
             @SerializedName("member_id")
