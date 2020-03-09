@@ -10,6 +10,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:layout_marginRight="10px"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
@@ -42,13 +43,14 @@
                     android:drawablePadding="15px"
                     android:paddingLeft="20px"
                     android:hint="End Date"
-                    android:layout_marginLeft="40px"
+                    android:layout_marginLeft="20px"
                     android:background="@drawable/border"
                     android:focusable="false"
                     android:layout_width="400px"
                     android:layout_height="100px"/>
                 <Button
                     android:layout_marginLeft="20px"
+
                     android:tag="45"
                     android:textSize="45px"
 

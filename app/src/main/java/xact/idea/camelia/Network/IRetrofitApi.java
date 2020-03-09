@@ -13,6 +13,7 @@ import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
 import xact.idea.camelia.NetworkModel.HouseholdGetResponseModel;
+import xact.idea.camelia.NetworkModel.HouseholdListResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdPostModel;
 import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
@@ -100,4 +101,6 @@ public interface IRetrofitApi {
     io.reactivex.Observable<UHCModel> getUHC();
     @GET("cc/list")
     io.reactivex.Observable<CCModelresponse> getCC();
+    @GET("household/list ")
+    io.reactivex.Observable<HouseholdListResponseModel> getHouseholdList();
 }

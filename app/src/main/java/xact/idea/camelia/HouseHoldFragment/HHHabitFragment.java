@@ -1,8 +1,10 @@
 package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -55,7 +57,9 @@ import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.CustomDialog;
 import xact.idea.camelia.Utils.Utils;
 
+import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
 import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
+import static xact.idea.camelia.Utils.Utils.showLoadingProgress;
 
 public class HHHabitFragment extends Fragment implements Handler.Callback {
     Activity mActivity;
@@ -244,6 +248,20 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
         setRetainInstance(true);
+//        showLoadingProgress(mActivity);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mActivity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        dismissLoadingProgress();
+//                    }
+//                });
+//
+//            }
+//        }, 100);
         initView();
         // display();
         handler = new Handler(this);
@@ -5256,4 +5274,5 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 //        });
         infoDialog.show();
     }
+
 }

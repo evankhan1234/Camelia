@@ -1,5 +1,6 @@
 package xact.idea.camelia.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.view.GravityCompat;
@@ -10,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +34,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.disposables.CompositeDisposable;
+import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
@@ -72,7 +75,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
     private ImageButton btn_header_sync;
     private ImageButton btn_header_application_create;
     private LinearLayout linear;
-    private RelativeLayout relative;
+    private RelativeLayout relativelayoutLogout;
     private DrawerLayout drawer_layout;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     //IRetrofitApi mService;
@@ -106,6 +109,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        relativelayoutLogout = findViewById(R.id.relativelayoutLogout);
         btn_footer_household = findViewById(R.id.btn_footer_household);
         tv_household_menu = findViewById(R.id.tv_household_menu);
         btn_header_status_back = findViewById(R.id.btn_header_status_back);
@@ -172,6 +176,17 @@ public class CCUserHomeActivity extends AppCompatActivity {
                 // Hide the soft keyboard
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
                 backForDetails();
+            }
+        });
+
+        relativelayoutLogout.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CCUserHomeActivity.this, LoginActivity.class);
+                intent.putExtra("EXTRA_SESSION", "dashboard");
+                startActivity(intent);
+                finishAffinity();
             }
         });
     }

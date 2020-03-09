@@ -242,8 +242,22 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         correctSizeUtil.correctSize(view);
         setRetainInstance(true);
         handler = new Handler(this);
-        initView();
+
         load();
+        initView();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                mActivity.runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                        dismissLoadingProgress();
+//                    }
+//                });
+//
+//            }
+//        }, 100);
         // display();
         return view;
     }
@@ -3846,7 +3860,16 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
                 memberMedicine.member_unique_code = "";
                 memberMedicine.member_national_id = String.valueOf(memberMed.member_national_id);
-                Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
+                Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);             arrayList.clear();
+                arrayListBlood.clear();
+                arrayListHeart.clear();
+                arrayListBrainStroke.clear();
+                arrayListLung.clear();
+                arrayListAshma.clear();
+                arrayListKidney.clear();
+                arrayListCancer.clear();
+                arrayListMental.clear();
+
                 HHCreateMemberFragment.nextPages(2);
 
 
@@ -4382,7 +4405,15 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
 
-
+                    arrayList.clear();
+                    arrayListBlood.clear();
+                    arrayListHeart.clear();
+                    arrayListBrainStroke.clear();
+                    arrayListLung.clear();
+                    arrayListAshma.clear();
+                    arrayListKidney.clear();
+                    arrayListCancer.clear();
+                    arrayListMental.clear();
                     HHCreateMemberFragment.nextPages(2);
 
                     ////Evan
@@ -5610,6 +5641,15 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Log.e("fullstring", "data" + new Gson().toJson(memberMedicine));
 
                     Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
+                    arrayList.clear();
+                    arrayListBlood.clear();
+                    arrayListHeart.clear();
+                    arrayListBrainStroke.clear();
+                    arrayListLung.clear();
+                    arrayListAshma.clear();
+                    arrayListKidney.clear();
+                    arrayListCancer.clear();
+                    arrayListMental.clear();
                     HHCreateMemberFragment.nextPages(2);
                 }
 
