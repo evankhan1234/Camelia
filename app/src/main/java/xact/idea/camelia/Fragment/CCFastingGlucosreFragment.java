@@ -43,6 +43,7 @@ import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.rounded;
@@ -173,7 +174,7 @@ public class CCFastingGlucosreFragment extends Fragment {
                     measurements.Refer="";
                     measurements.Type="Pulse";
                     Common.measurementsRepository.insertToMeasurements(measurements);
-
+                    SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     int memberId= Common.measurementsRepository.maxValue();
                     MeasurementDetails measurementDetails= new MeasurementDetails();
                     measurementDetails.DateTime=date1;

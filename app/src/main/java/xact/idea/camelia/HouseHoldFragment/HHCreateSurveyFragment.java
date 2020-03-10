@@ -35,6 +35,7 @@ import xact.idea.camelia.Model.DropDownModel.TubewellModel;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 import xact.idea.camelia.View.CustomViewPager;
 
@@ -242,6 +243,7 @@ public class HHCreateSurveyFragment extends Fragment {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                 if (id==0){
 
                     int a=0;

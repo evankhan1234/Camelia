@@ -369,6 +369,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 referHistory.VisitDate = edit_date.getText().toString();
                 referHistory.MemberId = member;
                 Common.referRepository.insertToReferHistory(referHistory);
+                SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 //                Measurements measurements = new Measurements();
 //                measurements.DateTime= finalDate;
 //                measurements.MemberIds=member;
@@ -558,7 +559,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 referHistory.VisitDate = edit_dates.getText().toString();
                 referHistory.MemberId = member;
                 Common.referRepository.insertToReferHistory(referHistory);
-
+                SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 //                Measurements measurements = new Measurements();
 //                measurements.DateTime= finalDate;
 //                measurements.MemberIds=member;

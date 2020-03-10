@@ -174,6 +174,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                         houseHold.DateValue = currentDate;
                         houseHold.Date = date;
                         //  houseHold.Birthdate=ed;
+                        SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
                         Common.householdRepository.insertToHouseHold(houseHold);
                         if (frag.equals("frag")) {
