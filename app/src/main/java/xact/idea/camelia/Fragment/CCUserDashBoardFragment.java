@@ -62,7 +62,7 @@ public class CCUserDashBoardFragment extends Fragment {
     View view;
     static List<Integer> ydata = new ArrayList<>();
     CCDashboardAdapter mAdapters;
-    private static String[] xdata = {"Incomplete", "Complete", "Referral", "Follow Up"};
+    private static String[] xdata = {"Incomplete", "Complete", "UHC", "Follow Up"};
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     static EditText edit_start_date;
     static EditText edit_end_date;

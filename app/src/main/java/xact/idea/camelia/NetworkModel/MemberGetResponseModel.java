@@ -66,10 +66,10 @@ public class MemberGetResponseModel extends ApiResponses {
         public String updated_at;
         @SerializedName("updated_by")
         public String updated_by;
-        @SerializedName("behavioral_info")
-        public ArrayList<Behavior> behavioral_info;
-        @SerializedName("medical_history")
-        public ArrayList<Visit> medical_history;
+        @SerializedName("behavioral_info_details")
+        public ArrayList<Behavior> behavioral_info_details;
+        @SerializedName("medical_history_details")
+        public ArrayList<Visit> medical_history_details;
         public class Visit{
             @SerializedName("id")
             public int id;
