@@ -274,6 +274,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 referHistory.MemberId = member;
                 Common.referRepository.insertToReferHistory(referHistory);
                 infoDialog.dismiss();
+                SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
             }
         });

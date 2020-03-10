@@ -2,7 +2,6 @@ package xact.idea.camelia.Activity.Household;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Query;
 
 import android.content.Intent;
 import android.os.Build;
@@ -20,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -27,7 +27,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.LoginActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
@@ -124,7 +123,6 @@ import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
 import xact.idea.camelia.NetworkModel.MemberGetResponseModel;
-import xact.idea.camelia.NetworkModel.MemberPrescriptionResponseModel;
 import xact.idea.camelia.NetworkModel.MemberResponseModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
@@ -141,7 +139,6 @@ import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
-import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.showLoadingProgress;
 
 public class HouseHoldActivity extends AppCompatActivity {
@@ -160,6 +157,7 @@ public class HouseHoldActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_hold);
+
         mService = Common.getApiXact();
         CorrectSizeUtil.getInstance(this).correctSize();
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.root_rlt_dashboard));
@@ -218,11 +216,23 @@ public class HouseHoldActivity extends AppCompatActivity {
                 loadHousehold();
                 medicineList();
                 getBehaviorialList();
-
+                SharedPreferenceUtil.saveShared(HouseHoldActivity.this, SharedPreferenceUtil.SYNC, "off");
               //  downloadHousehold();
+                linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_black));
             }
         });
+
+        if (SharedPreferenceUtil.getSync(HouseHoldActivity.this).equals("on")){
+            linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_programitical));
+
+        }
+        else{
+            linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_black));
+
+        }
+
     }
+
 
     private void loadHousehold() {
 

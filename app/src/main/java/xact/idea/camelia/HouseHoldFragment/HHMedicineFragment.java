@@ -48,6 +48,7 @@ import xact.idea.camelia.Model.DropDownModel.YesNoModel;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.SpinnerForMedicine;
 import xact.idea.camelia.Utils.Utils;
 
@@ -3869,6 +3870,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListKidney.clear();
                 arrayListCancer.clear();
                 arrayListMental.clear();
+                SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
                 HHCreateMemberFragment.nextPages(2);
 
@@ -3885,6 +3887,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             MemberMyself memberMyself = Common.memberMyselfRepository.getMemberMyselfNo(id);
 
+                SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
             MemberMedicine memberMedicine1 = Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MemberId);
             MemberMedicine memberMedicineq = Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MemberId);

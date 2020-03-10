@@ -48,6 +48,7 @@ import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.rounded;
@@ -215,7 +216,7 @@ public class CCRandomGlucoseFragment extends Fragment {
                     else if (typeGlucose.equals("R")){
                         measurementDetails.Name="Random";
                     }
-
+                    SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     measurementDetails.Result= Double.parseDouble(edit_sugar.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
                     ((CCUserHomeActivity) getActivity()).backForDetails();

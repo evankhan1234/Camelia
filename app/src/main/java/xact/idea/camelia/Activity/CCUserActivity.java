@@ -25,6 +25,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
 import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
@@ -221,8 +222,19 @@ public class CCUserActivity extends AppCompatActivity {
             public void onClick(View v) {
             //    loadMeasurements();
                 //loadSurvey();
+                SharedPreferenceUtil.saveShared(CCUserActivity.this, SharedPreferenceUtil.SYNC, "off");
+                linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_programitical));
+
             }
         });
+        if (SharedPreferenceUtil.getSync(CCUserActivity.this).equals("on")){
+            linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_programitical));
+
+        }
+        else{
+            linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_black));
+
+        }
     }
 
     private void loadMeasurements() {

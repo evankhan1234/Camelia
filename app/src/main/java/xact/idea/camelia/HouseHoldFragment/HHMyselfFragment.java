@@ -66,6 +66,7 @@ import xact.idea.camelia.Model.DropDownModel.YesNoModel;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
@@ -654,6 +655,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     memberMyself.MemberId= memberIds.MemberId;
                     memberMyself.UniqueId=uniqueId;
                     memberMyself.Status= memberIds.Status;
+                    SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     Common.memberMyselfRepository.updateMemberMyself(memberMyself);
                     HHCreateMemberFragment.nextPage(1);
                     HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
@@ -708,6 +710,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                             memberMyself.MemberId= memberId;
                             memberMyself.Status= "0";
                             Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+                            SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
                             Common.memberIdRepository.emptyMemberId(memberId);
                             HHCreateMemberFragment.nextPage(1);

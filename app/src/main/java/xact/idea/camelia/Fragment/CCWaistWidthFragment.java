@@ -48,6 +48,7 @@ import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.rounded;
@@ -190,7 +191,7 @@ public class CCWaistWidthFragment extends Fragment {
                     measurementDetails.Name="Diastolic Reading1";
                     measurementDetails.Result= Double.parseDouble(edit_reading1.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
-
+                    SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     MeasurementDetails measurementDetails1= new MeasurementDetails();
                     measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;

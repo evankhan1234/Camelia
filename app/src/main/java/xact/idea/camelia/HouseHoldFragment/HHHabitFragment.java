@@ -61,6 +61,7 @@ import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.CustomDialog;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
@@ -3811,6 +3812,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     }
 
                 }
+                SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                 memberHabit.household_uniqe_id = memberHabitsFor.household_uniqe_id;
                 memberHabit.member_unique_code = "";
                 memberHabit.member_national_id = String.valueOf(memberHabitsFor.member_national_id);
@@ -3832,7 +3834,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 if (smokeYesNo == -1 || jordaYesNo == -1 || workplaceYesNo == -1 || alcoholYesNo == -1 || takingSalt == -1 || vigorousIntensity == -1 || moderateIntensity == -1 || vigorousIntensityRecreational == -1 || moderateIntensityRecreational == -1 || recliningActivities == -1) {
                     Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
                 } else {
-
+                    SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     if (memberHabits == null) {
 
                         if (smokeYesNo == 2) {
@@ -4314,6 +4316,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             questions15.master_id = memberMyself.id;
                             Common.qustionsRepository.insertToQuestions(questions15);
                         }
+                        SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                         Common.memberHabitRepository.insertToMemberHabit(memberHabit);
 
                         showInfoDialog(mActivity, memberMyself.MemberId);

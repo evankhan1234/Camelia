@@ -43,6 +43,7 @@ import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.rounded;
@@ -182,7 +183,7 @@ public class CCWHRFragment extends Fragment {
                     measurementDetails.Name="Waist";
                     measurementDetails.Result= Double.parseDouble(edit_waist.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
-
+                    SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     MeasurementDetails measurementDetails1= new MeasurementDetails();
                     measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;
