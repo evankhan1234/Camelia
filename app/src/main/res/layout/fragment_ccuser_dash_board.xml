@@ -232,7 +232,7 @@
                         android:textSize="35px"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="Referral"
+                        android:text="UHC"
                         android:gravity="center|center_vertical"
                         android:layout_weight="1"
 

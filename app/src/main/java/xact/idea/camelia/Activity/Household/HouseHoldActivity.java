@@ -2,6 +2,7 @@ package xact.idea.camelia.Activity.Household;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Query;
 
 import android.content.Intent;
 import android.os.Build;
@@ -72,6 +73,7 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.Database.Model.StudyClass;
+import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
@@ -110,6 +112,8 @@ import xact.idea.camelia.NetworkModel.GenderResponses;
 import xact.idea.camelia.NetworkModel.HouseholdListResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
+import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
+import xact.idea.camelia.NetworkModel.KhanaServeyUploadModel;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
 import xact.idea.camelia.NetworkModel.MeasurementsGetResponseModel;
 import xact.idea.camelia.NetworkModel.MedicalHistoryResponseModel;
@@ -211,11 +215,11 @@ public class HouseHoldActivity extends AppCompatActivity {
         linear_sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                loadHousehold();
-//                medicineList();
-//                getBehaviorialList();
+                loadHousehold();
+                medicineList();
+                getBehaviorialList();
 
-                downloadHousehold();
+              //  downloadHousehold();
             }
         });
     }
@@ -337,7 +341,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         dismissLoadingProgress();
                     }
                 }));
-                Log.e("sync2", "sync2" + new Gson().toJson(data));
+                Log.e("Medical", "Medical" + new Gson().toJson(data));
             }
         }));
 
@@ -388,7 +392,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         dismissLoadingProgress();
                     }
                 }));
-                Log.e("sync2", "sync2" + new Gson().toJson(data));
+                Log.e("Behaviorial", "Behaviorial" + new Gson().toJson(data));
             }
         }));
     }
@@ -457,10 +461,15 @@ public class HouseHoldActivity extends AppCompatActivity {
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("medicine", memberId);
         for (Questions questions : questionsList.blockingFirst()) {
             MedicalHistoryUpload.Data.Details mdata = new MedicalHistoryUpload.Data.Details();
+
+            if (questions.question.equals("Q55a")){
+                Log.e("answer__", "answer__" +questions.answer);
+            }
             mdata.parent_question = "";
             mdata.member_id = memberId;
             mdata.answer = questions.answer;
             mdata.question = questions.question;
+            mdata.question_type = questions.type;
             mdata.created_at = date;
             mdata.id = questions.id;
             mdata.master_id = id;
@@ -481,7 +490,81 @@ public class HouseHoldActivity extends AppCompatActivity {
             mdata.question = questions.question;
             mdata.created_at = date;
             mdata.id = questions.id;
+            mdata.question_type = questions.type;
             mdata.master_id = id;
+            memberMyselves.add(mdata);
+            dismissLoadingProgress();
+        }
+        return memberMyselves;
+    }
+    private void loadSurvey() {
+
+        showLoadingProgress(HouseHoldActivity.this);
+
+        compositeDisposable.add(Common.surveyRepository.getSurveyItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Survey>>() {
+            @Override
+            public void accept(List<Survey> memberMedicineList) throws Exception {
+                KhanaServeyUploadModel data = new KhanaServeyUploadModel();
+                ArrayList<KhanaServeyUploadModel.Data> medicalHistoryUploadList = new ArrayList<>();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
+                Date date = new Date(System.currentTimeMillis());
+                Date date1 = null;
+                Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
+
+                ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselvesdetails = new ArrayList<>();
+                for (Survey measurements : memberMedicineList) {
+                    KhanaServeyUploadModel.Data mdata = new KhanaServeyUploadModel.Data();
+                    mdata.id = measurements.id;
+
+
+                    String currentDate = formatter.format(measurements.CreatedDate);
+                    memberMyselvesdetails = getKhanaDetailsData(String.valueOf(measurements.id),currentDate);
+                    mdata.status = "1";
+                    mdata.update_no = "0";
+                    mdata.created_by = "0";
+                    mdata.created_at = currentDate;
+                    mdata.household_uniqe_id = measurements.UniqueId;
+                    mdata.khana_details = memberMyselvesdetails;
+                    medicalHistoryUploadList.add(mdata);
+                    dismissLoadingProgress();
+                }
+                data.data = medicalHistoryUploadList;
+                data.user_credential = auth.email;
+                //   medicalHistoryUploadList.clear();
+
+                compositeDisposable.add(mService.postKhanaServeyUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<KhanaServeyResponseModel>() {
+                    @Override
+                    public void accept(KhanaServeyResponseModel memberResponseModel) throws Exception {
+                        Log.e("KhanaServey", "KhanaServey" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("KhanaServey", "KhanaServey" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+                Log.e("sync2", "sync2" + new Gson().toJson(data));
+                Log.e("sync2", "sync2" + new Gson().toJson(data));
+            }
+        }));
+
+    }
+    private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id,String Date) {
+        final ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselves = new ArrayList<>();
+        showLoadingProgress(HouseHoldActivity.this);
+
+        Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("survey",id);
+
+        for (Questions questions : questionsList.blockingFirst()) {
+            KhanaServeyUploadModel.Data.KhanaDetails mdata = new KhanaServeyUploadModel.Data.KhanaDetails();
+            mdata.id= Integer.parseInt(questions.member_id);
+            mdata.question= questions.question;
+            mdata.answer= questions.answer;
+            mdata.created_at=Date;
+            mdata.question_type=questions.type;
+            mdata.update_no= "0";
             memberMyselves.add(mdata);
             dismissLoadingProgress();
         }
@@ -492,6 +575,7 @@ public class HouseHoldActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initDB();
+
         if (Common.studyClassRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
                 StudyClass studyClass = new StudyClass();
@@ -784,7 +868,16 @@ public class HouseHoldActivity extends AppCompatActivity {
         showLoadingProgress(HouseHoldActivity.this);
         MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
-        memberAlocatePostModel.data.last_used_id = "";
+        int maxValue= Common.memberIdRepository.maxValue();
+        MemberId memberId=Common.memberIdRepository.getMemberIdNo(String.valueOf(maxValue));
+        Log.e("memberId","memberId"+memberId.Value);
+        Flowable<List<MemberId>> memberIdList = Common.memberIdRepository.getMemberIdItems();
+        if (memberIdList.blockingFirst().size()>0){
+            memberAlocatePostModel.data.last_used_id = memberId.Value;
+        }
+        else{
+            memberAlocatePostModel.data.last_used_id = "";
+        }
         Log.e("auth", "auth" + auth.user_id);
         memberAlocatePostModel.user_credential = auth.email;
         compositeDisposable.add(mService.getMemberAlocate(memberAlocatePostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberAlocateResponseModel>() {
@@ -1350,8 +1443,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     memberMyself.DateOfBirth = birthDate;
                     memberMyself.DateOfDeath = deathDate;
                     memberMyself.CreatedDate = date2;
-                    downMedicalHistory(memberGetResponseModel.member.medical_history);
-                    downBehaviorialHistory(memberGetResponseModel.member.behavioral_info);
+                    downMedicalHistory(memberGetResponseModel.member.medical_history_details);
+                    downBehaviorialHistory(memberGetResponseModel.member.behavioral_info_details);
                     memberMyself.GenderId = Integer.parseInt(memberGetResponseModel.member.sex);
                     memberMyself.BloodGroupId =  Integer.parseInt(memberGetResponseModel.member.blood_group);
                     memberMyself.ReligionId =  Integer.parseInt(memberGetResponseModel.member.religion);
@@ -1395,8 +1488,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    downMedicalHistory(memberGetResponseModel.member.medical_history);
-                    downBehaviorialHistory(memberGetResponseModel.member.behavioral_info);
+                    downMedicalHistory(memberGetResponseModel.member.medical_history_details);
+                    downBehaviorialHistory(memberGetResponseModel.member.behavioral_info_details);
                     String birthDate = formatter.format(date1);
                     String deathDate = formatter.format(date3);
                     memberMyself.DateOfBirth = birthDate;

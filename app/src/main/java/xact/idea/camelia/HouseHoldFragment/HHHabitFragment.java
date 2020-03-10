@@ -1,7 +1,9 @@
 package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -29,10 +32,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import xact.idea.camelia.Activity.CCUserHomeActivity;
@@ -41,6 +46,7 @@ import xact.idea.camelia.Database.Model.MemberHabit;
 import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Questions;
+import xact.idea.camelia.Fragment.CCBloodPressureFragment;
 import xact.idea.camelia.Model.DropDownModel.FruitsCardModel;
 import xact.idea.camelia.Model.DropDownModel.FruitsModel;
 import xact.idea.camelia.Model.DropDownModel.ModerateModel;
@@ -108,13 +114,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     EditText edit_yes_reclining;
     EditText edit_smoke_stick;
     EditText edit_jorda;
-    EditText edit_typical_day_moderate_recreational;
-    EditText edit_typical_day_moderate;
+    static EditText edit_typical_day_moderate_recreational;
+    static EditText edit_typical_day_moderate;
     EditText edit_workplace;
-    EditText edit_typical_day;
+    static EditText edit_typical_day;
     EditText edit_alcohol;
     EditText edit_yes_extra_salt;
-    EditText edit_typical_day_recreational;
+    static EditText edit_typical_day_recreational;
     CheckBox checkBoxHeaveyLoad;
     CheckBox checkBoxDigging;
     CheckBox checkBoxFurniture;
@@ -190,7 +196,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     ArrayAdapter<TypicalVigorousModel> yesNoArrayAdapterTypicalVigorous;
     ArrayAdapter<TypicalVigorousRecreationModel> yesNoArrayAdapterTypicalVigorousRecreation;
 
-    ArrayList<YesNoModel> yesNoArrayListForSmoke= new ArrayList<>();
+    ArrayList<YesNoModel> yesNoArrayListForSmoke = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForJorda = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForWorkplace = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForAlcohol = new ArrayList<>();
@@ -200,15 +206,15 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     ArrayList<VegetablesCardModel> yesNoArrayListForVegetablesCard = new ArrayList<>();
     ArrayList<SaltModel> yesNoArrayListForSaltBuy = new ArrayList<>();
     ArrayList<YesNoModel> yesNoArrayListForTakingSalt = new ArrayList<>();
-    ArrayList<YesNoModel> yesNoArrayListForVigorousIntensityHeart= new ArrayList<>();
-    ArrayList<YesNoModel> yesNoArrayListForModerateIntensityHeart= new ArrayList<>();
-    ArrayList<YesNoModel> yesNoArrayListForModerateRecreationalHeartt= new ArrayList<>();
-    ArrayList<YesNoModel> yesNoArrayListForVigorousRecreationalHeart= new ArrayList<>();
-    ArrayList<YesNoModel> yesNoArrayListForReclinig= new ArrayList<>();
-    ArrayList<ModerateModel> yesNoArrayListForModerate= new ArrayList<>();
-    ArrayList<ModerateRecreationalModel> yesNoArrayListForModerateRecreational= new ArrayList<>();
-    ArrayList<TypicalVigorousModel> yesNoArrayListForTypicalVigorous= new ArrayList<>();
-    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListForTypicalVigorousRecreation= new ArrayList<>();
+    ArrayList<YesNoModel> yesNoArrayListForVigorousIntensityHeart = new ArrayList<>();
+    ArrayList<YesNoModel> yesNoArrayListForModerateIntensityHeart = new ArrayList<>();
+    ArrayList<YesNoModel> yesNoArrayListForModerateRecreationalHeartt = new ArrayList<>();
+    ArrayList<YesNoModel> yesNoArrayListForVigorousRecreationalHeart = new ArrayList<>();
+    ArrayList<YesNoModel> yesNoArrayListForReclinig = new ArrayList<>();
+    ArrayList<ModerateModel> yesNoArrayListForModerate = new ArrayList<>();
+    ArrayList<ModerateRecreationalModel> yesNoArrayListForModerateRecreational = new ArrayList<>();
+    ArrayList<TypicalVigorousModel> yesNoArrayListForTypicalVigorous = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListForTypicalVigorousRecreation = new ArrayList<>();
 
     int smokeYesNo;
     int jordaYesNo;
@@ -229,15 +235,17 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     int moderateIntensity;
     int moderateIntensityTypical;
     int recliningActivities;
-   RelativeLayout relativeLayout;
-   String frag;
+    RelativeLayout relativeLayout;
+    String frag;
     String update;
-    public HHHabitFragment(String frags,String updates) {
-        frag=frags;
-        update=updates;
-        Log.e("uniqueId",""+frag);
-        Log.e("updates",""+updates);
+
+    public HHHabitFragment(String frags, String updates) {
+        frag = frags;
+        update = updates;
+        Log.e("uniqueId", "" + frag);
+        Log.e("updates", "" + updates);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -269,13 +277,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     }
 
     private void initView() {
-        relativeLayout=view.findViewById(R.id.relative);
+        relativeLayout = view.findViewById(R.id.relative);
         linear_moderate_intensity_recreational_activities_typical = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical);
         checkBoxFastWalking = view.findViewById(R.id.checkBoxFastWalking);
         linear_moderate_intensity_recreational_activities_typical_day = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day);
         edit_typical_day_moderate_recreational = view.findViewById(R.id.edit_typical_day_moderate_recreational);
         checkBoxJogging = view.findViewById(R.id.checkBoxJogging);
-      //  edit_typical_day_recreational = view.findViewById(R.id.edit_typical_day_recreational);
+        //  edit_typical_day_recreational = view.findViewById(R.id.edit_typical_day_recreational);
         checkBoxCycling = view.findViewById(R.id.checkBoxCycling);
         linear_reclining = view.findViewById(R.id.linear_reclining);
         edit_yes_reclining = view.findViewById(R.id.edit_yes_reclining);
@@ -375,25 +383,25 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWashingCloths1 = view.findViewById(R.id.checkBoxWashingCloths1);
         checkBoxGardening1 = view.findViewById(R.id.checkBoxGardening1);
         checkBoxMilkingCows1 = view.findViewById(R.id.checkBoxMilkingCows1);
-        yesNoArrayListForSmoke= Utils.getyesNoList();
-        yesNoArrayListForWorkplace= Utils.getyesNoList();
-        yesNoArrayListForAlcohol= Utils.getyesNoList();
-        yesNoArrayListForFruits= Utils.getfruitsModelList();
-        yesNoArrayListForFruitsCard= Utils.getfruitsCardModelList();
-        yesNoArrayListForVegetables= Utils.getvegetablesModelList();
-        yesNoArrayListForVegetablesCard= Utils.getvegetableCardModelList();
-        yesNoArrayListForJorda= Utils.getyesNoList();
-        yesNoArrayListForModerateIntensityHeart= Utils.getyesNoList();
-        yesNoArrayListForModerateRecreationalHeartt= Utils.getyesNoList();
-        yesNoArrayListForReclinig= Utils.getyesNoList();
-        yesNoArrayListForVigorousIntensityHeart= Utils.getyesNoList();
-        yesNoArrayListForVigorousRecreationalHeart= Utils.getyesNoList();
-        yesNoArrayListForSaltBuy= Utils.getSaltModelList();
-        yesNoArrayListForTakingSalt= Utils.getyesNoList();
-        yesNoArrayListForModerate= Utils.getModerateModelList();
-        yesNoArrayListForModerateRecreational= Utils.getModerateRecreationalModelList();
-        yesNoArrayListForTypicalVigorous= Utils.getTypicalVigorousModelList();
-        yesNoArrayListForTypicalVigorousRecreation= Utils.getTypicalVigorousRecreationModelList();
+        yesNoArrayListForSmoke = Utils.getyesNoList();
+        yesNoArrayListForWorkplace = Utils.getyesNoList();
+        yesNoArrayListForAlcohol = Utils.getyesNoList();
+        yesNoArrayListForFruits = Utils.getfruitsModelList();
+        yesNoArrayListForFruitsCard = Utils.getfruitsCardModelList();
+        yesNoArrayListForVegetables = Utils.getvegetablesModelList();
+        yesNoArrayListForVegetablesCard = Utils.getvegetableCardModelList();
+        yesNoArrayListForJorda = Utils.getyesNoList();
+        yesNoArrayListForModerateIntensityHeart = Utils.getyesNoList();
+        yesNoArrayListForModerateRecreationalHeartt = Utils.getyesNoList();
+        yesNoArrayListForReclinig = Utils.getyesNoList();
+        yesNoArrayListForVigorousIntensityHeart = Utils.getyesNoList();
+        yesNoArrayListForVigorousRecreationalHeart = Utils.getyesNoList();
+        yesNoArrayListForSaltBuy = Utils.getSaltModelList();
+        yesNoArrayListForTakingSalt = Utils.getyesNoList();
+        yesNoArrayListForModerate = Utils.getModerateModelList();
+        yesNoArrayListForModerateRecreational = Utils.getModerateRecreationalModelList();
+        yesNoArrayListForTypicalVigorous = Utils.getTypicalVigorousModelList();
+        yesNoArrayListForTypicalVigorousRecreation = Utils.getTypicalVigorousRecreationModelList();
         initDiabetisSpinner();
         initJordaSpinner();
         initWorkstationSpinner();
@@ -424,16 +432,243 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 InputMethodManager inputMethodManager = (InputMethodManager)
                         view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 // Hide the soft keyboard
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        });
+        edit_typical_day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dFragment = new TypicalDayTimePickerFragment();
+
+                dFragment.show(getFragmentManager(), "Time Picker");
+            }
+        });
+        edit_typical_day_moderate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dFragment = new TypicalDayModerateTimePickerFragment();
+
+                dFragment.show(getFragmentManager(), "Time Picker");
+            }
+        });
+        edit_typical_day_recreational.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dFragment = new TypicalDayRecreationalTimePickerFragment();
+
+                dFragment.show(getFragmentManager(), "Time Picker");
+            }
+        });
+        edit_typical_day_moderate_recreational.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dFragment = new ModerateRecreationalTimePickerFragment();
+
+                dFragment.show(getFragmentManager(), "Time Picker");
             }
         });
         show();
     }
 
-    private void show(){
+    public static class TypicalDayTimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    false);
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            String format = "";
+            if (hourOfDay == 0) {
+                hourOfDay += 12;
+                format = "AM";
+            } else if (hourOfDay == 12) {
+                format = "PM";
+            } else if (hourOfDay > 12) {
+                hourOfDay -= 12;
+                format = "PM";
+            } else {
+                format = "AM";
+            }
+            int length = String.valueOf(minute).length();
+            int length1 = String.valueOf(hourOfDay).length();
+            String value = "";
+            String value1 = "";
+            if (length > 1) {
+                value = String.valueOf(minute);
+            } else {
+                value = "0" + String.valueOf(minute);
+            }
+            if (length1 > 1) {
+                value1 = String.valueOf(hourOfDay);
+            } else {
+                value1 = "0" + String.valueOf(hourOfDay);
+            }
+            edit_typical_day.setText(value1 + ":" + value + " " + format);
+        }
+
+    }
+
+    public static class TypicalDayModerateTimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    false);
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            String format = "";
+            if (hourOfDay == 0) {
+                hourOfDay += 12;
+                format = "AM";
+            } else if (hourOfDay == 12) {
+                format = "PM";
+            } else if (hourOfDay > 12) {
+                hourOfDay -= 12;
+                format = "PM";
+            } else {
+                format = "AM";
+            }
+            int length = String.valueOf(minute).length();
+            int length1 = String.valueOf(hourOfDay).length();
+            String value = "";
+            String value1 = "";
+            if (length > 1) {
+                value = String.valueOf(minute);
+            } else {
+                value = "0" + String.valueOf(minute);
+            }
+            if (length1 > 1) {
+                value1 = String.valueOf(hourOfDay);
+            } else {
+                value1 = "0" + String.valueOf(hourOfDay);
+            }
+            edit_typical_day_moderate.setText(value1 + ":" + value + " " + format);
+        }
+
+    }
+
+    public static class TypicalDayRecreationalTimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    false);
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            String format = "";
+            if (hourOfDay == 0) {
+                hourOfDay += 12;
+                format = "AM";
+            } else if (hourOfDay == 12) {
+                format = "PM";
+            } else if (hourOfDay > 12) {
+                hourOfDay -= 12;
+                format = "PM";
+            } else {
+                format = "AM";
+            }
+            int length = String.valueOf(minute).length();
+            int length1 = String.valueOf(hourOfDay).length();
+            String value = "";
+            String value1 = "";
+            if (length > 1) {
+                value = String.valueOf(minute);
+            } else {
+                value = "0" + String.valueOf(minute);
+            }
+            if (length1 > 1) {
+                value1 = String.valueOf(hourOfDay);
+            } else {
+                value1 = "0" + String.valueOf(hourOfDay);
+            }
+            edit_typical_day_recreational.setText(value1 + ":" + value + " " + format);
+        }
+
+    }
+
+    public static class ModerateRecreationalTimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    false);
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            String format = "";
+            if (hourOfDay == 0) {
+                hourOfDay += 12;
+                format = "AM";
+            } else if (hourOfDay == 12) {
+                format = "PM";
+            } else if (hourOfDay > 12) {
+                hourOfDay -= 12;
+                format = "PM";
+            } else {
+                format = "AM";
+            }
+            int length = String.valueOf(minute).length();
+            int length1 = String.valueOf(hourOfDay).length();
+            String value = "";
+            String value1 = "";
+            if (length > 1) {
+                value = String.valueOf(minute);
+            } else {
+                value = "0" + String.valueOf(minute);
+            }
+            if (length1 > 1) {
+                value1 = String.valueOf(hourOfDay);
+            } else {
+                value1 = "0" + String.valueOf(hourOfDay);
+            }
+            edit_typical_day_moderate_recreational.setText(value1 + ":" + value + " " + format);
+        }
+
+    }
+
+    private void show() {
         MemberHabit memberHabitsFor = Common.memberHabitRepository.getMemberHabit(update);
-        if (memberHabitsFor!=null)
-        {
+        if (memberHabitsFor != null) {
             int SmokeYesNo = 0;
             Questions questions1 = Common.qustionsRepository.getQuestions("Q32", update);
             try {
@@ -445,7 +680,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             if (SmokeYesNo != 0) {
                 int div = SmokeYesNo;
 
-                if(div==1){
+                if (div == 1) {
                     try {
                         Questions questions1a = Common.qustionsRepository.getQuestions("Q32a", update);
                         Questions questions1b = Common.qustionsRepository.getQuestions("Q32b", update);
@@ -470,18 +705,18 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             initFruitsTypical();
             initFruitsShowCard();
             initTypicalVegetable();
-            initVegetablesShowCard ();
+            initVegetablesShowCard();
             initSaltBuy();
             initTakingMeal();
             initRecllining();
-            initVigorousIntensity ();
-            initModerateIntensity ();
-            initVigiriosIntensityRecreational ();
+            initVigorousIntensity();
+            initModerateIntensity();
+            initVigiriosIntensityRecreational();
             initModerateIntensityRecreational();
         }
     }
 
-    private void initJarda(){
+    private void initJarda() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q33", update);
         try {
@@ -493,7 +728,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q33a", update);
                     edit_jorda.setText(questions1a.answer);
@@ -510,7 +745,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         }
     }
 
-    private void initWorkPlaceSmoke(){
+    private void initWorkPlaceSmoke() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q34", update);
         try {
@@ -522,7 +757,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q34a", update);
                     edit_workplace.setText(questions1a.answer);
@@ -538,7 +773,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initAlcohol(){
+
+    private void initAlcohol() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q35", update);
         try {
@@ -550,7 +786,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q35a", update);
                     edit_alcohol.setText(questions1a.answer);
@@ -566,7 +802,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initFruitsTypical(){
+
+    private void initFruitsTypical() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q36", update);
         try {
@@ -586,7 +823,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initFruitsShowCard(){
+
+    private void initFruitsShowCard() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q37", update);
         try {
@@ -607,7 +845,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         }
     }
 
-    private void initTypicalVegetable(){
+    private void initTypicalVegetable() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q38", update);
         try {
@@ -627,7 +865,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initVegetablesShowCard(){
+
+    private void initVegetablesShowCard() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q39", update);
         try {
@@ -647,7 +886,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initSaltBuy(){
+
+    private void initSaltBuy() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q41", update);
         try {
@@ -667,7 +907,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initTakingMeal(){
+
+    private void initTakingMeal() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q42", update);
         try {
@@ -679,7 +920,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q42a", update);
                     edit_yes_extra_salt.setText(questions1a.answer);
@@ -695,12 +936,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initVigorousIntensity(){
+
+    private void initVigorousIntensity() {
         int YesNo = 0;
         int YesNob = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q43", update);
-        Questions questions3= Common.qustionsRepository.getQuestions("Q43b", update);
-        Questions questions2= Common.qustionsRepository.getQuestions("Q43a", update);
+        Questions questions3 = Common.qustionsRepository.getQuestions("Q43b", update);
+        Questions questions2 = Common.qustionsRepository.getQuestions("Q43a", update);
 
 
         try {
@@ -708,8 +950,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             YesNob = -1;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             YesNob = -1;
         }
@@ -720,54 +961,42 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             YesNo = -1;
         }
 
-        if (questions2!=null){
+        if (questions2 != null) {
             String diac = questions2.answer;
             String[] values = diac.split(",");
             for (String s : values) {
                 Log.e("fdf", "dfdf" + s);
-                if(s.equals("1")){
+                if (s.equals("1")) {
                     checkBoxHeaveyLoad.setChecked(true);
-                }
-                else if(s.equals("2")){
+                } else if (s.equals("2")) {
                     checkBoxDigging.setChecked(true);
-                }
-                else if(s.equals("3")){
+                } else if (s.equals("3")) {
                     checkBoxFurniture.setChecked(true);
-                }
-                else if(s.equals("4")){
+                } else if (s.equals("4")) {
                     checkBoxPickingCrops.setChecked(true);
-                }
-                else if(s.equals("5")){
+                } else if (s.equals("5")) {
                     checkBoxCuttingTrees.setChecked(true);
-                }
-                else if(s.equals("6")){
+                } else if (s.equals("6")) {
                     checkBoxBreakUpPaddy.setChecked(true);
-                }
-                else if(s.equals("7")){
+                } else if (s.equals("7")) {
                     checkBoxDrivingRickshaw.setChecked(true);
-                }
-                else if(s.equals("8")){
+                } else if (s.equals("8")) {
                     checkBoxFishing.setChecked(true);
-                }else if(s.equals("9")){
+                } else if (s.equals("9")) {
                     checkBoxPlouging.setChecked(true);
-                }else if(s.equals("10")){
+                } else if (s.equals("10")) {
                     checkBoxHeaveyConstructionWork.setChecked(true);
-                }
-                else if(s.equals("11")){
+                } else if (s.equals("11")) {
                     checkBoxHeaveyGoods.setChecked(true);
-                }
-                else if(s.equals("12")){
+                } else if (s.equals("12")) {
                     checkBoxHeaveyGoodsHead.setChecked(true);
-                }else if(s.equals("13")){
+                } else if (s.equals("13")) {
                     checkBoxSoldDigging.setChecked(true);
-                }
-                else if(s.equals("14")){
+                } else if (s.equals("14")) {
                     checkBoxWashing.setChecked(true);
-                }
-                else if(s.equals("15")){
+                } else if (s.equals("15")) {
                     checkBoxStepping.setChecked(true);
-                }
-                else if(s.equals("16")){
+                } else if (s.equals("16")) {
                     checkBoxOthers.setChecked(true);
                 }
 
@@ -775,7 +1004,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         }
 
 
-        if (YesNob!=0){
+        if (YesNob != 0) {
             for (int i = 0; i < yesNoArrayListForTypicalVigorous.size(); i++) {
                 if (yesNoArrayListForTypicalVigorous.get(i).getId() == YesNob) {
                     spinner_typical_week.setSelection(i);
@@ -785,7 +1014,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q43c", update);
                     edit_typical_day.setText(questions1a.answer);
@@ -803,12 +1032,12 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     }
     //////////////
 
-    private void initModerateIntensity(){
+    private void initModerateIntensity() {
         int YesNo = 0;
         int YesNob = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q44", update);
-        Questions questions3= Common.qustionsRepository.getQuestions("Q44b", update);
-        Questions questions2= Common.qustionsRepository.getQuestions("Q44a", update);
+        Questions questions3 = Common.qustionsRepository.getQuestions("Q44b", update);
+        Questions questions2 = Common.qustionsRepository.getQuestions("Q44a", update);
 
 
         try {
@@ -816,8 +1045,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             YesNob = -1;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             YesNob = -1;
         }
@@ -828,75 +1056,59 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             YesNo = -1;
         }
 
-        if (questions2!=null){
+        if (questions2 != null) {
             String diac = questions2.answer;
             String[] values = diac.split(",");
             for (String s : values) {
                 Log.e("fdf", "dfdf" + s);
-                if(s.equals("1")){
+                if (s.equals("1")) {
                     checkBoxHouseHoldWork.setChecked(true);
-                }
-                else if(s.equals("2")){
+                } else if (s.equals("2")) {
                     checkBoxGardening.setChecked(true);
-                }
-                else if(s.equals("3")){
+                } else if (s.equals("3")) {
                     checkBoxMilkingCows.setChecked(true);
-                }
-                else if(s.equals("4")){
+                } else if (s.equals("4")) {
                     checkBoxCultivatingLand.setChecked(true);
-                }
-                else if(s.equals("5")){
+                } else if (s.equals("5")) {
                     checkBoxPlantingHarvest.setChecked(true);
-                }
-                else if(s.equals("6")){
+                } else if (s.equals("6")) {
                     checkBoxWeavingCloth.setChecked(true);
-                }
-                else if(s.equals("7")){
+                } else if (s.equals("7")) {
                     checkBoxWashingCloths.setChecked(true);
-                }
-                else if(s.equals("8")){
+                } else if (s.equals("8")) {
                     checkBoxRearing.setChecked(true);
-                }else if(s.equals("9")){
+                } else if (s.equals("9")) {
                     checkBoxMixingCement.setChecked(true);
-                }else if(s.equals("10")){
+                } else if (s.equals("10")) {
                     checkBoxWoodWork.setChecked(true);
-                }
-                else if(s.equals("11")){
+                } else if (s.equals("11")) {
                     checkBoxDrawingWater.setChecked(true);
-                }
-                else if(s.equals("12")){
+                } else if (s.equals("12")) {
                     checkBoxCarryingLightWeight.setChecked(true);
-                }else if(s.equals("13")){
+                } else if (s.equals("13")) {
                     checkBoxWashingCloths1.setChecked(true);
-                }
-                else if(s.equals("14")){
+                } else if (s.equals("14")) {
                     checkBoxGardening1.setChecked(true);
-                }
-                else if(s.equals("15")){
+                } else if (s.equals("15")) {
                     checkBoxMilkingCows1.setChecked(true);
-                }
-                else if(s.equals("16")){
+                } else if (s.equals("16")) {
                     checkBoxRoping.setChecked(true);
-                }
-                else if(s.equals("17")){
+                } else if (s.equals("17")) {
                     checkBoxFarming.setChecked(true);
-                }
-                else if(s.equals("18")){
+                } else if (s.equals("18")) {
                     checkBoxParlour.setChecked(true);
-                }
-                else if(s.equals("19")){
+                } else if (s.equals("19")) {
                     checkBoxCloth.setChecked(true);
-                } else if(s.equals("20")){
+                } else if (s.equals("20")) {
                     checkBoxHouseHoldWork1.setChecked(true);
-                }
-                else if(s.equals("21")){
+                } else if (s.equals("21")) {
                     checkBoxOthers1.setChecked(true);
                 }
             }
         }
 
 
-        if (YesNob!=0){
+        if (YesNob != 0) {
             for (int i = 0; i < yesNoArrayListForModerate.size(); i++) {
                 if (yesNoArrayListForModerate.get(i).getId() == YesNob) {
                     spinner_typical_week_moderate.setSelection(i);
@@ -906,7 +1118,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q44c", update);
                     edit_typical_day_moderate.setText(questions1a.answer);
@@ -922,12 +1134,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initVigiriosIntensityRecreational(){
+
+    private void initVigiriosIntensityRecreational() {
         int YesNo = 0;
         int YesNob = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q45", update);
-        Questions questions3= Common.qustionsRepository.getQuestions("Q45b", update);
-        Questions questions2= Common.qustionsRepository.getQuestions("Q45a", update);
+        Questions questions3 = Common.qustionsRepository.getQuestions("Q45b", update);
+        Questions questions2 = Common.qustionsRepository.getQuestions("Q45a", update);
 
 
         try {
@@ -935,8 +1148,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             YesNob = -1;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             YesNob = -1;
         }
@@ -945,48 +1157,39 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             YesNo = -1;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             YesNob = -1;
         }
-        if (questions2!=null){
+        if (questions2 != null) {
             String diac = questions2.answer;
             String[] values = diac.split(",");
             for (String s : values) {
                 Log.e("fdf", "dfdf" + s);
-                if(s.equals("1")){
+                if (s.equals("1")) {
                     checkBoxRunning.setChecked(true);
-                }
-                else if(s.equals("2")){
+                } else if (s.equals("2")) {
                     checkBoxBadminton.setChecked(true);
-                }
-                else if(s.equals("3")){
+                } else if (s.equals("3")) {
                     checkBoxSwimming.setChecked(true);
-                }
-                else if(s.equals("4")){
+                } else if (s.equals("4")) {
                     checkBoxHockey.setChecked(true);
-                }
-                else if(s.equals("5")){
+                } else if (s.equals("5")) {
                     checkBoxHadudu.setChecked(true);
-                }
-                else if(s.equals("6")){
+                } else if (s.equals("6")) {
                     checkBoxFootbal.setChecked(true);
-                }
-                else if(s.equals("7")){
+                } else if (s.equals("7")) {
                     checkBoxVolleyball.setChecked(true);
-                }
-                else if(s.equals("8")){
+                } else if (s.equals("8")) {
                     checkBoxTenis.setChecked(true);
-                }
-                else if(s.equals("9")){
+                } else if (s.equals("9")) {
                     checkBoxOthers_recreational.setChecked(true);
                 }
             }
         }
 
 
-        if (YesNob!=0){
+        if (YesNob != 0) {
             for (int i = 0; i < yesNoArrayListForTypicalVigorousRecreation.size(); i++) {
                 if (yesNoArrayListForTypicalVigorousRecreation.get(i).getId() == YesNob) {
                     spinner_typical_week_recreational.setSelection(i);
@@ -996,7 +1199,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q45c", update);
                     edit_typical_day_recreational.setText(questions1a.answer);
@@ -1012,12 +1215,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initModerateIntensityRecreational(){
+
+    private void initModerateIntensityRecreational() {
         int YesNo = 0;
         int YesNob = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q46", update);
-        Questions questions3= Common.qustionsRepository.getQuestions("Q46b", update);
-        Questions questions2= Common.qustionsRepository.getQuestions("Q46a", update);
+        Questions questions3 = Common.qustionsRepository.getQuestions("Q46b", update);
+        Questions questions2 = Common.qustionsRepository.getQuestions("Q46a", update);
 
 
         try {
@@ -1025,8 +1229,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         } catch (NumberFormatException e) {
             e.printStackTrace();
             YesNob = -1;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             YesNob = -1;
         }
@@ -1037,36 +1240,28 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             YesNo = -1;
         }
 
-        if (questions2!=null){
+        if (questions2 != null) {
             String diac = questions2.answer;
             String[] values = diac.split(",");
             for (String s : values) {
                 Log.e("fdf", "dfdf" + s);
-                if(s.equals("1")){
+                if (s.equals("1")) {
                     checkBoxFastWalking.setChecked(true);
-                }
-                else if(s.equals("2")){
+                } else if (s.equals("2")) {
                     checkBoxJogging.setChecked(true);
-                }
-                else if(s.equals("3")){
+                } else if (s.equals("3")) {
                     checkBoxCycling.setChecked(true);
-                }
-                else if(s.equals("4")){
+                } else if (s.equals("4")) {
                     checkBoxCricket.setChecked(true);
-                }
-                else if(s.equals("5")){
+                } else if (s.equals("5")) {
                     checkBoxYoga.setChecked(true);
-                }
-                else if(s.equals("6")){
+                } else if (s.equals("6")) {
                     checkBoxAerobics.setChecked(true);
-                }
-                else if(s.equals("7")){
+                } else if (s.equals("7")) {
                     checkBoxExercise.setChecked(true);
-                }
-                else if(s.equals("8")){
+                } else if (s.equals("8")) {
                     checkBoxOthersDancing.setChecked(true);
-                }
-                else if(s.equals("9")){
+                } else if (s.equals("9")) {
                     checkBoxOthers_moderate_recreational_others.setChecked(true);
                 }
 
@@ -1074,7 +1269,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         }
 
 
-        if (YesNob!=0){
+        if (YesNob != 0) {
             for (int i = 0; i < yesNoArrayListForModerateRecreational.size(); i++) {
                 if (yesNoArrayListForModerateRecreational.get(i).getId() == YesNob) {
                     spinner_typical_week_moderate_recreational.setSelection(i);
@@ -1084,7 +1279,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q46c", update);
                     edit_typical_day_moderate_recreational.setText(questions1a.answer);
@@ -1100,7 +1295,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
-    private void initRecllining(){
+
+    private void initRecllining() {
         int YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q48", update);
         try {
@@ -1112,7 +1308,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (YesNo != 0) {
             int div = YesNo;
 
-            if(div==1){
+            if (div == 1) {
                 try {
                     Questions questions1a = Common.qustionsRepository.getQuestions("Q48a", update);
                     edit_yes_reclining.setText(questions1a.answer);
@@ -1128,6 +1324,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
+
     private void initModerateIntensityRecreationClickListener() {
 
         checkBoxOthers_moderate_recreational_others.setOnClickListener(new View.OnClickListener() {
@@ -1340,8 +1537,6 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     private void initModerateIntensityClickListener() {
 
 
-
-
         checkBoxHouseHoldWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1408,7 +1603,6 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 checkBox(checkBoxWeavingCloth);
             }
         });
-
 
 
         checkBoxWashingCloths.setOnClickListener(new View.OnClickListener() {
@@ -1603,7 +1797,6 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     private void initVigiorosIntensityClickListener() {
 
 
-
         checkBoxHeaveyLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1670,7 +1863,6 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 checkBox(checkBoxBreakUpPaddy);
             }
         });
-
 
 
         checkBoxDrivingRickshaw.setOnClickListener(new View.OnClickListener() {
@@ -1805,7 +1997,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForSmoke.get(position).getId());
-                smokeYesNo=yesNoArrayListForSmoke.get(position).getId();
+                smokeYesNo = yesNoArrayListForSmoke.get(position).getId();
                 if (yesNoArrayListForSmoke.get(position).getId() == 1) {
                     linear_smoke.setVisibility(View.VISIBLE);
                     linear_smoke_per_day.setVisibility(View.VISIBLE);
@@ -1824,6 +2016,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initJordaSpinner() {
         yesNoArrayAdapterJorda = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForJorda);
         yesNoArrayAdapterJorda.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1833,7 +2026,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForJorda.get(position).getId());
-                jordaYesNo=yesNoArrayListForJorda.get(position).getId();
+                jordaYesNo = yesNoArrayListForJorda.get(position).getId();
                 if (yesNoArrayListForJorda.get(position).getId() == 1) {
                     lineat_jorda.setVisibility(View.VISIBLE);
 
@@ -1852,8 +2045,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initWorkstationSpinner() {
-        yesNoArrayAdapterWorkplace= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForWorkplace);
+        yesNoArrayAdapterWorkplace = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForWorkplace);
         yesNoArrayAdapterWorkplace.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_workplace.setAdapter(yesNoArrayAdapterWorkplace);
 
@@ -1861,7 +2055,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForWorkplace.get(position).getId());
-                workplaceYesNo=yesNoArrayListForWorkplace.get(position).getId();
+                workplaceYesNo = yesNoArrayListForWorkplace.get(position).getId();
                 if (yesNoArrayListForWorkplace.get(position).getId() == 1) {
                     linear_workplace.setVisibility(View.VISIBLE);
 
@@ -1880,8 +2074,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initAlcoholSpinner() {
-        yesNoArrayAdapterAlcohol= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForAlcohol);
+        yesNoArrayAdapterAlcohol = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForAlcohol);
         yesNoArrayAdapterAlcohol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_alcohol.setAdapter(yesNoArrayAdapterAlcohol);
 
@@ -1889,7 +2084,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForAlcohol.get(position).getId());
-                alcoholYesNo=yesNoArrayListForAlcohol.get(position).getId();
+                alcoholYesNo = yesNoArrayListForAlcohol.get(position).getId();
                 if (yesNoArrayListForAlcohol.get(position).getId() == 1) {
                     linear_alcohol.setVisibility(View.VISIBLE);
 
@@ -1908,8 +2103,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initFruitsSpinner() {
-        yesNoArrayAdapterFruits= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForFruits);
+        yesNoArrayAdapterFruits = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForFruits);
         yesNoArrayAdapterFruits.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_fruits.setAdapter(yesNoArrayAdapterFruits);
 
@@ -1917,7 +2113,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForFruits.get(position).getId());
-                typicalFruits=yesNoArrayListForFruits.get(position).getId();
+                typicalFruits = yesNoArrayListForFruits.get(position).getId();
 //                if (yesNoArrayListForFruits.get(position).getId() == 1) {
 //                    linear_f.setVisibility(View.VISIBLE);
 //
@@ -1936,8 +2132,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initFruitsCardSpinner() {
-        yesNoArrayAdapterFruitsCard= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForFruitsCard);
+        yesNoArrayAdapterFruitsCard = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForFruitsCard);
         yesNoArrayAdapterFruitsCard.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_fruits_card.setAdapter(yesNoArrayAdapterFruitsCard);
 
@@ -1945,7 +2142,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForFruitsCard.get(position).getId());
-                fruitsShowCard=yesNoArrayListForFruitsCard.get(position).getId();
+                fruitsShowCard = yesNoArrayListForFruitsCard.get(position).getId();
 
             }
 
@@ -1955,8 +2152,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initVegetablesSpinner() {
-        yesNoArrayAdapterVegetables= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForVegetables);
+        yesNoArrayAdapterVegetables = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForVegetables);
         yesNoArrayAdapterVegetables.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_vegetables.setAdapter(yesNoArrayAdapterVegetables);
 
@@ -1964,7 +2162,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVegetables.get(position).getId());
-                typicalVegetables=yesNoArrayListForVegetables.get(position).getId();
+                typicalVegetables = yesNoArrayListForVegetables.get(position).getId();
 
             }
 
@@ -1974,8 +2172,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initVegetablesCardSpinner() {
-        yesNoArrayAdapterVegetablesCard= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForVegetablesCard);
+        yesNoArrayAdapterVegetablesCard = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForVegetablesCard);
         yesNoArrayAdapterVegetablesCard.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_vegetables_card.setAdapter(yesNoArrayAdapterVegetablesCard);
 
@@ -1983,7 +2182,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVegetablesCard.get(position).getId());
-                vegetablesShowCard=yesNoArrayListForVegetablesCard.get(position).getId();
+                vegetablesShowCard = yesNoArrayListForVegetablesCard.get(position).getId();
 
             }
 
@@ -1993,8 +2192,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initBuySaltSpinner() {
-        yesNoArrayAdapterSaltBuy= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForSaltBuy);
+        yesNoArrayAdapterSaltBuy = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForSaltBuy);
         yesNoArrayAdapterSaltBuy.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_salt_month.setAdapter(yesNoArrayAdapterSaltBuy);
 
@@ -2002,7 +2202,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForSaltBuy.get(position).getId());
-                saltyBuy=yesNoArrayListForSaltBuy.get(position).getId();
+                saltyBuy = yesNoArrayListForSaltBuy.get(position).getId();
 
             }
 
@@ -2012,8 +2212,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initTalkingSaltSpinner() {
-        yesNoArrayAdapterTakingSalt= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForTakingSalt);
+        yesNoArrayAdapterTakingSalt = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForTakingSalt);
         yesNoArrayAdapterTakingSalt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_salt_meal.setAdapter(yesNoArrayAdapterTakingSalt);
 
@@ -2021,12 +2222,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForTakingSalt.get(position).getId());
-                takingSalt=yesNoArrayListForTakingSalt.get(position).getId();
+                takingSalt = yesNoArrayListForTakingSalt.get(position).getId();
 
                 if (yesNoArrayListForTakingSalt.get(position).getId() == 1) {
                     linear_taking_meal.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     linear_taking_meal.setVisibility(View.GONE);
 
                     edit_yes_extra_salt.setText("");
@@ -2039,8 +2239,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initHeartShowCardSpinner() {
-        yesNoArrayAdapterVigorousIntensityHeart= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForVigorousIntensityHeart);
+        yesNoArrayAdapterVigorousIntensityHeart = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForVigorousIntensityHeart);
         yesNoArrayAdapterVigorousIntensityHeart.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_heart_show_card.setAdapter(yesNoArrayAdapterVigorousIntensityHeart);
 
@@ -2048,14 +2249,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVigorousIntensityHeart.get(position).getId());
-                vigorousIntensity=yesNoArrayListForVigorousIntensityHeart.get(position).getId();
+                vigorousIntensity = yesNoArrayListForVigorousIntensityHeart.get(position).getId();
 
                 if (yesNoArrayListForTakingSalt.get(position).getId() == 1) {
                     linear_heart_show_card.setVisibility(View.VISIBLE);
                     linear_heart_show_card_typical_week.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     linear_heart_show_card.setVisibility(View.GONE);
                     linear_heart_show_card_typical_week.setVisibility(View.GONE);
                     linear_heart_show_card_activities.setVisibility(View.GONE);
@@ -2072,8 +2272,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initHeartShowModerateCardSpinner() {
-        yesNoArrayAdapterModerateIntensityHeart= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerateIntensityHeart);
+        yesNoArrayAdapterModerateIntensityHeart = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerateIntensityHeart);
         yesNoArrayAdapterModerateIntensityHeart.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_heart_show_moderate_card.setAdapter(yesNoArrayAdapterModerateIntensityHeart);
 
@@ -2081,14 +2282,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForModerateIntensityHeart.get(position).getId());
-                moderateIntensity=yesNoArrayListForModerateIntensityHeart.get(position).getId();
+                moderateIntensity = yesNoArrayListForModerateIntensityHeart.get(position).getId();
 
                 if (yesNoArrayListForModerateIntensityHeart.get(position).getId() == 1) {
                     linear_heart_show_moderate_card.setVisibility(View.VISIBLE);
                     linear_heart_show_moderate_card_typical.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     linear_heart_show_moderate_card.setVisibility(View.GONE);
                     linear_heart_show_moderate_card_typical.setVisibility(View.GONE);
                     linear_heart_show_card_day.setVisibility(View.GONE);
@@ -2105,8 +2305,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initRecreationalActivitiesSpinner() {
-        yesNoArrayAdapterVigorousRecreationalHeart= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForVigorousRecreationalHeart);
+        yesNoArrayAdapterVigorousRecreationalHeart = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForVigorousRecreationalHeart);
         yesNoArrayAdapterVigorousRecreationalHeart.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_recreational_activities.setAdapter(yesNoArrayAdapterVigorousRecreationalHeart);
 
@@ -2114,13 +2315,12 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVigorousRecreationalHeart.get(position).getId());
-                vigorousIntensityRecreational=yesNoArrayListForVigorousRecreationalHeart.get(position).getId();
+                vigorousIntensityRecreational = yesNoArrayListForVigorousRecreationalHeart.get(position).getId();
                 if (yesNoArrayListForVigorousRecreationalHeart.get(position).getId() == 1) {
                     linear_recreational_activities.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     linear_recreational_activities.setVisibility(View.GONE);
                     linear_recreational_activities_typical.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day.setVisibility(View.GONE);
@@ -2137,8 +2337,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initModerateRecreationalActivitiesSpinner() {
-        yesNoArrayAdapterModerateRecreationalHeart= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerateRecreationalHeartt);
+        yesNoArrayAdapterModerateRecreationalHeart = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerateRecreationalHeartt);
         yesNoArrayAdapterModerateRecreationalHeart.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_moderate_intensity_recreational_activities.setAdapter(yesNoArrayAdapterModerateRecreationalHeart);
 
@@ -2146,13 +2347,12 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForModerateRecreationalHeartt.get(position).getId());
-                moderateIntensityRecreational=yesNoArrayListForModerateRecreationalHeartt.get(position).getId();
+                moderateIntensityRecreational = yesNoArrayListForModerateRecreationalHeartt.get(position).getId();
                 if (yesNoArrayListForModerateRecreationalHeartt.get(position).getId() == 1) {
                     linear_moderate_intensity_recreational_activities.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     linear_moderate_intensity_recreational_activities.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day.setVisibility(View.GONE);
@@ -2169,8 +2369,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initRecilingSpinner() {
-        yesNoArrayAdapterReclinig= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForReclinig);
+        yesNoArrayAdapterReclinig = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForReclinig);
         yesNoArrayAdapterReclinig.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_reclining.setAdapter(yesNoArrayAdapterReclinig);
 
@@ -2178,12 +2379,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForReclinig.get(position).getId());
-                recliningActivities=yesNoArrayListForReclinig.get(position).getId();
+                recliningActivities = yesNoArrayListForReclinig.get(position).getId();
                 if (yesNoArrayListForReclinig.get(position).getId() == 1) {
                     linear_reclining.setVisibility(View.VISIBLE);
 
-                }
-                else {
+                } else {
                     linear_reclining.setVisibility(View.GONE);
                     edit_yes_reclining.setText("");
                 }
@@ -2197,8 +2397,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initVigiriousTypicalSpinner() {
-        yesNoArrayAdapterTypicalVigorous =new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForTypicalVigorous);
+        yesNoArrayAdapterTypicalVigorous = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForTypicalVigorous);
         yesNoArrayAdapterTypicalVigorous.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_typical_week.setAdapter(yesNoArrayAdapterTypicalVigorous);
 
@@ -2207,7 +2408,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForTypicalVigorous.get(position).getId());
 
-                vigorousIntensityTypical=yesNoArrayListForTypicalVigorous.get(position).getId();
+                vigorousIntensityTypical = yesNoArrayListForTypicalVigorous.get(position).getId();
             }
 
             @Override
@@ -2217,8 +2418,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initModerateTypicalSpinner() {
-        yesNoArrayAdapterModerate= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerate);
+        yesNoArrayAdapterModerate = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerate);
         yesNoArrayAdapterModerate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_typical_week_moderate.setAdapter(yesNoArrayAdapterModerate);
 
@@ -2226,7 +2428,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForModerate.get(position).getId());
-                moderateIntensityTypical=yesNoArrayListForModerate.get(position).getId();
+                moderateIntensityTypical = yesNoArrayListForModerate.get(position).getId();
 
             }
 
@@ -2236,8 +2438,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initVigriousRecreationalTypicalSpinner() {
-        yesNoArrayAdapterTypicalVigorousRecreation= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForTypicalVigorousRecreation);
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForTypicalVigorousRecreation);
         yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_typical_week_recreational.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
 
@@ -2245,7 +2448,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForTypicalVigorousRecreation.get(position).getId());
-                vigorousIntensityRecreationalTypical=yesNoArrayListForTypicalVigorousRecreation.get(position).getId();
+                vigorousIntensityRecreationalTypical = yesNoArrayListForTypicalVigorousRecreation.get(position).getId();
             }
 
             @Override
@@ -2254,8 +2457,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private void initModerateRecreationalTypicalSpinner() {
-        yesNoArrayAdapterModerateRecreational= new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerateRecreational);
+        yesNoArrayAdapterModerateRecreational = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListForModerateRecreational);
         yesNoArrayAdapterModerateRecreational.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_typical_week_moderate_recreational.setAdapter(yesNoArrayAdapterModerateRecreational);
 
@@ -2263,7 +2467,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForModerateRecreational.get(position).getId());
-                moderateIntensityRecreationalTypical=yesNoArrayListForModerateRecreational.get(position).getId();
+                moderateIntensityRecreationalTypical = yesNoArrayListForModerateRecreational.get(position).getId();
             }
 
             @Override
@@ -2272,6 +2476,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         });
     }
+
     private boolean isChecked() {
 //        if (Utils.isEmpty(etLocationDescriptio.getText().toString())) {
 //            ((NewGroupActivty) mActivity).showTitleAlertDialog(getResources().getString(R.string.err_title), mActivity.getResources().getString(R.string.please_enter) + " Location Description", null);
@@ -2281,6 +2486,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
         return true;
     }
+
     private String vigiriousIntensity() {
         String ageList = "";
         for (int i = 0; i < 5; i++) {
@@ -2322,6 +2528,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
 
     }
+
     private String moderateIntensityRecreational() {
         String ageList = "";
         for (int i = 0; i < 5; i++) {
@@ -2342,6 +2549,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
 
     }
+
     private String moderateIntensity() {
         String ageList = "";
         for (int i = 0; i < 5; i++) {
@@ -2424,6 +2632,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             return true;
         return false;
     }
+
     private boolean isVigorousIntensityRecreationalChecked(int pos) {
 
         if (pos == 1 && checkBoxRunning.isChecked())
@@ -2446,6 +2655,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             return true;
         return false;
     }
+
     private boolean isModerateIntensityChecked(int pos) {
 
 
@@ -2494,6 +2704,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
         return false;
     }
+
     private void checkBox(CheckBox checkBox) {
         {
             if (!checkBox.isChecked())
@@ -2503,13 +2714,13 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         }
 
     }
+
     private void saveData() {
 
         if (isChecked()) {
             MemberHabit memberHabitsFor = Common.memberHabitRepository.getMemberHabit(update);
             MemberHabit memberHabit = new MemberHabit();
-            if (memberHabitsFor != null)
-            {
+            if (memberHabitsFor != null) {
                 if (smokeYesNo == 2) {
                     Questions questions1 = Common.qustionsRepository.getQuestions("Q32", update);
 
@@ -3622,8 +3833,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    if (memberHabits == null)
-                    {
+                    if (memberHabits == null) {
 
                         if (smokeYesNo == 2) {
                             Questions questions = new Questions();
@@ -3865,14 +4075,14 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
                         ///
 
-                            Questions questions311 = new Questions();
+                        Questions questions311 = new Questions();
                         questions311.type = "behavioral";
                         questions311.question = "Q42a";
                         questions311.member_id = memberMyself.MemberId;
                         questions311.answer = edit_yes_extra_salt.getText().toString();
                         questions311.date = currentDate;
                         questions311.master_id = memberMyself.id;
-                            Common.qustionsRepository.insertToQuestions(questions311);
+                        Common.qustionsRepository.insertToQuestions(questions311);
 
 
                         Questions questions11 = new Questions();
@@ -4108,8 +4318,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
                         showInfoDialog(mActivity, memberMyself.MemberId);
 
-                    } else
-                        {
+                    } else {
                         memberHabit.id = memberHabits.id;
                         if (smokeYesNo == 2) {
                             Questions questions1 = Common.qustionsRepository.getQuestions("Q32", update);
@@ -4645,27 +4854,27 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Common.qustionsRepository.updateQuestions(questions11);
                         }
 
-                            Questions questionsFor137 = Common.qustionsRepository.getQuestions("Q42a", update);
-                            if (questionsFor137 == null) {
-                                Questions questions11 = new Questions();
-                                questions11.type = "behavioral";
-                                questions11.question = "Q42a";
-                                questions11.member_id = memberHabitsFor.MemberId;
-                                questions11.answer = edit_yes_extra_salt.getText().toString();
-                                questions11.date = currentDate;
-                                questions11.master_id = memberHabitsFor.id;
-                                Common.qustionsRepository.insertToQuestions(questions11);
-                            } else {
-                                Questions questions11 = new Questions();
-                                questions11.type = "behavioral";
-                                questions11.question = "Q42";
-                                questions11.member_id = memberHabitsFor.MemberId;
-                                questions11.answer = edit_yes_extra_salt.getText().toString();
-                                questions11.date = currentDate;
-                                questions11.master_id = memberHabitsFor.id;
-                                questions11.id = questionsFor137.id;
-                                Common.qustionsRepository.updateQuestions(questions11);
-                            }
+                        Questions questionsFor137 = Common.qustionsRepository.getQuestions("Q42a", update);
+                        if (questionsFor137 == null) {
+                            Questions questions11 = new Questions();
+                            questions11.type = "behavioral";
+                            questions11.question = "Q42a";
+                            questions11.member_id = memberHabitsFor.MemberId;
+                            questions11.answer = edit_yes_extra_salt.getText().toString();
+                            questions11.date = currentDate;
+                            questions11.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions11);
+                        } else {
+                            Questions questions11 = new Questions();
+                            questions11.type = "behavioral";
+                            questions11.question = "Q42";
+                            questions11.member_id = memberHabitsFor.MemberId;
+                            questions11.answer = edit_yes_extra_salt.getText().toString();
+                            questions11.date = currentDate;
+                            questions11.master_id = memberHabitsFor.id;
+                            questions11.id = questionsFor137.id;
+                            Common.qustionsRepository.updateQuestions(questions11);
+                        }
 
 
                         if (vigorousIntensity == 2) {
@@ -5202,9 +5411,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             }
 
                         }
-                            memberHabit.household_uniqe_id = memberHabits.household_uniqe_id;
-                            memberHabit.member_unique_code = "";
-                            memberHabit.member_national_id = String.valueOf(memberHabits.member_national_id);
+                        memberHabit.household_uniqe_id = memberHabits.household_uniqe_id;
+                        memberHabit.member_unique_code = "";
+                        memberHabit.member_national_id = String.valueOf(memberHabits.member_national_id);
                         Common.memberHabitRepository.updateMemberHabit(memberHabit);
                         if (frag.equals("frag")) {
                             ((CCUserHomeActivity) getActivity()).backForDetails();
@@ -5216,13 +5425,6 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     }
                 }
             }
-
-
-
-
-
-
-
 
 
         }
@@ -5237,7 +5439,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         }
         return false;
     }
-    public  void showInfoDialog(final Context mContext, final String member) {
+
+    public void showInfoDialog(final Context mContext, final String member) {
 
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -5247,19 +5450,18 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
-       // Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+        // Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
         TextView tv_info = infoDialog.findViewById(R.id.tv_info);
-        String agent_no = "<b><font color=#000 >Member Id :  </font></b> <font color=#03A9F4> "+member+"</font>";
+        String agent_no = "<b><font color=#000 >Member Id :  </font></b> <font color=#03A9F4> " + member + "</font>";
         tv_info.setText(Html.fromHtml(agent_no));
         CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                if (frag.equals("frag")){
+                if (frag.equals("frag")) {
                     ((CCUserHomeActivity) getActivity()).backForDetails();
-                }
-                else {
+                } else {
                     ((HouseholdHomeActivity) getActivity()).backForDetails();
                 }
                 infoDialog.dismiss();

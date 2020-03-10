@@ -25,8 +25,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
-import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
 import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
@@ -60,12 +58,15 @@ import xact.idea.camelia.Database.Model.CCModel;
 import xact.idea.camelia.Database.Model.District;
 import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
+import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.MaritialStatus;
 import xact.idea.camelia.Database.Model.MeasurementDetails;
 import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.Medicine;
+import xact.idea.camelia.Database.Model.MemberHabit;
 import xact.idea.camelia.Database.Model.MemberId;
 import xact.idea.camelia.Database.Model.MemberMedicine;
+import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.Database.Model.StudyClass;
@@ -106,6 +107,8 @@ import xact.idea.camelia.NetworkModel.CCModelresponse;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
+import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
+import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyUploadModel;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
@@ -115,6 +118,10 @@ import xact.idea.camelia.NetworkModel.MedicalHistoryUpload;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
 import xact.idea.camelia.NetworkModel.MemberAlocatePostModel;
 import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
+import xact.idea.camelia.NetworkModel.MemberBehaviorialResponseModel;
+import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
+import xact.idea.camelia.NetworkModel.MemberResponseModel;
+import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
@@ -351,6 +358,274 @@ public class CCUserActivity extends AppCompatActivity {
         }
         return memberMyselves;
     }
+    private void loadHousehold() {
+
+        compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+            @Override
+            public void accept(List<HouseHold> houseHoldList) throws Exception {
+                Log.e("Division", "Division" + new Gson().toJson(houseHoldList));
+                HouseholdUploadModel householdUpload = new HouseholdUploadModel();
+                MemberUploadModel model = new MemberUploadModel();
+                MedicalHistoryUpload medicalHistoryUpload = new MedicalHistoryUpload();
+                Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+                householdUpload.user_credential = auth.email;
+                ArrayList<HouseholdUploadModel.Data> sync = new ArrayList<>();
+                ArrayList<MemberUploadModel.Data> syncMember = new ArrayList<>();
+
+                for (HouseHold houseHold : houseHoldList) {
+                    HouseholdUploadModel.Data householdUploadModel = new HouseholdUploadModel.Data();
+                    householdUploadModel.block_id = String.valueOf(houseHold.BlockId);
+                    householdUploadModel.district_id = String.valueOf(houseHold.DistrictId);
+                    householdUploadModel.division_id = String.valueOf(houseHold.DivisionId);
+                    householdUploadModel.union_id = String.valueOf(houseHold.UnionId);
+                    householdUploadModel.upazila_id = String.valueOf(houseHold.UpazilaId);
+                    householdUploadModel.ward_id = String.valueOf(houseHold.WordId);
+                    householdUploadModel.family_member = String.valueOf(houseHold.FamilyMember);
+                    householdUploadModel.income_per_month = String.valueOf(houseHold.FamilyIncome);
+                    householdUploadModel.hh_number = String.valueOf(houseHold.HH);
+                    householdUploadModel.sub_hh_number = String.valueOf(houseHold.SHH);
+                    householdUploadModel.household_uniqe_id = houseHold.UniqueId;
+                    syncMember.addAll(getMemberMyself(houseHold.UniqueId, auth.email));
+                    householdUploadModel.created_at = houseHold.DateValue;
+                    householdUploadModel.status = "1";
+                    sync.add(householdUploadModel);
+                }
+
+                householdUpload.data = sync;
+                model.user_credential = auth.email;
+                model.data = syncMember;
+                Log.e("sync", "sync" + new Gson().toJson(householdUpload));
+                Log.e("sync1", "sync1" + new Gson().toJson(model));
+                showLoadingProgress(CCUserActivity.this);
+                compositeDisposable.add(mService.postHouseholdUpload(householdUpload).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdResponseModel>() {
+                    @Override
+                    public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
+                        Log.e("HouseholdResponseModel", "HouseholdResponseModel" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("HouseholdResponseModel", "HouseholdResponseModel" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+
+                showLoadingProgress(CCUserActivity.this);
+                compositeDisposable.add(mService.postMemberUpload(model).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberResponseModel>() {
+                    @Override
+                    public void accept(MemberResponseModel memberResponseModel) throws Exception {
+                        Log.e("memberResponseModel", "memberResponseModel" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("memberResponseModel", "memberResponseModel" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+
+
+            }
+        }));
+    }
+
+
+    private void medicineList() {
+        showLoadingProgress(CCUserActivity.this);
+
+        compositeDisposable.add(Common.memberMedicineRepository.getMemberMedicineItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMedicine>>() {
+            @Override
+            public void accept(List<MemberMedicine> memberMedicineList) throws Exception {
+                MedicalHistoryUpload data = new MedicalHistoryUpload();
+                ArrayList<MedicalHistoryUpload.Data> medicalHistoryUploadList = new ArrayList<>();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = new Date(System.currentTimeMillis());
+                Date date1 = null;
+                Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+                String currentDate = formatter.format(date);
+                ArrayList<MedicalHistoryUpload.Data.Details> memberMyselvesdetails = new ArrayList<>();
+                for (MemberMedicine memberMedicine : memberMedicineList) {
+                    MedicalHistoryUpload.Data mdata = new MedicalHistoryUpload.Data();
+                    mdata.household_uniqe_id = memberMedicine.household_uniqe_id;
+                    mdata.member_id = memberMedicine.MemberId;
+                    mdata.member_national_id = memberMedicine.member_national_id;
+                    memberMyselvesdetails = getMedicalHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
+                    mdata.member_unique_code = memberMedicine.household_uniqe_id;
+                    mdata.status = "1";
+                    mdata.update_no = "0";
+                    mdata.created_at = currentDate;
+                    mdata.details = memberMyselvesdetails;
+                    medicalHistoryUploadList.add(mdata);
+                    dismissLoadingProgress();
+                }
+                data.data = medicalHistoryUploadList;
+                data.user_credential = auth.email;
+                compositeDisposable.add(mService.postMedicalHistoryUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MedicalHistoryResponseModel>() {
+                    @Override
+                    public void accept(MedicalHistoryResponseModel memberResponseModel) throws Exception {
+                        Log.e("MedicalBehaviorial", "MedicalBehaviorial" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("MedicalBehaviorial", "MedicalBehaviorial" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+                Log.e("sync2", "sync2" + new Gson().toJson(data));
+            }
+        }));
+
+
+    }
+    private ArrayList<MemberBehaviorialUploadModel.Data.Details> getBeahviorialHistoryDetailsData(String memberId, String date, int id) {
+        final ArrayList<MemberBehaviorialUploadModel.Data.Details> memberMyselves = new ArrayList<>();
+        showLoadingProgress(CCUserActivity.this);
+        Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("behavioral", memberId);
+        for (Questions questions : questionsList.blockingFirst()) {
+            MemberBehaviorialUploadModel.Data.Details mdata = new MemberBehaviorialUploadModel.Data.Details();
+            mdata.parent_question = "";
+            mdata.member_id = memberId;
+            mdata.answer = questions.answer;
+            mdata.question = questions.question;
+            mdata.created_at = date;
+            mdata.id = questions.id;
+            mdata.question_type = questions.type;
+            mdata.master_id = id;
+            memberMyselves.add(mdata);
+            dismissLoadingProgress();
+        }
+        return memberMyselves;
+    }
+    private void getBehaviorialList(){
+        showLoadingProgress(CCUserActivity.this);
+
+        compositeDisposable.add(Common.memberHabitRepository.getMemberHabitItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberHabit>>() {
+            @Override
+            public void accept(List<MemberHabit> memberMedicineList) throws Exception {
+                MemberBehaviorialUploadModel data = new MemberBehaviorialUploadModel();
+                ArrayList<MemberBehaviorialUploadModel.Data> medicalHistoryUploadList = new ArrayList<>();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                Date date = new Date(System.currentTimeMillis());
+                Date date1 = null;
+                Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+                String currentDate = formatter.format(date);
+                ArrayList<MemberBehaviorialUploadModel.Data.Details> memberMyselvesdetails = new ArrayList<>();
+                for (MemberHabit memberMedicine : memberMedicineList) {
+                    MemberBehaviorialUploadModel.Data mdata = new MemberBehaviorialUploadModel.Data();
+                    mdata.household_uniqe_id = memberMedicine.household_uniqe_id;
+                    mdata.member_id = memberMedicine.MemberId;
+                    mdata.member_national_id = memberMedicine.member_national_id;
+                    memberMyselvesdetails = getBeahviorialHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
+                    mdata.member_unique_code = memberMedicine.household_uniqe_id;
+                    mdata.status = "1";
+                    mdata.update_no = "0";
+                    mdata.created_at = currentDate;
+                    mdata.details = memberMyselvesdetails;
+                    medicalHistoryUploadList.add(mdata);
+                    dismissLoadingProgress();
+                }
+                data.data = medicalHistoryUploadList;
+                data.user_credential = auth.email;
+                showLoadingProgress(CCUserActivity.this);
+                compositeDisposable.add(mService.postMemberBehaviorialUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberBehaviorialResponseModel>() {
+                    @Override
+                    public void accept(MemberBehaviorialResponseModel memberResponseModel) throws Exception {
+                        Log.e("MemberBehaviorial", "MemberBehaviorialResponse" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("MemberBehaviorial", "MemberBehaviorialResponsel" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+                Log.e("sync2", "sync2" + new Gson().toJson(data));
+            }
+        }));
+    }
+
+    private ArrayList<MemberUploadModel.Data> getMemberMyself(String UniqueId, String credential) {
+        final ArrayList<MemberUploadModel.Data> memberMyselves = new ArrayList<>();
+
+        Flowable<List<MemberMyself>> myselfLists = Common.memberMyselfRepository.getMemberMyselfItemById(UniqueId);
+        for (MemberMyself memberMyself : myselfLists.blockingFirst()) {
+            MemberUploadModel.Data mData = new MemberUploadModel.Data();
+            mData.household_uniqe_id = memberMyself.UniqueId;
+            mData.unique_code = memberMyself.UniqueId;
+            mData.name = memberMyself.FullName;
+            mData.death_date = memberMyself.DateOfDeath;
+            mData.member_id = memberMyself.MemberId;
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            String currentDate = formatter.format(memberMyself.CreatedDate);
+            mData.created_at = currentDate;
+            mData.visit_date = memberMyself.VisitDate;
+            mData.living_status = String.valueOf(memberMyself.LivingId);
+            mData.blood_group = String.valueOf(memberMyself.BloodGroupId);
+            mData.date_of_data_collection = currentDate;
+            mData.birth_date = memberMyself.DateOfBirth;
+            mData.mobile_number = memberMyself.MobileNumber;
+            mData.referred_to = memberMyself.To;
+            mData.id = memberMyself.id;
+            mData.refer_to_id = memberMyself.From;
+            mData.national_id = memberMyself.NationalId;
+            mData.marital_status = String.valueOf(memberMyself.MaritialId);
+            mData.education = String.valueOf(memberMyself.StudyId);
+            mData.religion = String.valueOf(memberMyself.ReligionId);
+            mData.occupation = String.valueOf(memberMyself.OccupationId);
+            mData.sex = String.valueOf(memberMyself.GenderId);
+            mData.head_of_house = String.valueOf(memberMyself.HouseHeadId);
+            memberMyselves.add(mData);
+            dismissLoadingProgress();
+        }
+
+        return memberMyselves;
+    }
+
+    private ArrayList<MedicalHistoryUpload.Data> getMedicalHistoryData(String date) {
+        final ArrayList<MedicalHistoryUpload.Data> memberMyselves = new ArrayList<>();
+        final ArrayList<MedicalHistoryUpload.Data.Details> memberMyselvesdetails = new ArrayList<>();
+        showLoadingProgress(CCUserActivity.this);
+        Flowable<List<MemberMedicine>> memberMedicineList = Common.memberMedicineRepository.getMemberMedicineItems();
+        for (MemberMedicine memberMedicine : memberMedicineList.blockingFirst()) {
+            MedicalHistoryUpload.Data mdata = new MedicalHistoryUpload.Data();
+            mdata.household_uniqe_id = memberMedicine.household_uniqe_id;
+            mdata.member_id = memberMedicine.MemberId;
+            mdata.member_national_id = memberMedicine.member_national_id;
+            mdata.household_uniqe_id = memberMedicine.member_unique_code;
+            mdata.status = "1";
+            mdata.created_at = date;
+            mdata.details = memberMyselvesdetails;
+            memberMyselves.add(mdata);
+            dismissLoadingProgress();
+        }
+        Log.e("sync4", "sync4" + new Gson().toJson(memberMyselves));
+        return memberMyselves;
+    }
+
+    private ArrayList<MedicalHistoryUpload.Data.Details> getMedicalHistoryDetailsData(String memberId, String date, int id) {
+        final ArrayList<MedicalHistoryUpload.Data.Details> memberMyselves = new ArrayList<>();
+        showLoadingProgress(CCUserActivity.this);
+        Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("medicine", memberId);
+        for (Questions questions : questionsList.blockingFirst()) {
+            MedicalHistoryUpload.Data.Details mdata = new MedicalHistoryUpload.Data.Details();
+            mdata.parent_question = "";
+            mdata.member_id = memberId;
+            mdata.answer = questions.answer;
+            mdata.question = questions.question;
+            mdata.question_type = questions.type;
+            mdata.created_at = date;
+            mdata.id = questions.id;
+            mdata.master_id = id;
+            memberMyselves.add(mdata);
+            dismissLoadingProgress();
+        }
+        return memberMyselves;
+    }
     private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id,String Date) {
         final ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselves = new ArrayList<>();
         showLoadingProgress(CCUserActivity.this);
@@ -359,13 +634,12 @@ public class CCUserActivity extends AppCompatActivity {
 
         for (Questions questions : questionsList.blockingFirst()) {
             KhanaServeyUploadModel.Data.KhanaDetails mdata = new KhanaServeyUploadModel.Data.KhanaDetails();
-
             mdata.id= Integer.parseInt(questions.member_id);
             mdata.question= questions.question;
             mdata.answer= questions.answer;
             mdata.created_at=Date;
+            mdata.question_type=questions.type;
             mdata.update_no= "0";
-
             memberMyselves.add(mdata);
             dismissLoadingProgress();
         }
