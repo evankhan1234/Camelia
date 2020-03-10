@@ -20,9 +20,9 @@
         <item>Western Rural</item>
     </array>
     <array name="group_step">
-        <item>Myself Information</item>
-        <item>Medicine Information</item>
-        <item>Habit  Information</item>
+        <item>Member Info</item>
+        <item>Previous Medical History</item>
+        <item>Behavioral Risk Factors</item>
 
 
 

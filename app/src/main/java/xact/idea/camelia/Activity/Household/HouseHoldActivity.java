@@ -879,15 +879,21 @@ public class HouseHoldActivity extends AppCompatActivity {
         MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
         int maxValue= Common.memberIdRepository.maxValue();
-        MemberId memberId=Common.memberIdRepository.getMemberIdNo(String.valueOf(maxValue));
-        Log.e("memberId","memberId"+memberId.Value);
-        Flowable<List<MemberId>> memberIdList = Common.memberIdRepository.getMemberIdItems();
-        if (memberIdList.blockingFirst().size()>0){
-            memberAlocatePostModel.data.last_used_id = memberId.Value;
+        if (maxValue>0){
+            MemberId memberId=Common.memberIdRepository.getMemberIdNo(String.valueOf(maxValue));
+            Log.e("memberId","memberId"+memberId.Value);
+            Flowable<List<MemberId>> memberIdList = Common.memberIdRepository.getMemberIdItems();
+            if (memberIdList.blockingFirst().size()>0){
+                memberAlocatePostModel.data.last_used_id = memberId.Value;
+            }
+            else{
+                memberAlocatePostModel.data.last_used_id = "";
+            }
         }
         else{
             memberAlocatePostModel.data.last_used_id = "";
         }
+
         Log.e("auth", "auth" + auth.user_id);
         memberAlocatePostModel.user_credential = auth.email;
         compositeDisposable.add(mService.getMemberAlocate(memberAlocatePostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberAlocateResponseModel>() {
