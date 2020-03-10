@@ -381,7 +381,7 @@
                     android:letterSpacing=".01"
                     android:paddingRight="1px"
                     android:tag="33"
-                    android:text="Developed and Maintenance By XactIdea.com"
+                    android:text="Copyright By Camelia"
                     android:textStyle="bold"
                     android:textColor="#FF5722"
                     android:textSize="33px" />
