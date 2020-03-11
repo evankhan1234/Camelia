@@ -15,7 +15,7 @@ public interface IMemberIdDatasources {
     void emptyMemberId(String value);
     int maxValue();
     int size();
-
+   void emptyMember();
     MemberId getMemberIdNo(String MemberIdItem);
 
     void insertToMemberId(MemberId... MemberId);

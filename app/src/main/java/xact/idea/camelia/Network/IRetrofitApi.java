@@ -101,6 +101,6 @@ public interface IRetrofitApi {
     io.reactivex.Observable<UHCModel> getUHC();
     @GET("cc/list")
     io.reactivex.Observable<CCModelresponse> getCC();
-    @GET("household/list ")
+    @GET("household/list")
     io.reactivex.Observable<HouseholdListResponseModel> getHouseholdList();
 }

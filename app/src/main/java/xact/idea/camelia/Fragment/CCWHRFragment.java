@@ -217,7 +217,7 @@ public class CCWHRFragment extends Fragment {
                     double waist=Double.parseDouble(editable.toString());
                     double hp=Double.parseDouble(edit_hp.getText().toString());
                      total=waist/hp;
-                    linear.setBackground(mActivity.getDrawable(R.drawable.backgound_blue_light));
+                    linear.setBackground(mActivity.getResources().getDrawable(R.drawable.backgound_blue_light));
                     text_number.setText(rounded(total,2)+"(cm)");
                     Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                             R.anim.blink);
@@ -253,8 +253,8 @@ public class CCWHRFragment extends Fragment {
                 try {
                     double hp=Double.parseDouble(editable.toString());
                     double waist=Double.parseDouble(edit_hp.getText().toString());
-                    double total=waist/hp;
-                    linear.setBackground(mActivity.getDrawable(R.drawable.backgound_blue_light));
+                    total=waist/hp;
+                    linear.setBackground(mActivity.getResources().getDrawable(R.drawable.backgound_blue_light));
                     text_number.setText(rounded(total,2)+"(cm)");
                     Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                             R.anim.blink);

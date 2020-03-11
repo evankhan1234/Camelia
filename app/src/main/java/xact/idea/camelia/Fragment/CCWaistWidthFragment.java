@@ -235,29 +235,29 @@ public class CCWaistWidthFragment extends Fragment {
 
 
                     int DiabetisYesNo=0;
-                    Questions questions1 = Common.qustionsRepository.getQuestions("Q46", type);
+                    Questions questions1 = Common.qustionsRepository.getQuestions("Q50", type);
                     if (questions1!=null){
                         DiabetisYesNo= Integer.parseInt(questions1.answer);
                         if ( (DiabetisYesNo == 1) && (total >= 80) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
 
                         } else if ( (DiabetisYesNo == 1) && (total < 80) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_text.setText("Normal = Follow up 6 months.");
                         } else if ( (DiabetisYesNo == 2) && (total >= 90)  ) {
                             message="Hypertension = Refer to UHC!";
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             refer="UHC";
                             text_text.setText("Hypertension = Refer to UHC!");
                         } else if ( (DiabetisYesNo == 2) &&  (total < 90) ) {
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                         } else {
                             message="";
@@ -268,25 +268,25 @@ public class CCWaistWidthFragment extends Fragment {
                     else{
                         DiabetisYesNo=2;
                         if ( (DiabetisYesNo == 1) && (total >= 80) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
 
                         } else if ( (DiabetisYesNo == 1) && (total < 80) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_text.setText("Normal = Follow up 6 months.");
                         } else if ( (DiabetisYesNo == 2) && (total >= 90)  ) {
                             message="Hypertension = Refer to UHC!";
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             refer="UHC";
                             text_text.setText("Hypertension = Refer to UHC!");
                         } else if ( (DiabetisYesNo == 2) &&  (total < 90) ) {
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                         } else {
                             message="";
@@ -337,29 +337,29 @@ public class CCWaistWidthFragment extends Fragment {
 
 
                     int DiabetisYesNo=0;
-                    Questions questions1 = Common.qustionsRepository.getQuestions("Q46", type);
+                    Questions questions1 = Common.qustionsRepository.getQuestions("Q50", type);
                     if (questions1!=null){
                         DiabetisYesNo= Integer.parseInt(questions1.answer);
                         if ( (DiabetisYesNo == 1) && (total >= 80) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
 
                         } else if ( (DiabetisYesNo == 1) && (total < 80) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_text.setText("Normal = Follow up 6 months.");
                         } else if ( (DiabetisYesNo == 2) && (total >= 90)  ) {
                             message="Hypertension = Refer to UHC!";
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             refer="UHC";
                             text_text.setText("Hypertension = Refer to UHC!");
                         } else if ( (DiabetisYesNo == 2) &&  (total < 90) ) {
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                         } else {
                             message="";
@@ -370,25 +370,25 @@ public class CCWaistWidthFragment extends Fragment {
                     else{
                         DiabetisYesNo= 2;
                         if ( (DiabetisYesNo == 1) && (total >= 80) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
 
                         } else if ( (DiabetisYesNo == 1) && (total < 80) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_text.setText("Normal = Follow up 6 months.");
                         } else if ( (DiabetisYesNo == 2) && (total >= 90)  ) {
                             message="Hypertension = Refer to UHC!";
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             refer="UHC";
                             text_text.setText("Hypertension = Refer to UHC!");
                         } else if ( (DiabetisYesNo == 2) &&  (total < 90) ) {
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                         } else {
                             message="";

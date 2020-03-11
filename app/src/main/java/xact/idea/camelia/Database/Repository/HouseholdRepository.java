@@ -42,6 +42,26 @@ public class HouseholdRepository implements IHouseholdDataSources {
     }
 
     @Override
+    public Flowable<List<HouseHold>> getHouseHoldItemByFour(String DivisionId, String DistrictId, String Upazila, String Union) {
+        return IHouseholdDataSources.getHouseHoldItemByFour(DivisionId, DistrictId, Upazila, Union);
+    }
+
+    @Override
+    public Flowable<List<HouseHold>> getHouseHoldItemByThree(String DivisionId, String DistrictId, String Upazila) {
+        return IHouseholdDataSources.getHouseHoldItemByThree(DivisionId, DistrictId, Upazila);
+    }
+
+    @Override
+    public Flowable<List<HouseHold>> getHouseHoldItemByTwo(String DivisionId, String DistrictId) {
+        return IHouseholdDataSources.getHouseHoldItemByTwo(DivisionId, DistrictId);
+    }
+
+    @Override
+    public Flowable<List<HouseHold>> getHouseHoldItemByOne(String DivisionId) {
+        return IHouseholdDataSources.getHouseHoldItemByOne(DivisionId);
+    }
+
+    @Override
     public int size() {
         return IHouseholdDataSources.size();
     }

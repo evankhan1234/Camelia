@@ -261,31 +261,31 @@ public class CCRandomGlucoseFragment extends Fragment {
 
 
                     int DiabetisYesNo=0;
-                    Questions questions1 = Common.qustionsRepository.getQuestions("Q45", type);
+                    Questions questions1 = Common.qustionsRepository.getQuestions("Q49", type);
                     if(questions1!=null){
                         DiabetisYesNo= Integer.parseInt(questions1.answer);
                         if ( (DiabetisYesNo == 1) && ((bg_diabetes_fasting > 8) || (bg_diabetes_random_1 > 10)) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Uncontrolled Diabetes = Refer to UHC!");
                             refer="UHC";
                             message="Uncontrolled Diabetes = Refer to UHC!";
                         } else if ( (DiabetisYesNo == 1) && ((bg_diabetes_fasting <= 8) || (bg_diabetes_random_1 <= 10)) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Controlled Diabetes = Follow up 6 months.");
                             refer="Follow";
                             message="Controlled Diabetes = Follow up 6 months.";
                         } else if ( (DiabetisYesNo == 2) && (((bg_diabetes_fasting >= 6.1) && (bg_diabetes_fasting <= 6.9)) || ((bg_diabetes_random_1 >= 8.1) && (bg_diabetes_random_1 <= 11))) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Pre-diabetic = Next week follow-up");
                             refer="Follow";
                             message="Pre-diabetic = Next week follow-up";
                         } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting >= 7) || (bg_diabetes_random_1 >= 11.1)) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Diabetes = Refer to UHC!");
                             refer="UHC";
                             message="Diabetes = Refer to UHC!";
                         } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting < 6.1) || (bg_diabetes_random_1 < 8)) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Normal");
                             refer="";
                             message="Normal";
@@ -298,27 +298,27 @@ public class CCRandomGlucoseFragment extends Fragment {
                     else{
                         DiabetisYesNo= 2;
                         if ( (DiabetisYesNo == 1) && ((bg_diabetes_fasting > 8) || (bg_diabetes_random_1 > 10)) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Uncontrolled Diabetes = Refer to UHC!");
                             refer="UHC";
                             message="Uncontrolled Diabetes = Refer to UHC!";
                         } else if ( (DiabetisYesNo == 1) && ((bg_diabetes_fasting <= 8) || (bg_diabetes_random_1 <= 10)) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Controlled Diabetes = Follow up 6 months.");
                             refer="Follow";
                             message="Controlled Diabetes = Follow up 6 months.";
                         } else if ( (DiabetisYesNo == 2) && (((bg_diabetes_fasting >= 6.1) && (bg_diabetes_fasting <= 6.9)) || ((bg_diabetes_random_1 >= 8.1) && (bg_diabetes_random_1 <= 11))) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Pre-diabetic = Next week follow-up");
                             refer="Follow";
                             message="Pre-diabetic = Next week follow-up";
                         } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting >= 7) || (bg_diabetes_random_1 >= 11.1)) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Diabetes = Refer to UHC!");
                             refer="UHC";
                             message="Diabetes = Refer to UHC!";
                         } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting < 6.1) || (bg_diabetes_random_1 < 8)) ) {
-                            linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                            linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Normal");
                             refer="";
                             message="Normal";

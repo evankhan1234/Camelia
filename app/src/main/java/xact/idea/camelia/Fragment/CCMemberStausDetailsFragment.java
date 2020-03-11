@@ -196,7 +196,7 @@ public class CCMemberStausDetailsFragment extends Fragment {
             FragmentTransaction transaction;
             transaction = getChildFragmentManager().beginTransaction();
             Bundle bundle = new Bundle();
-            bundle.putInt("Id",2);
+            bundle.putInt("Id",position);
             Fragment f = new CCMeasurementsDetailsFragment();
             f.setArguments(bundle);
             transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);

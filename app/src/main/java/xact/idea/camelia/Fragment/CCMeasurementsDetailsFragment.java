@@ -13,15 +13,23 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
+import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 public class CCMeasurementsDetailsFragment extends Fragment {
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
-
+    Measurements measurements;
+    int position;
+    TextView text1;
+    TextView text2;
+    Button button1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,6 +45,39 @@ public class CCMeasurementsDetailsFragment extends Fragment {
     }
 
     private void initView() {
+        text1=view.findViewById(R.id.text1);
+        text2=view.findViewById(R.id.text2);
+        button1=view.findViewById(R.id.button1);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            position = bundle.getInt("Id", 0);
+
+            Log.e("position","position"+measurements.Message);
+        }
+        measurements= Common.measurementsRepository.getMeasurementsNo(String.valueOf(position));
+        text1.setText(measurements.Message);
+
+        if (measurements.Type.equals("Diastolic")){
+            if (measurements.Message.equals("Hypertension = Refer to UHC!")){
+                text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
+                text2.setText("You have developed HYPERTENSION. Please take necessary steps to control it at this stage,  consult a physician for further management and monitor your blood pressure regularly");
+            }
+            else  if (measurements.Message.equals("Normal = Follow up 6 months.")){
+                text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
+                text2.setText("");
+
+            }
+            else  if (measurements.Message.equals("")){
+
+            }
+            else  if (measurements.Message.equals("")){
+
+            }else  if (measurements.Message.equals("")){
+
+            }
+        }
+
+
     }
     public int handle() {
 

@@ -19,7 +19,7 @@ public interface CCDao {
     @Query("SELECT * FROM CCModel WHERE id=:CCModelItemId")
     Flowable<List<CCModel>> getCCModelItemById(int CCModelItemId);
 
-    @Query("SELECT * FROM CCModel WHERE division_code=:DivisionId AND district_code=:DistrictId AND upazila_code=:Upazila AND division_code=:Union")
+    @Query("SELECT * FROM CCModel WHERE division_code=:DivisionId AND district_code=:DistrictId AND upazila_code=:Upazila AND union_code=:Union")
     Flowable<List<CCModel>> getCCModelItemByFour(String DivisionId, String DistrictId, String Upazila, String Union);
     @Query("SELECT * FROM CCModel WHERE division_code=:DivisionId AND district_code=:DistrictId AND upazila_code=:Upazila")
     Flowable<List<CCModel>> getCCModelItemByThree(String DivisionId,String DistrictId,String Upazila);

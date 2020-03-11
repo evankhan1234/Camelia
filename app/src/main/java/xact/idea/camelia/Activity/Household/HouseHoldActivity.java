@@ -27,7 +27,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.LoginActivity;
+import xact.idea.camelia.Activity.SpalashActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
 import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
@@ -278,6 +280,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
                         Log.e("HouseholdResponseModel", "HouseholdResponseModel" + new Gson().toJson(memberResponseModel));
                         dismissLoadingProgress();
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -293,6 +296,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("memberResponseModel", "memberResponseModel" + new Gson().toJson(memberResponseModel));
                         dismissLoadingProgress();
+                        downloadHousehold();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -427,9 +431,9 @@ public class HouseHoldActivity extends AppCompatActivity {
             mData.date_of_data_collection = currentDate;
             mData.birth_date = memberMyself.DateOfBirth;
             mData.mobile_number = memberMyself.MobileNumber;
-            mData.referred_to = memberMyself.To;
+            mData.referred_to = memberMyself.From;
             mData.id = memberMyself.id;
-            mData.refer_to_id = memberMyself.From;
+            mData.refer_to_id = memberMyself.To;
             mData.national_id = memberMyself.NationalId;
             mData.marital_status = String.valueOf(memberMyself.MaritialId);
             mData.education = String.valueOf(memberMyself.StudyId);
@@ -585,6 +589,16 @@ public class HouseHoldActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initDB();
+        if (Common.householdRepository.size()<1){
+            if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+                downloadHousehold();
+            }
+            else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
 
         if (Common.studyClassRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
@@ -816,6 +830,16 @@ public class HouseHoldActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
+        else{
+
+            int maxId=Common.memberIdRepository.maxValue();
+            MemberId memberId=Common.memberIdRepository.getMemberIdNo(String.valueOf(maxId));
+            if (!SharedPreferenceUtil.getUserRole(HouseHoldActivity.this).equals(memberId.From)){
+                Common.memberIdRepository.emptyMember();
+                loadMemberId();
+            }
+
+        }
         if (Common.uhcRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
                 loadUHC();
@@ -903,6 +927,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 for (MemberAlocateResponseModel.Data.AllocatedMember alocateResponseModel : upazilaResponses.data.newly_allocated_member_ids) {
                     MemberId id = new MemberId();
                     id.Value = alocateResponseModel.generated_member_id;
+                    id.From=SharedPreferenceUtil.getUserRole(HouseHoldActivity.this);
                     Common.memberIdRepository.insertToMemberId(id);
                 }
                 dismissLoadingProgress();
@@ -1354,7 +1379,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                             houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             downloadMember(house.household_uniqe_id);
-                            downloadMeasurements(house.household_uniqe_id);
                             houseHold.VillageName = house.village;
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
@@ -1384,7 +1408,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                             houseHold.UniqueId = house.household_uniqe_id;
                             houseHold.VillageName = house.village;
                             downloadMember(house.household_uniqe_id);
-                            downloadMeasurements(house.household_uniqe_id);
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -1423,108 +1446,119 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void accept(MemberGetResponseModel memberGetResponseModel) throws Exception {
 
-                Log.e("evan", "asd" + new Gson().toJson(memberGetResponseModel));
-                MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(memberGetResponseModel.member.member_id);
-                if (memberMyself1 != null) {
-                    MemberMyself memberMyself = new MemberMyself();
-                    memberMyself.id = memberMyself1.id;
-                    memberMyself.NationalId = memberGetResponseModel.member.national_id;
-                    memberMyself.MobileNumber = memberGetResponseModel.member.mobile_number;
-                    memberMyself.FullName = memberGetResponseModel.member.name;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+               for (MemberGetResponseModel.Data member: memberGetResponseModel.member){
+                   Log.e("evan", "asd" + new Gson().toJson(memberGetResponseModel));
+                   MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(member.member_id);
+                   if (memberMyself1 != null) {
+                       MemberMyself memberMyself = new MemberMyself();
+                       memberMyself.id = memberMyself1.id;
+                       memberMyself.NationalId =member.national_id;
+                       memberMyself.MobileNumber = member.mobile_number;
+                       memberMyself.FullName = member.name;
+                       SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
-                    Date date1 = null;
+                       Date date1 = null;
 
-                    try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.birth_date);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Date date2 = null;
-                    try {
-                        date2 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.created_at);
-                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Date date3 = null;
-                    try {
-                        date3 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.death_date);
-                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    String birthDate = formatter.format(date1);
-                    String deathDate = formatter.format(date3);
-                    memberMyself.DateOfBirth = birthDate;
-                    memberMyself.DateOfDeath = deathDate;
-                    memberMyself.CreatedDate = date2;
-                    downMedicalHistory(memberGetResponseModel.member.medical_history_details);
-                    downBehaviorialHistory(memberGetResponseModel.member.behavioral_info_details);
-                    memberMyself.GenderId = Integer.parseInt(memberGetResponseModel.member.sex);
-                    memberMyself.BloodGroupId =  Integer.parseInt(memberGetResponseModel.member.blood_group);
-                    memberMyself.ReligionId =  Integer.parseInt(memberGetResponseModel.member.religion);
-                    memberMyself.StudyId = Integer.parseInt(memberGetResponseModel.member.education);
-                    memberMyself.MaritialId = Integer.parseInt(memberGetResponseModel.member.marital_status);
-                    memberMyself.OccupationId = Integer.parseInt(memberGetResponseModel.member.occupation);
-                    memberMyself.LivingId = Integer.parseInt(memberGetResponseModel.member.living_status);
-                    memberMyself.HouseHeadId = Integer.parseInt(memberGetResponseModel.member.head_of_house);
-                    memberMyself.UniqueId = memberGetResponseModel.member.household_uniqe_id;
-                    memberMyself.VisitDate = memberGetResponseModel.member.visit_date;
-                    memberMyself.MemberId = memberGetResponseModel.member.member_id;
-                    memberMyself.Status = "1";
-                    Common.memberMyselfRepository.updateMemberMyself(memberMyself);
+                       try {
+                           date1 = new SimpleDateFormat("yyyy-MM-dd").parse(member.birth_date);
+                       } catch (ParseException e) {
+                           e.printStackTrace();
+                       }
+                       Date date2 = null;
+                       try {
+                           date2 = new SimpleDateFormat("yyyy-MM-dd").parse(member.created_at);
+                           // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                       } catch (ParseException e) {
+                           e.printStackTrace();
+                       }
+                       if (member.death_date!=null){
+                           Date date3 = null;
+                           try {
+                               date3 = new SimpleDateFormat("yyyy-MM-dd").parse(member.death_date);
+                               String deathDate = formatter.format(date3);
+                               memberMyself.DateOfDeath = deathDate;
+                               // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                           } catch (ParseException e) {
+                               e.printStackTrace();
+                           }
+                       }
+                       String birthDate = formatter.format(date1);
 
-                }
-                else{
-                    MemberMyself memberMyself = new MemberMyself();
-                    memberMyself.NationalId = memberGetResponseModel.member.national_id;
-                    memberMyself.MobileNumber = memberGetResponseModel.member.mobile_number;
-                    memberMyself.FullName = memberGetResponseModel.member.name;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                       memberMyself.DateOfBirth = birthDate;
 
-                    Date date1 = null;
+                       memberMyself.CreatedDate = date2;
+                       downMedicalHistory(member.medical_history_details);
+                       downBehaviorialHistory(member.behavioral_info_details);
+                       memberMyself.GenderId = Integer.parseInt(member.sex);
+                       memberMyself.BloodGroupId =  Integer.parseInt(member.blood_group);
+                       memberMyself.ReligionId =  Integer.parseInt(member.religion);
+                       memberMyself.StudyId = Integer.parseInt(member.education);
+                       memberMyself.MaritialId = Integer.parseInt(member.marital_status);
+                       memberMyself.OccupationId = Integer.parseInt(member.occupation);
+                       memberMyself.LivingId = Integer.parseInt(member.living_status);
+                       memberMyself.HouseHeadId = Integer.parseInt(member.head_of_house);
+                       memberMyself.UniqueId = member.household_uniqe_id;
+                       memberMyself.VisitDate =member.visit_date;
+                       memberMyself.MemberId = member.member_id;
+                       memberMyself.Status = "1";
+                       Common.memberMyselfRepository.updateMemberMyself(memberMyself);
 
-                    try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.birth_date);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Date date2 = null;
-                    try {
-                        date2 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.created_at);
-                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Date date3 = null;
-                    try {
-                        date3 = new SimpleDateFormat("yyyy-MM-dd").parse(memberGetResponseModel.member.death_date);
-                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    downMedicalHistory(memberGetResponseModel.member.medical_history_details);
-                    downBehaviorialHistory(memberGetResponseModel.member.behavioral_info_details);
-                    String birthDate = formatter.format(date1);
-                    String deathDate = formatter.format(date3);
-                    memberMyself.DateOfBirth = birthDate;
-                    memberMyself.DateOfDeath = deathDate;
-                    memberMyself.CreatedDate = date2;
-                    memberMyself.GenderId = Integer.parseInt(memberGetResponseModel.member.sex);
-                    memberMyself.BloodGroupId =  Integer.parseInt(memberGetResponseModel.member.blood_group);
-                    memberMyself.ReligionId =  Integer.parseInt(memberGetResponseModel.member.religion);
-                    memberMyself.StudyId = Integer.parseInt(memberGetResponseModel.member.education);
-                    memberMyself.MaritialId = Integer.parseInt(memberGetResponseModel.member.marital_status);
-                    memberMyself.OccupationId = Integer.parseInt(memberGetResponseModel.member.occupation);
-                    memberMyself.LivingId = Integer.parseInt(memberGetResponseModel.member.living_status);
-                    memberMyself.HouseHeadId = Integer.parseInt(memberGetResponseModel.member.head_of_house);
-                    memberMyself.UniqueId = memberGetResponseModel.member.household_uniqe_id;
-                    memberMyself.VisitDate = memberGetResponseModel.member.visit_date;
-                    memberMyself.MemberId = memberGetResponseModel.member.member_id;
-                    memberMyself.Status = "1";
-                    Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
-                }
+                   }
+                   else{
+                       MemberMyself memberMyself = new MemberMyself();
+                       memberMyself.NationalId = member.national_id;
+                       memberMyself.MobileNumber = member.mobile_number;
+                       memberMyself.FullName =member.name;
+                       SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
+                       Date date1 = null;
+
+
+                       try {
+                           date1 = new SimpleDateFormat("yyyy-MM-dd").parse(member.birth_date);
+                       } catch (ParseException e) {
+                           e.printStackTrace();
+                       }
+                       Date date2 = null;
+                       try {
+                           date2 = new SimpleDateFormat("yyyy-MM-dd").parse(member.created_at);
+                           // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                       } catch (ParseException e) {
+                           e.printStackTrace();
+                       }
+                       if (member.death_date!=null){
+                           Date date3 = null;
+                           try {
+                               date3 = new SimpleDateFormat("yyyy-MM-dd").parse(member.death_date);
+                               String deathDate = formatter.format(date3);
+                               memberMyself.DateOfDeath = deathDate;
+                               // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                           } catch (ParseException e) {
+                               e.printStackTrace();
+                           }
+                       }
+
+                       downMedicalHistory(member.medical_history_details);
+                       downBehaviorialHistory(member.behavioral_info_details);
+                       String birthDate = formatter.format(date1);
+                       memberMyself.DateOfBirth = birthDate;
+                       memberMyself.CreatedDate = date2;
+                       memberMyself.GenderId = Integer.parseInt(member.sex);
+                       memberMyself.BloodGroupId =  Integer.parseInt(member.blood_group);
+                       memberMyself.ReligionId =  Integer.parseInt(member.religion);
+                       memberMyself.StudyId = Integer.parseInt(member.education);
+                       memberMyself.MaritialId = Integer.parseInt(member.marital_status);
+                       memberMyself.OccupationId = Integer.parseInt(member.occupation);
+                       memberMyself.LivingId = Integer.parseInt(member.living_status);
+                       memberMyself.HouseHeadId = Integer.parseInt(member.head_of_house);
+                       memberMyself.UniqueId = member.household_uniqe_id;
+                       memberMyself.VisitDate = member.visit_date;
+                       memberMyself.MemberId =member.member_id;
+                       memberMyself.Status = "1";
+                       Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+                   }
+               }
+
                 dismissLoadingProgress();
             }
         }, new Consumer<Throwable>() {
@@ -1538,1410 +1572,1414 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     private void downMedicalHistory(ArrayList<MemberGetResponseModel.Data.Visit> medical_history){
 
-        if (medical_history.size()>0){
 
-            for (MemberGetResponseModel.Data.Visit visit : medical_history){
+        if (medical_history!=null){
+            if (medical_history.size()>1){
+                for (MemberGetResponseModel.Data.Visit visit : medical_history){
 
-                if (visit.question.equals("Q49")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q49", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                    if (visit.question.equals("Q49")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q49", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
+                    else if (visit.question.equals("Q49a")){
+                        Questions questions49a = Common.qustionsRepository.getQuestions("Q49a", visit.member_id);
+                        if (questions49a!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49a.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q49b")){
+                        Questions questions49b = Common.qustionsRepository.getQuestions("Q49b", visit.member_id);
+                        if (questions49b!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49b.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q49c")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q49c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q50")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q50", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q50a")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q50a", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q50b")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q50b", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q50c")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q50c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q51")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q51", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q51a")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q51a", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q51b")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q51b", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q51c")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q51c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q52")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q52", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q52a")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q52a", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q52b")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q52b", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    } else if (visit.question.equals("Q52c")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q52c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    } else if (visit.question.equals("Q53")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q53", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q53a")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q53a", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q53b")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q53b", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q53c")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q53c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    } else if (visit.question.equals("Q54")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q54", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q54a")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q54a", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q54b")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q54b", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q54c")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q54c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q55")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q55", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    } else if (visit.question.equals("Q55a")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q55a", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q55b")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q55b", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+
+                    else if (visit.question.equals("Q55c")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q55c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q56")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q56", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q56a")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q56a", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q56b")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q56b", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q56c")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q56c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q57")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q57", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+
+                    else if (visit.question.equals("Q57a")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q57a", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q57b")){
+
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q57b", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q57c")){
+                        Questions questions49c= Common.qustionsRepository.getQuestions("Q57c", visit.member_id);
+                        if (questions49c!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49c.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+
                 }
-               else if (visit.question.equals("Q49a")){
-                    Questions questions49a = Common.qustionsRepository.getQuestions("Q49a", visit.member_id);
-                    if (questions49a!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49a.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q49b")){
-                    Questions questions49b = Common.qustionsRepository.getQuestions("Q49b", visit.member_id);
-                    if (questions49b!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49b.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q49c")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q49c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q50")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q50", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q50a")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q50a", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q50b")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q50b", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q50c")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q50c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q51")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q51", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q51a")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q51a", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q51b")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q51b", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q51c")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q51c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q52")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q52", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q52a")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q52a", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q52b")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q52b", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                } else if (visit.question.equals("Q52c")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q52c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                } else if (visit.question.equals("Q53")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q53", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q53a")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q53a", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q53b")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q53b", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q53c")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q53c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                } else if (visit.question.equals("Q54")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q54", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q54a")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q54a", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q54b")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q54b", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q54c")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q54c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q55")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q55", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                } else if (visit.question.equals("Q55a")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q55a", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q55b")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q55b", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-
-                else if (visit.question.equals("Q55c")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q55c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q56")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q56", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q56a")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q56a", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q56b")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q56b", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q56c")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q56c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q57")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q57", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-
-                else if (visit.question.equals("Q57a")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q57a", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q57b")){
-
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q57b", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q57c")){
-                    Questions questions49c= Common.qustionsRepository.getQuestions("Q57c", visit.member_id);
-                    if (questions49c!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49c.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-
             }
+
+
 
 
         }
@@ -2950,1315 +2988,1234 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     private void downBehaviorialHistory(ArrayList<MemberGetResponseModel.Data.Behavior> behavioral_info){
 
-        if (behavioral_info.size()>0){
-            for (MemberGetResponseModel.Data.Behavior  visit : behavioral_info){
+        if (behavioral_info!=null){
 
-                if (visit.question.equals("Q32")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q32", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q32a")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q32a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
+            if (behavioral_info.size()>1){
+                for (MemberGetResponseModel.Data.Behavior  visit : behavioral_info){
 
-                }
-
-                else if (visit.question.equals("Q33")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q33", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                    if (visit.question.equals("Q32")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q32", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
                     }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                    else if (visit.question.equals("Q32a")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q32a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
                     }
 
-                }
+                    else if (visit.question.equals("Q33")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q33", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
 
-                else if (visit.question.equals("Q33a")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q33a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q34")){
-
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q34", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q34a")){
-
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q34a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q35")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q35", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
 
-                }
+                    else if (visit.question.equals("Q33a")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q33a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
 
-                else if (visit.question.equals("Q35a")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q35a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
                     }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
+                    else if (visit.question.equals("Q34")){
 
-                }
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q34", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q34a")){
 
-                else if (visit.question.equals("Q36")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q34a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q35")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q35", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q36", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q37")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q37", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-
-                }
-                else if (visit.question.equals("Q38")){
-
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q38", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q39")){
-
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q39", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-
-                else if (visit.question.equals("Q41")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q41", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
 
-                }
+                    else if (visit.question.equals("Q35a")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q35a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
 
-                else if (visit.question.equals("Q42")){
-
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q42", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q42a")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q42a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
 
-                }
-                else if (visit.question.equals("Q43")){
+                    else if (visit.question.equals("Q36")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q43", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q36", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
-                }
-                else if (visit.question.equals("Q43a")){
+                    else if (visit.question.equals("Q37")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q37", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q43a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
                     }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
+                    else if (visit.question.equals("Q38")){
 
-                else if (visit.question.equals("Q43b")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q38", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q39")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q43b", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q39", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-
-                else if (visit.question.equals("Q43c")){
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q43c", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
 
-                }
-                else if (visit.question.equals("Q44")){
+                    else if (visit.question.equals("Q41")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q41", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q44", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
                     }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q44a")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q44a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q44b")){
+                    else if (visit.question.equals("Q42")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q44b", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q42", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
-                }
-                else if (visit.question.equals("Q44c")){
+                    else if (visit.question.equals("Q42a")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q42a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q44c", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
                     }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q45a")){
+                    else if (visit.question.equals("Q43")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q45a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q43", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
-                }
-                else if (visit.question.equals("Q45b")){
+                    else if (visit.question.equals("Q43a")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q45b", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q43a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
-                }
-                else if (visit.question.equals("Q45c")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q45c", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q46a")){
+                    else if (visit.question.equals("Q43b")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q46a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q43b", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
-                }
-                else if (visit.question.equals("Q46b")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q46b", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                    else if (visit.question.equals("Q43c")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q43c", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q46c")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q46c", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
                     }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                }
-                else if (visit.question.equals("Q48")){
+                    else if (visit.question.equals("Q44")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q48", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q44", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
-                    }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
                     }
-                }
-                else if (visit.question.equals("Q48a")){
+                    else if (visit.question.equals("Q44a")){
 
-                    Questions questions49 = Common.qustionsRepository.getQuestions("Q48a", visit.member_id);
-                    if (questions49!=null){
-                        Questions questions = new Questions();
-                        questions.id = questions49.id;
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q44a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.updateQuestions(questions);
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
                     }
-                    else{
-                        Questions questions = new Questions();
-                        questions.type = visit.question_type;
-                        questions.question = visit.question;
-                        questions.member_id = visit.member_id;
-                        questions.answer = visit.answer;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
+                    else if (visit.question.equals("Q44b")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q44b", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
                         }
-                        String currentDate = formatter.format(date1);
-                        questions.date = currentDate;
-                        Common.qustionsRepository.insertToQuestions(questions);
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q44c")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q44c", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q45a")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q45a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q45b")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q45b", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q45c")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q45c", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q46a")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q46a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q46b")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q46b", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q46c")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q46c", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q48")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q48", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
+                    else if (visit.question.equals("Q48a")){
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q48a", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
                     }
                 }
             }
+
         }
     }
 
-    private void downloadMeasurements(String uniueId){
-        ReferallPostModel referallPostModel = new ReferallPostModel();
-        referallPostModel.unique_code=uniueId;
-        showLoadingProgress(HouseHoldActivity.this);
-        compositeDisposable.add(mService.getMeasurementsGetResponse(referallPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MeasurementsGetResponseModel>() {
-            @Override
-            public void accept(MeasurementsGetResponseModel model) throws Exception {
-                Log.e("study", "study" + new Gson().toJson(model));
-                for (MeasurementsGetResponseModel.Data mdata : model.measurement_results) {
 
-                    Measurements measurementsFor=Common.measurementsRepository.getMeasurementsDownloadNo(String.valueOf(mdata.id),mdata.member_id);
-
-                    if (measurementsFor!=null){
-                        Measurements measurements= new Measurements();
-                        measurements.id = measurementsFor.id;
-                        measurements.MemberIds = mdata.member_id;
-                        measurements.Message = mdata.message;
-                        measurements.Refer = mdata.referral_status;
-                        measurements.Type = mdata.type;
-                        measurements.Result = Double.parseDouble(mdata.result);
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(mdata.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        measurements.DateTime = date1;
-                        downloadMeasurementsDetails(mdata.values);
-
-                        Common.measurementsRepository.updateMeasurements(measurements);
-                    }
-                    else{
-                        Measurements measurements= new Measurements();
-                        measurements.MemberIds = mdata.member_id;
-                        measurements.Message = mdata.message;
-                        measurements.Refer = mdata.referral_status;
-                        measurements.Type = mdata.type;
-                        measurements.Result = Double.parseDouble(mdata.result);
-                        Date date1 = null;
-                        try {
-                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(mdata.created_at);
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        measurements.DateTime = date1;
-                        downloadMeasurementsDetails(mdata.values);
-
-                        Common.measurementsRepository.insertToMeasurements(measurements);
-                    }
-
-                }
-                dismissLoadingProgress();
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                dismissLoadingProgress();
-            }
-        }));
-    }
-
-    private  void downloadMeasurementsDetails(ArrayList<MeasurementsGetResponseModel.Data.AttrValues> attrValues){
-        if (attrValues.size()>0){
-
-            for (MeasurementsGetResponseModel.Data.AttrValues values : attrValues){
-                MeasurementDetails  measurementDetails =Common.measurementDetailsRepository.getMeasurementsNo(values.measurement_id);
-
-                if (measurementDetails!=null){
-                    MeasurementDetails measurementDetails1 = new MeasurementDetails();
-                    measurementDetails1.id=measurementDetails.id;
-                    Date date1 = null;
-                    try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(values.created_at);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    measurementDetails1.DateTime=date1;
-                    measurementDetails1.Name=values.name;
-                    measurementDetails1.Result= Double.parseDouble(values.value);
-
-                    Common.measurementDetailsRepository.updateMeasurements(measurementDetails1);
-
-                }
-            }
-        }
-    }
 
     @Override
     public void onDestroy() {
