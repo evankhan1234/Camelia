@@ -25,8 +25,10 @@ import java.util.List;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleStatusDetailsAdapter;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
+import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
+import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 
 public class CCMemberStausDetailsFragment extends Fragment {
@@ -195,8 +197,10 @@ public class CCMemberStausDetailsFragment extends Fragment {
         public void onItemClick(int position) {
             FragmentTransaction transaction;
             transaction = getChildFragmentManager().beginTransaction();
+            Measurements measurements= Common.measurementsRepository.getMeasurementsNo(String.valueOf(position));
             Bundle bundle = new Bundle();
             bundle.putInt("Id",position);
+            bundle.putString("member",measurements.MemberIds);
             Fragment f = new CCMeasurementsDetailsFragment();
             f.setArguments(bundle);
             transaction.setCustomAnimations(R.anim.right_to_left, R.anim.stand_by, R.anim.stand_by, R.anim.left_to_right);
