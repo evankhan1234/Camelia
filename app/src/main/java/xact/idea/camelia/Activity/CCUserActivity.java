@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -229,6 +230,7 @@ public class CCUserActivity extends AppCompatActivity {
                 loadSurvey();
                 loadHousehold();
                 medicineList();
+                loadMemberId();
                 getBehaviorialList();
                 SharedPreferenceUtil.saveShared(CCUserActivity.this, SharedPreferenceUtil.SYNC, "off");
                 linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_programitical));
@@ -3385,6 +3387,12 @@ public class CCUserActivity extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("MedicalBehaviorial", "MedicalBehaviorial" + throwable.getMessage());
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                medicineList();
+                            }
+                        }, 300);
                         dismissLoadingProgress();
                     }
                 }));
@@ -3436,6 +3444,12 @@ public class CCUserActivity extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("MemberBehaviorial", "MemberBehaviorialResponsel" + throwable.getMessage());
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getBehaviorialList();
+                            }
+                        }, 300);
                         dismissLoadingProgress();
                     }
                 }));
@@ -4256,7 +4270,21 @@ public class CCUserActivity extends AppCompatActivity {
         MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
         memberAlocatePostModel.user_credential = auth.email;
-        memberAlocatePostModel.data.last_used_id = "";
+        int maxValue= Common.memberIdRepository.maxValue();
+        if (maxValue>0){
+            MemberId memberId=Common.memberIdRepository.getMemberIdNo(String.valueOf(maxValue));
+            Log.e("memberId","memberId"+memberId.Value);
+            Flowable<List<MemberId>> memberIdList = Common.memberIdRepository.getMemberIdItems();
+            if (memberIdList.blockingFirst().size()>0){
+                memberAlocatePostModel.data.last_used_id = memberId.Value;
+            }
+            else{
+                memberAlocatePostModel.data.last_used_id = "";
+            }
+        }
+        else{
+            memberAlocatePostModel.data.last_used_id = "";
+        }
         Log.e("auth", "auth" + new Gson().toJson(memberAlocatePostModel));
 
         compositeDisposable.add(mService.getMemberAlocate(memberAlocatePostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberAlocateResponseModel>() {

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -216,8 +217,20 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadHousehold();
+
+                loadSurvey();
                 medicineList();
                 getBehaviorialList();
+
+                loadMemberId();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//
+//                    }
+//                }, 1000);
+
                 SharedPreferenceUtil.saveShared(HouseHoldActivity.this, SharedPreferenceUtil.SYNC, "off");
               //  downloadHousehold();
                 linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_black));
@@ -295,8 +308,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                     @Override
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("memberResponseModel", "memberResponseModel" + new Gson().toJson(memberResponseModel));
+
+
                         dismissLoadingProgress();
-                        downloadHousehold();
+                     //   downloadHousehold();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -353,6 +368,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("MedicalBehaviorial", "MedicalBehaviorial" + throwable.getMessage());
                         dismissLoadingProgress();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                medicineList();
+                            }
+                        }, 300);
                     }
                 }));
                 Log.e("Medical", "Medical" + new Gson().toJson(data));
@@ -403,6 +424,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("MemberBehaviorial", "MemberBehaviorialResponsel" + throwable.getMessage());
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                getBehaviorialList();
+                            }
+                        }, 300);
                         dismissLoadingProgress();
                     }
                 }));
@@ -591,7 +618,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         initDB();
         if (Common.householdRepository.size()<1){
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
-                downloadHousehold();
+                //downloadHousehold();
             }
             else {
                 Snackbar snackbar = Snackbar
