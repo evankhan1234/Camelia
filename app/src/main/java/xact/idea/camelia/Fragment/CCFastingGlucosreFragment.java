@@ -207,7 +207,7 @@ public class CCFastingGlucosreFragment extends Fragment {
                     linear.setVisibility(View.VISIBLE);
                 try {
                      total=Double.parseDouble(editable.toString());
-                    linear.setBackground(mActivity.getDrawable(R.drawable.backgound_blue_light));
+                    linear.setBackground(mActivity.getResources().getDrawable(R.drawable.backgound_blue_light));
                     text_number.setText(rounded(total,2)+"(beat/min)");
                     Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                             R.anim.blink);

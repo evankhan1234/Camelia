@@ -30,6 +30,7 @@
             android:text="Natural"
             android:textColor="@color/white" />
         <TextView
+            android:id="@+id/text1"
             android:layout_width="400px"
 
             android:layout_height="120px"
@@ -43,6 +44,7 @@
             android:text="Natural"
             android:textColor="@color/white" />
         <TextView
+            android:id="@+id/text2"
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
@@ -57,6 +59,7 @@
             android:textColor="@color/gray_black" />
 
         <Button
+            android:visibility="gone"
             android:hint="Edit"
             android:tag="55"
             android:textSize="55px"
@@ -67,6 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <Button
+            android:id="@+id/button1"
             android:hint="Finish"
             android:tag="55"
             android:textSize="55px"

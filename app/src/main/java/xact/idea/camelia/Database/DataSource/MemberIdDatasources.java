@@ -54,6 +54,11 @@ public class MemberIdDatasources implements IMemberIdDatasources {
     }
 
     @Override
+    public void emptyMember() {
+        MemberIdDaos.emptyMember();
+    }
+
+    @Override
     public MemberId getMemberIdNo(String MemberIdItem) {
         return MemberIdDaos.getMemberIdNo(MemberIdItem);
     }

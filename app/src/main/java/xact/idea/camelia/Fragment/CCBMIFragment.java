@@ -229,7 +229,7 @@ public class CCBMIFragment extends Fragment {
                      bmi = weight / Math.pow(height, 2.0);
                     linear.setVisibility(View.VISIBLE);
                     if(bmi<18.5){
-                        linear.setBackground(mActivity.getDrawable(R.drawable.backgound_brown));
+                        linear.setBackground(mActivity.getResources().getDrawable(R.drawable.backgound_brown));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
@@ -238,7 +238,7 @@ public class CCBMIFragment extends Fragment {
                         message="UnderWeight";
                     }
                     else if(bmi>=18.5 && bmi<=24.99){
-                        linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                        linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
@@ -247,7 +247,7 @@ public class CCBMIFragment extends Fragment {
                         message="Normal";
                     }
                     else if(bmi>=25 && bmi<=29.99){
-                        linear.setBackground(mActivity.getDrawable(R.drawable.background_yellow));
+                        linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_yellow));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
@@ -256,7 +256,7 @@ public class CCBMIFragment extends Fragment {
                         message="OverWeight";
                     }
                     else if(bmi>=30){
-                        linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                        linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
@@ -298,7 +298,7 @@ public class CCBMIFragment extends Fragment {
                     double bmi = weight / Math.pow(height, 2.0);
                    // linear.setVisibility(View.VISIBLE);
                     if(bmi<=18.5){
-                        linear.setBackground(mActivity.getDrawable(R.drawable.backgound_brown));
+                        linear.setBackground(mActivity.getResources().getDrawable(R.drawable.backgound_brown));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
@@ -307,7 +307,7 @@ public class CCBMIFragment extends Fragment {
                         message="UnderWeight";
                     }
                     else if(bmi>18.5 && bmi<=24.99){
-                        linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
+                        linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
@@ -316,7 +316,7 @@ public class CCBMIFragment extends Fragment {
                         message="UnderWeight";
                     }
                     else if(bmi>25 && bmi<=29.99){
-                        linear.setBackground(mActivity.getDrawable(R.drawable.background_yellow));
+                        linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_yellow));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);
@@ -325,7 +325,7 @@ public class CCBMIFragment extends Fragment {
                         message="OverWeight";
                     }
                     else if(bmi>24.99){
-                        linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
+                        linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                         text_bmi_number.setText(rounded(bmi,2)+"(BMI)");
                         Animation animBlink = AnimationUtils.loadAnimation(mActivity,
                                 R.anim.blink);

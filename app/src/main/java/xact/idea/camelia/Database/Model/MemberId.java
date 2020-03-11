@@ -13,4 +13,6 @@ public class MemberId {
     public int id;
     @ColumnInfo(name = "Value")
     public String Value;
+    @ColumnInfo(name = "From")
+    public String From;
 }

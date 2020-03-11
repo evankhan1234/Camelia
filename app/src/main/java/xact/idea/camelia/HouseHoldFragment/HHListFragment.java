@@ -35,6 +35,7 @@ import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
 import xact.idea.camelia.Database.AnotherModel.HouseHead;
+import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
@@ -46,6 +47,7 @@ import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 
 public class HHListFragment extends Fragment {
@@ -136,19 +138,91 @@ public class HHListFragment extends Fragment {
         });
     }
     private  void display() {
-        compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
-            @Override
-            public void accept(List<HouseHold> houseHolds) throws Exception {
-                houseHoldArrayList=houseHolds;
-                mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
-                try {
-                    rcl_this_customer_list.setAdapter(mAdapters);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
+        String divisionId = "";
+        String districtId = "";
+        String upazilaId = "";
+        String unionId = "";
+        divisionId = auth.division;
+        districtId = auth.district;
+        upazilaId = auth.upazila;
+        unionId = auth.union;
+        if (divisionId != null && districtId != null && upazilaId != null && unionId != null) {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByFour(divisionId,districtId,upazilaId,unionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    houseHoldArrayList=houseHolds;
+                    mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
+                    try {
+                        rcl_this_customer_list.setAdapter(mAdapters);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-            }
-        }));
+                }
+            }));
+        }
+        else if(divisionId != null && districtId != null && upazilaId != null){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByThree(divisionId,districtId,upazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    houseHoldArrayList=houseHolds;
+                    mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
+                    try {
+                        rcl_this_customer_list.setAdapter(mAdapters);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }));
+        }
+        else if(divisionId != null && districtId != null ){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByTwo(divisionId,districtId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    houseHoldArrayList=houseHolds;
+                    mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
+                    try {
+                        rcl_this_customer_list.setAdapter(mAdapters);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }));
+        }
+        else if(divisionId != null ){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByOne(divisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    houseHoldArrayList=houseHolds;
+                    mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
+                    try {
+                        rcl_this_customer_list.setAdapter(mAdapters);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }));
+        }
+        else {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    houseHoldArrayList=houseHolds;
+                    mAdapters = new HHListAdapter(mActivity,houseHolds,clickListener);
+                    try {
+                        rcl_this_customer_list.setAdapter(mAdapters);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }));
+        }
+
 
         //EmployeeStaus();
 

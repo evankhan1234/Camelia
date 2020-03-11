@@ -9,7 +9,7 @@ public class MemberGetResponseModel extends ApiResponses {
     public int total_record;
 
     @SerializedName("member")
-    public Data member;
+    public ArrayList<Data> member;
 
     public class Data{
         @SerializedName("id")

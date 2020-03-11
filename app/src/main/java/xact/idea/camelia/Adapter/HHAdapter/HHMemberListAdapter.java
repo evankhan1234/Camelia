@@ -192,7 +192,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
-        final Spinner spinner=infoDialog.findViewById(R.id.spinner_sex);
+        final Spinner spinner = infoDialog.findViewById(R.id.spinner_sex);
         RadioButton radioRefer = infoDialog.findViewById(R.id.radioRefer);
         RadioButton radioFollow = infoDialog.findViewById(R.id.radioFollow);
         edit_date = infoDialog.findViewById(R.id.edit_date);
@@ -207,47 +207,182 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 newFragment.show(fragmentManagers, "DatePicker");
             }
         });
-        String divisionId="";
-        String districtId="";
-        String upazilaId="";
-        String unionId="";
-        final String[] refer = {""};
-        divisionId=auth.division;
-        districtId=auth.district;
-        upazilaId=auth.upazila;
-        unionId=auth.union;
-        compositeDisposable.add(Common.ccRepository.getCCModelItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
-            @Override
-            public void accept(List<CCModel> customers) throws Exception {
-                Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+        String divisionId = "";
+        String districtId = "";
+        String upazilaId = "";
+        String unionId = "";
+        final int[] refer ={0};
+        divisionId = auth.division;
+        districtId = auth.district;
+        upazilaId = auth.upazila;
+        unionId = auth.union;
+        if (divisionId != null && districtId != null && upazilaId != null && unionId != null) {
+            compositeDisposable.add(Common.ccRepository.getCCModelItemByFour(divisionId,districtId,upazilaId,unionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
+                @Override
+                public void accept(List<CCModel> customers) throws Exception {
+                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
 
-                ArrayAdapter<CCModel> divisionArrayAdapter;
-                List<CCModel> centerModelArrayList = new ArrayList<>();
+                    ArrayAdapter<CCModel> divisionArrayAdapter;
+                    List<CCModel> centerModelArrayList = new ArrayList<>();
 
-                centerModelArrayList=customers;
-                divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
-                divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner.setAdapter(divisionArrayAdapter);
+                    centerModelArrayList = customers;
+                    divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(divisionArrayAdapter);
 
-                final List<CCModel> finalCenterModelArrayList = centerModelArrayList;
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+                    final List<CCModel> finalCenterModelArrayList = centerModelArrayList;
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
 
-                        refer[0] =finalCenterModelArrayList.get(position).name;
+                            refer[0] = finalCenterModelArrayList.get(position).CCId;
 
-                    }
+                        }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
 
-                    }
-                });
-                dismissLoadingProgress();
+                        }
+                    });
+                    dismissLoadingProgress();
 
-            }
-        }));
+                }
+            }));
+        } else if (divisionId != null && districtId != null && upazilaId != null) {
+            compositeDisposable.add(Common.ccRepository.getCCModelItemByThree(divisionId,districtId,upazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
+                @Override
+                public void accept(List<CCModel> customers) throws Exception {
+                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+
+                    ArrayAdapter<CCModel> divisionArrayAdapter;
+                    List<CCModel> centerModelArrayList = new ArrayList<>();
+
+                    centerModelArrayList = customers;
+                    divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(divisionArrayAdapter);
+
+                    final List<CCModel> finalCenterModelArrayList = centerModelArrayList;
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+
+                            refer[0] = finalCenterModelArrayList.get(position).CCId;
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    dismissLoadingProgress();
+
+                }
+            }));
+        } else if (divisionId != null && districtId != null) {
+            compositeDisposable.add(Common.ccRepository.getCCModelItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
+                @Override
+                public void accept(List<CCModel> customers) throws Exception {
+                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+
+                    ArrayAdapter<CCModel> divisionArrayAdapter;
+                    List<CCModel> centerModelArrayList = new ArrayList<>();
+
+                    centerModelArrayList = customers;
+                    divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(divisionArrayAdapter);
+
+                    final List<CCModel> finalCenterModelArrayList = centerModelArrayList;
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+
+                            refer[0] = finalCenterModelArrayList.get(position).CCId;
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    dismissLoadingProgress();
+
+                }
+            }));
+        } else if (divisionId != null) {
+            compositeDisposable.add(Common.ccRepository.getCCModelItemByOne(divisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
+                @Override
+                public void accept(List<CCModel> customers) throws Exception {
+                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+
+                    ArrayAdapter<CCModel> divisionArrayAdapter;
+                    List<CCModel> centerModelArrayList = new ArrayList<>();
+
+                    centerModelArrayList = customers;
+                    divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(divisionArrayAdapter);
+
+                    final List<CCModel> finalCenterModelArrayList = centerModelArrayList;
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+
+                            refer[0] = finalCenterModelArrayList.get(position).CCId;
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    dismissLoadingProgress();
+
+                }
+            }));
+        } else {
+            compositeDisposable.add(Common.ccRepository.getCCModelItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
+                @Override
+                public void accept(List<CCModel> customers) throws Exception {
+                    Log.e("uhcRepository", "uhcRepository" + new Gson().toJson(customers));
+
+                    ArrayAdapter<CCModel> divisionArrayAdapter;
+                    List<CCModel> centerModelArrayList = new ArrayList<>();
+
+                    centerModelArrayList = customers;
+                    divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
+                    divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(divisionArrayAdapter);
+
+                    final List<CCModel> finalCenterModelArrayList = centerModelArrayList;
+                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+
+                            refer[0] = finalCenterModelArrayList.get(position).CCId;
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                    dismissLoadingProgress();
+
+                }
+            }));
+        }
+
         radioRefer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,10 +401,10 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                Common.memberMyselfRepository.updateReciverAgain("CC",  refer[0], edit_date.getText().toString(), member);
+                Common.memberMyselfRepository.updateReciverAgain("CC", String.valueOf(refer[0]), edit_date.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
-                referHistory.To =  refer[0];
+                referHistory.To = String.valueOf(refer[0]);
                 referHistory.VisitDate = edit_date.getText().toString();
                 referHistory.MemberId = member;
                 Common.referRepository.insertToReferHistory(referHistory);

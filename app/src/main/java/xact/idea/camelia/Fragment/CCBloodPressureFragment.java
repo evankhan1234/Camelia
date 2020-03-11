@@ -169,7 +169,6 @@ public class CCBloodPressureFragment extends Fragment {
                     String currentDate = formatter.format(date);
                     try {
                         date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
-                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -235,7 +234,7 @@ public class CCBloodPressureFragment extends Fragment {
 
                     
                     int DiabetisYesNo=0;
-                    Questions questions1 = Common.qustionsRepository.getQuestions("Q46", type);
+                    Questions questions1 = Common.qustionsRepository.getQuestions("Q50", type);
 
                     if (questions1!=null){
                         DiabetisYesNo= Integer.parseInt(questions1.answer);
@@ -338,7 +337,7 @@ public class CCBloodPressureFragment extends Fragment {
 
 
                     int DiabetisYesNo=0;
-                    Questions questions1 = Common.qustionsRepository.getQuestions("Q456", type);
+                    Questions questions1 = Common.qustionsRepository.getQuestions("Q50", type);
                     if (questions1!=null){
                         DiabetisYesNo= Integer.parseInt(questions1.answer);
                         if ( (DiabetisYesNo == 1) && (total >= 130) ) {

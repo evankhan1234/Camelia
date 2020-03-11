@@ -27,6 +27,8 @@ public interface MemberIdDao {
     int maxValue();
     @Query("DELETE  FROM MemberId where Value=:value")
     void emptyMemberId(String value);
+    @Query("DELETE  FROM MemberId ")
+    void emptyMember();
     @Insert
     void insertToMemberId(MemberId...MemberId);
     @Update
