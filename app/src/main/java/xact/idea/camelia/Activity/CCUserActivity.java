@@ -385,7 +385,7 @@ public class CCUserActivity extends AppCompatActivity {
                     @Override
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("memberResponseModel", "memberResponseModel" + new Gson().toJson(memberResponseModel));
-                        downloadHousehold();
+                        //downloadHousehold();
                         dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
@@ -490,11 +490,14 @@ public class CCUserActivity extends AppCompatActivity {
         showLoadingProgress(CCUserActivity.this);
 
         final Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+
+
         compositeDisposable.add(mService.getHouseholdList().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdListResponseModel>() {
             @Override
             public void accept(HouseholdListResponseModel uhcModel) throws Exception {
                 Log.e("study", "study" + new Gson().toJson(uhcModel));
-                for (HouseholdListResponseModel.Data house : uhcModel.data) {
+                for (HouseholdListResponseModel.Data house : uhcModel.data)
+                {
 
                     if (auth.division.equals(house.division_id) && auth.district.equals(house.district_id)){
                         HouseHold houseHold = new HouseHold();
@@ -507,8 +510,31 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.DistrictId = Integer.parseInt(house.district_id);;
                             houseHold.DivisionId = Integer.parseInt(house.division_id);;
                             houseHold.UpazilaId = Integer.parseInt(house.upazila_id);;
-                            houseHold.UnionId = Integer.parseInt(house.union_id);;
-                            houseHold.WordId = Integer.parseInt(house.ward_id);;
+                            houseHold.UnionId = Integer.parseInt(house.union_id);
+                            houseHold.WordId = Integer.parseInt(house.ward_id);
+                            String divisionId = "";
+                            String districtId = "";
+                            String upazilaId = "";
+                            String unionId = "";
+                            divisionId = auth.division;
+                            districtId = auth.district;
+                            upazilaId = auth.upazila;
+                            unionId = auth.union;
+//                            if (divisionId != null && districtId != null && upazilaId != null && unionId != null) {
+//
+//                            }
+//                            else if (divisionId != null && districtId != null && upazilaId != null ){
+//
+//                            }
+//                            else if (divisionId != null && districtId != null && upazilaId != null ){
+//
+//                            }
+//                            else if (divisionId != null && districtId != null && upazilaId != null ){
+//
+//                            }
+//                            else {
+//
+//                            }
                             houseHold.HH = Integer.parseInt(house.hh_number);
                             houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
@@ -3638,7 +3664,7 @@ public class CCUserActivity extends AppCompatActivity {
 
         if (Common.householdRepository.size()<1){
             if (Utils.broadcastIntent(CCUserActivity.this, relative)) {
-                downloadHousehold();
+                //downloadHousehold();
             }
             else {
                 Snackbar snackbar = Snackbar
@@ -3646,7 +3672,6 @@ public class CCUserActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
-        downloadHousehold();
         if (Common.studyClassRepository.size() < 1) {
             if (Utils.broadcastIntent(CCUserActivity.this, relative)) {
                 StudyClass studyClass = new StudyClass();

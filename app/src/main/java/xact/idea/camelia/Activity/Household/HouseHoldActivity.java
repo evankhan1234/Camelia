@@ -349,7 +349,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     memberMyselvesdetails = getMedicalHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
                     mdata.member_unique_code = memberMedicine.household_uniqe_id;
                     mdata.status = "1";
-                    mdata.update_no = "0";
+                    mdata.update_no = "1";
                     mdata.created_at = currentDate;
                     mdata.details = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
@@ -368,12 +368,11 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("MedicalBehaviorial", "MedicalBehaviorial" + throwable.getMessage());
                         dismissLoadingProgress();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                medicineList();
-                            }
-                        }, 300);
+                        if (medicine=false){
+                            medicineList();
+                            medicine=true;
+                        }
+
                     }
                 }));
                 Log.e("Medical", "Medical" + new Gson().toJson(data));
@@ -383,6 +382,8 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     }
 
+    boolean beahve= false;
+    boolean medicine= false;
     private void getBehaviorialList(){
         showLoadingProgress(HouseHoldActivity.this);
 
@@ -405,7 +406,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     memberMyselvesdetails = getBeahviorialHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
                     mdata.member_unique_code = memberMedicine.household_uniqe_id;
                     mdata.status = "1";
-                    mdata.update_no = "0";
+                    mdata.update_no = "1";
                     mdata.created_at = currentDate;
                     mdata.details = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
@@ -424,13 +425,11 @@ public class HouseHoldActivity extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("MemberBehaviorial", "MemberBehaviorialResponsel" + throwable.getMessage());
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                getBehaviorialList();
-                            }
-                        }, 300);
-                        dismissLoadingProgress();
+                        if (beahve=false){
+                            getBehaviorialList();
+                            beahve=true;
+                        }
+
                     }
                 }));
                 Log.e("Behaviorial", "Behaviorial" + new Gson().toJson(data));
