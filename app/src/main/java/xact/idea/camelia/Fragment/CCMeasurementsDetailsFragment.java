@@ -57,7 +57,7 @@ public class CCMeasurementsDetailsFragment extends Fragment {
             position = bundle.getInt("Id", 0);
             member = bundle.getString("member", null);
 
-            Log.e("position", "position" + measurements.Message);
+//            Log.e("position", "position" + measurements.Message);
         }
         measurements = Common.measurementsRepository.getMeasurementsNo(String.valueOf(position));
         text1.setText(measurements.Message);
