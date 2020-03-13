@@ -2,6 +2,7 @@ package xact.idea.camelia.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -24,12 +25,15 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.Collections;
 import java.util.List;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCDashboardAdapter;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.CustomViewPager;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.ViewPager.Pager;
 
 public class CCUserMemberStatusFragment extends Fragment implements TabLayout.OnTabSelectedListener{
@@ -51,20 +55,30 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
         correctSizeUtil= correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
-        initView();
+
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+
+        initView((String)Paper.book().read("language"));
        // display();
+
         return view;
     }
 
-    private void initView() {
+
+
+    private void initView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
         tabLayout =  view.findViewById(R.id.tabLayout);
 
         //Adding the tabs using addTab() method
-        tabLayout.addTab(tabLayout.newTab().setText("Incomplete"));
-        tabLayout.addTab(tabLayout.newTab().setText("Complete"));
-        tabLayout.addTab(tabLayout.newTab().setText("Referral"));
-        tabLayout.addTab(tabLayout.newTab().setText("Follow up"));
-        tabLayout.addTab(tabLayout.newTab().setText("To UHC"));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.incomplete)));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.complete)));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.refer)));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.follow_up)));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.uhc)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         //Initializing viewPager

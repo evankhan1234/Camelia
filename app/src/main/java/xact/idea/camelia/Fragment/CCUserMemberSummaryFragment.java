@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -35,18 +36,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.LoginActivity;
 import xact.idea.camelia.Adapter.CCDashboardAdapter;
 import xact.idea.camelia.Adapter.CCMemberSummaryAdapter;
 import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.SummaryModel;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 
 public class CCUserMemberSummaryFragment extends Fragment {
@@ -66,6 +71,15 @@ public class CCUserMemberSummaryFragment extends Fragment {
     static TextView  text_hypertension ;
     static TextView  text_diabetis ;
     static TextView text_bmi;
+    TextView text_1;
+    TextView text_2;
+    TextView text_3;
+    TextView text_4;
+    TextView text_date_one;
+    TextView text_hyper;
+    TextView text_dibet;
+    TextView text_obes;
+    TextView text_extra_weight;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -85,6 +99,15 @@ public class CCUserMemberSummaryFragment extends Fragment {
         Date date = new Date(System.currentTimeMillis());
         currentDate = formatter.format(date);
         text_diabetis = view.findViewById(R.id.text_diabetis);
+        text_date_one = view.findViewById(R.id.text_date_one);
+        text_hyper = view.findViewById(R.id.text_hyper);
+        text_dibet = view.findViewById(R.id.text_dibet);
+        text_obes = view.findViewById(R.id.text_obes);
+        text_extra_weight = view.findViewById(R.id.text_extra_weight);
+        text_1 = view.findViewById(R.id.text_1);
+        text_2 = view.findViewById(R.id.text_2);
+        text_3 = view.findViewById(R.id.text_3);
+        text_4 = view.findViewById(R.id.text_4);
         text_hypertension = view.findViewById(R.id.text_hypertension);
         text_bmi = view.findViewById(R.id.text_bmi);
         progress_bar = view.findViewById(R.id.progress_bar);
@@ -94,6 +117,10 @@ public class CCUserMemberSummaryFragment extends Fragment {
         edit_start_date = view.findViewById(R.id.edit_start_date);
         edit_end_date = view.findViewById(R.id.edit_end_date);
         btn_yes = view.findViewById(R.id.btn_yes);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_approval_in_list.setLayoutManager(lm);
@@ -212,6 +239,19 @@ public class CCUserMemberSummaryFragment extends Fragment {
         text_diabetis.setText(String.valueOf(summaryModel.Diabetes));
         text_bmi.setText(String.valueOf(summaryModel.Obese));
         text_date_current.setText(formattedDate);
+    }
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        text_date_one.setText(resources.getString(R.string.date));
+        text_hyper.setText(resources.getString(R.string.hypertension));
+        text_dibet.setText(resources.getString(R.string.diabetic));
+        text_obes.setText(resources.getString(R.string.bmi));
+        text_extra_weight.setText(resources.getString(R.string.weight));
+        text_1.setText(resources.getString(R.string.hypertension));
+        text_2.setText(resources.getString(R.string.diabetic));
+        text_3.setText(resources.getString(R.string.bmi));
+        text_4.setText(resources.getString(R.string.weight));
     }
     @Override
     public void onResume() {

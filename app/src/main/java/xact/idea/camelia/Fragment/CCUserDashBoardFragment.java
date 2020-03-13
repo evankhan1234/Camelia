@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,19 +43,23 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.LoginActivity;
 import xact.idea.camelia.Adapter.CCDashboardAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHCCSyncAdapter;
 import xact.idea.camelia.Database.AnotherModel.Count;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.HouseHoldFragment.HHCCSendingSyncFragment;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class CCUserDashBoardFragment extends Fragment {
     Activity mActivity;
@@ -62,7 +67,7 @@ public class CCUserDashBoardFragment extends Fragment {
     View view;
     static List<Integer> ydata = new ArrayList<>();
     CCDashboardAdapter mAdapters;
-    private static String[] xdata = {"Incomplete", "Complete", "UHC", "Follow Up"};
+    private static String[] xdata ;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     static EditText edit_start_date;
     static EditText edit_end_date;
@@ -72,6 +77,12 @@ public class CCUserDashBoardFragment extends Fragment {
     static TextView text_date_current;
     ProgressBar progress_bar;
     String currentDate;
+    TextView text_follow_up;
+    TextView text_uhc;
+    TextView text_customer_name;
+    TextView text_complete;
+    TextView text_incomplete;
+    TextView text_date;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,14 +95,40 @@ public class CCUserDashBoardFragment extends Fragment {
         correctSizeUtil.correctSize(view);
         initView();
         display();
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
+        updateViewAgain((String)Paper.book().read("language"));
+
+
         return view;
     }
 
+    private void updateView(String language) {
+        Context context=LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        xdata= new String[]{resources.getString(R.string.incomplete), resources.getString(R.string.complete), resources.getString(R.string.uhc), resources.getString(R.string.follow_up)};
+    }
+    private void updateViewAgain(String language) {
+        Context context=LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        text_follow_up.setText(resources.getString(R.string.follow_up));
+        text_complete.setText(resources.getString(R.string.complete));
+        text_incomplete.setText(resources.getString(R.string.incomplete));
+        text_uhc.setText(resources.getString(R.string.uhc));
+        text_customer_name.setText(resources.getString(R.string.date));
+    }
     private void initView() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
         Date date = new Date(System.currentTimeMillis());
         currentDate = formatter.format(date);
 
+        text_customer_name = view.findViewById(R.id.text_customer_name);
+        text_incomplete = view.findViewById(R.id.text_incomplete);
+        text_complete = view.findViewById(R.id.text_complete);
+        text_follow_up = view.findViewById(R.id.text_follow_up);
+        text_uhc = view.findViewById(R.id.text_uhc);
         progress_bar = view.findViewById(R.id.progress_bar);
         text_date_current = view.findViewById(R.id.text_date_current);
         rcl_approval_in_list = view.findViewById(R.id.rcl_approval_in_list);

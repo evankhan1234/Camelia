@@ -3,7 +3,9 @@ package xact.idea.camelia.Activity;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -103,6 +106,7 @@ import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Network.IRetrofitApi;
 import xact.idea.camelia.NetworkModel.BlockResponses;
 import xact.idea.camelia.NetworkModel.BloodGroupResponses;
@@ -154,6 +158,13 @@ public class CCUserActivity extends AppCompatActivity {
     LinearLayout linear_sync;
     LinearLayout linear_household_member;
     TextView tv_store;
+    TextView text_sync;
+    TextView text_dashboard;
+    TextView text_welcome;
+    TextView text_household;
+    TextView text_log_out;
+    TextView text_member_status;
+    TextView text_member_summary;
     IRetrofitApi mService;
     RelativeLayout relative;
 
@@ -164,19 +175,31 @@ public class CCUserActivity extends AppCompatActivity {
         mService = Common.getApiXact();
         CorrectSizeUtil.getInstance(this).correctSize();
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.root_rlt_dashboard));
+        text_member_summary = findViewById(R.id.text_member_summary);
         linear_dashboard = findViewById(R.id.linear_dashboard);
+        text_log_out = findViewById(R.id.text_log_out);
+        text_member_status = findViewById(R.id.text_member_status);
+        text_sync = findViewById(R.id.text_sync);
+        text_household = findViewById(R.id.text_household);
         linear_logout = findViewById(R.id.linear_logout);
+        text_dashboard = findViewById(R.id.text_dashboard);
         linear_sync = findViewById(R.id.linear_sync);
         linear_member_status = findViewById(R.id.linear_member_status);
         linear_summary = findViewById(R.id.linear_summary);
         linear_household_member = findViewById(R.id.linear_household_member);
         tv_store = findViewById(R.id.tv_store);
         relative = findViewById(R.id.relative);
+        text_welcome = findViewById(R.id.text_welcome);
+        Paper.init(this);
+        String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         tv_store.setSelected(true);
         linear_logout.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
+                SharedPreferenceUtil.removeShared(CCUserActivity.this,SharedPreferenceUtil.TYPE_USER_ID);
                 Intent intent = new Intent(CCUserActivity.this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("EXTRA_SESSION", "dashboard");
@@ -233,20 +256,31 @@ public class CCUserActivity extends AppCompatActivity {
                 loadMemberId();
                 getBehaviorialList();
                 SharedPreferenceUtil.saveShared(CCUserActivity.this, SharedPreferenceUtil.SYNC, "off");
-                linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_programitical));
+                linear_sync.setBackground(getResources().getDrawable(R.drawable.background_programitical));
 
             }
         });
         if (SharedPreferenceUtil.getSync(CCUserActivity.this).equals("on")){
-            linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_programitical));
+            linear_sync.setBackground(getResources().getDrawable(R.drawable.background_programitical));
 
         }
         else{
-            linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_black));
+            linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
 
         }
     }
-
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        tv_store.setText(resources.getString(R.string.real_time));
+        text_welcome.setText(resources.getString(R.string.welcome_cc));
+        text_sync.setText(resources.getString(R.string.sync));
+        text_member_status.setText(resources.getString(R.string.member_status));
+        text_log_out.setText(resources.getString(R.string.log_out));
+        text_member_summary.setText(resources.getString(R.string.summary));
+        text_household.setText(resources.getString(R.string.family));
+        text_dashboard.setText(resources.getString(R.string.dashboard));
+    }
     private void loadMeasurements() {
 
         showLoadingProgress(CCUserActivity.this);
@@ -486,6 +520,72 @@ public class CCUserActivity extends AppCompatActivity {
             }
         }
     }
+    private void downloadWorkingArea(){
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+        String divisionId = "";
+        String districtId = "";
+        String upazilaId = "";
+        String unionId = "";
+        divisionId = auth.division;
+        districtId = auth.district;
+        upazilaId = auth.upazila;
+        unionId = auth.union;
+        if (divisionId != null && districtId != null && upazilaId != null && unionId != null) {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByFour(divisionId,districtId,upazilaId,unionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+
+
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+                }
+            }));
+        }
+        else if(divisionId != null && districtId != null && upazilaId != null){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByThree(divisionId,districtId,upazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+                }
+            }));
+        }
+        else if(divisionId != null && districtId != null ){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByTwo(divisionId,districtId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+
+                }
+            }));
+        }
+        else if(divisionId != null ){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByOne(divisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+
+                }
+            }));
+        }
+        else {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+
+                }
+            }));
+        }
+    }
     private void downloadHousehold(){
         showLoadingProgress(CCUserActivity.this);
 
@@ -538,7 +638,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.HH = Integer.parseInt(house.hh_number);
                             houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
-                            downloadMember(house.household_uniqe_id);
+                           // downloadMember(house.household_uniqe_id);
                             downloadMeasurements(house.household_uniqe_id);
                             houseHold.VillageName = house.village;
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
@@ -568,7 +668,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             houseHold.VillageName = house.village;
-                            downloadMember(house.household_uniqe_id);
+                           //downloadMember(house.household_uniqe_id);
                             downloadMeasurements(house.household_uniqe_id);
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
@@ -3677,10 +3777,12 @@ public class CCUserActivity extends AppCompatActivity {
                 StudyClass studyClass = new StudyClass();
                 studyClass.StudyClassId = -1;
                 studyClass.class_name_en = "Select";
-                studyClass.class_name_bn = "Select";
+                studyClass.class_name_bn = "সিলেক্ট";
                 studyClass.note_en = "";
                 studyClass.note_bn = "";
                 studyClass.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                studyClass.ln =language;
                 Common.studyClassRepository.insertToStudyClass(studyClass);
                 loadStudyClass();
             } else {
@@ -3694,10 +3796,12 @@ public class CCUserActivity extends AppCompatActivity {
                 Occupation occupation = new Occupation();
                 occupation.OccupationId = -1;
                 occupation.occupation_name_en = "Select";
-                occupation.occupation_name_bn = "Select";
+                occupation.occupation_name_bn = "সিলেক্ট";
                 occupation.note_en = "";
                 occupation.note_bn = "";
                 occupation.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                occupation.ln =language;
                 Common.occupationRepository.insertToOccupation(occupation);
                 loadOccupation();
             } else {
@@ -3711,10 +3815,12 @@ public class CCUserActivity extends AppCompatActivity {
                 Female female = new Female();
                 female.FemaleId = -1;
                 female.gender_name_en = "Select";
-                female.gender_name_bn = "Select";
+                female.gender_name_bn = "সিলেক্ট";
                 female.note_en = "";
                 female.note_bn = "";
                 female.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                female.ln =language;
                 Common.femaleRepository.insertToFemale(female);
                 loadGender();
 
@@ -3729,10 +3835,12 @@ public class CCUserActivity extends AppCompatActivity {
                 MaritialStatus maritialStatus = new MaritialStatus();
                 maritialStatus.MaritialId = -1;
                 maritialStatus.marital_name_en = "Select";
-                maritialStatus.marital_name_bn = "Select";
+                maritialStatus.marital_name_bn = "সিলেক্ট";
                 maritialStatus.note_en = "";
                 maritialStatus.note_bn = "";
                 maritialStatus.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                maritialStatus.ln =language;
                 Common.maritialStatusRepository.insertToMaritialStatus(maritialStatus);
                 loadMaritialStatus();
             } else {
@@ -3747,13 +3855,15 @@ public class CCUserActivity extends AppCompatActivity {
                 Block block = new Block();
                 block.BlockId = -1;
                 block.block_name_en = "Select";
-                block.block_name_bn = "Select";
+                block.block_name_bn = "সিলেক্ট";
                 block.block_shortname_en = "";
                 block.block_shortname_bn = "";
                 block.block_code = "";
                 block.note_en = "";
                 block.note_bn = "";
                 block.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                block.ln =language;
                 Common.blockRepository.insertToBlock(block);
                 loadBlock();
             } else {
@@ -3768,13 +3878,16 @@ public class CCUserActivity extends AppCompatActivity {
                 Ward ward = new Ward();
                 ward.WardId = -1;
                 ward.ward_name_en = "Select";
-                ward.ward_name_bn = "Select";
+                ward.ward_name_bn = "সিলেক্ট";
                 ward.ward_shortname_bn = "";
                 ward.ward_shortname_en = "";
                 ward.ward_code = "";
                 ward.note_en = "";
                 ward.note_bn = "";
                 ward.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                ward.ln =language;
+
                 Common.wardRepository.insertToWard(ward);
                 loadWard();
             } else {
@@ -3788,10 +3901,12 @@ public class CCUserActivity extends AppCompatActivity {
                 BloodGroup bloodGroup = new BloodGroup();
                 bloodGroup.BloodId = -1;
                 bloodGroup.blood_group_name_en = "Select";
-                bloodGroup.blood_group_name_bn = "Select";
+                bloodGroup.blood_group_name_bn = "সিলেক্ট ";
                 bloodGroup.note_en = "";
                 bloodGroup.note_bn =  "";
                 bloodGroup.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                bloodGroup.ln =language;
                 Common.bloodGroupRepository.insertToBloodGroup(bloodGroup);
 
                 loadBloodGroup();
@@ -3807,13 +3922,15 @@ public class CCUserActivity extends AppCompatActivity {
                 Division division = new Division();
                 division.DivisionId = -1;
                 division.division_name_en = "Select";
-                division.division_name_bn = "Select";
+                division.division_name_bn = "সিলেক্ট";
                 division.division_shortname_en = "";
                 division.division_shortname_bn = "";
                 division.division_code ="";
                 division.note_en = "";
                 division.note_bn = "";
                 division.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                division.ln =language;
                 Common.divisionRepository.insertToDivision(division);
                 loadDivision();
             } else {
@@ -3828,13 +3945,15 @@ public class CCUserActivity extends AppCompatActivity {
                 unions1.UnionId = -1;
                 unions1.upazila_id = -1;
                 unions1.union_name_en = "Select";
-                unions1.union_name_bn = "Select";
+                unions1.union_name_bn = "সিলেক্ট";
                 unions1.union_shortname_en = "";
                 unions1.union_shortname_bn = "";
                 unions1.union_code = "";
                 unions1.note_en = "";
                 unions1.note_bn = "";
                 unions1.status = "";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                unions1.ln =language;
                 Common.unionRepository.insertToUnion(unions1);
                 loadUnion();
             } else {
@@ -3849,13 +3968,15 @@ public class CCUserActivity extends AppCompatActivity {
                 district.DistrictId = -1;
                 district.DivisionId = -1;
                 district.district_name_en = "Select";
-                district.district_name_bn = "Select";
+                district.district_name_bn = "সিলেক্ট";
                 district.district_shortname_en = "";
                 district.district_shortname_bn =  "";
                 district.district_code =  "";
                 district.note_en =  "";
                 district.note_bn =  "";
                 district.status =  "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                district.ln =language;
                 Common.districtRepository.insertToDistrict(district);
                 loadDistrict();
             } else {
@@ -3870,12 +3991,14 @@ public class CCUserActivity extends AppCompatActivity {
                 upazila.UpazilaId = -1;
                 upazila.district_id = -1;
                 upazila.upazila_name_en = "Select";
-                upazila.upazila_name_bn = "Select";
+                upazila.upazila_name_bn = "সিলেক্ট";
                 upazila.upazila_shortname_en = "";
                 upazila.upazila_shortname_bn = "";
                 upazila.note_en = "";
                 upazila.note_bn = "";
                 upazila.status = "1";
+                String language=SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                upazila.ln =language;
                 Common.upazilaRepository.insertToUpazila(upazila);
                 loadUpazila();
             } else {
@@ -3955,6 +4078,8 @@ public class CCUserActivity extends AppCompatActivity {
                     studyClass.note_en = stdy.note_en;
                     studyClass.note_bn = stdy.note_bn;
                     studyClass.status = stdy.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    studyClass.ln = language;
                     Common.studyClassRepository.insertToStudyClass(studyClass);
                 }
                 dismissLoadingProgress();
@@ -3982,6 +4107,8 @@ public class CCUserActivity extends AppCompatActivity {
                     occupation.note_en = occupations.note_en;
                     occupation.note_bn = occupations.note_bn;
                     occupation.status = occupations.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    occupation.ln = language;
                     Common.occupationRepository.insertToOccupation(occupation);
                 }
                 dismissLoadingProgress();
@@ -4009,6 +4136,8 @@ public class CCUserActivity extends AppCompatActivity {
                     maritialStatus.note_en = maritial.note_en;
                     maritialStatus.note_bn = maritial.note_bn;
                     maritialStatus.status = maritial.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    maritialStatus.ln = language;
                     Common.maritialStatusRepository.insertToMaritialStatus(maritialStatus);
                 }
                 dismissLoadingProgress();
@@ -4036,6 +4165,8 @@ public class CCUserActivity extends AppCompatActivity {
                     female.note_en = genders.note_en;
                     female.note_bn = genders.note_bn;
                     female.status = genders.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    female.ln = language;
                     Common.femaleRepository.insertToFemale(female);
                 }
                 dismissLoadingProgress();
@@ -4066,6 +4197,8 @@ public class CCUserActivity extends AppCompatActivity {
                     ward.note_en = wards.note_en;
                     ward.note_bn = wards.note_bn;
                     ward.status = wards.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    ward.ln = language;
                     Common.wardRepository.insertToWard(ward);
                 }
                 dismissLoadingProgress();
@@ -4128,6 +4261,8 @@ public class CCUserActivity extends AppCompatActivity {
                     block.note_en = blocks.note_en;
                     block.note_bn = blocks.note_bn;
                     block.status = blocks.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    block.ln = language;
                     Common.blockRepository.insertToBlock(block);
                 }
                 dismissLoadingProgress();
@@ -4155,6 +4290,8 @@ public class CCUserActivity extends AppCompatActivity {
                     bloodGroup.note_en = bloods.note_en;
                     bloodGroup.note_bn = bloods.note_bn;
                     bloodGroup.status = bloods.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    bloodGroup.ln = language;
                     Common.bloodGroupRepository.insertToBloodGroup(bloodGroup);
                 }
                 dismissLoadingProgress();
@@ -4186,6 +4323,8 @@ public class CCUserActivity extends AppCompatActivity {
                     unions1.note_en = unions.note_en;
                     unions1.note_bn = unions.note_bn;
                     unions1.status = unions.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    unions1.ln = language;
                     Common.unionRepository.insertToUnion(unions1);
                 }
                 dismissLoadingProgress();
@@ -4216,6 +4355,8 @@ public class CCUserActivity extends AppCompatActivity {
                     division.note_en = divisions.note_en;
                     division.note_bn = divisions.note_bn;
                     division.status = divisions.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    division.ln = language;
                     Common.divisionRepository.insertToDivision(division);
                 }
                 dismissLoadingProgress();
@@ -4247,6 +4388,8 @@ public class CCUserActivity extends AppCompatActivity {
                     district.note_en = districts.note_en;
                     district.note_bn = districts.note_bn;
                     district.status = districts.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    district.ln = language;
                     Common.districtRepository.insertToDistrict(district);
                 }
                 dismissLoadingProgress();
@@ -4277,6 +4420,8 @@ public class CCUserActivity extends AppCompatActivity {
                     upazila.note_en = upazilas.note_en;
                     upazila.note_bn = upazilas.note_bn;
                     upazila.status = upazilas.status;
+                    String language= SharedPreferenceUtil.getLanguage(CCUserActivity.this);
+                    upazila.ln = language;
                     Common.upazilaRepository.insertToUpazila(upazila);
                 }
                 dismissLoadingProgress();

@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 import io.reactivex.disposables.CompositeDisposable;
 import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
@@ -41,6 +43,7 @@ import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserDashBoardFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCUserMemberSummaryFragment;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.HouseHoldFragment.HHCreateHouseholdFragment;
 import xact.idea.camelia.HouseHoldFragment.HHListFragment;
 import xact.idea.camelia.R;
@@ -136,6 +139,10 @@ public class CCUserHomeActivity extends AppCompatActivity {
         text_username = findViewById(R.id.text_username);
         text_email = findViewById(R.id.text_email);
         text_phone_number = findViewById(R.id.text_phone_number);
+        Paper.init(this);
+        String language=SharedPreferenceUtil.getLanguage(CCUserHomeActivity.this);
+        Paper.book().write("language",language);
+       updateView((String)Paper.book().read("language"));
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserHomeActivity.this));
         Glide.with(this).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
                 .into(new SimpleTarget<GlideDrawable>() {
@@ -190,7 +197,16 @@ public class CCUserHomeActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        title.setText(resources.getString(R.string.household));
+        tv_home_menu.setText(resources.getString(R.string.home));
+        tv_dashboard_menu.setText(resources.getString(R.string.dashboard));
+        tv_member_status_menu.setText(resources.getString(R.string.status));
+        tv_summary_menu.setText(resources.getString(R.string.summary));
+        tv_household_menu.setText(resources.getString(R.string.members));
+    }
     private void back() {
        // Toast.makeText(mContext, "dsfdsf", Toast.LENGTH_SHORT).show();
         Fragment f = getVisibleFragment();
@@ -260,12 +276,13 @@ public class CCUserHomeActivity extends AppCompatActivity {
     }
 
     private void setFooter(String value) {
-
+        String language=SharedPreferenceUtil.getLanguage(CCUserHomeActivity.this);
         switch (value) {
 
             case "dashboard":
-
-                title.setText("Dashboard");
+                Context context= LocaleHelper.setLocale(this,language);
+                Resources resources= context.getResources();
+                title.setText(resources.getString(R.string.household));
                 btn_footer_dashboard.setSelected(true);
                 tv_dashboard_menu.setSelected(true);
                 afterClickTabItem(Constant.FRAG_DASHBOARD, null);
@@ -273,20 +290,26 @@ public class CCUserHomeActivity extends AppCompatActivity {
 
                 break;
             case "status":
-                title.setText("Member Status");
+                Context context1= LocaleHelper.setLocale(this,language);
+                Resources resources1= context1.getResources();
+                title.setText(resources1.getString(R.string.member_status));
                 btn_footer_member_status.setSelected(true);
                 tv_member_status_menu.setSelected(true);
                 afterClickTabItem(Constant.FRAG_MEMBER_STATUS, null);
                 break;
             case "summary":
-                title.setText("Summary");
+                Context context2= LocaleHelper.setLocale(this,language);
+                Resources resources2= context2.getResources();
+                title.setText(resources2.getString(R.string.summary));
                 btn_footer_summary.setSelected(true);
                 tv_summary_menu.setSelected(true);
                 afterClickTabItem(Constant.FRAG_MEMBER_SUMMARY, null);
                 break;
 
             case "household":
-                title.setText("Household");
+                Context context3= LocaleHelper.setLocale(this,language);
+                Resources resources3= context3.getResources();
+                title.setText(resources3.getString(R.string.household));
                 btn_footer_household.setSelected(true);
                 tv_household_menu.setSelected(true);
                 afterClickTabItem(Constant.FRAG_MEMBER, null);
@@ -445,7 +468,10 @@ public class CCUserHomeActivity extends AppCompatActivity {
 
         rlt_header_status_details.setVisibility(View.GONE);
         view_header_status_details.setVisibility(View.GONE);
-        title.setText("Dashboard");
+        String language=SharedPreferenceUtil.getLanguage(CCUserHomeActivity.this);
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        title.setText(resources.getString(R.string.dashboard));
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);
@@ -462,7 +488,10 @@ public class CCUserHomeActivity extends AppCompatActivity {
 
         rlt_header_status_details.setVisibility(View.GONE);
         view_header_status_details.setVisibility(View.GONE);
-        title.setText("Household");
+        String language=SharedPreferenceUtil.getLanguage(CCUserHomeActivity.this);
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        title.setText(resources.getString(R.string.household));
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);
@@ -478,7 +507,10 @@ public class CCUserHomeActivity extends AppCompatActivity {
         //show the initial home page
         afterClickTabItem(Constant.FRAG_MEMBER_STATUS, null);
         // checkToGetTicket(false);
-        title.setText("Member Status");
+        String language=SharedPreferenceUtil.getLanguage(CCUserHomeActivity.this);
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        title.setText(resources.getString(R.string.member_status));
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);
@@ -496,7 +528,10 @@ public class CCUserHomeActivity extends AppCompatActivity {
         //show the initial home page
         afterClickTabItem(Constant.FRAG_MEMBER_SUMMARY, null);
         // checkToGetTicket(false);
-        title.setText("Member Summary");
+        String language=SharedPreferenceUtil.getLanguage(CCUserHomeActivity.this);
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        title.setText(resources.getString(R.string.summary));
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);

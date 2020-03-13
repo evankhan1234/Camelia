@@ -31,7 +31,7 @@ public class SpalashActivity extends AppCompatActivity {
     }
     private void goToLoginPage() {
         if (SharedPreferenceUtil.getUserID(SpalashActivity.this)==null||SharedPreferenceUtil.getUserID(SpalashActivity.this).equals("")) {
-            Intent i = new Intent(SpalashActivity.this, LoginActivity.class);
+            Intent i = new Intent(SpalashActivity.this, LanguageActivity.class);
             startActivity(i);
             finish();
         } else {

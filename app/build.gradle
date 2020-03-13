@@ -55,5 +55,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     implementation 'android.arch.persistence.room:rxjava2:1.1.1'
+    implementation 'io.paperdb:paperdb:2.5'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 }

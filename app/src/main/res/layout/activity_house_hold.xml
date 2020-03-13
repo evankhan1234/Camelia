@@ -72,6 +72,7 @@
                         android:layout_marginRight="1px"
                         android:src="@drawable/img_background" />
                     <TextView
+                        android:id="@+id/text_welcome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="28px"
@@ -135,6 +136,7 @@
                                 android:src="@drawable/speedometer" />
 
                             <TextView
+                                android:id="@+id/text_dashboard"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="28px"
@@ -170,13 +172,13 @@
                                 android:src="@drawable/customers" />
 
                             <TextView
+                                android:id="@+id/text_household"
                                 android:textStyle="bold"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
                                 android:tag="42"
-
                                 android:layout_marginLeft="15px"
                                 android:layout_marginRight="10px"
                                 android:text="Household     Members"
@@ -209,6 +211,7 @@
                                 android:src="@drawable/credibility" />
 
                             <TextView
+                                android:id="@+id/text_cc_sending"
                                 android:textStyle="bold"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -275,6 +278,7 @@
                                 android:src="@drawable/logout" />
 
                             <TextView
+                                android:id="@+id/text_log_out"
                                 android:textStyle="bold"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -311,8 +315,9 @@
                                 android:layout_marginLeft="1px"
                                 android:layout_marginTop="60px"
                                 android:src="@drawable/internet" />
+
                             <TextView
-                                android:textStyle="bold"
+                                android:id="@+id/text_website"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="28px"
@@ -320,7 +325,8 @@
                                 android:tag="42"
                                 android:text="Website"
                                 android:textColor="@color/white"
-                                android:textSize="42px" />
+                                android:textSize="42px"
+                                android:textStyle="bold" />
 
 
                         </LinearLayout>
@@ -351,7 +357,7 @@
                                 android:layout_marginTop="28px"
                                 android:gravity="center_horizontal"
                                 android:tag="42"
-
+                                android:id="@+id/text_sync"
                                 android:text="Sync"
                                 android:textColor="@color/white"
                                 android:textSize="42px" />

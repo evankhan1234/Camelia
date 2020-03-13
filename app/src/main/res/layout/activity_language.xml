@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.LanguageActivity">
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:tag="80"
+        android:layout_marginTop="80px"
+        android:text="Language Select "
+        android:textSize="80px"
+        android:textColor="@color/date_color"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/relative_english"
+            android:layout_marginTop="40px"
+            android:background="@drawable/background_black"
+            android:layout_width="match_parent"
+            android:layout_height="600px">
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:tag="70"
+                android:text="English"
+                android:textSize="70px"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:id="@+id/text_english"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+        <RelativeLayout
+
+            android:id="@+id/relative_bangla"
+
+            android:layout_marginTop="50dp"
+            android:background="@drawable/background_black"
+            android:layout_width="match_parent"
+            android:layout_height="600px">
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:tag="70"
+                android:text="Bangla"
+                android:textSize="70px"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:id="@+id/text_bangla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
