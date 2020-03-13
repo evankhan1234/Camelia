@@ -147,16 +147,16 @@
                                 android:layout_height="80px" />
 
                             <TextView
+                                android:id="@+id/text_1"
 
-                                android:tag="45"
-                                android:textSize="45px"
-                                android:textColor="@color/gray_black"
-                                android:layout_marginTop="15px"
-                                android:layout_toRightOf="@+id/img1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="15px"
+                                android:layout_toRightOf="@+id/img1"
+                                android:tag="45"
                                 android:text="Hypertension"
-                                />
+                                android:textColor="@color/gray_black"
+                                android:textSize="45px" />
                             <TextView
                                 android:id="@+id/text_hypertension"                                android:textStyle="bold"
                                 android:tag="45"
@@ -190,15 +190,14 @@
                                 android:layout_height="80px" />
 
                             <TextView
-                                android:tag="45"
-                                android:textSize="45px"
-                                android:textColor="@color/gray_black"
-                                android:layout_marginTop="15px"
-                                android:layout_toRightOf="@+id/img2"
+                                android:id="@+id/text_2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/img2"
+                                android:tag="45"
                                 android:text="Diabetic"
-                                />
+                                android:textColor="@color/gray_black"
+                                android:textSize="45px" />
                             <TextView
                                 android:id="@+id/text_diabetis"
                                 android:textStyle="bold"
@@ -233,7 +232,7 @@
                                 android:layout_height="80px" />
 
                             <TextView
-
+                                android:id="@+id/text_3"
 
                                 android:tag="45"
                                 android:textSize="45px"
@@ -279,6 +278,7 @@
                                 android:layout_height="80px" />
 
                             <TextView
+
                                 android:visibility="gone"
                                 android:tag="45"
                                 android:textSize="45px"
@@ -324,6 +324,7 @@
                                 android:layout_height="80px" />
 
                             <TextView
+                                android:id="@+id/text_4"
                                 android:tag="45"
                                 android:textSize="45px"
                                 android:textColor="@color/gray_black"
@@ -432,7 +433,7 @@
                         android:gravity="center|center_vertical"
                         android:layout_weight="1"
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_customer_name" />
+                        android:id="@+id/text_date_one" />
 
                     <TextView
                         android:visibility="gone"
@@ -464,7 +465,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amounst" />
+                        android:id="@+id/text_hyper" />
                     <TextView
                         android:textStyle="bold"
                         android:textColor="@color/white"
@@ -479,7 +480,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amount" />
+                        android:id="@+id/text_dibet" />
 
 
                     <TextView
@@ -496,7 +497,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amounsvt" />
+                        android:id="@+id/text_obes" />
 
                     <TextView
                         android:textStyle="bold"
@@ -512,7 +513,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amouvndt" />
+                        android:id="@+id/text_extra_weight" />
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
 

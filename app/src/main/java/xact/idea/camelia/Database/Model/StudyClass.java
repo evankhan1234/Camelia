@@ -23,9 +23,22 @@ public class StudyClass {
     public String note_bn;
     @ColumnInfo(name = "status")
     public String status;
+    @ColumnInfo(name = "ln")
+    public String ln;
     @Override
     public String toString() {
-        return class_name_en;
+        if (ln!=null){
+            if (ln.equals("bn")){
+                return class_name_bn;
+            }
+            else{
+                return class_name_en;
+            }
+        }
+        else{
+            return class_name_en;
+        }
+
 
     }
 }

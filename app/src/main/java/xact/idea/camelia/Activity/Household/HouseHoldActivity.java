@@ -1,17 +1,20 @@
 package xact.idea.camelia.Activity.Household;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -20,9 +23,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -30,7 +33,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.LoginActivity;
-import xact.idea.camelia.Activity.SpalashActivity;
+import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
 import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
@@ -65,8 +68,6 @@ import xact.idea.camelia.Database.Model.Division;
 import xact.idea.camelia.Database.Model.Female;
 import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.MaritialStatus;
-import xact.idea.camelia.Database.Model.MeasurementDetails;
-import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.Medicine;
 import xact.idea.camelia.Database.Model.MemberHabit;
 import xact.idea.camelia.Database.Model.MemberId;
@@ -104,6 +105,7 @@ import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Network.IRetrofitApi;
 import xact.idea.camelia.NetworkModel.BlockResponses;
 import xact.idea.camelia.NetworkModel.BloodGroupResponses;
@@ -117,7 +119,6 @@ import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyUploadModel;
 import xact.idea.camelia.NetworkModel.MaritialStatusResponses;
-import xact.idea.camelia.NetworkModel.MeasurementsGetResponseModel;
 import xact.idea.camelia.NetworkModel.MedicalHistoryResponseModel;
 import xact.idea.camelia.NetworkModel.MedicalHistoryUpload;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
@@ -154,30 +155,49 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     RelativeLayout relative;
     TextView tv_store;
+    TextView text_welcome;
+    TextView text_sync;
+    TextView text_log_out;
+    TextView text_website;
+    TextView text_cc_sending;
+    TextView text_household;
+    TextView text_dashboard;
     IRetrofitApi mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_hold);
-
         mService = Common.getApiXact();
         CorrectSizeUtil.getInstance(this).correctSize();
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.root_rlt_dashboard));
         linear_sync = findViewById(R.id.linear_sync);
         linear_dashboard = findViewById(R.id.linear_dashboard);
+        text_website = findViewById(R.id.text_website);
         linear_member_status = findViewById(R.id.linear_member_status);
         linear_summary = findViewById(R.id.linear_summary);
         linear_logout = findViewById(R.id.linear_logout);
         relative = findViewById(R.id.relative);
         tv_store = findViewById(R.id.tv_store);
+        text_welcome = findViewById(R.id.text_welcome);
+        text_sync = findViewById(R.id.text_sync);
+        text_log_out = findViewById(R.id.text_log_out);
+        text_household = findViewById(R.id.text_household);
+        text_cc_sending = findViewById(R.id.text_cc_sending);
+        text_dashboard = findViewById(R.id.text_dashboard);
+        Paper.init(this);
+        String language=SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         tv_store.setSelected(true);
         linear_logout.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ApplySharedPref")
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
+              //  getSharedPreferences(SharedPreferenceUtil.TYPE_USER_ID, 0).edit().clear().apply();
+             SharedPreferenceUtil.removeShared(HouseHoldActivity.this,SharedPreferenceUtil.TYPE_USER_ID);
                 Intent intent = new Intent(HouseHoldActivity.this, LoginActivity.class);
-
                 intent.putExtra("EXTRA_SESSION", "dashboard");
                 startActivity(intent);
                 finishAffinity();
@@ -187,68 +207,61 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-
                 intent.putExtra("EXTRA_SESSION", "dashboard");
                 startActivity(intent);
-                //  finish();
             }
         });
         linear_member_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-
                 intent.putExtra("EXTRA_SESSION", "status");
                 startActivity(intent);
-                //  finish();
             }
         });
         linear_summary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HouseHoldActivity.this, HouseholdHomeActivity.class);
-
                 intent.putExtra("EXTRA_SESSION", "summary");
                 startActivity(intent);
-                //  finish();
             }
         });
         linear_sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadHousehold();
-
                 loadSurvey();
                 medicineList();
                 getBehaviorialList();
-
                 loadMemberId();
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//
-//                    }
-//                }, 1000);
-
                 SharedPreferenceUtil.saveShared(HouseHoldActivity.this, SharedPreferenceUtil.SYNC, "off");
-              //  downloadHousehold();
-                linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_black));
+                linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
             }
         });
 
         if (SharedPreferenceUtil.getSync(HouseHoldActivity.this).equals("on")){
-            linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_programitical));
+            linear_sync.setBackground(getResources().getDrawable(R.drawable.background_programitical));
 
         }
         else{
-            linear_sync.setBackgroundDrawable(getResources().getDrawable(R.drawable.background_black));
-
+            linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
         }
 
     }
 
-
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        tv_store.setText(resources.getString(R.string.real_time));
+        text_welcome.setText(resources.getString(R.string.welcome));
+        text_sync.setText(resources.getString(R.string.sync));
+        text_website.setText(resources.getString(R.string.website));
+        text_log_out.setText(resources.getString(R.string.log_out));
+        text_cc_sending.setText(resources.getString(R.string.cc_information));
+        text_household.setText(resources.getString(R.string.family));
+        text_dashboard.setText(resources.getString(R.string.dashboard));
+    }
     private void loadHousehold() {
 
         compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
@@ -262,7 +275,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                 householdUpload.user_credential = auth.email;
                 ArrayList<HouseholdUploadModel.Data> sync = new ArrayList<>();
                 ArrayList<MemberUploadModel.Data> syncMember = new ArrayList<>();
-
                 for (HouseHold houseHold : houseHoldList) {
                     HouseholdUploadModel.Data householdUploadModel = new HouseholdUploadModel.Data();
                     householdUploadModel.block_id = String.valueOf(houseHold.BlockId);
@@ -281,7 +293,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                     householdUploadModel.status = "1";
                     sync.add(householdUploadModel);
                 }
-
                 householdUpload.data = sync;
                 model.user_credential = auth.email;
                 model.data = syncMember;
@@ -308,8 +319,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                     @Override
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("memberResponseModel", "memberResponseModel" + new Gson().toJson(memberResponseModel));
-
-
                         dismissLoadingProgress();
                      //   downloadHousehold();
                     }
@@ -337,7 +346,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                 ArrayList<MedicalHistoryUpload.Data> medicalHistoryUploadList = new ArrayList<>();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 Date date = new Date(System.currentTimeMillis());
-                Date date1 = null;
                 Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
                 String currentDate = formatter.format(date);
                 ArrayList<MedicalHistoryUpload.Data.Details> memberMyselvesdetails = new ArrayList<>();
@@ -429,7 +437,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                             getBehaviorialList();
                             beahve=true;
                         }
-
                     }
                 }));
                 Log.e("Behaviorial", "Behaviorial" + new Gson().toJson(data));
@@ -810,6 +817,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 district.note_en = "";
                 district.note_bn = "";
                 district.status = "1";
+                district.ln = "bn";
                 Common.districtRepository.insertToDistrict(district);
                 loadDistrict();
             } else {
@@ -982,6 +990,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     studyClass.note_en = stdy.note_en;
                     studyClass.note_bn = stdy.note_bn;
                     studyClass.status = stdy.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    studyClass.ln = language;
                     Common.studyClassRepository.insertToStudyClass(studyClass);
                 }
                 dismissLoadingProgress();
@@ -1009,6 +1019,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     occupation.note_en = occupations.note_en;
                     occupation.note_bn = occupations.note_bn;
                     occupation.status = occupations.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    occupation.ln = language;
                     Common.occupationRepository.insertToOccupation(occupation);
                 }
                 dismissLoadingProgress();
@@ -1036,6 +1048,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     maritialStatus.note_en = maritial.note_en;
                     maritialStatus.note_bn = maritial.note_bn;
                     maritialStatus.status = maritial.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    maritialStatus.ln = language;
                     Common.maritialStatusRepository.insertToMaritialStatus(maritialStatus);
                 }
                 dismissLoadingProgress();
@@ -1063,6 +1077,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     female.note_en = genders.note_en;
                     female.note_bn = genders.note_bn;
                     female.status = genders.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    female.ln = language;
                     Common.femaleRepository.insertToFemale(female);
                 }
                 dismissLoadingProgress();
@@ -1093,6 +1109,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     ward.note_en = wards.note_en;
                     ward.note_bn = wards.note_bn;
                     ward.status = wards.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    ward.ln = language;
                     Common.wardRepository.insertToWard(ward);
                 }
                 dismissLoadingProgress();
@@ -1123,6 +1141,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     block.note_en = blocks.note_en;
                     block.note_bn = blocks.note_bn;
                     block.status = blocks.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    block.ln = language;
                     Common.blockRepository.insertToBlock(block);
                 }
                 dismissLoadingProgress();
@@ -1150,6 +1170,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     bloodGroup.note_en = bloods.note_en;
                     bloodGroup.note_bn = bloods.note_bn;
                     bloodGroup.status = bloods.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    bloodGroup.ln = language;
                     Common.bloodGroupRepository.insertToBloodGroup(bloodGroup);
                 }
                 dismissLoadingProgress();
@@ -1181,6 +1203,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     unions1.note_en = unions.note_en;
                     unions1.note_bn = unions.note_bn;
                     unions1.status = unions.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    unions1.ln = language;
                     Common.unionRepository.insertToUnion(unions1);
                 }
                 dismissLoadingProgress();
@@ -1211,6 +1235,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     division.note_en = divisions.note_en;
                     division.note_bn = divisions.note_bn;
                     division.status = divisions.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    division.ln = language;
                     Common.divisionRepository.insertToDivision(division);
                 }
                 dismissLoadingProgress();
@@ -1242,6 +1268,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     district.note_en = districts.note_en;
                     district.note_bn = districts.note_bn;
                     district.status = districts.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    district.ln = language;
                     Common.districtRepository.insertToDistrict(district);
                 }
                 dismissLoadingProgress();
@@ -1272,6 +1300,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     upazila.note_en = upazilas.note_en;
                     upazila.note_bn = upazilas.note_bn;
                     upazila.status = upazilas.status;
+                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    upazila.ln = language;
                     Common.upazilaRepository.insertToUpazila(upazila);
                 }
                 dismissLoadingProgress();
@@ -1404,7 +1434,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             houseHold.HH = Integer.parseInt(house.hh_number);
                             houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
-                            downloadMember(house.household_uniqe_id);
+                           // downloadMember(house.household_uniqe_id);
                             houseHold.VillageName = house.village;
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
@@ -1433,7 +1463,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             houseHold.VillageName = house.village;
-                            downloadMember(house.household_uniqe_id);
+                           // downloadMember(house.household_uniqe_id);
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -1463,6 +1493,72 @@ public class HouseHoldActivity extends AppCompatActivity {
         }));
     }
 
+    private void downloadWorkingArea(){
+        Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
+        String divisionId = "";
+        String districtId = "";
+        String upazilaId = "";
+        String unionId = "";
+        divisionId = auth.division;
+        districtId = auth.district;
+        upazilaId = auth.upazila;
+        unionId = auth.union;
+        if (divisionId != null && districtId != null && upazilaId != null && unionId != null) {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByFour(divisionId,districtId,upazilaId,unionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+
+
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+                }
+            }));
+        }
+        else if(divisionId != null && districtId != null && upazilaId != null){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByThree(divisionId,districtId,upazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+                }
+            }));
+        }
+        else if(divisionId != null && districtId != null ){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByTwo(divisionId,districtId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+
+                }
+            }));
+        }
+        else if(divisionId != null ){
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByOne(divisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+
+                }
+            }));
+        }
+        else {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+                @Override
+                public void accept(List<HouseHold> houseHolds) throws Exception {
+                    for (HouseHold houseHold:houseHolds){
+                        downloadMember(houseHold.UniqueId);
+                    }
+
+                }
+            }));
+        }
+    }
     private void downloadMember(String uniueId){
         showLoadingProgress(HouseHoldActivity.this);
         Log.e("asdas", "asd" + uniueId);

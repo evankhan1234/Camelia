@@ -2,7 +2,9 @@ package xact.idea.camelia.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -25,6 +28,7 @@ import com.google.gson.Gson;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -82,6 +86,7 @@ import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Network.IRetrofitApi;
 import xact.idea.camelia.NetworkModel.AuthPost;
 import xact.idea.camelia.NetworkModel.AuthResponse;
@@ -98,6 +103,8 @@ public class LoginActivity extends AppCompatActivity {
 
     Button sign_in;
     EditText edit_text_email;
+    TextView forgot;
+    TextView textView13;
     EditText edit_text_password;
     ImageView show_pass;
     boolean test = true;
@@ -114,10 +121,16 @@ public class LoginActivity extends AppCompatActivity {
         CorrectSizeUtil.getInstance(this).correctSize();
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.rlt_root));
         sign_in = findViewById(R.id.sign_in);
+        textView13 = findViewById(R.id.textView13);
+        forgot = findViewById(R.id.forgot);
         show_pass = findViewById(R.id.show_pass);
         edit_text_email = findViewById(R.id.edit_text_email);
         edit_text_password = findViewById(R.id.edit_text_password);
         layoutq = findViewById(R.id.layout);
+        Paper.init(this);
+        String language=SharedPreferenceUtil.getLanguage(LoginActivity.this);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,7 +283,20 @@ public class LoginActivity extends AppCompatActivity {
                 edit_text_password.setSelection(cursorPosition);
             }
         });
+
+
     }
+
+    private void updateView(String language) {
+        Context context=LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        edit_text_email.setHint(resources.getString(R.string.email));
+        edit_text_password.setHint(resources.getString(R.string.password));
+        sign_in.setText(resources.getString(R.string.sign));
+        forgot.setText(resources.getString(R.string.forgot));
+        textView13.setText(resources.getString(R.string.account));
+    }
+
 
     @Override
     protected void onResume() {

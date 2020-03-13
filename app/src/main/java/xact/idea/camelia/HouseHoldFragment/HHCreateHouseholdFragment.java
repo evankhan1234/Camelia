@@ -106,6 +106,7 @@ public class HHCreateHouseholdFragment extends Fragment {
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
         initView();
+
         Bundle bundle = this.getArguments();
         if (bundle != null) {
 

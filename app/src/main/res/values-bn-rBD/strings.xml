@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Camelia</string>
     <string name="tubewell">Tubewell</string>
@@ -6,15 +7,15 @@
     <string name="boil_water">Boil Water</string>
     <string name="chlorine_water">Chlorine Water</string>
     <string name="kath">Kath</string>
-    <string name="password">Password</string>
-    <string name="forgot">Forgot Your Password</string>
-    <string name="sign">Sign In</string>
-    <string name="account">Do not have an account?</string>
     <string name="Select">Select</string>
     <string name="patkhori">Pathkhori</string>
     <string name="gobor">Gobor</string>
-    <string name="email">Email</string>
+    <string name="email">ইমেইল</string>
+    <string name="password">পাসওয়ার্ড</string>
+    <string name="forgot">পাসওয়ার্ড ভুলে গেসেন</string>
     <string name="kura">Kura Bhusi</string>
+    <string name="sign">সাইন ইন করুন</string>
+    <string name="account">অ্যাকাউন্ট নেই?</string>
     <string name="alchocol">Alcohol Jalani</string>
     <string name="fosol">Bojro Fosol</string>
     <string name="kerosin_chula">Kerosin Chula</string>
@@ -35,29 +36,29 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="real_time">Welcome To the Real Time Based Health Solutions</string>
-    <string name="welcome">Welcome To (HH) Login User</string>
-    <string name="dashboard">Dashboard</string>
-    <string name="family">Household     Members</string>
-    <string name="cc_information">CC Sending Information</string>
-    <string name="log_out">Logout</string>
-    <string name="website">Website</string>
-    <string name="sync">Sync</string>
-    <string name="welcome_cc">Welcome To (CC) Login User</string>
-    <string name="summary">Summary</string>
-    <string name="member_status">Member Status</string>
-    <string name="household">Household</string>
-    <string name="home">Home</string>
-    <string name="members">Members</string>
-    <string name="status">Status</string>
-    <string name="incomplete">Incomplete</string>
-    <string name="complete">Complete</string>
-    <string name="uhc">UHC</string>
-    <string name="follow_up">Follow UP</string>
-    <string name="date">Date</string>
-    <string name="hypertension">Hypertension</string>
-    <string name="diabetic">Diabetic</string>
-    <string name="bmi">Obese (BMI)</string>
-    <string name="weight">Extra Weight</string>
-    <string name="refer">Referral</string>
+    <string name="real_time">রিয়েল টাইম ভিত্তিক স্বাস্থ্য সমাধানগুলিতে স্বাগতম</string>
+    <string name="welcome">স্বাগতম (এইচএইচ) লগইন ব্যবহারকারী</string>
+    <string name="dashboard">ড্যাশবোর্ড</string>
+    <string name="family">পরিবারের   সদস্যগন</string>
+    <string name="cc_information">সিসি তথ্য প্রেরণ</string>
+    <string name="log_out">লগ আউট</string>
+    <string name="website">ওয়েবসাইট</string>
+    <string name="sync">সিঙ্ক</string>
+    <string name="welcome_cc">স্বাগতম (সিসি) লগইন ব্যবহারকারী</string>
+    <string name="member_status">সদস্যের অবস্থা</string>
+    <string name="household">পরিবার</string>
+    <string name="home">হোম</string>
+    <string name="members">সদস্য</string>
+    <string name="status">অবস্থা</string>
+    <string name="summary">সারসংক্ষেপ</string>
+    <string name="incomplete">অসম্পূর্ণ</string>
+    <string name="complete">সম্পূর্ণ</string>
+    <string name="uhc">উ এইচ সি </string>
+    <string name="follow_up">অনুসরণ করুন</string>
+    <string name="date">তারিখ</string>
+    <string name="hypertension">উচ্চ রক্তচাপ</string>
+    <string name="diabetic">ডায়াবেটিস</string>
+    <string name="bmi">স্থূল (বিএমআই)</string>
+    <string name="weight">অতিরিক্ত ওজন</string>
+    <string name="refer">রেফেরাল</string>
 </resources>

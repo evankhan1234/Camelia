@@ -63,7 +63,7 @@
                         android:background="@drawable/input_bg"
                         android:drawableLeft="@drawable/ic_store_black_24dp"
                         android:drawablePadding="10dp"
-                        android:hint="Email"
+                        android:hint="@string/email"
                         android:inputType="textEmailAddress"
 
                         android:paddingLeft="39px"

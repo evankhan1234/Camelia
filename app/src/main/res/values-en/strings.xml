@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Camelia</string>
     <string name="tubewell">Tubewell</string>
     <string name="filter_water">Filter Water</string>
@@ -6,15 +8,15 @@
     <string name="boil_water">Boil Water</string>
     <string name="chlorine_water">Chlorine Water</string>
     <string name="kath">Kath</string>
+    <string name="Select">Select</string>
+    <string name="patkhori">Pathkhori</string>
+    <string name="gobor">Gobor</string>
+    <string name="kura">Kura Bhusi</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="forgot">Forgot Your Password</string>
     <string name="sign">Sign In</string>
     <string name="account">Do not have an account?</string>
-    <string name="Select">Select</string>
-    <string name="patkhori">Pathkhori</string>
-    <string name="gobor">Gobor</string>
-    <string name="email">Email</string>
-    <string name="kura">Kura Bhusi</string>
     <string name="alchocol">Alcohol Jalani</string>
     <string name="fosol">Bojro Fosol</string>
     <string name="kerosin_chula">Kerosin Chula</string>
@@ -54,7 +56,6 @@
     <string name="complete">Complete</string>
     <string name="uhc">UHC</string>
     <string name="follow_up">Follow UP</string>
-    <string name="date">Date</string>
     <string name="hypertension">Hypertension</string>
     <string name="diabetic">Diabetic</string>
     <string name="bmi">Obese (BMI)</string>

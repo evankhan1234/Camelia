@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 import io.reactivex.disposables.CompositeDisposable;
 import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
@@ -37,6 +39,7 @@ import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Fragment.CCUserDashBoardFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCUserMemberSummaryFragment;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.HouseHoldFragment.HHCCSendingFragment;
 import xact.idea.camelia.HouseHoldFragment.HHDashboardFragment;
 import xact.idea.camelia.HouseHoldFragment.HHListFragment;
@@ -130,6 +133,10 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         text_username = findViewById(R.id.text_username);
         text_email = findViewById(R.id.text_email);
+        Paper.init(this);
+        String language=SharedPreferenceUtil.getLanguage(HouseholdHomeActivity.this);
+        Paper.book().write("language",language);
+        //updateView((String)Paper.book().read("language"));
         btn_header_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,6 +183,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
 
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

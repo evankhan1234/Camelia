@@ -153,7 +153,7 @@
                     android:layout_below="@+id/filter"
 
                     android:layout_width="match_parent"
-                    android:layout_height="100px"
+                    android:layout_height="105px"
                     android:orientation="horizontal"
                     android:weightSum="5"
                     android:id="@+id/layout_header"
@@ -205,7 +205,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amounst" />
+                        android:id="@+id/text_incomplete" />
                     <TextView
                         android:textStyle="bold"
                         android:textColor="@color/white"
@@ -220,7 +220,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amount" />
+                        android:id="@+id/text_complete" />
 
 
                     <TextView
@@ -237,7 +237,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amounsvt" />
+                        android:id="@+id/text_uhc" />
                     <TextView
                         android:textStyle="bold"
                         android:textColor="@color/white"
@@ -252,7 +252,7 @@
                         android:layout_weight="1"
 
                         android:background="@drawable/cell_shape"
-                        android:id="@+id/text_amouvnt" />
+                        android:id="@+id/text_follow_up" />
                 </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
 

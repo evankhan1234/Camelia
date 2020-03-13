@@ -2,60 +2,57 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="xact.idea.camelia">
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:excludeFromRecents="true"
         android:name=".Utils.ApplicationCamelia"
         android:allowBackup="false"
+        android:excludeFromRecents="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/img_background"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
-        android:roundIcon="@drawable/img_background"
-        android:supportsRtl="true"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
-        android:usesCleartextTraffic="true"
+        android:roundIcon="@drawable/img_background"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
+        <activity android:name=".Activity.LanguageActivity"></activity>
         <activity
-
+            android:name=".Activity.Household.HouseholdHomeActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan"
             android:screenOrientation="portrait"
-            android:name=".Activity.Household.HouseholdHomeActivity"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan" />
         <activity
-
+            android:name=".Activity.Household.HouseHoldActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan"
             android:screenOrientation="portrait"
-            android:name=".Activity.Household.HouseHoldActivity" />
+            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan" />
         <activity
+            android:name=".Activity.CCUserHomeActivity"
             android:launchMode="singleTop"
-
-            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan"
             android:screenOrientation="portrait"
-            android:name=".Activity.CCUserHomeActivity" />
+            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan" />
         <activity
-            android:launchMode="singleTop"
-
-            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan"
             android:name=".Activity.CCUserActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan" />
+        <activity
             android:name=".Activity.LoginActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:launchMode="singleTop"
-
-            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan"
             android:name=".Activity.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:launchMode="singleTop"
-
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan" />
+        <activity
             android:name=".Activity.SpalashActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -64,7 +61,5 @@
             </intent-filter>
         </activity>
     </application>
-
-
 
 </manifest>
