@@ -24,6 +24,8 @@ public interface BloodGroupDao {
     BloodGroup getBloodGroupNo(String BloodGroupItem);
     @Query("Select Count(id)  FROM BloodGroup")
     int value();
+    @Query("UPDATE  BloodGroup SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM BloodGroup")
     void emptyBloodGroup();
     @Insert

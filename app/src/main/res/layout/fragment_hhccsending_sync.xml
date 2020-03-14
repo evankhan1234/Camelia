@@ -57,6 +57,7 @@
                     android:layout_marginRight="40px"
                     android:hint="Show"
                     android:textColorHint="#fff"
+                    android:textColor="#fff"
                     android:layout_width="200px"
                     android:layout_height="100px" />
             </LinearLayout>
@@ -98,6 +99,7 @@
                             android:layout_height="100px" />
 
                         <TextView
+                            android:id="@+id/tv_total"
                             android:tag="50"
                             android:textSize="50px"
                             android:textColor="@color/gray_black"

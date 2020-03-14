@@ -38,6 +38,11 @@ public class BloodGroupDataSources implements IBloodGroupDataSources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        BloodGroupDao.updateLanguage(lang);
+    }
+
+    @Override
     public void emptyBloodGroup() {
         BloodGroupDao.emptyBloodGroup();
     }

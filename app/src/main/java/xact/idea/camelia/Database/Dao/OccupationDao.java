@@ -23,6 +23,8 @@ public interface OccupationDao {
     Occupation getOccupationNo(String OccupationItem);
     @Query("Select Count(id)  FROM Occupation")
     int value();
+    @Query("UPDATE  Occupation SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM Occupation")
     void emptyOccupation();
     @Insert

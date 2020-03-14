@@ -24,6 +24,8 @@ public interface DistrictDao {
     District getDistrictNo(String DistrictItem);
     @Query("Select Count(id)  FROM District")
     int value();
+    @Query("UPDATE  District SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM District")
     void emptyDistrict();
     @Insert

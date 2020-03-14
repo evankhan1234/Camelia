@@ -23,6 +23,8 @@ public interface MaritialStatusDao {
     MaritialStatus getMaritialStatusNo(String MaritialStatusItem);
     @Query("Select Count(id)  FROM MaritialStatus")
     int value();
+    @Query("UPDATE  MaritialStatus SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM MaritialStatus")
     void emptyMaritialStatus();
     @Insert

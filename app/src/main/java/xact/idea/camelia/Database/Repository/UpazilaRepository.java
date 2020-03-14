@@ -46,6 +46,11 @@ public class UpazilaRepository implements IUpazilaDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IUpazilaDatasources.updateLanguage(lang);
+    }
+
+    @Override
     public Upazila getUpazilaNo(String UpazilaItem) {
         return IUpazilaDatasources.getUpazilaNo(UpazilaItem);
     }

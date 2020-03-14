@@ -15,8 +15,11 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +53,7 @@ import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.CustomDialog;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class CCUserHomeActivity extends AppCompatActivity {
@@ -79,6 +83,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
     private ImageButton btn_header_application_create;
     private LinearLayout linear;
     private RelativeLayout relativelayoutLogout;
+    private RelativeLayout relativelayoutLanguage;
     private DrawerLayout drawer_layout;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     //IRetrofitApi mService;
@@ -112,6 +117,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        relativelayoutLanguage = findViewById(R.id.relativelayoutLanguage);
         relativelayoutLogout = findViewById(R.id.relativelayoutLogout);
         btn_footer_household = findViewById(R.id.btn_footer_household);
         tv_household_menu = findViewById(R.id.tv_household_menu);
@@ -196,6 +202,80 @@ public class CCUserHomeActivity extends AppCompatActivity {
                 finishAffinity();
             }
         });
+        relativelayoutLanguage.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                showInfoDialog();
+
+            }
+        });
+    }
+    public  void showInfoDialog() {
+
+        final CustomDialog infoDialog = new CustomDialog(CCUserHomeActivity.this, R.style.CustomDialogTheme);
+        LayoutInflater inflator = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.layout_language, null);
+
+        infoDialog.setContentView(v);
+        infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
+        RelativeLayout relative_english = infoDialog.findViewById(R.id.relative_english);
+        RelativeLayout relative_bangla = infoDialog.findViewById(R.id.relative_bangla);
+        Button create = infoDialog.findViewById(R.id.create);
+
+        CorrectSizeUtil.getInstance(CCUserHomeActivity.this).correctSize(main_root);
+        relative_english.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                SharedPreferenceUtil.saveShared(CCUserHomeActivity.this, SharedPreferenceUtil.LANG,  "en");
+                Common.blockRepository.updateLanguage("en");
+                Common.bloodGroupRepository.updateLanguage("en");
+                Common.districtRepository.updateLanguage("en");
+                Common.divisionRepository.updateLanguage("en");
+                Common.femaleRepository.updateLanguage("en");
+                Common.maritialStatusRepository.updateLanguage("en");
+                Common.occupationRepository.updateLanguage("en");
+                Common.studyClassRepository.updateLanguage("en");
+                Common.unionRepository.updateLanguage("en");
+                Common.upazilaRepository.updateLanguage("en");
+                Common.wardRepository.updateLanguage("en");
+                finish();
+                startActivity(getIntent());
+                infoDialog.dismiss();
+
+            }
+        });
+        relative_bangla.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                SharedPreferenceUtil.saveShared(CCUserHomeActivity.this, SharedPreferenceUtil.LANG,  "bn");
+                Common.blockRepository.updateLanguage("bn");
+                Common.bloodGroupRepository.updateLanguage("bn");
+                Common.districtRepository.updateLanguage("bn");
+                Common.divisionRepository.updateLanguage("bn");
+                Common.femaleRepository.updateLanguage("bn");
+                Common.maritialStatusRepository.updateLanguage("bn");
+                Common.occupationRepository.updateLanguage("bn");
+                Common.studyClassRepository.updateLanguage("bn");
+                Common.unionRepository.updateLanguage("bn");
+                Common.upazilaRepository.updateLanguage("bn");
+                Common.wardRepository.updateLanguage("bn");
+                finish();
+                startActivity(getIntent());
+                infoDialog.dismiss();
+
+            }
+        });
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                infoDialog.dismiss();
+            }
+        });
+        infoDialog.show();
     }
     private void updateView(String language) {
         Context context= LocaleHelper.setLocale(this,language);

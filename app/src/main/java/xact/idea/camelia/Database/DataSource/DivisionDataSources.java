@@ -49,6 +49,11 @@ public class DivisionDataSources implements IDivisionDataSources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        DivisionDao.updateLanguage(lang);
+    }
+
+    @Override
     public Division getDivisionNo(String BookItem) {
         return DivisionDao.getDivisionNo(BookItem);
     }

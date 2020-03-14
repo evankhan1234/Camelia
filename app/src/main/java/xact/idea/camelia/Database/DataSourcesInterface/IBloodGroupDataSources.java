@@ -11,7 +11,7 @@ public interface IBloodGroupDataSources {
     Flowable<List<BloodGroup>> getBloodGroupItemById(int BloodGroupItemId);
 
     BloodGroup getBloodGroup(String BloodGroupItem);
-
+    void updateLanguage(String lang);
     void emptyBloodGroup();
 
     int size();

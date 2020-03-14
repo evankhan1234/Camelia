@@ -44,6 +44,11 @@ public class BlockDataSources implements IBlockDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        BlockDao.updateLanguage(lang);
+    }
+
+    @Override
     public int size() {
         return BlockDao.value();
     }

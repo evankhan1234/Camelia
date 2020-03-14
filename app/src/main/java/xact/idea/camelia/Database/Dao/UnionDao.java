@@ -23,6 +23,8 @@ public interface UnionDao {
     Unions getUnionNo(String UnionItem);
     @Query("Select Count(id)  FROM Unions")
     int value();
+    @Query("UPDATE  Unions SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM Unions")
     void emptyUnion();
     @Insert

@@ -13,7 +13,7 @@ public interface IDistrictDatasources {
     District getDistrict(String DistrictItem);
 
     void emptyDistrict();
-
+    void updateLanguage(String lang);
     int size();
 
     District getDistrictNo(String DistrictItem);

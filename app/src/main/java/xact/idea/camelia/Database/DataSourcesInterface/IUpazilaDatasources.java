@@ -15,7 +15,7 @@ public interface IUpazilaDatasources {
     void emptyUpazila();
 
     int size();
-
+    void updateLanguage(String lang);
     Upazila getUpazilaNo(String UpazilaItem);
 
     void insertToUpazila(Upazila... Upazilas);

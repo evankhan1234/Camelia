@@ -1,5 +1,6 @@
 package xact.idea.camelia.Activity.Household;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.view.GravityCompat;
@@ -8,16 +9,22 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -35,6 +42,8 @@ import io.paperdb.Paper;
 import io.reactivex.disposables.CompositeDisposable;
 import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
+import xact.idea.camelia.Activity.LanguageActivity;
+import xact.idea.camelia.Activity.LoginActivity;
 import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Fragment.CCUserDashBoardFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
@@ -48,6 +57,7 @@ import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.CustomDialog;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 import static xact.idea.camelia.Utils.Utils.hideSoftKeyboard;
@@ -71,6 +81,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
     private RelativeLayout rlt_header;
     private RelativeLayout rlt_header_details;
     private RelativeLayout rlt_header_status_details;
+    private RelativeLayout relativelayoutLogout;
     private TextView details_title;
     private View view_header_details;
     private View view_header_status_details;
@@ -81,6 +92,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
     private ImageButton btn_header_application_create;
     private LinearLayout linear;
     private RelativeLayout rlt_root;
+    private RelativeLayout relativelayoutLanguage;
     private DrawerLayout drawer_layout;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     //IRetrofitApi mService;
@@ -94,7 +106,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private FragmentManager mFragManager;
     private FragmentTransaction fragTransaction = null;
-
+    String language="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,12 +116,14 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         initView();
         String sessionId = getIntent().getStringExtra("EXTRA_SESSION");
 
-
+         language=SharedPreferenceUtil.getLanguage(HouseholdHomeActivity.this);
         setFooter(sessionId);
     }
     private void initView() {
         text_phone_number = findViewById(R.id.text_phone_number);
         rlt_root = findViewById(R.id.rlt_root);
+        relativelayoutLanguage = findViewById(R.id.relativelayoutLanguage);
+        relativelayoutLogout = findViewById(R.id.relativelayoutLogout);
         btn_header_status_back = findViewById(R.id.btn_header_status_back);
         rlt_header_status_details = findViewById(R.id.rlt_header_status_details);
         view_header_status_details = findViewById(R.id.view_header_status_details);
@@ -136,7 +150,7 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         Paper.init(this);
         String language=SharedPreferenceUtil.getLanguage(HouseholdHomeActivity.this);
         Paper.book().write("language",language);
-        //updateView((String)Paper.book().read("language"));
+        updateView((String)Paper.book().read("language"));
         btn_header_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -181,7 +195,98 @@ public class HouseholdHomeActivity extends AppCompatActivity {
             }
         });
 
+        relativelayoutLogout.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HouseholdHomeActivity.this, LoginActivity.class);
+                intent.putExtra("EXTRA_SESSION", "dashboard");
+                startActivity(intent);
+                finishAffinity();
+            }
+        });
+        relativelayoutLanguage.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                showInfoDialog();
 
+            }
+        });
+    }
+    public  void showInfoDialog() {
+
+        final CustomDialog infoDialog = new CustomDialog(HouseholdHomeActivity.this, R.style.CustomDialogTheme);
+        LayoutInflater inflator = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.layout_language, null);
+
+        infoDialog.setContentView(v);
+        infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
+        RelativeLayout relative_english = infoDialog.findViewById(R.id.relative_english);
+        RelativeLayout relative_bangla = infoDialog.findViewById(R.id.relative_bangla);
+        Button create = infoDialog.findViewById(R.id.create);
+
+        CorrectSizeUtil.getInstance(HouseholdHomeActivity.this).correctSize(main_root);
+        relative_english.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                SharedPreferenceUtil.saveShared(HouseholdHomeActivity.this, SharedPreferenceUtil.LANG,  "en");
+                Common.blockRepository.updateLanguage("en");
+                Common.bloodGroupRepository.updateLanguage("en");
+                Common.districtRepository.updateLanguage("en");
+                Common.divisionRepository.updateLanguage("en");
+                Common.femaleRepository.updateLanguage("en");
+                Common.maritialStatusRepository.updateLanguage("en");
+                Common.occupationRepository.updateLanguage("en");
+                Common.studyClassRepository.updateLanguage("en");
+                Common.unionRepository.updateLanguage("en");
+                Common.upazilaRepository.updateLanguage("en");
+                Common.wardRepository.updateLanguage("en");
+                finish();
+                startActivity(getIntent());
+                infoDialog.dismiss();
+
+            }
+        });
+        relative_bangla.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                SharedPreferenceUtil.saveShared(HouseholdHomeActivity.this, SharedPreferenceUtil.LANG,  "bn");
+                Common.blockRepository.updateLanguage("bn");
+                Common.bloodGroupRepository.updateLanguage("bn");
+                Common.districtRepository.updateLanguage("bn");
+                Common.divisionRepository.updateLanguage("bn");
+                Common.femaleRepository.updateLanguage("bn");
+                Common.maritialStatusRepository.updateLanguage("bn");
+                Common.occupationRepository.updateLanguage("bn");
+                Common.studyClassRepository.updateLanguage("bn");
+                Common.unionRepository.updateLanguage("bn");
+                Common.upazilaRepository.updateLanguage("bn");
+                Common.wardRepository.updateLanguage("bn");
+                finish();
+                startActivity(getIntent());
+                infoDialog.dismiss();
+
+            }
+        });
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                infoDialog.dismiss();
+            }
+        });
+        infoDialog.show();
+    }
+    private void updateView(String language) {
+        Context context1= LocaleHelper.setLocale(this,language);
+        Resources resources1= context1.getResources();
+        tv_dashboard_menu.setText(resources1.getString(R.string.dashboard));
+        tv_home_menu.setText(resources1.getString(R.string.home));
+        tv_member_status_menu.setText(resources1.getString(R.string.members));
+        tv_summary_menu.setText(resources1.getString(R.string.cc_sending));
     }
 
     @Override
@@ -214,12 +319,14 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         }
     }
     private void setFooter(String value) {
-
+        String language=SharedPreferenceUtil.getLanguage(HouseholdHomeActivity.this);
         switch (value) {
 
             case "dashboard":
 
-                title.setText("Dashboard");
+                Context context1= LocaleHelper.setLocale(this,language);
+                Resources resources1= context1.getResources();
+                title.setText(resources1.getString(R.string.dashboard));
                 btn_footer_dashboard.setSelected(true);
                 tv_dashboard_menu.setSelected(true);
                 afterClickTabItem(Constant.FRAG_DASHBOARD, null);
@@ -227,13 +334,17 @@ public class HouseholdHomeActivity extends AppCompatActivity {
 
                 break;
             case "status":
-                title.setText("Household Members");
+                Context context2= LocaleHelper.setLocale(this,language);
+                Resources resources2= context2.getResources();
+                title.setText(resources2.getString(R.string.household_member));
                 btn_footer_member_status.setSelected(true);
                 tv_member_status_menu.setSelected(true);
                 afterClickTabItem(Constant.FRAG_MEMBER_STATUS, null);
                 break;
             case "summary":
-                title.setText("CC Sending Information");
+                Context context3= LocaleHelper.setLocale(this,language);
+                Resources resources3= context3.getResources();
+                title.setText(resources3.getString(R.string.cc_information));
                 btn_footer_summary.setSelected(true);
                 tv_summary_menu.setSelected(true);
                 afterClickTabItem(Constant.FRAG_MEMBER_SUMMARY, null);
@@ -380,7 +491,9 @@ public class HouseholdHomeActivity extends AppCompatActivity {
 
         rlt_header_status_details.setVisibility(View.GONE);
         view_header_status_details.setVisibility(View.GONE);
-        title.setText("Dashboard");
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        title.setText(resources.getString(R.string.dashboard));
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);
@@ -397,7 +510,9 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         //show the initial home page
         afterClickTabItem(Constant.FRAG_MEMBER_STATUS, null);
         // checkToGetTicket(false);
-        title.setText("Household Members");
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        title.setText(resources.getString(R.string.household_member));
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);
@@ -415,7 +530,9 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         //show the initial home page
         afterClickTabItem(Constant.FRAG_MEMBER_SUMMARY, null);
         // checkToGetTicket(false);
-        title.setText("CC Sending Information");
+        Context context= LocaleHelper.setLocale(this,language);
+        Resources resources= context.getResources();
+        title.setText(resources.getString(R.string.cc_information));
         rlt_header_details.setVisibility(View.GONE);
         view_header_details.setVisibility(View.GONE);
         rlt_header.setVisibility(View.VISIBLE);

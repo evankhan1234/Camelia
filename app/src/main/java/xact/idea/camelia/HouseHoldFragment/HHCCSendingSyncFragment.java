@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -35,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -43,10 +45,12 @@ import xact.idea.camelia.Adapter.HHAdapter.HHCCSyncAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 
 public class HHCCSendingSyncFragment extends Fragment {
@@ -63,6 +67,7 @@ public class HHCCSendingSyncFragment extends Fragment {
     ProgressBar progress_bar;
 
     TextView text_member;
+    TextView tv_total;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,6 +82,7 @@ public class HHCCSendingSyncFragment extends Fragment {
     }
 
     private void initView() {
+        tv_total =  view.findViewById(R.id.tv_total);
         edit_content =  view.findViewById(R.id.edit_content);
         text_member =  view.findViewById(R.id.text_member);
 
@@ -88,6 +94,10 @@ public class HHCCSendingSyncFragment extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         edit_end_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +170,6 @@ public class HHCCSendingSyncFragment extends Fragment {
         String currentDate2 = formatter.format(date2);
         edit_start_date.setText(currentDate);
         edit_end_date.setText(currentDate2);
-        btn_yes =view.findViewById(R.id.btn_yes);
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,7 +205,15 @@ public class HHCCSendingSyncFragment extends Fragment {
                 mAdapters.getFilter().filter(edit_content.getText().toString());
             }
         });
+    } private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        edit_content.setHint(resources.getString(R.string.search));
+        tv_total.setText(resources.getString(R.string.total_member));
+        btn_yes.setHint(resources.getString(R.string.show));
+
     }
+
     @Override
     public void onResume() {
         super.onResume();

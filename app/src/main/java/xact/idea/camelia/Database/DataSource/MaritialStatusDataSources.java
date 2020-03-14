@@ -48,6 +48,11 @@ public class MaritialStatusDataSources implements IMaritialStatusDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        MaritialStatusDao.updateLanguage(lang);
+    }
+
+    @Override
     public MaritialStatus getMaritialStatusNo(String MaritialStatusItem) {
         return MaritialStatusDao.getMaritialStatusNo(MaritialStatusItem);
     }

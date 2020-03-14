@@ -36,6 +36,11 @@ public class BloodGroupRepository implements IBloodGroupDataSources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IBloodGroupDataSources.updateLanguage(lang);
+    }
+
+    @Override
     public void emptyBloodGroup() {
         IBloodGroupDataSources.emptyBloodGroup();
     }

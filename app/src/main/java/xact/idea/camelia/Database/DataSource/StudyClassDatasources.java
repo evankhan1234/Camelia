@@ -48,6 +48,11 @@ public class StudyClassDatasources implements IStudyClassDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        StudyClassDao.updateLanguage(lang);
+    }
+
+    @Override
     public StudyClass getStudyClassNo(String StudyClassItem) {
         return StudyClassDao.getStudyClassNo(StudyClassItem);
     }

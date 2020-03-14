@@ -47,6 +47,11 @@ public class DivisionRepository implements IDivisionDataSources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IDivisionDataSources.updateLanguage(lang);
+    }
+
+    @Override
     public Division getDivisionNo(String BookItem) {
         return IDivisionDataSources.getDivisionNo(BookItem);
     }

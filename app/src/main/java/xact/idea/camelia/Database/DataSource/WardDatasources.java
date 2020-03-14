@@ -48,6 +48,11 @@ public class WardDatasources implements IWardDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        WardDao.updateLanguage(lang);
+    }
+
+    @Override
     public Ward getWardNo(String WardItem) {
         return WardDao.getWardNo(WardItem);
     }

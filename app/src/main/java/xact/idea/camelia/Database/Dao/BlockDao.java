@@ -21,6 +21,8 @@ public interface BlockDao {
     Block getBlock(String BlockItem);
     @Query("SELECT * FROM Block WHERE BlockId=:BlockItem")
     Block getBlockNo(String BlockItem);
+    @Query("UPDATE  Block SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("Select Count(id)  FROM Block")
     int value();
     @Query("DELETE  FROM Block")

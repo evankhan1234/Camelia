@@ -48,6 +48,11 @@ public class UpazilaDatasources implements IUpazilaDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        UpazilaDao.updateLanguage(lang);
+    }
+
+    @Override
     public Upazila getUpazilaNo(String UpazilaItem) {
         return UpazilaDao.getUpazilaNo(UpazilaItem);
     }

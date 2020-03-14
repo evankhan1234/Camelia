@@ -13,7 +13,7 @@ public interface IBlockDatasources {
     Block getBlock(String BlockItem);
 
     void emptyBlock();
-
+    void updateLanguage(String lang);
     int size();
 
     Block getBlockNo(String BlockItem);

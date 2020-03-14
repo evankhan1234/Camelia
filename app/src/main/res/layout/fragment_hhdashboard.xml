@@ -46,7 +46,7 @@
                         android:layout_width="940px"
                         android:layout_height="596px"
 
-                        card_view:cardBackgroundColor="#195775"
+                        card_view:cardBackgroundColor="#000"
                         card_view:cardCornerRadius="25px"
                         card_view:cardElevation="1dp"
                         card_view:cardUseCompatPadding="true">
@@ -60,6 +60,7 @@
 
                             <TextView
 
+                                android:id="@+id/tv_total_member_s"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
@@ -164,15 +165,15 @@
                                 android:layout_height="100px" />
 
                             <TextView
-                                android:tag="50"
-                                android:textSize="50px"
-                                android:textColor="@color/gray_black"
-                                android:layout_marginTop="15px"
-                                android:layout_toRightOf="@+id/img1"
+                                android:id="@+id/tv_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="15px"
+                                android:layout_toRightOf="@+id/img1"
+                                android:tag="50"
                                 android:text="Male"
-                                />
+                                android:textColor="@color/gray_black"
+                                android:textSize="50px" />
                             <TextView
                                 android:id="@+id/tv_male"
                                 android:textStyle="bold"
@@ -207,6 +208,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_2"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -250,6 +252,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_3"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -293,6 +296,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_4"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -336,6 +340,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_5"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -379,6 +384,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_6"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -422,6 +428,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_7"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -466,6 +473,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_8"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -509,6 +517,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_9"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -552,6 +561,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_10"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -595,6 +605,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_11"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"
@@ -638,6 +649,7 @@
                                 android:layout_height="100px" />
 
                             <TextView
+                                android:id="@+id/tv_12"
                                 android:tag="50"
                                 android:textSize="50px"
                                 android:textColor="@color/gray_black"

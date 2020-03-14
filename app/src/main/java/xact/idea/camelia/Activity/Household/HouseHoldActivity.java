@@ -638,10 +638,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                 StudyClass studyClass = new StudyClass();
                 studyClass.StudyClassId = -1;
                 studyClass.class_name_en = "Select";
-                studyClass.class_name_bn = "Select";
+                studyClass.class_name_bn = "সিলেক্ট";
                 studyClass.note_en = "";
                 studyClass.note_bn = "";
                 studyClass.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                studyClass.ln=language;
                 Common.studyClassRepository.insertToStudyClass(studyClass);
                 loadStudyClass();
             } else {
@@ -655,10 +657,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Occupation occupation = new Occupation();
                 occupation.OccupationId = -1;
                 occupation.occupation_name_en = "Select";
-                occupation.occupation_name_bn = "Select";
+                occupation.occupation_name_bn = "সিলেক্ট";
                 occupation.note_en = "";
                 occupation.note_bn = "";
                 occupation.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                occupation.ln=language;
                 Common.occupationRepository.insertToOccupation(occupation);
                 loadOccupation();
             } else {
@@ -672,10 +676,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Female female = new Female();
                 female.FemaleId = -1;
                 female.gender_name_en = "Select";
-                female.gender_name_bn = "Select";
+                female.gender_name_bn = "সিলেক্ট";
                 female.note_en = "";
                 female.note_bn = "";
                 female.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                female.ln=language;
                 Common.femaleRepository.insertToFemale(female);
                 loadGender();
 
@@ -690,10 +696,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                 MaritialStatus maritialStatus = new MaritialStatus();
                 maritialStatus.MaritialId = -1;
                 maritialStatus.marital_name_en = "Select";
-                maritialStatus.marital_name_bn = "Select";
+                maritialStatus.marital_name_bn = "সিলেক্ট";
                 maritialStatus.note_en = "";
                 maritialStatus.note_bn = "";
                 maritialStatus.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                maritialStatus.ln=language;
                 Common.maritialStatusRepository.insertToMaritialStatus(maritialStatus);
                 loadMaritialStatus();
             } else {
@@ -708,13 +716,15 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Block block = new Block();
                 block.BlockId = -1;
                 block.block_name_en = "Select";
-                block.block_name_bn = "Select";
+                block.block_name_bn = "সিলেক্ট";
                 block.block_shortname_en = "";
                 block.block_shortname_bn = "";
                 block.block_code = "";
                 block.note_en = "";
                 block.note_bn = "";
                 block.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                block.ln=language;
                 Common.blockRepository.insertToBlock(block);
                 loadBlock();
             } else {
@@ -729,13 +739,15 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Ward ward = new Ward();
                 ward.WardId = -1;
                 ward.ward_name_en = "Select";
-                ward.ward_name_bn = "Select";
+                ward.ward_name_bn = "সিলেক্ট";
                 ward.ward_shortname_bn = "";
                 ward.ward_shortname_en = "";
                 ward.ward_code = "";
                 ward.note_en = "";
                 ward.note_bn = "";
                 ward.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                ward.ln=language;
                 Common.wardRepository.insertToWard(ward);
                 loadWard();
             } else {
@@ -749,10 +761,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                 BloodGroup bloodGroup = new BloodGroup();
                 bloodGroup.BloodId = -1;
                 bloodGroup.blood_group_name_en = "Select";
-                bloodGroup.blood_group_name_bn = "Select";
+                bloodGroup.blood_group_name_bn = "সিলেক্ট";
                 bloodGroup.note_en = "";
                 bloodGroup.note_bn = "";
                 bloodGroup.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                bloodGroup.ln=language;
                 Common.bloodGroupRepository.insertToBloodGroup(bloodGroup);
 
                 loadBloodGroup();
@@ -768,13 +782,15 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Division division = new Division();
                 division.DivisionId = -1;
                 division.division_name_en = "Select";
-                division.division_name_bn = "Select";
+                division.division_name_bn = "সিলেক্ট";
                 division.division_shortname_en = "";
                 division.division_shortname_bn = "";
                 division.division_code = "";
                 division.note_en = "";
                 division.note_bn = "";
                 division.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                division.ln=language;
                 Common.divisionRepository.insertToDivision(division);
                 loadDivision();
             } else {
@@ -789,13 +805,15 @@ public class HouseHoldActivity extends AppCompatActivity {
                 unions1.UnionId = -1;
                 unions1.upazila_id = -1;
                 unions1.union_name_en = "Select";
-                unions1.union_name_bn = "Select";
+                unions1.union_name_bn = "সিলেক্ট";
                 unions1.union_shortname_en = "";
                 unions1.union_shortname_bn = "";
                 unions1.union_code = "";
                 unions1.note_en = "";
                 unions1.note_bn = "";
                 unions1.status = "";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                unions1.ln=language;
                 Common.unionRepository.insertToUnion(unions1);
                 loadUnion();
             } else {
@@ -810,14 +828,15 @@ public class HouseHoldActivity extends AppCompatActivity {
                 district.DistrictId = -1;
                 district.DivisionId = -1;
                 district.district_name_en = "Select";
-                district.district_name_bn = "Select";
+                district.district_name_bn = "সিলেক্ট";
                 district.district_shortname_en = "";
                 district.district_shortname_bn = "";
                 district.district_code = "";
                 district.note_en = "";
                 district.note_bn = "";
                 district.status = "1";
-                district.ln = "bn";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                district.ln=language;
                 Common.districtRepository.insertToDistrict(district);
                 loadDistrict();
             } else {
@@ -832,12 +851,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                 upazila.UpazilaId = -1;
                 upazila.district_id = -1;
                 upazila.upazila_name_en = "Select";
-                upazila.upazila_name_bn = "Select";
+                upazila.upazila_name_bn = "সিলেক্ট";
                 upazila.upazila_shortname_en = "";
                 upazila.upazila_shortname_bn = "";
                 upazila.note_en = "";
                 upazila.note_bn = "";
                 upazila.status = "1";
+                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                upazila.ln=language;
                 Common.upazilaRepository.insertToUpazila(upazila);
                 loadUpazila();
             } else {

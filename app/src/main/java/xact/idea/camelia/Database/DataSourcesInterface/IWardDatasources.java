@@ -15,7 +15,7 @@ public interface IWardDatasources {
     void emptyWard();
 
     int size();
-
+    void updateLanguage(String lang);
     Ward getWardNo(String WardItem);
 
     void insertToWard(Ward... Wards);

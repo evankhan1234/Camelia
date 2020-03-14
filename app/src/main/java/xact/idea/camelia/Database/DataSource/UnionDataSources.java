@@ -49,6 +49,11 @@ public class UnionDataSources implements IUnionDataSources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        UnionDao.updateLanguage(lang);
+    }
+
+    @Override
     public Unions getUnionNo(String BookItem) {
         return UnionDao.getUnionNo(BookItem);
     }

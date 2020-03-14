@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0px">
+    <LinearLayout
+        android:layout_centerInParent="true"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="72px"
+
+        android:layout_marginRight="69px"
+        android:alpha="1.5"
+        android:visibility="visible"
+        android:background="@drawable/dialog_rounded_bg"
+
+        android:orientation="vertical"
+        android:padding="40px">
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:tag="70"
+            android:layout_marginTop="80px"
+            android:text="Language Select "
+            android:textSize="70px"
+            android:textColor="@color/date_color"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_centerInParent="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/relative_english"
+                android:layout_marginTop="40px"
+                android:background="@drawable/background_black"
+                android:layout_width="match_parent"
+                android:layout_height="300px">
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:tag="70"
+                    android:text="English"
+                    android:textSize="70px"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:id="@+id/text_english"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <RelativeLayout
+
+                android:id="@+id/relative_bangla"
+
+                android:layout_marginTop="50dp"
+                android:background="@drawable/background_black"
+                android:layout_width="match_parent"
+                android:layout_height="300px">
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
+                    android:tag="70"
+                    android:text="Bangla"
+                    android:textSize="70px"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:id="@+id/text_bangla"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RelativeLayout>
+            <Button
+                android:id="@+id/create"
+                android:layout_width="match_parent"
+
+                android:textStyle="bold"
+                android:layout_height="150px"
+                android:layout_marginLeft="50px"
+                android:layout_marginTop="40px"
+                android:layout_marginRight="50px"
+                android:layout_marginBottom="25px"
+                android:background="@drawable/capsule_button"
+
+                android:backgroundTint="#000"
+                android:fontFamily="sans-serif"
+                android:stateListAnimator="@null"
+                android:tag="35"
+                android:text="Cancel"
+                android:textColor="#fff"
+                android:textSize="35px" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

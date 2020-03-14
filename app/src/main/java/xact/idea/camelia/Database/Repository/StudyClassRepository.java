@@ -46,6 +46,11 @@ public class StudyClassRepository implements IStudyClassDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IStudyClassDatasources.updateLanguage(lang);
+    }
+
+    @Override
     public StudyClass getStudyClassNo(String StudyClassItem) {
         return IStudyClassDatasources.getStudyClassNo(StudyClassItem);
     }

@@ -43,6 +43,11 @@ public class OccupationDataSources implements IOccupationDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        OccupationDao.updateLanguage(lang);
+    }
+
+    @Override
     public int size() {
         return OccupationDao.value();
     }

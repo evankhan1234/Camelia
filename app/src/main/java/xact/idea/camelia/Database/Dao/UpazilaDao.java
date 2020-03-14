@@ -23,6 +23,8 @@ public interface UpazilaDao {
     Upazila getUpazilaNo(String UpazilaItem);
     @Query("Select Count(id)  FROM Upazila")
     int value();
+    @Query("UPDATE  Upazila SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM Upazila")
     void emptyUpazila();
     @Insert

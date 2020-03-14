@@ -43,6 +43,11 @@ public class DistrictDataSources implements IDistrictDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        DistrictDao.updateLanguage(lang);
+    }
+
+    @Override
     public int size() {
         return DistrictDao.value();
     }

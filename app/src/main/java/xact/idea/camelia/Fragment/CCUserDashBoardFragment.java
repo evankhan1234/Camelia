@@ -164,12 +164,13 @@ public class CCUserDashBoardFragment extends Fragment {
         });
         pieChart = view.findViewById(R.id.pie);
         pieChart.setDrawHoleEnabled(true);
-
-        pieChart.setDescription("Dashboard");
+        Context context=LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
+        pieChart.setDescription(resources.getString(R.string.dashboard));
         pieChart.setDescriptionTextSize(13);
         pieChart.setRotationEnabled(true);
         pieChart.setHoleRadius(25f);
-        pieChart.setCenterText("Dashboard");
+        pieChart.setCenterText(resources.getString(R.string.dashboard));
         pieChart.setCenterTextSize(10);
 
         pieChart.setTransparentCircleRadius(50f);
