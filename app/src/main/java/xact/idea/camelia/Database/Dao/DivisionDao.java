@@ -24,6 +24,8 @@ public interface DivisionDao {
     Division getDivisionNo(String BookItem);
     @Query("Select Count(id)  FROM Division")
     int value();
+    @Query("UPDATE  Division SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM Division")
     void emptyDivision();
     @Insert

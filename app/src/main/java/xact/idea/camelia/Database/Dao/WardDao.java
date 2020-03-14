@@ -24,6 +24,8 @@ public interface WardDao {
     Ward getWardNo(String BookItem);
     @Query("Select Count(id)  FROM Ward")
     int value();
+    @Query("UPDATE  Ward SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM Ward")
     void emptyWard();
     @Insert

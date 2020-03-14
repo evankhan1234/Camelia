@@ -2,6 +2,7 @@ package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -29,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -44,6 +47,7 @@ import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
 import xact.idea.camelia.Database.Model.Ward;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Model.DropDownModel.SexModel;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
@@ -96,6 +100,18 @@ public class HHCreateHouseholdFragment extends Fragment {
 
     Auth auth;
 
+    TextView tv_household;
+    TextView tv_sub_household;
+    TextView tv_unique_id;
+    TextView tv_village;
+    TextView tv_family_member;
+    TextView tv_household_income;
+    TextView tv_division;
+    TextView tv_district;
+    TextView tv_upazila;
+    TextView tv_union;
+    TextView tv_ward;
+    TextView tv_block;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,6 +145,17 @@ public class HHCreateHouseholdFragment extends Fragment {
     }
 
     private void initView() {
+        tv_block = view.findViewById(R.id.tv_block);
+        tv_ward = view.findViewById(R.id.tv_ward);
+        tv_union = view.findViewById(R.id.tv_union);
+        tv_upazila = view.findViewById(R.id.tv_upazila);
+        tv_district = view.findViewById(R.id.tv_district);
+        tv_division = view.findViewById(R.id.tv_division);
+        tv_household_income = view.findViewById(R.id.tv_household_income);
+        tv_village = view.findViewById(R.id.tv_village);
+        tv_family_member = view.findViewById(R.id.tv_family_member);
+        tv_unique_id = view.findViewById(R.id.tv_unique_id);
+        tv_sub_household = view.findViewById(R.id.tv_sub_household);
         spinner_division = view.findViewById(R.id.spinner_division);
         spinner_district = view.findViewById(R.id.spinner_district);
         spinner_upazila = view.findViewById(R.id.spinner_upazila);
@@ -142,7 +169,11 @@ public class HHCreateHouseholdFragment extends Fragment {
         edit_family_memeber = view.findViewById(R.id.edit_family_memeber);
         edit_household_income = view.findViewById(R.id.edit_household_income);
         create = view.findViewById(R.id.create);
-
+        tv_household = view.findViewById(R.id.tv_household);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -295,6 +326,30 @@ public class HHCreateHouseholdFragment extends Fragment {
         });
 
 
+    }
+
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        tv_household.setText(resources.getString(R.string.household_number));
+        edit_household.setHint(resources.getString(R.string.household_number));
+        tv_sub_household.setText(resources.getString(R.string.sub_household));
+        edit_sub_household.setHint(resources.getString(R.string.sub_household));
+        tv_unique_id.setText(resources.getString(R.string.unique_id));
+        edit_unique_id.setHint(resources.getString(R.string.unique_id));
+        tv_village.setText(resources.getString(R.string.village));
+        edit_village.setHint(resources.getString(R.string.village));
+        tv_family_member.setText(resources.getString(R.string.no_family));
+        edit_family_memeber.setHint(resources.getString(R.string.no_family));
+        tv_household_income.setText(resources.getString(R.string.household_income));
+        edit_household_income.setHint(resources.getString(R.string.household_income));
+        tv_division.setText(resources.getString(R.string.division));
+        tv_district.setText(resources.getString(R.string.district));
+        tv_upazila.setText(resources.getString(R.string.upazila));
+        tv_union.setText(resources.getString(R.string.union));
+        tv_ward.setText(resources.getString(R.string.ward));
+        tv_block.setText(resources.getString(R.string.block));
+        create.setText(resources.getString(R.string.done));
     }
 
     private void listener() {

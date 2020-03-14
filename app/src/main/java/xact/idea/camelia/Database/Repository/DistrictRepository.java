@@ -41,6 +41,11 @@ public class DistrictRepository implements IDistrictDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IDistrictDatasources.updateLanguage(lang);
+    }
+
+    @Override
     public int size() {
         return IDistrictDatasources.size();
     }

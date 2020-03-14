@@ -15,7 +15,7 @@ public interface IUnionDataSources {
     void emptyUnion();
 
     int size();
-
+    void updateLanguage(String lang);
     Unions getUnionNo(String BookItem);
 
     void insertToUnion(Unions... Unions);

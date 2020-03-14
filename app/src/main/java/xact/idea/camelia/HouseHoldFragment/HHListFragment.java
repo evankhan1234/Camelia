@@ -2,6 +2,8 @@ package xact.idea.camelia.HouseHoldFragment;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -41,6 +44,7 @@ import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCWaistWidthFragment;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
@@ -83,7 +87,12 @@ public class HHListFragment extends Fragment {
         return view;
     }
 
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        edit_content.setHint(resources.getString(R.string.search));
 
+    }
 
     private void initView() {
         edit_content =  view.findViewById(R.id.edit_content);
@@ -92,6 +101,10 @@ public class HHListFragment extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         btn_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

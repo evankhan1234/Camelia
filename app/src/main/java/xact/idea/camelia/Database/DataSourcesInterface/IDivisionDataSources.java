@@ -15,6 +15,7 @@ public interface IDivisionDataSources {
     void emptyDivision();
 
     int size();
+    void updateLanguage(String lang);
 
     Division getDivisionNo(String BookItem);
 

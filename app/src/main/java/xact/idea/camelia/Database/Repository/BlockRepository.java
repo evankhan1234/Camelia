@@ -41,6 +41,11 @@ public class BlockRepository implements IBlockDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IBlockDatasources.updateLanguage(lang);
+    }
+
+    @Override
     public int size() {
         return IBlockDatasources.size();
     }

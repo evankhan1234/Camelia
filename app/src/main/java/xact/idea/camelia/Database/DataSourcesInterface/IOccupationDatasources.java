@@ -13,7 +13,7 @@ public interface IOccupationDatasources {
     Occupation getOccupation(String OccupationItem);
 
     void emptyOccupation();
-
+    void updateLanguage(String lang);
     int size();
 
     Occupation getOccupationNo(String OccupationItem);

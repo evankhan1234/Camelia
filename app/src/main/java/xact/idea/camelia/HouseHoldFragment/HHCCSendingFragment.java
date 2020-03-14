@@ -2,6 +2,7 @@ package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,11 +22,14 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.Collections;
 import java.util.List;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.ViewPager.CCSendingPager;
 import xact.idea.camelia.ViewPager.HHMemberPager;
 
@@ -52,12 +56,17 @@ public class HHCCSendingFragment extends Fragment implements TabLayout.OnTabSele
         // display();
         return view;
     }
-    private void initView() {
+    private void initView() {  Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
+
         tabLayout =  view.findViewById(R.id.tabLayout);
 
         //Adding the tabs using addTab() method
-        tabLayout.addTab(tabLayout.newTab().setText("Sent But Not Synced"));
-        tabLayout.addTab(tabLayout.newTab().setText("Sent And Synced"));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.sync_not_sync)));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.sync_sync)));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

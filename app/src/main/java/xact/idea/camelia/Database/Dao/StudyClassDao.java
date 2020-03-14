@@ -23,6 +23,8 @@ public interface StudyClassDao {
     StudyClass getStudyClassNo(String StudyClassItem);
     @Query("Select Count(id)  FROM StudyClass")
     int value();
+    @Query("UPDATE  StudyClass SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM StudyClass")
     void emptyStudyClass();
     @Insert

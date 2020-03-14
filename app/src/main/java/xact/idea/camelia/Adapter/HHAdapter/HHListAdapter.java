@@ -1,6 +1,8 @@
 package xact.idea.camelia.Adapter.HHAdapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,15 +25,18 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 import xact.idea.camelia.Database.AnotherModel.HouseHead;
 import xact.idea.camelia.Database.Model.HouseHold;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Filter.HouseholdFilter;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboardListiewHolder> implements Filterable {
 
@@ -62,13 +67,18 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
         MemberMyself memberMyself= Common.memberMyselfRepository.getMemberMyselfForHousehold(houseHolds.get(position).UniqueId);
         String head="";
         String number="";
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         if (memberMyself!=null){
-             head = "<b><font color=#000 >Khana Head :  </font></b> <font color=#444444> "+memberMyself.FullName + "</font>";
-             number = "<b><font color=#000 >Phone Number :  </font></b> <font color=#444444> "+memberMyself.MobileNumber + "</font>";
+             head = "<b><font color=#000 >"+resources.getString(R.string.khana) +":  </font></b> <font color=#444444> "+memberMyself.FullName + "</font>";
+             number = "<b><font color=#000 >"+resources.getString(R.string.number) +":  </font></b> <font color=#444444> "+memberMyself.MobileNumber + "</font>";
         }
         else {
-            head = "<b><font color=#000 >Khana Head :  </font></b> <font color=#444444>N/A</font>";
-            number = "<b><font color=#000 >Phone Number :  </font></b> <font color=#444444>N/A</font>";
+            head = "<b><font color=#000 >"+resources.getString(R.string.khana) +":  </font></b> <font color=#444444>N/A</font>";
+            number = "<b><font color=#000 >"+resources.getString(R.string.number) +" :  </font></b> <font color=#444444>N/A</font>";
         }
 
         Glide.with(mActivity).load("https://cdn4.vectorstock.com/i/1000x1000/84/88/home-icon-mobile-app-and-web-site-start-main-page-vector-23828488.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)

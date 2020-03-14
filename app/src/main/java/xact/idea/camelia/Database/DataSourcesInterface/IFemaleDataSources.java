@@ -15,7 +15,7 @@ public interface IFemaleDataSources {
     void emptyFemale();
 
     int size();
-
+    void updateLanguage(String lang);
     Female getFemaleNo(String FemaleItem);
 
     void insertToFemale(Female... Female);

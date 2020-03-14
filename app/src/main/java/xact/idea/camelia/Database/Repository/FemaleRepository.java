@@ -46,6 +46,11 @@ public class FemaleRepository implements IFemaleDataSources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IFemaleDataSources.updateLanguage(lang);
+    }
+
+    @Override
     public Female getFemaleNo(String FemaleItem) {
         return IFemaleDataSources.getFemaleNo(FemaleItem);
     }

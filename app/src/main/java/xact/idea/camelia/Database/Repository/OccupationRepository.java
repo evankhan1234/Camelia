@@ -41,6 +41,11 @@ public class OccupationRepository implements IOccupationDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IOccupationDatasources.updateLanguage(lang);
+    }
+
+    @Override
     public int size() {
         return IOccupationDatasources.size();
     }

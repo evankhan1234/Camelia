@@ -48,6 +48,11 @@ public class FemaleDataSources implements IFemaleDataSources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        FemaleDao.updateLanguage(lang);
+    }
+
+    @Override
     public Female getFemaleNo(String FemaleItem) {
         return FemaleDao.getFemaleNo(FemaleItem);
     }

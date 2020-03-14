@@ -131,6 +131,48 @@
                 android:background="@drawable/gradient_color_top" />
             <RelativeLayout
                 android:visibility="visible"
+                android:id="@+id/relativelayoutLanguage"
+                android:layout_marginTop="50px"
+                android:layout_marginRight="30px"
+                android:layout_marginLeft="20px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+
+                    android:backgroundTint="@color/black"
+                    android:layout_width="50px"
+                    android:layout_height="50px"
+                    android:src="@drawable/about_us" />
+
+                <TextView
+                    android:tag="40"
+                    android:textSize="40px"
+                    android:layout_marginTop="-5px"
+                    android:layout_marginLeft="80px"
+                    android:text="Language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+
+                    android:layout_alignParentRight="true"
+
+
+                    android:gravity="right"
+                    android:layout_gravity="right"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/right_arrow"
+                    android:layout_width="wrap_content"/>
+            </RelativeLayout>
+            <View
+                android:id="@+id/view_headexrs"
+                android:layout_width="match_parent"
+                android:layout_height="5px"
+                android:layout_below="@+id/rlt_header"
+                android:layout_marginTop="20px"
+                android:background="@drawable/gradient_color_top" />
+            <RelativeLayout
+                android:visibility="visible"
                 android:id="@+id/relativelayoutLogout"
                 android:layout_marginTop="50px"
                 android:layout_marginRight="30px"
@@ -164,7 +206,6 @@
                     android:src="@drawable/right_arrow"
                     android:layout_width="wrap_content"/>
             </RelativeLayout>
-
             <View
                 android:id="@+id/view_headexr"
                 android:layout_width="match_parent"

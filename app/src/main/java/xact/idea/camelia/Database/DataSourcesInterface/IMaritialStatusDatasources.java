@@ -15,7 +15,7 @@ public interface IMaritialStatusDatasources {
     void emptyDivision();
 
     int size();
-
+    void updateLanguage(String lang);
     MaritialStatus getMaritialStatusNo(String MaritialStatusItem);
 
     void insertToMaritialStatus(MaritialStatus... MaritialStatus);

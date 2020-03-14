@@ -46,6 +46,11 @@ public class WardRepository implements IWardDatasources {
     }
 
     @Override
+    public void updateLanguage(String lang) {
+        IWardDatasources.updateLanguage(lang);
+    }
+
+    @Override
     public Ward getWardNo(String WardItem) {
         return IWardDatasources.getWardNo(WardItem);
     }

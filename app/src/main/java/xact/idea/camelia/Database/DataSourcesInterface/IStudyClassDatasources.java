@@ -15,7 +15,7 @@ public interface IStudyClassDatasources {
     void emptyStudyClass();
 
     int size();
-
+    void updateLanguage(String lang);
     StudyClass getStudyClassNo(String StudyClassItem);
 
     void insertToStudyClass(StudyClass... StudyClass);

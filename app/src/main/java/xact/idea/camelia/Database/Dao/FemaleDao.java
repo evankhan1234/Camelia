@@ -23,6 +23,8 @@ public interface FemaleDao {
     Female getFemaleNo(String FemaleItem);
     @Query("Select Count(id)  FROM Female")
     int value();
+    @Query("UPDATE  Female SET ln=:lang")
+    void updateLanguage(String lang);
     @Query("DELETE  FROM Female")
     void emptyFemale();
     @Insert

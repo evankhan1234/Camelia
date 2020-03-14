@@ -101,6 +101,7 @@
                             android:layout_height="100px" />
 
                         <TextView
+                            android:id="@+id/tv_total"
                             android:tag="50"
                             android:textSize="50px"
                             android:textColor="@color/gray_black"
