@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-
+                        android:id="@+id/tv_smoke_stick_day"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -1052,6 +1052,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_vigorous_intensity_recreational"
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1087,6 +1088,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_vigorous_intensity_recreational_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -1159,7 +1161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="50px"
                         android:layout_marginTop="30px"
-                        android:text="Washing cloths, brushing carpets"
+                        android:text="Tennis"
                         />
                     <CheckBox
                         android:id="@+id/checkBoxOthers_recreational"
@@ -1181,6 +1183,8 @@
 
 
                 <TextView
+
+                    android:id="@+id/tv_typcal_week_3"
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1213,7 +1217,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-
+                        android:id="@+id/tv_typical_day_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -1256,6 +1260,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_moderate_intensity_recreational_card"
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1291,6 +1296,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_moderate_intensity_recreational_card_checkbox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -1386,6 +1392,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_typcal_week_4"
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1419,6 +1426,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_typical_day_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -1449,6 +1457,7 @@
                 </LinearLayout>
                 <TextView
 
+                    android:id="@+id/tv_reclining"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -1479,6 +1488,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_typical_day_5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
