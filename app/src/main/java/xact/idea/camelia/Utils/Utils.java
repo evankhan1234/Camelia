@@ -3,6 +3,7 @@ package xact.idea.camelia.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -21,6 +22,8 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import io.paperdb.Paper;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Model.DropDownModel.BiomasFuelModel;
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
 import xact.idea.camelia.Model.DropDownModel.CenterModel;
@@ -473,11 +476,16 @@ public class Utils {
 
     }
 
-    public static ArrayList<LivingStatusModel> getLivingStatusList() {
+    public static ArrayList<LivingStatusModel> getLivingStatusList(Activity mActivity){
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<LivingStatusModel> livingStatusModelArrayList = new ArrayList<>();
-        LivingStatusModel livingStatusModelAlive1 = new LivingStatusModel("Select", -1);
-        LivingStatusModel livingStatusModelAlive = new LivingStatusModel("Alive", 2);
-        LivingStatusModel livingStatusModelDead = new LivingStatusModel("Dead", 1);
+        LivingStatusModel livingStatusModelAlive1 = new LivingStatusModel(resources.getString(R.string.select), -1);
+        LivingStatusModel livingStatusModelAlive = new LivingStatusModel(resources.getString(R.string.alive), 2);
+        LivingStatusModel livingStatusModelDead = new LivingStatusModel(resources.getString(R.string.dead), 1);
 
         livingStatusModelArrayList.add(livingStatusModelAlive1);
         livingStatusModelArrayList.add(livingStatusModelAlive);
@@ -488,20 +496,20 @@ public class Utils {
 
     }
 
-    public static ArrayList<YesNoModel> getyesNoList() {
+    public static ArrayList<YesNoModel> getyesNoList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<YesNoModel> yesNoModelArrayList = new ArrayList<>();
-
-        YesNoModel yesNoModelNo1 = new YesNoModel("Select", -1);
-        YesNoModel yesNoModelNo = new YesNoModel("No", 2);
-        YesNoModel yesNoModelYes = new YesNoModel("Yes", 1);
-
-        yesNoModelArrayList.add(yesNoModelNo1);
-        yesNoModelArrayList.add(yesNoModelNo);
-        yesNoModelArrayList.add(yesNoModelYes);
-
-
-        return yesNoModelArrayList;
-
+            YesNoModel yesNoModelNo1 = new YesNoModel(resources.getString(R.string.select), -1);
+            YesNoModel yesNoModelNo = new YesNoModel(resources.getString(R.string.no), 2);
+            YesNoModel yesNoModelYes = new YesNoModel(resources.getString(R.string.yes), 1);
+            yesNoModelArrayList.add(yesNoModelNo1);
+            yesNoModelArrayList.add(yesNoModelNo);
+            yesNoModelArrayList.add(yesNoModelYes);
+            return yesNoModelArrayList;
     }
     public static ArrayList<ControlDiseaseModel> getControlDiseaseList() {
         ArrayList<ControlDiseaseModel> controlDiseaseModelArrayList = new ArrayList<>();

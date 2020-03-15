@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.View.CustomViewPager;
 import xact.idea.camelia.View.SwipeDirection;
 import xact.idea.camelia.ViewPager.ViewPagerAdapter;
@@ -80,7 +81,14 @@ public class HHCreateMemberFragment extends Fragment {
         vpg_home = view. findViewById(R.id.vpg_home_group);
         vpg_home.setAllowedSwipeDirection(SwipeDirection.none);
         try {
-            categories = getResources().getStringArray(R.array.group_step);
+            String language= SharedPreferenceUtil.getLanguage(mActivity);
+            if (language.equals("en")){
+                categories = getResources().getStringArray(R.array.group_step);
+            }
+            else if(language.equals("bn")){
+
+            }  categories = getResources().getStringArray(R.array.group_step_bangla);
+
             for (int i = 0; i < lnl_category.getChildCount(); i++) {
                 LinearLayout rlt = (LinearLayout) lnl_category.getChildAt(i);
                 TextView step_no =  rlt.findViewById(R.id.step_no);
@@ -171,7 +179,14 @@ public class HHCreateMemberFragment extends Fragment {
         try {
 
 
-            categories = getResources().getStringArray(R.array.group_step);
+            String language= SharedPreferenceUtil.getLanguage(mActivity);
+            if (language.equals("en")){
+                categories = getResources().getStringArray(R.array.group_step);
+            }
+            else if(language.equals("bn")){
+                categories = getResources().getStringArray(R.array.group_step_bangla);
+            }
+
             for (int i = 0; i < lnl_category.getChildCount(); i++) {
                 LinearLayout rlt = (LinearLayout) lnl_category.getChildAt(i);
                 TextView step_no = (TextView) rlt.findViewById(R.id.step_no);

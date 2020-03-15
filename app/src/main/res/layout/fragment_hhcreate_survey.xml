@@ -37,6 +37,7 @@
                     android:textStyle="bold" />
                 <TextView
 
+                    android:id="@+id/tv_safe_drinking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -95,7 +96,7 @@
 
                     android:layout_height="130px"/>
                 <TextView
-
+                    android:id="@+id/tv_sanitary_latrine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -143,7 +144,7 @@
                 </RadioGroup>
 
                 <TextView
-
+                    android:id="@+id/tv_bondho_chula"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -190,7 +191,7 @@
 
                 </RadioGroup>
                 <TextView
-
+                    android:id="@+id/tv_biomas_fuel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
