@@ -2,6 +2,7 @@ package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -21,13 +22,16 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.Collections;
 import java.util.List;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Fragment.CCMemberStausDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.ViewPager.HHMemberPager;
 import xact.idea.camelia.ViewPager.Pager;
 
@@ -71,10 +75,14 @@ public class HHMembersFragment extends Fragment implements TabLayout.OnTabSelect
 
     private void initView() {
         tabLayout =  view.findViewById(R.id.tabLayout);
-
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         //Adding the tabs using addTab() method
-        tabLayout.addTab(tabLayout.newTab().setText("Members"));
-        tabLayout.addTab(tabLayout.newTab().setText("Serveys"));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.members)));
+        tabLayout.addTab(tabLayout.newTab().setText(resources.getString(R.string.survey)));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

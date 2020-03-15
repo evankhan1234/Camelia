@@ -24,7 +24,11 @@
         <item>Previous Medical History</item>
         <item>Behavioral Risk Factors</item>
 
-
+    </array>
+    <array name="group_step_bangla">
+        <item>সদস্য তথ্য</item>
+        <item>পূর্ববর্তী মেডিকেল ইতিহাস</item>
+        <item>আচরণগত ঝুঁকি বিষয়গুলি</item>
 
     </array>
     <array name="member_step">

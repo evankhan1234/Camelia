@@ -2,6 +2,8 @@ package xact.idea.camelia.HouseHoldFragment;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -25,11 +27,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Activity.MainActivity;
 import xact.idea.camelia.Database.Model.Questions;
 import xact.idea.camelia.Database.Model.Survey;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Model.DropDownModel.BiomasFuelModel;
 import xact.idea.camelia.Model.DropDownModel.TubewellModel;
 import xact.idea.camelia.R;
@@ -49,8 +53,8 @@ public class HHCreateSurveyFragment extends Fragment {
     ArrayAdapter<BiomasFuelModel> biomasArrayAdapter;
     Spinner spinner_drinking_water;
     Spinner spinner_biomas;
-    ArrayList<TubewellModel> waterArrayLit= new ArrayList<>();
-    ArrayList<BiomasFuelModel> biomasArrayLit= new ArrayList<>();
+    ArrayList<TubewellModel> waterArrayLit = new ArrayList<>();
+    ArrayList<BiomasFuelModel> biomasArrayLit = new ArrayList<>();
     RadioButton radioDrinkingYes;
     RadioButton radioDrinkingNo;
     RadioButton radioSanitaryLatrineNo;
@@ -67,14 +71,18 @@ public class HHCreateSurveyFragment extends Fragment {
     Survey surveys;
     String types;
     String frag;
+    TextView tv_safe_drinking;
+    TextView tv_sanitary_latrine;
+    TextView tv_bondho_chula;
+    TextView tv_biomas_fuel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_hhcreate_survey, container, false);
-        mActivity=getActivity();
-        correctSizeUtil= correctSizeUtil.getInstance(getActivity());
+        view = inflater.inflate(R.layout.fragment_hhcreate_survey, container, false);
+        mActivity = getActivity();
+        correctSizeUtil = correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
 
@@ -84,10 +92,9 @@ public class HHCreateSurveyFragment extends Fragment {
             types = bundle.getString("types", "");
             frag = bundle.getString("frag", "");
             id = bundle.getInt("SurveyId", 0);
-            Log.e("fragsss","frag"+frag);
-        }
-        else{
-            frag="";
+            Log.e("fragsss", "frag" + frag);
+        } else {
+            frag = "";
         }
         initView();
         // display();
@@ -96,35 +103,41 @@ public class HHCreateSurveyFragment extends Fragment {
 
     private void initView() {
 
-        waterArrayLit= Utils.getTubewellList(mActivity);
-        biomasArrayLit= Utils.getBiomasFuelList(mActivity);
+        waterArrayLit = Utils.getTubewellList(mActivity);
+        biomasArrayLit = Utils.getBiomasFuelList(mActivity);
 
-        create=view.findViewById(R.id.create);
-        text_date_current=view.findViewById(R.id.text_date_current);
-        spinner_drinking_water=view.findViewById(R.id.spinner_drinking_water);
-        radioDrinkingYes=view.findViewById(R.id.radioDrinkingYes);
-        radioDrinkingNo=view.findViewById(R.id.radioDrinkingNo);
-        radioSanitaryLatrineYes=view.findViewById(R.id.radioSanitaryLatrineYes);
-        radioSanitaryLatrineNo=view.findViewById(R.id.radioSanitaryLatrineNo);
-        radioBondhoChulaYes=view.findViewById(R.id.radioBondhoChulaYes);
-        radioBondhoChulaNo=view.findViewById(R.id.radioBondhoChulaNo);
-        radioBiomassFuelYes=view.findViewById(R.id.radioBiomassFuelYes);
-        radioBiomassFuelNo=view.findViewById(R.id.radioBiomassFuelNo);
-        spinner_biomas=view.findViewById(R.id.spinner_biomas);
-
+        tv_safe_drinking = view.findViewById(R.id.tv_safe_drinking);
+        tv_sanitary_latrine = view.findViewById(R.id.tv_sanitary_latrine);
+        tv_bondho_chula = view.findViewById(R.id.tv_bondho_chula);
+        tv_biomas_fuel = view.findViewById(R.id.tv_biomas_fuel);
+        create = view.findViewById(R.id.create);
+        text_date_current = view.findViewById(R.id.text_date_current);
+        spinner_drinking_water = view.findViewById(R.id.spinner_drinking_water);
+        radioDrinkingYes = view.findViewById(R.id.radioDrinkingYes);
+        radioDrinkingNo = view.findViewById(R.id.radioDrinkingNo);
+        radioSanitaryLatrineYes = view.findViewById(R.id.radioSanitaryLatrineYes);
+        radioSanitaryLatrineNo = view.findViewById(R.id.radioSanitaryLatrineNo);
+        radioBondhoChulaYes = view.findViewById(R.id.radioBondhoChulaYes);
+        radioBondhoChulaNo = view.findViewById(R.id.radioBondhoChulaNo);
+        radioBiomassFuelYes = view.findViewById(R.id.radioBiomassFuelYes);
+        radioBiomassFuelNo = view.findViewById(R.id.radioBiomassFuelNo);
+        spinner_biomas = view.findViewById(R.id.spinner_biomas);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM,yyyy");
         Date date = new Date(System.currentTimeMillis());
-        surveys=Common.surveyRepository.getSurvey(String.valueOf(id));
+        surveys = Common.surveyRepository.getSurvey(String.valueOf(id));
         biomasArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, biomasArrayLit);
         biomasArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_biomas.setAdapter(biomasArrayAdapter);
         waterArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, waterArrayLit);
         waterArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_drinking_water.setAdapter(waterArrayAdapter);
-        if (surveys==null){
+        if (surveys == null) {
             text_date_current.setText(formatter.format(date));
-        }
-        else{
+        } else {
             Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q12", String.valueOf(id));
             Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q12a", String.valueOf(id));
             Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q13", String.valueOf(id));
@@ -132,14 +145,14 @@ public class HHCreateSurveyFragment extends Fragment {
             Questions questionsFor5 = Common.qustionsRepository.getQuestions("Q15", String.valueOf(id));
             Questions questionsFor6 = Common.qustionsRepository.getQuestions("Q15a", String.valueOf(id));
 
-            if (questionsFor1!=null){
+            if (questionsFor1 != null) {
 
-                if (questionsFor1.answer.equals("1")){
+                if (questionsFor1.answer.equals("1")) {
                     radioDrinkingYes.setChecked(true);
                     radioDrinkingNo.setChecked(false);
                     spinner_drinking_water.setVisibility(View.VISIBLE);
 
-                    if (questionsFor2!=null){
+                    if (questionsFor2 != null) {
                         if (!questionsFor2.answer.equals("0")) {
                             int div = Integer.parseInt(questionsFor2.answer);
 
@@ -152,46 +165,43 @@ public class HHCreateSurveyFragment extends Fragment {
                         }
                     }
 
-                }
-                else{
+                } else {
                     radioDrinkingNo.setChecked(true);
                     radioDrinkingYes.setChecked(false);
                     spinner_drinking_water.setVisibility(View.GONE);
                 }
             }
-            if (questionsFor3!=null){
+            if (questionsFor3 != null) {
 
-                if (questionsFor3.answer.equals("1")){
+                if (questionsFor3.answer.equals("1")) {
 
                     radioSanitaryLatrineYes.setChecked(true);
                     radioSanitaryLatrineNo.setChecked(false);
-                }
-                else{
+                } else {
                     radioSanitaryLatrineNo.setChecked(true);
                     radioSanitaryLatrineYes.setChecked(false);
                 }
             }
-            if (questionsFor4!=null){
+            if (questionsFor4 != null) {
 
-                if (questionsFor4.answer.equals("1")){
+                if (questionsFor4.answer.equals("1")) {
                     radioBondhoChulaYes.setChecked(true);
                     radioBondhoChulaNo.setChecked(false);
-                }
-                else {
+                } else {
                     radioBondhoChulaNo.setChecked(true);
                     radioBondhoChulaYes.setChecked(false);
                 }
             }
-            if (questionsFor5!=null){
+            if (questionsFor5 != null) {
 
-                if (questionsFor5.answer.equals("1")){
+                if (questionsFor5.answer.equals("1")) {
                     radioBiomassFuelYes.setChecked(true);
                     radioBiomassFuelNo.setChecked(false);
 
                     spinner_biomas.setVisibility(View.VISIBLE);
-                    if (questionsFor6!=null){
+                    if (questionsFor6 != null) {
 
-                        if (!questionsFor6.answer.equals("0")){
+                        if (!questionsFor6.answer.equals("0")) {
                             int div = Integer.parseInt(questionsFor6.answer);
 
 
@@ -203,8 +213,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         }
                     }
 
-                }
-                else {
+                } else {
                     radioBiomassFuelNo.setChecked(true);
                     radioBiomassFuelYes.setChecked(false);
                     spinner_biomas.setVisibility(View.GONE);
@@ -212,29 +221,25 @@ public class HHCreateSurveyFragment extends Fragment {
             }
 
             text_date_current.setText(formatter.format(surveys.CreatedDate));
-            if (surveys.SafeDrinkingYesNo==1){
+            if (surveys.SafeDrinkingYesNo == 1) {
+
+            } else if (surveys.SafeDrinkingYesNo == 2) {
 
             }
-            else if (surveys.SafeDrinkingYesNo==2){
+
+            if (surveys.SanitaryYesNo == 1) {
+
+            } else if (surveys.SanitaryYesNo == 2) {
 
             }
+            if (surveys.BondhoChulaYesNo == 1) {
 
-            if (surveys.SanitaryYesNo==1){
-
-            }
-            else if (surveys.SanitaryYesNo==2){
+            } else if (surveys.BondhoChulaYesNo == 2) {
 
             }
-            if (surveys.BondhoChulaYesNo==1){
+            if (surveys.BiomasFuelYesNo == 1) {
 
-            }
-            else if (surveys.BondhoChulaYesNo==2){
-
-            }
-            if (surveys.BiomasFuelYesNo==1){
-
-            }
-            else if (surveys.BiomasFuelYesNo==2){
+            } else if (surveys.BiomasFuelYesNo == 2) {
 
             }
         }
@@ -244,74 +249,73 @@ public class HHCreateSurveyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
-                if (id==0){
+                if (id == 0) {
 
-                    int a=0;
+                    int a = 0;
 
-                    String safeWater="";
-                    String sanitary="";
-                    String chula="";
-                    String biomas="";
-                    int b=0;
-                    Survey survey= new Survey();
-                    survey.UniqueId=uniquKey;
+                    String safeWater = "";
+                    String sanitary = "";
+                    String chula = "";
+                    String biomas = "";
+                    int b = 0;
+                    Survey survey = new Survey();
+                    survey.UniqueId = uniquKey;
                     Date date = new Date(System.currentTimeMillis());
-                    survey.CreatedDate=date;
-                    if (radioDrinkingYes.isChecked()){
-                        survey.SafeDrinkingYesNo=1;
-                        survey.SafeDrinkingDetails=tubeWellId;
-                        safeWater="1";
-                        a=tubeWellId;
+                    survey.CreatedDate = date;
+                    if (radioDrinkingYes.isChecked()) {
+                        survey.SafeDrinkingYesNo = 1;
+                        survey.SafeDrinkingDetails = tubeWellId;
+                        safeWater = "1";
+                        a = tubeWellId;
                     }
 
 
-                    if (radioDrinkingNo.isChecked()){
-                        survey.SafeDrinkingYesNo=2;
-                        safeWater="2";
-                        tubeWellId=0;
+                    if (radioDrinkingNo.isChecked()) {
+                        survey.SafeDrinkingYesNo = 2;
+                        safeWater = "2";
+                        tubeWellId = 0;
                     }
-                    if (radioSanitaryLatrineYes.isChecked()){
-                        survey.SanitaryYesNo=1;
-                        sanitary="1";
-                    }
-
-                    if (radioSanitaryLatrineNo.isChecked()){
-                        survey.SanitaryYesNo=2;
-                        sanitary="2";
+                    if (radioSanitaryLatrineYes.isChecked()) {
+                        survey.SanitaryYesNo = 1;
+                        sanitary = "1";
                     }
 
-                    if (radioBondhoChulaYes.isChecked()){
-                        survey.BondhoChulaYesNo=1;
-                        chula="1";
+                    if (radioSanitaryLatrineNo.isChecked()) {
+                        survey.SanitaryYesNo = 2;
+                        sanitary = "2";
                     }
 
-                    if (radioBondhoChulaNo.isChecked()){
-                        survey.BondhoChulaYesNo=2;
-                        chula="2";
+                    if (radioBondhoChulaYes.isChecked()) {
+                        survey.BondhoChulaYesNo = 1;
+                        chula = "1";
                     }
 
-                    if (radioBiomassFuelYes.isChecked()){
-                        survey.BiomasFuelYesNo=1;
-                        survey.BiomasFuelDetails=biomasFuelId;
-                        b=biomasFuelId;
-                        biomas="1";
+                    if (radioBondhoChulaNo.isChecked()) {
+                        survey.BondhoChulaYesNo = 2;
+                        chula = "2";
                     }
 
-                    if (radioBiomassFuelNo.isChecked()){
-                        survey.BiomasFuelYesNo=2;
-                        biomas="2";
-                        biomasFuelId=0;
+                    if (radioBiomassFuelYes.isChecked()) {
+                        survey.BiomasFuelYesNo = 1;
+                        survey.BiomasFuelDetails = biomasFuelId;
+                        b = biomasFuelId;
+                        biomas = "1";
                     }
 
-                    if (a==-1|| b==-1){
+                    if (radioBiomassFuelNo.isChecked()) {
+                        survey.BiomasFuelYesNo = 2;
+                        biomas = "2";
+                        biomasFuelId = 0;
+                    }
+
+                    if (a == -1 || b == -1) {
                         Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else{
+                    } else {
                         Common.surveyRepository.insertToSurvey(survey);
-                        int memberId= Common.surveyRepository.maxValue();
+                        int memberId = Common.surveyRepository.maxValue();
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                         Date date12 = new Date(System.currentTimeMillis());
+                        Date date12 = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date12);
                         Questions questions1 = new Questions();
                         questions1.type = "survey";
@@ -359,86 +363,83 @@ public class HHCreateSurveyFragment extends Fragment {
                         questions6.date = currentDate;
                         Common.qustionsRepository.insertToQuestions(questions6);
 
-                        if (frag.equals("frag")){
+                        if (frag.equals("frag")) {
                             ((CCUserHomeActivity) getActivity()).backForDetails();
-                        }
-                        else {
+                        } else {
                             ((HouseholdHomeActivity) getActivity()).backForDetails();
                         }
 
                     }
 
-                }
-                else {
-                    int a=0;
-                    int b=0;
+                } else {
+                    int a = 0;
+                    int b = 0;
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date12 = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date12);
-                    String safeWater="";
-                    String sanitary="";
-                    String chula="";
-                    String biomas="";
-                    Survey survey= new Survey();
-                    survey.id=surveys.id;
-                    survey.UniqueId=uniquKey;
+                    String safeWater = "";
+                    String sanitary = "";
+                    String chula = "";
+                    String biomas = "";
+                    Survey survey = new Survey();
+                    survey.id = surveys.id;
+                    survey.UniqueId = uniquKey;
                     Date date = new Date(System.currentTimeMillis());
-                    survey.CreatedDate=date;
-                    if (radioDrinkingYes.isChecked()){
-                        survey.SafeDrinkingYesNo=1;
-                        survey.SafeDrinkingDetails=tubeWellId;
-                        safeWater="1";
-                        a=tubeWellId;
+                    survey.CreatedDate = date;
+                    if (radioDrinkingYes.isChecked()) {
+                        survey.SafeDrinkingYesNo = 1;
+                        survey.SafeDrinkingDetails = tubeWellId;
+                        safeWater = "1";
+                        a = tubeWellId;
                     }
 
 
-                    if (radioDrinkingNo.isChecked()){
-                        survey.SafeDrinkingYesNo=2;
-                        safeWater="2";
-                        tubeWellId=0;
+                    if (radioDrinkingNo.isChecked()) {
+                        survey.SafeDrinkingYesNo = 2;
+                        safeWater = "2";
+                        tubeWellId = 0;
                     }
-                    if (radioSanitaryLatrineYes.isChecked()){
-                        survey.SanitaryYesNo=1;
-                        sanitary="1";
-                    }
-
-                    if (radioSanitaryLatrineNo.isChecked()){
-                        survey.SanitaryYesNo=2;
-                        sanitary="2";
+                    if (radioSanitaryLatrineYes.isChecked()) {
+                        survey.SanitaryYesNo = 1;
+                        sanitary = "1";
                     }
 
-                    if (radioBondhoChulaYes.isChecked()){
-                        survey.BondhoChulaYesNo=1;
-                        chula="1";
+                    if (radioSanitaryLatrineNo.isChecked()) {
+                        survey.SanitaryYesNo = 2;
+                        sanitary = "2";
                     }
 
-                    if (radioBondhoChulaNo.isChecked()){
-                        survey.BondhoChulaYesNo=2;
-                        chula="2";
+                    if (radioBondhoChulaYes.isChecked()) {
+                        survey.BondhoChulaYesNo = 1;
+                        chula = "1";
                     }
 
-                    if (radioBiomassFuelYes.isChecked()){
-                        survey.BiomasFuelYesNo=1;
-                        survey.BiomasFuelDetails=biomasFuelId;
-                        b=biomasFuelId;
-                        biomas="1";
+                    if (radioBondhoChulaNo.isChecked()) {
+                        survey.BondhoChulaYesNo = 2;
+                        chula = "2";
                     }
 
-                    if (radioBiomassFuelNo.isChecked()){
-                        survey.BiomasFuelYesNo=2;
-                        biomas="2";
-                        biomasFuelId=0;
+                    if (radioBiomassFuelYes.isChecked()) {
+                        survey.BiomasFuelYesNo = 1;
+                        survey.BiomasFuelDetails = biomasFuelId;
+                        b = biomasFuelId;
+                        biomas = "1";
+                    }
+
+                    if (radioBiomassFuelNo.isChecked()) {
+                        survey.BiomasFuelYesNo = 2;
+                        biomas = "2";
+                        biomasFuelId = 0;
                     }
 
 
-                    if (radioBiomassFuelNo.isChecked()){
-                        survey.BiomasFuelYesNo=2;
+                    if (radioBiomassFuelNo.isChecked()) {
+                        survey.BiomasFuelYesNo = 2;
                     }
-                    if (a==-1|| b==-1){
+                    if (a == -1 || b == -1) {
                         Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else{
+                    } else {
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q12", String.valueOf(id));
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q12a", String.valueOf(id));
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q13", String.valueOf(id));
@@ -446,7 +447,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         Questions questionsFor5 = Common.qustionsRepository.getQuestions("Q15", String.valueOf(id));
                         Questions questionsFor6 = Common.qustionsRepository.getQuestions("Q15a", String.valueOf(id));
 
-                        if (questionsFor1!=null){
+                        if (questionsFor1 != null) {
                             Questions questions1 = new Questions();
                             questions1.type = "survey";
                             questions1.question = "Q12";
@@ -458,7 +459,7 @@ public class HHCreateSurveyFragment extends Fragment {
 
                         }
 
-                        if (questionsFor2!=null){
+                        if (questionsFor2 != null) {
                             Questions questions2 = new Questions();
                             questions2.type = "survey";
                             questions2.question = "Q12a";
@@ -469,7 +470,7 @@ public class HHCreateSurveyFragment extends Fragment {
                             Common.qustionsRepository.updateQuestions(questions2);
                         }
 
-                        if (questionsFor3!=null){
+                        if (questionsFor3 != null) {
                             Questions questions3 = new Questions();
                             questions3.type = "survey";
                             questions3.question = "Q13";
@@ -480,7 +481,7 @@ public class HHCreateSurveyFragment extends Fragment {
                             Common.qustionsRepository.updateQuestions(questions3);
 
                         }
-                        if (questionsFor4!=null){
+                        if (questionsFor4 != null) {
                             Questions questions4 = new Questions();
                             questions4.type = "survey";
                             questions4.question = "Q14";
@@ -490,7 +491,7 @@ public class HHCreateSurveyFragment extends Fragment {
                             questions4.id = questionsFor4.id;
                             Common.qustionsRepository.updateQuestions(questions4);
                         }
-                        if (questionsFor5!=null){
+                        if (questionsFor5 != null) {
                             Questions questions5 = new Questions();
                             questions5.type = "survey";
                             questions5.question = "Q15";
@@ -501,7 +502,7 @@ public class HHCreateSurveyFragment extends Fragment {
                             Common.qustionsRepository.updateQuestions(questions5);
 
                         }
-                        if (questionsFor6!=null){
+                        if (questionsFor6 != null) {
                             Questions questions6 = new Questions();
                             questions6.type = "survey";
                             questions6.question = "Q15a";
@@ -510,8 +511,7 @@ public class HHCreateSurveyFragment extends Fragment {
                             questions6.date = currentDate;
                             questions6.id = questionsFor6.id;
                             Common.qustionsRepository.updateQuestions(questions6);
-                        }
-                        else {
+                        } else {
                             Questions questions6 = new Questions();
                             questions6.type = "survey";
                             questions6.question = "Q15a";
@@ -521,10 +521,9 @@ public class HHCreateSurveyFragment extends Fragment {
                             Common.qustionsRepository.insertToQuestions(questions6);
                         }
                         Common.surveyRepository.updateSurvey(survey);
-                        if (frag.equals("frag")){
+                        if (frag.equals("frag")) {
                             ((CCUserHomeActivity) getActivity()).backForDetails();
-                        }
-                        else {
+                        } else {
                             ((HouseholdHomeActivity) getActivity()).backForDetails();
                         }
                     }
@@ -539,7 +538,7 @@ public class HHCreateSurveyFragment extends Fragment {
                 Log.e("sp_water", "" + waterArrayLit.get(position));
                 // Name = customerArrayList.get(position).Name;
 
-                tubeWellId=waterArrayLit.get(position).getId();
+                tubeWellId = waterArrayLit.get(position).getId();
 
             }
 
@@ -556,12 +555,12 @@ public class HHCreateSurveyFragment extends Fragment {
 
             }
         });
-        radioDrinkingNo=view.findViewById(R.id.radioDrinkingNo);
+        radioDrinkingNo = view.findViewById(R.id.radioDrinkingNo);
         radioDrinkingNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 spinner_drinking_water.setVisibility(View.GONE);
-                tubeWellId=0;
+                tubeWellId = 0;
             }
         });
         radioBiomassFuelYes.setOnClickListener(new View.OnClickListener() {
@@ -578,7 +577,7 @@ public class HHCreateSurveyFragment extends Fragment {
                 Log.e("sp_water", "" + biomasArrayLit.get(position));
                 // Name = customerArrayList.get(position).Name;
 
-                biomasFuelId=biomasArrayLit.get(position).getId();
+                biomasFuelId = biomasArrayLit.get(position).getId();
 
             }
 
@@ -591,13 +590,21 @@ public class HHCreateSurveyFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 spinner_biomas.setVisibility(View.GONE);
-                biomasFuelId=0;
+                biomasFuelId = 0;
             }
         });
 
 
+    }
 
-
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        tv_safe_drinking.setText(resources.getString(R.string.safe_drinking));
+        tv_sanitary_latrine.setText(resources.getString(R.string.sanitary_latrine));
+        tv_bondho_chula.setText(resources.getString(R.string.bondho_chula));
+        tv_biomas_fuel.setText(resources.getString(R.string.biomas_fuel));
+        create.setHint(resources.getString(R.string.done));
     }
 
 }

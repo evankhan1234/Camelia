@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +46,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -56,6 +59,7 @@ import xact.idea.camelia.Database.Model.MemberId;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.StudyClass;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Model.DropDownModel.BloodGroupModel;
 import xact.idea.camelia.Model.DropDownModel.EducationModel;
 import xact.idea.camelia.Model.DropDownModel.LivingStatusModel;
@@ -75,15 +79,15 @@ import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
 import static xact.idea.camelia.Utils.Utils.showLoadingProgress;
 
 
-public class HHMyselfFragment extends Fragment implements Handler.Callback{
+public class HHMyselfFragment extends Fragment implements Handler.Callback {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     Activity mActivity;
     CorrectSizeUtil correctSizeUtil;
     View view;
     @SuppressLint("StaticFieldLeak")
-    public  static Handler handler;
+    public static Handler handler;
     @SuppressLint("StaticFieldLeak")
-    static   EditText edit_date_of_death;
+    static EditText edit_date_of_death;
     EditText edit_national_id;
     EditText edit_mobile_number;
     EditText edit_name;
@@ -92,7 +96,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     @SuppressLint("StaticFieldLeak")
     static EditText edit_birthday_date_again;
     @SuppressLint("StaticFieldLeak")
-    static   EditText edit_birthday_date;
+    static EditText edit_birthday_date;
     @SuppressLint("StaticFieldLeak")
     static EditText edit_age;
     Spinner spinner_sex;
@@ -115,19 +119,19 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     ArrayAdapter<BloodGroup> bloodGroupArrayAdapter;
     ArrayAdapter<LivingStatusModel> livingGroupArrayAdapter;
     ArrayAdapter<MaritialStatus> maritalArrayAdapter;
-    List<Female> sexArrayList= new ArrayList<>();
-    ArrayList<ReligionModel> religionArrayList= new ArrayList<>();
-    ArrayList<OccupationModel> occupationArrayList= new ArrayList<>();
-    ArrayList<EducationModel> educationArrayList= new ArrayList<>();
-    ArrayList<BloodGroupModel> bloodGroupArrayList= new ArrayList<>();
-    ArrayList<LivingStatusModel> livingGroupArrayList= new ArrayList<>();
-    ArrayList<MaritialStatusModel> maritalArrayList= new ArrayList<>();
-    ArrayList<YesNoModel> headArrayList= new ArrayList<>();
-    List<StudyClass> studyClassResponses= new ArrayList<>();
-    List<MaritialStatus> maritialStatuses= new ArrayList<>();
-    List<Female> femaleList= new ArrayList<>();
-    List<Occupation> occupationModels= new ArrayList<>();
-    List<BloodGroup> bloodGroups= new ArrayList<>();
+    List<Female> sexArrayList = new ArrayList<>();
+    ArrayList<ReligionModel> religionArrayList = new ArrayList<>();
+    ArrayList<OccupationModel> occupationArrayList = new ArrayList<>();
+    ArrayList<EducationModel> educationArrayList = new ArrayList<>();
+    ArrayList<BloodGroupModel> bloodGroupArrayList = new ArrayList<>();
+    ArrayList<LivingStatusModel> livingGroupArrayList = new ArrayList<>();
+    ArrayList<MaritialStatusModel> maritalArrayList = new ArrayList<>();
+    ArrayList<YesNoModel> headArrayList = new ArrayList<>();
+    List<StudyClass> studyClassResponses = new ArrayList<>();
+    List<MaritialStatus> maritialStatuses = new ArrayList<>();
+    List<Female> femaleList = new ArrayList<>();
+    List<Occupation> occupationModels = new ArrayList<>();
+    List<BloodGroup> bloodGroups = new ArrayList<>();
     int headId;
     int bloodGroupId;
     int genderId;
@@ -142,20 +146,37 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     String memberId;
     String update;
 
-    public HHMyselfFragment(String uniquKey,String updates) {
-        uniqueId=uniquKey;
-        update=updates;
-        Log.e("uniqueId",""+uniqueId);
-        Log.e("update",""+update);
+    TextView tv_full_name;
+    TextView tv_gender;
+    TextView tv_marital_status;
+    TextView tv_religion;
+    TextView tv_blood_group;
+    TextView tv_dob;
+    TextView tv_occupation;
+    TextView tv_class;
+    TextView tv_mobile_number;
+    TextView tv_national_id;
+    TextView tv_living_status;
+    TextView tv_date_of_death;
+    TextView tv_head;
+    TextView tv_age;
+    TextView tv_birthdate_again;
+    TextView tv_birthdate_for;
+
+    public HHMyselfFragment(String uniquKey, String updates) {
+        uniqueId = uniquKey;
+        update = updates;
+        Log.e("uniqueId", "" + uniqueId);
+        Log.e("update", "" + update);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_hhmyself, container, false);
-        mActivity=getActivity();
-        correctSizeUtil= correctSizeUtil.getInstance(getActivity());
+        view = inflater.inflate(R.layout.fragment_hhmyself, container, false);
+        mActivity = getActivity();
+        correctSizeUtil = correctSizeUtil.getInstance(getActivity());
         correctSizeUtil.setWidthOriginal(1080);
         correctSizeUtil.correctSize(view);
         setRetainInstance(true);
@@ -198,28 +219,49 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         // display();
         return view;
     }
-    private  void initView(){
-        relativeLayout=view.findViewById(R.id.relative);
-        linear_birthdate=view.findViewById(R.id.linear_birthdate);
-        radioAge=view.findViewById(R.id.radioAge);
-        linear_age=view.findViewById(R.id.linear_age);
-        radioBirthdate=view.findViewById(R.id.radioBirthdate);
-        edit_birthday_date_again=view.findViewById(R.id.edit_birthday_date_again);
-        linear_edit_death=view.findViewById(R.id.linear_edit_death);
-        edit_date_of_death=view.findViewById(R.id.edit_date_of_death);
-        edit_national_id=view.findViewById(R.id.edit_national_id);
-        edit_mobile_number=view.findViewById(R.id.edit_mobile_number);
-        edit_name=view.findViewById(R.id.edit_name);
-        edit_birthday_date=view.findViewById(R.id.edit_birthday_date);
-        edit_age=view.findViewById(R.id.edit_age);
-        spinner_sex=view.findViewById(R.id.spinner_sex);
-        spinner_religion=view.findViewById(R.id.spinner_religion);
-        spinner_education=view.findViewById(R.id.spinner_education);
-        spinner_martial_status=view.findViewById(R.id.spinner_martial_status);
-        spinner_occupation=view.findViewById(R.id.spinner_occupation);
-        spinner_blood_group=view.findViewById(R.id.spinner_blood_group);
-        spinner_living_status=view.findViewById(R.id.spinner_living_status);
-        spinner_head=view.findViewById(R.id.spinner_head);
+
+    private void initView() {
+        relativeLayout = view.findViewById(R.id.relative);
+        linear_birthdate = view.findViewById(R.id.linear_birthdate);
+        radioAge = view.findViewById(R.id.radioAge);
+        linear_age = view.findViewById(R.id.linear_age);
+        radioBirthdate = view.findViewById(R.id.radioBirthdate);
+        edit_birthday_date_again = view.findViewById(R.id.edit_birthday_date_again);
+        linear_edit_death = view.findViewById(R.id.linear_edit_death);
+        edit_date_of_death = view.findViewById(R.id.edit_date_of_death);
+        edit_national_id = view.findViewById(R.id.edit_national_id);
+        edit_mobile_number = view.findViewById(R.id.edit_mobile_number);
+        edit_name = view.findViewById(R.id.edit_name);
+        edit_birthday_date = view.findViewById(R.id.edit_birthday_date);
+        edit_age = view.findViewById(R.id.edit_age);
+        spinner_sex = view.findViewById(R.id.spinner_sex);
+        spinner_religion = view.findViewById(R.id.spinner_religion);
+        spinner_education = view.findViewById(R.id.spinner_education);
+        spinner_martial_status = view.findViewById(R.id.spinner_martial_status);
+        spinner_occupation = view.findViewById(R.id.spinner_occupation);
+        spinner_blood_group = view.findViewById(R.id.spinner_blood_group);
+        spinner_living_status = view.findViewById(R.id.spinner_living_status);
+        spinner_head = view.findViewById(R.id.spinner_head);
+        tv_full_name = view.findViewById(R.id.tv_full_name);
+        tv_gender = view.findViewById(R.id.tv_gender);
+        tv_marital_status = view.findViewById(R.id.tv_marital_status);
+        tv_religion = view.findViewById(R.id.tv_religion);
+        tv_blood_group = view.findViewById(R.id.tv_blood_group);
+        tv_dob = view.findViewById(R.id.tv_dob);
+        tv_occupation = view.findViewById(R.id.tv_occupation);
+        tv_class = view.findViewById(R.id.tv_class);
+        tv_mobile_number = view.findViewById(R.id.tv_mobile_number);
+        tv_national_id = view.findViewById(R.id.tv_national_id);
+        tv_living_status = view.findViewById(R.id.tv_living_status);
+        tv_date_of_death = view.findViewById(R.id.tv_date_of_death);
+        tv_head = view.findViewById(R.id.tv_head);
+        tv_age= view.findViewById(R.id.tv_age);
+        tv_birthdate_again= view.findViewById(R.id.tv_birthdate_again);
+        tv_birthdate_for= view.findViewById(R.id.tv_birthdate_for);
+        Paper.init(mActivity);
+        String language = SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language", language);
+        updateView((String) Paper.book().read("language"));
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -227,23 +269,53 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                 InputMethodManager inputMethodManager = (InputMethodManager)
                         view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 // Hide the soft keyboard
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(),0);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
 
     }
 
+    private void updateView(String language) {
+        Context context = LocaleHelper.setLocale(mActivity, language);
+        Resources resources = context.getResources();
+        radioAge.setText(resources.getString(R.string.age));
+        edit_mobile_number.setHint(resources.getString(R.string.mobile_number));
+        edit_birthday_date.setHint(resources.getString(R.string.birthday_date));
+        edit_birthday_date_again.setHint(resources.getString(R.string.birthday_date));
+        edit_name.setHint(resources.getString(R.string.full_name));
+        edit_age.setHint(resources.getString(R.string.age));
+        edit_national_id.setHint(resources.getString(R.string.national_id));
+        edit_date_of_death.setHint(resources.getString(R.string.date_of_death));
+        radioBirthdate.setText(resources.getString(R.string.birthday_date));
+        tv_full_name.setText(resources.getString(R.string.full_name));
+        tv_gender.setText(resources.getString(R.string.gender));
+        tv_marital_status.setText(resources.getString(R.string.marital_status));
+        tv_religion.setText(resources.getString(R.string.religion));
+        tv_blood_group.setText(resources.getString(R.string.blood_group));
+        tv_dob.setText(resources.getString(R.string.dob));
+        tv_occupation.setText(resources.getString(R.string.occupation));
+        tv_class.setText(resources.getString(R.string.classes));
+        tv_mobile_number.setText(resources.getString(R.string.mobile_number));
+        tv_national_id.setText(resources.getString(R.string.national_id));
+        tv_living_status.setText(resources.getString(R.string.living_status));
+        tv_date_of_death.setText(resources.getString(R.string.date_of_death));
+        tv_head.setText(resources.getString(R.string.head_of));
+        tv_age.setText(resources.getString(R.string.age));
+        tv_birthdate_again.setText(resources.getString(R.string.birthday_date));
+        tv_birthdate_for.setText(resources.getString(R.string.birthday_date));
+
+    }
 
     private void initalizeSpinner() {
-       // sexArrayList= Utils.getSexList();
+        // sexArrayList= Utils.getSexList();
         hideSoftKeyboard(mActivity);
-        headArrayList=Utils.getyesNoList();
-        religionArrayList=Utils.getReligionList();
-        occupationArrayList=Utils.getOccupationList();
-        educationArrayList=Utils.getEducationList();
-        bloodGroupArrayList=Utils.getBloodGroupList();
-        livingGroupArrayList=Utils.getLivingStatusList();
-        maritalArrayList=Utils.getMaritialStatusList();
+        headArrayList = Utils.getyesNoList(mActivity);
+        religionArrayList = Utils.getReligionList();
+        occupationArrayList = Utils.getOccupationList();
+        educationArrayList = Utils.getEducationList();
+        bloodGroupArrayList = Utils.getBloodGroupList();
+        livingGroupArrayList = Utils.getLivingStatusList(mActivity);
+        maritalArrayList = Utils.getMaritialStatusList();
         //hideSoftKeyboard(mActivity,edit_national_id);
 
 
@@ -311,7 +383,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + headArrayList.get(position).getId());
-                headId=headArrayList.get(position).getId();
+                headId = headArrayList.get(position).getId();
             }
 
             @Override
@@ -323,7 +395,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("FemaleId", "genderId" + sexArrayList.get(position).FemaleId);
-                genderId=sexArrayList.get(position).FemaleId;
+                genderId = sexArrayList.get(position).FemaleId;
             }
 
             @Override
@@ -334,8 +406,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_education.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-             //   Log.e("sp_water", "" + sexArrayList.get(position).getId());
-                studyId=studyClassResponses.get(position).StudyClassId;
+                //   Log.e("sp_water", "" + sexArrayList.get(position).getId());
+                studyId = studyClassResponses.get(position).StudyClassId;
             }
 
             @Override
@@ -346,8 +418,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_religion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            //    Log.e("sp_water", "" + headArrayList.get(position).getId());
-                religionId=religionArrayList.get(position).getId();
+                //    Log.e("sp_water", "" + headArrayList.get(position).getId());
+                religionId = religionArrayList.get(position).getId();
             }
 
             @Override
@@ -359,7 +431,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + headArrayList.get(position).getId());
-                maritialId=maritialStatuses.get(position).MaritialId;
+                maritialId = maritialStatuses.get(position).MaritialId;
             }
 
             @Override
@@ -370,8 +442,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         spinner_occupation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-             //   Log.e("sp_water", "" + headArrayList.get(position).getId());
-                occupationId=occupationModels.get(position).OccupationId;
+                //   Log.e("sp_water", "" + headArrayList.get(position).getId());
+                occupationId = occupationModels.get(position).OccupationId;
             }
 
             @Override
@@ -383,7 +455,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Log.e("sp_water", "" + headArrayList.get(position).getId());
-                bloodGroupId=bloodGroups.get(position).BloodId;
+                bloodGroupId = bloodGroups.get(position).BloodId;
             }
 
             @Override
@@ -395,11 +467,10 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + livingGroupArrayList.get(position).getId());
-                livingId= livingGroupArrayList.get(position).getId();
-                if (livingGroupArrayList.get(position).getId()==1){
+                livingId = livingGroupArrayList.get(position).getId();
+                if (livingGroupArrayList.get(position).getId() == 1) {
                     linear_edit_death.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     linear_edit_death.setVisibility(View.GONE);
                     edit_date_of_death.setText("");
                 }
@@ -420,39 +491,36 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                if (charSequence.toString()!=null){
+                if (charSequence.toString() != null) {
 
-                    int years= 0;
+                    int years = 0;
                     try {
                         years = Integer.parseInt(charSequence.toString());
                         Calendar today = Calendar.getInstance();
 
-                        int total=today.get(Calendar.YEAR)-years;
-                        int month=today.get(Calendar.DAY_OF_MONTH)+1;
-                        int day=today.get(Calendar.DAY_OF_WEEK);
+                        int total = today.get(Calendar.YEAR) - years;
+                        int month = today.get(Calendar.DAY_OF_MONTH) + 1;
+                        int day = today.get(Calendar.DAY_OF_WEEK);
 
-                        String months="";
-                        String days="";
-                        if(month>9){
-                            months=String.valueOf(month);
-                        }
-                        else{
-                            months="0"+month;
-                        }
-
-                        if(day>9){
-                            days=String.valueOf(day);
-                        }
-                        else{
-                            days="0"+day;
+                        String months = "";
+                        String days = "";
+                        if (month > 9) {
+                            months = String.valueOf(month);
+                        } else {
+                            months = "0" + month;
                         }
 
-                        edit_birthday_date.setText(days+"-"+months+"-" + total);
+                        if (day > 9) {
+                            days = String.valueOf(day);
+                        } else {
+                            days = "0" + day;
+                        }
+
+                        edit_birthday_date.setText(days + "-" + months + "-" + total);
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                         edit_birthday_date.setText("");
                     }
-
 
 
                 }
@@ -467,10 +535,11 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         show();
 
     }
-    public void show(){
-        MemberMyself memberId=Common.memberMyselfRepository.getMemberId(update);
 
-        if (memberId!=null){
+    public void show() {
+        MemberMyself memberId = Common.memberMyselfRepository.getMemberId(update);
+
+        if (memberId != null) {
             edit_national_id.setText(String.valueOf(memberId.NationalId));
             edit_name.setText(memberId.FullName);
             edit_mobile_number.setText(memberId.MobileNumber);
@@ -558,32 +627,25 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     }
                 }
             }
-            if (memberId.LivingId==1){
+            if (memberId.LivingId == 1) {
                 linear_edit_death.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 linear_edit_death.setVisibility(View.GONE);
                 edit_date_of_death.setText(memberId.DateOfDeath);
             }
 
-        }
-        else{
+        } else {
 
         }
     }
+
     private boolean isChecked() {
-        if(radioBirthdate.isChecked())
-        {
+        if (radioBirthdate.isChecked()) {
             // is checked
-        }
-        else
-        {
-            if(radioAge.isChecked())
-            {
+        } else {
+            if (radioAge.isChecked()) {
                 // is checked
-            }
-            else
-            {
+            } else {
 
                 Toast.makeText(mActivity, "Please fill birthday date", Toast.LENGTH_SHORT).show();
                 // not checked
@@ -596,15 +658,14 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 //            return false;
 //        }
 //        else
-         if (Utils.isEmpty(edit_national_id.getText().toString())) {
+        if (Utils.isEmpty(edit_national_id.getText().toString())) {
             Toast.makeText(mActivity, "Please fill national id", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (Utils.isEmpty(edit_name.getText().toString())) {
             Toast.makeText(mActivity, "Please fill national id", Toast.LENGTH_SHORT).show();
             return false;
-        }
-        else if (Utils.isEmpty(edit_mobile_number.getText().toString())) {
+        } else if (Utils.isEmpty(edit_mobile_number.getText().toString())) {
             Toast.makeText(mActivity, "Please fill Mobile Number", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -613,24 +674,22 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         return true;
     }
 
-    private void saveData(){
+    private void saveData() {
 
-        if (isChecked()){
+        if (isChecked()) {
 
             try {
 
-                MemberMyself memberIds=Common.memberMyselfRepository.getMemberId(update);
-                if (memberIds!=null)
-                {
+                MemberMyself memberIds = Common.memberMyselfRepository.getMemberId(update);
+                if (memberIds != null) {
                     MemberMyself memberMyself = new MemberMyself();
-                    memberMyself.NationalId= edit_national_id.getText().toString();
-                    memberMyself.MobileNumber= edit_mobile_number.getText().toString();
-                    memberMyself.FullName= edit_name.getText().toString();
-                    if (isNullOrEmpty(edit_birthday_date.getText().toString())){
-                        memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
-                    }
-                    else {
-                        memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
+                    memberMyself.NationalId = edit_national_id.getText().toString();
+                    memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                    memberMyself.FullName = edit_name.getText().toString();
+                    if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                        memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                    } else {
+                        memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                     }
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
@@ -642,45 +701,38 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    memberMyself.CreatedDate=date1;
-                    memberMyself.id=memberIds.id;
-                    memberMyself.GenderId=genderId;
-                    memberMyself.BloodGroupId=bloodGroupId;
-                    memberMyself.ReligionId=religionId;
-                    memberMyself.StudyId=studyId;
-                    memberMyself.MaritialId=maritialId;
-                    memberMyself.OccupationId=occupationId;
-                    memberMyself.LivingId=livingId;
-                    memberMyself.HouseHeadId=headId;
-                    memberMyself.MemberId= memberIds.MemberId;
-                    memberMyself.UniqueId=uniqueId;
-                    memberMyself.Status= memberIds.Status;
+                    memberMyself.CreatedDate = date1;
+                    memberMyself.id = memberIds.id;
+                    memberMyself.GenderId = genderId;
+                    memberMyself.BloodGroupId = bloodGroupId;
+                    memberMyself.ReligionId = religionId;
+                    memberMyself.StudyId = studyId;
+                    memberMyself.MaritialId = maritialId;
+                    memberMyself.OccupationId = occupationId;
+                    memberMyself.LivingId = livingId;
+                    memberMyself.HouseHeadId = headId;
+                    memberMyself.MemberId = memberIds.MemberId;
+                    memberMyself.UniqueId = uniqueId;
+                    memberMyself.Status = memberIds.Status;
                     SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     Common.memberMyselfRepository.updateMemberMyself(memberMyself);
                     HHCreateMemberFragment.nextPage(1);
                     HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
-                }
+                } else {
+                    MemberMyself myself = Common.memberMyselfRepository.getMemberMyself(edit_national_id.getText().toString());
 
-
-
-
-                else{
-                    MemberMyself myself=Common.memberMyselfRepository.getMemberMyself(edit_national_id.getText().toString());
-
-                    if(genderId==-1 || bloodGroupId==-1 ||religionId==-1 ||studyId==-1 ||maritialId==-1 ||livingId==-1 ||headId==-1||occupationId==-1){
+                    if (genderId == -1 || bloodGroupId == -1 || religionId == -1 || studyId == -1 || maritialId == -1 || livingId == -1 || headId == -1 || occupationId == -1) {
                         Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        if (myself==null){
+                    } else {
+                        if (myself == null) {
                             MemberMyself memberMyself = new MemberMyself();
-                            memberMyself.NationalId= edit_national_id.getText().toString();
-                            memberMyself.MobileNumber= edit_mobile_number.getText().toString();
-                            memberMyself.FullName= edit_name.getText().toString();
-                            if (isNullOrEmpty(edit_birthday_date.getText().toString())){
-                                memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
-                            }
-                            else {
-                                memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
+                            memberMyself.NationalId = edit_national_id.getText().toString();
+                            memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                            memberMyself.FullName = edit_name.getText().toString();
+                            if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                                memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                            } else {
+                                memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                             }
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -692,39 +744,36 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            memberMyself.CreatedDate=date1;
+                            memberMyself.CreatedDate = date1;
 
-                            memberMyself.GenderId=genderId;
-                            memberMyself.BloodGroupId=bloodGroupId;
-                            memberMyself.ReligionId=religionId;
-                            memberMyself.StudyId=studyId;
-                            memberMyself.MaritialId=maritialId;
-                            memberMyself.OccupationId=occupationId;
-                            memberMyself.LivingId=livingId;
-                            memberMyself.HouseHeadId=headId;
-                            memberMyself.UniqueId=uniqueId;
-                            memberMyself.VisitDate="";
+                            memberMyself.GenderId = genderId;
+                            memberMyself.BloodGroupId = bloodGroupId;
+                            memberMyself.ReligionId = religionId;
+                            memberMyself.StudyId = studyId;
+                            memberMyself.MaritialId = maritialId;
+                            memberMyself.OccupationId = occupationId;
+                            memberMyself.LivingId = livingId;
+                            memberMyself.HouseHeadId = headId;
+                            memberMyself.UniqueId = uniqueId;
+                            memberMyself.VisitDate = "";
 
 
-
-                            memberMyself.MemberId= memberId;
-                            memberMyself.Status= "0";
+                            memberMyself.MemberId = memberId;
+                            memberMyself.Status = "0";
                             Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
                             SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
                             Common.memberIdRepository.emptyMemberId(memberId);
                             HHCreateMemberFragment.nextPage(1);
-                        }
-                        else {
+                        } else {
                             MemberMyself memberMyself = new MemberMyself();
-                            memberMyself.NationalId=edit_national_id.getText().toString();
-                            memberMyself.MobileNumber= edit_mobile_number.getText().toString();
-                            memberMyself.FullName= edit_name.getText().toString();
-                            if (isNullOrEmpty(edit_birthday_date.getText().toString())){
-                                memberMyself.DateOfBirth= edit_birthday_date_again.getText().toString();
-                            }
-                            else {
-                                memberMyself.DateOfBirth= edit_birthday_date.getText().toString();
+                            memberMyself.NationalId = edit_national_id.getText().toString();
+                            memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                            memberMyself.FullName = edit_name.getText().toString();
+                            if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                                memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                            } else {
+                                memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                             }
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -736,19 +785,19 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            memberMyself.CreatedDate=date1;
-                            memberMyself.id=myself.id;
-                            memberMyself.Status= myself.Status;
-                            memberMyself.GenderId=genderId;
-                            memberMyself.BloodGroupId=bloodGroupId;
-                            memberMyself.ReligionId=religionId;
-                            memberMyself.StudyId=studyId;
-                            memberMyself.MaritialId=maritialId;
-                            memberMyself.OccupationId=occupationId;
-                            memberMyself.LivingId=livingId;
-                            memberMyself.HouseHeadId=headId;
-                            memberMyself.UniqueId=uniqueId;
-                            memberMyself.MemberId= myself.MemberId;
+                            memberMyself.CreatedDate = date1;
+                            memberMyself.id = myself.id;
+                            memberMyself.Status = myself.Status;
+                            memberMyself.GenderId = genderId;
+                            memberMyself.BloodGroupId = bloodGroupId;
+                            memberMyself.ReligionId = religionId;
+                            memberMyself.StudyId = studyId;
+                            memberMyself.MaritialId = maritialId;
+                            memberMyself.OccupationId = occupationId;
+                            memberMyself.LivingId = livingId;
+                            memberMyself.HouseHeadId = headId;
+                            memberMyself.UniqueId = uniqueId;
+                            memberMyself.MemberId = myself.MemberId;
                             Common.memberMyselfRepository.updateMemberMyself(memberMyself);
 
                             HHCreateMemberFragment.nextPage(1);
@@ -759,8 +808,6 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
                 }
 
 
-
-
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
@@ -769,12 +816,12 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
 
     @Override
     public boolean handleMessage(@NonNull Message message) {
-        if(message.what==0)
-        {
+        if (message.what == 0) {
             saveData();
         }
         return false;
     }
+
     public static class DatePickerFromFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @Override
@@ -805,6 +852,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             edit_birthday_date_again.setText(formattedDate);
         }
     }
+
     public static class DatePickerDeadFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @Override
@@ -835,13 +883,14 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
             edit_date_of_death.setText(formattedDate);
         }
     }
-    private  void load() {
+
+    private void load() {
         showLoadingProgress(mActivity);
         compositeDisposable.add(Common.studyClassRepository.getStudyClassItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<StudyClass>>() {
             @Override
             public void accept(List<StudyClass> customers) throws Exception {
-                Log.e("Division","Division"+new Gson().toJson(customers));
-                studyClassResponses=customers;
+                Log.e("Division", "Division" + new Gson().toJson(customers));
+                studyClassResponses = customers;
 
                 dismissLoadingProgress();
 
@@ -850,8 +899,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         compositeDisposable.add(Common.maritialStatusRepository.getMaritialStatusItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MaritialStatus>>() {
             @Override
             public void accept(List<MaritialStatus> customers) throws Exception {
-                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-                maritialStatuses=customers;
+                Log.e("fsd", "dfsdf" + new Gson().toJson(customers));
+                maritialStatuses = customers;
                 dismissLoadingProgress();
 
             }
@@ -860,8 +909,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         compositeDisposable.add(Common.femaleRepository.getFemaleItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Female>>() {
             @Override
             public void accept(List<Female> customers) throws Exception {
-                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-                femaleList=customers;
+                Log.e("fsd", "dfsdf" + new Gson().toJson(customers));
+                femaleList = customers;
                 dismissLoadingProgress();
 
             }
@@ -870,16 +919,16 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         compositeDisposable.add(Common.occupationRepository.getOccupationItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Occupation>>() {
             @Override
             public void accept(List<Occupation> customers) throws Exception {
-                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-                occupationModels=customers;
+                Log.e("fsd", "dfsdf" + new Gson().toJson(customers));
+                occupationModels = customers;
                 dismissLoadingProgress();
             }
         }));
         compositeDisposable.add(Common.bloodGroupRepository.getBloodGroupItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<BloodGroup>>() {
             @Override
             public void accept(List<BloodGroup> customers) throws Exception {
-                Log.e("fsd","dfsdf"+new Gson().toJson(customers));
-                bloodGroups=customers;
+                Log.e("fsd", "dfsdf" + new Gson().toJson(customers));
+                bloodGroups = customers;
                 dismissLoadingProgress();
             }
         }));
@@ -887,8 +936,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         compositeDisposable.add(Common.femaleRepository.getFemaleItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Female>>() {
             @Override
             public void accept(List<Female> customers) throws Exception {
-                Log.e("Division","Division"+new Gson().toJson(customers));
-                sexArrayList=customers;
+                Log.e("Division", "Division" + new Gson().toJson(customers));
+                sexArrayList = customers;
 
                 dismissLoadingProgress();
 
@@ -897,10 +946,10 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
         compositeDisposable.add(Common.memberIdRepository.getMemberIdItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberId>>() {
             @Override
             public void accept(List<MemberId> memberIds) throws Exception {
-                Log.e("asads","ds"+new Gson().toJson(memberIds));
+                Log.e("asads", "ds" + new Gson().toJson(memberIds));
 
-                if (memberIds.size()>0){
-                    memberId=memberIds.get(0).Value;
+                if (memberIds.size() > 0) {
+                    memberId = memberIds.get(0).Value;
                 }
                 dismissLoadingProgress();
 
@@ -913,7 +962,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback{
     public void onResume() {
         super.onResume();
 
-      //  Log.e("loadload","size"+divisionList.size());
+        //  Log.e("loadload","size"+divisionList.size());
     }
 
     @Override

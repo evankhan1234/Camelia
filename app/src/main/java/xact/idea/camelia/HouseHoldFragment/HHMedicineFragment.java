@@ -605,21 +605,21 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         // onEditorAction(ed);
 
 
-        yesNoArrayListForDiabetis = Utils.getyesNoList();
+        yesNoArrayListForDiabetis = Utils.getyesNoList(mActivity);
         controlDiseaseBrainStrokeModels = Utils.getControlDiseaseList();
         controlDiseaseLungsModels = Utils.getControlDiseaseList();
         controlDiseaseCancerModels = Utils.getControlDiseaseList();
         controlDiseaseMentalModels = Utils.getControlDiseaseList();
         controlDiseaseKidneyModels = Utils.getControlDiseaseList();
         controlDiseaseAshmaModels = Utils.getControlDiseaseList();
-        yesNoArrayListForBloodPressure = Utils.getyesNoList();
-        yesNoArrayListForHeartAttack = Utils.getyesNoList();
-        yesNoArrayListForBrainStroke = Utils.getyesNoList();
-        yesNoArrayListForLungDisease = Utils.getyesNoList();
-        yesNoArrayListForAshma = Utils.getyesNoList();
-        yesNoArrayListForKidney = Utils.getyesNoList();
-        yesNoArrayListForCancer = Utils.getyesNoList();
-        yesNoArrayListForMental = Utils.getyesNoList();
+        yesNoArrayListForBloodPressure = Utils.getyesNoList(mActivity);
+        yesNoArrayListForHeartAttack = Utils.getyesNoList(mActivity);
+        yesNoArrayListForBrainStroke = Utils.getyesNoList(mActivity);
+        yesNoArrayListForLungDisease = Utils.getyesNoList(mActivity);
+        yesNoArrayListForAshma = Utils.getyesNoList(mActivity);
+        yesNoArrayListForKidney = Utils.getyesNoList(mActivity);
+        yesNoArrayListForCancer = Utils.getyesNoList(mActivity);
+        yesNoArrayListForMental = Utils.getyesNoList(mActivity);
 
         initDiabetisSpinner();
         initBloodPressureSpinner();

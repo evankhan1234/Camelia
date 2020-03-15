@@ -2,6 +2,7 @@ package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import com.google.gson.Gson;
 import java.util.Collections;
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -49,11 +51,13 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Fragment.CCMeasurementsDetailsFragment;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCuserMesaurementsFragment;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.CustomDialog;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 
 public class HHMemberListFragment extends Fragment {
@@ -272,12 +276,16 @@ public class HHMemberListFragment extends Fragment {
             transaction.addToBackStack(f.getClass().getSimpleName());
             transaction.commit();
             HHMembersFragment.tabLayout.setVisibility(View.GONE);
+            String language= SharedPreferenceUtil.getLanguage(mActivity);
+            Paper.book().write("language",language);
+            Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+            Resources resources= context.getResources();
             if (frag.equals("frag")){
-                ((CCUserHomeActivity) getActivity()).ShowText("Update Member");
+                ((CCUserHomeActivity) getActivity()).ShowText(resources.getString(R.string.update_member));
                 ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }
             else {
-                ((HouseholdHomeActivity) getActivity()).ShowText("Update Member");
+                ((HouseholdHomeActivity) getActivity()).ShowText(resources.getString(R.string.update_member));
                 ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }
         }
@@ -320,6 +328,7 @@ public class HHMemberListFragment extends Fragment {
                 transaction = getChildFragmentManager().beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putString("Id",uniqueId);
+
                 bundle.putString("frag",frag);
                 Fragment f = new HHCreateMemberFragment();
                 f.setArguments(bundle);
@@ -328,12 +337,17 @@ public class HHMemberListFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 HHMembersFragment.tabLayout.setVisibility(View.GONE);
+                Paper.init(mActivity);
+                String language= SharedPreferenceUtil.getLanguage(mActivity);
+                Paper.book().write("language",language);
+                Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+                Resources resources= context.getResources();
                 if (frag.equals("frag")){
-                    ((CCUserHomeActivity) getActivity()).ShowText("New Member");
+                    ((CCUserHomeActivity) getActivity()).ShowText(resources.getString(R.string.new_member));
                     ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 }
                 else {
-                    ((HouseholdHomeActivity) getActivity()).ShowText("New Member");
+                    ((HouseholdHomeActivity) getActivity()).ShowText(resources.getString(R.string.new_member));
                     ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 }
 
