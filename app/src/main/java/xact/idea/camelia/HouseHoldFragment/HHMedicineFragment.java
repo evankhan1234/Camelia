@@ -225,6 +225,43 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
     int mentalDisorderYesNo;
     int ashmaYesNo;
     String update;
+    TextView tv_diabetis;
+    TextView tv_diabetes_suffering;
+    TextView tv_diabetes_control;
+    TextView tv_diabetes_medicine_name;
+    TextView tv_blood_pressure;
+    TextView tv_blood_pressure_suffering;
+    TextView tv_blood_pressure_control;
+    TextView tv_blood_pressure_medicine_name;
+    TextView tv_heart_disease;
+    TextView tv_heart_disease_suffering;
+    TextView tv_heart_disease_control;
+    TextView tv_heart_disease_medicine_name;
+    TextView tv_brain_stroke;
+    TextView tv_brain_stroke_suffering;
+    TextView tv_brain_stroke_control;
+    TextView tv_brain_stroke_medicine_name;
+    TextView tv_lung;
+    TextView tv_lung_suffering;
+    TextView tv_lung_control;
+    TextView tv_lung_medicine;
+    TextView tv_ashma;
+    TextView tv_ashma_suffering;
+    TextView tv_ashma_control;
+    TextView tv_ashma_medicine;
+    TextView tv_kidney;
+    TextView tv_kidney_suffering;
+    TextView tv_kidney_control;
+    TextView tv_kidney_medicine;
+    TextView tv_cancer;
+    TextView tv_cancer_suffering;
+    TextView tv_cancer_control;
+    TextView tv_cancer_medicine;
+    TextView tv_mental;
+    TextView tv_mental_suffering;
+    TextView tv_mental_control;
+    TextView tv_mental_treatment;
+
 
     public HHMedicineFragment(String updates) {
 
@@ -573,6 +610,42 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         linear_cancer = view.findViewById(R.id.linear_cancer);
         edit_yes_cancer = view.findViewById(R.id.edit_yes_cancer);
         spinner_medicine_control_name_kidney_disease = view.findViewById(R.id.spinner_medicine_control_name_kidney_disease);
+        tv_diabetis = view.findViewById(R.id.tv_diabetis);
+        tv_diabetes_suffering = view.findViewById(R.id.tv_diabetes_suffering);
+        tv_diabetes_control = view.findViewById(R.id.tv_diabetes_control);
+        tv_diabetes_medicine_name = view.findViewById(R.id.tv_diabetes_medicine_name);
+        tv_blood_pressure = view.findViewById(R.id.tv_blood_pressure);
+        tv_blood_pressure_suffering = view.findViewById(R.id.tv_blood_pressure_suffering);
+        tv_blood_pressure_control = view.findViewById(R.id.tv_blood_pressure_control);
+        tv_blood_pressure_medicine_name = view.findViewById(R.id.tv_blood_pressure_medicine_name);
+        tv_heart_disease = view.findViewById(R.id.tv_heart_disease);
+        tv_heart_disease_suffering = view.findViewById(R.id.tv_heart_disease_suffering);
+        tv_heart_disease_control = view.findViewById(R.id.tv_heart_disease_control);
+        tv_heart_disease_medicine_name = view.findViewById(R.id.tv_heart_disease_medicine_name);
+        tv_brain_stroke = view.findViewById(R.id.tv_brain_stroke);
+        tv_brain_stroke_suffering = view.findViewById(R.id.tv_brain_stroke_suffering);
+        tv_brain_stroke_control = view.findViewById(R.id.tv_brain_stroke_control);
+        tv_brain_stroke_medicine_name = view.findViewById(R.id.tv_brain_stroke_medicine_name);
+        tv_lung = view.findViewById(R.id.tv_lung);
+        tv_lung_suffering = view.findViewById(R.id.tv_lung_suffering);
+        tv_lung_control = view.findViewById(R.id.tv_lung_control);
+        tv_lung_medicine = view.findViewById(R.id.tv_lung_medicine);
+        tv_ashma = view.findViewById(R.id.tv_ashma);
+        tv_ashma_suffering = view.findViewById(R.id.tv_ashma_suffering);
+        tv_ashma_control = view.findViewById(R.id.tv_ashma_control);
+        tv_ashma_medicine = view.findViewById(R.id.tv_ashma_medicine);
+        tv_kidney = view.findViewById(R.id.tv_kidney);
+        tv_kidney_suffering = view.findViewById(R.id.tv_kidney_suffering);
+        tv_kidney_control = view.findViewById(R.id.tv_kidney_control);
+        tv_kidney_medicine = view.findViewById(R.id.tv_kidney_medicine);
+        tv_cancer = view.findViewById(R.id.tv_cancer);
+        tv_cancer_suffering = view.findViewById(R.id.tv_cancer_suffering);
+        tv_cancer_control = view.findViewById(R.id.tv_cancer_control);
+        tv_cancer_medicine = view.findViewById(R.id.tv_cancer_medicine);
+        tv_mental = view.findViewById(R.id.tv_mental);
+        tv_mental_suffering = view.findViewById(R.id.tv_mental_suffering);
+        tv_mental_control = view.findViewById(R.id.tv_mental_control);
+        tv_mental_treatment = view.findViewById(R.id.tv_mental_treatment);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         LinearLayoutManager lm1 = new LinearLayoutManager(mActivity);
@@ -725,8 +798,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         MemberMedicine memberMedicine = Common.memberMedicineRepository.getMemberMedicineNo(update);
 
 
-        if (memberMedicine != null)
-        {
+        if (memberMedicine != null) {
             int DiabetisYesNo = 0;
             Questions questions1 = Common.qustionsRepository.getQuestions("Q49", update);
             try {
@@ -1030,23 +1102,19 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         String diab = questionsb.answer;
         String diac = questionsc.answer;
         String[] values = diab.split(",");
-      final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         for (String s : values) {
             Log.e("fdf", "dfdf" + s);
-            if(s.equals("1")){
+            if (s.equals("1")) {
                 checkBoxFoodHabit.setChecked(true);
-            }
-            else if(s.equals("2")){
+            } else if (s.equals("2")) {
                 checkBoxExercise.setChecked(true);
-            }
-            else if(s.equals("3")){
+            } else if (s.equals("3")) {
                 checkBoxMouthMedicine.setChecked(true);
-            }
-            else if(s.equals("4")){
+            } else if (s.equals("4")) {
                 checkBoxInsulin.setChecked(true);
-            }
-            else if(s.equals("5")){
+            } else if (s.equals("5")) {
                 checkBoxNo.setChecked(true);
             }
 
@@ -1057,10 +1125,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayList.add(medicine.Name);
                         }
                     }
@@ -1092,10 +1160,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 // mTagAddAdapters.notifyDataSetChanged();
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
@@ -1108,20 +1173,17 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         String diab = questionsb.answer;
         String diac = questionsc.answer;
         String[] values = diab.split(",");
-        final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         for (String s : values) {
             Log.e("fdf", "dfdf" + s);
-            if(s.equals("1")){
+            if (s.equals("1")) {
                 checkBoxFoodHabit_blood_pressure.setChecked(true);
-            }
-            else if(s.equals("2")){
+            } else if (s.equals("2")) {
                 checkBoxExercise_blood_pressure.setChecked(true);
-            }
-            else if(s.equals("3")){
+            } else if (s.equals("3")) {
                 checkBoxMouthMedicine_blood_pressure.setChecked(true);
-            }
-            else if(s.equals("4")){
+            } else if (s.equals("4")) {
                 checkBoxNo_blood_pressure.setChecked(true);
             }
 
@@ -1132,10 +1194,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayListBlood.add(medicine.Name);
                         }
                     }
@@ -1166,13 +1228,11 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 }
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
+
     private void initHeartAttack() {
         Questions questionsa = Common.qustionsRepository.getQuestions("Q51a", update);
         edit_yes_heart_attack.setText(questionsa.answer);
@@ -1181,20 +1241,17 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         String diab = questionsb.answer;
         String diac = questionsc.answer;
         String[] values = diab.split(",");
-        final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         for (String s : values) {
             Log.e("fdf", "dfdf" + s);
-            if(s.equals("1")){
+            if (s.equals("1")) {
                 checkBoxFoodHabit_heart_attack.setChecked(true);
-            }
-            else if(s.equals("3")){
+            } else if (s.equals("3")) {
                 checkBoxMouthMedicine_heart_attack.setChecked(true);
-            }
-            else if(s.equals("2")){
+            } else if (s.equals("2")) {
                 checkBoxExercise_heart_attack.setChecked(true);
-            }
-            else if(s.equals("4")){
+            } else if (s.equals("4")) {
                 checkBoxNo_heart_attack.setChecked(true);
             }
 
@@ -1205,10 +1262,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayListHeart.add(medicine.Name);
                         }
                     }
@@ -1231,21 +1288,19 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListHeart.addAll(hs);
 //        spinnerForMedicine.closeSpinerDialog();
                 if (arrayListHeart.size() > 0) {
-                    text_heart_attack_text .setVisibility(View.GONE);
+                    text_heart_attack_text.setVisibility(View.GONE);
                     rcl_this_heart_attack.setVisibility(View.VISIBLE);
                 } else {
                     rcl_this_heart_attack.setVisibility(View.GONE);
-                    text_heart_attack_text .setVisibility(View.VISIBLE);
+                    text_heart_attack_text.setVisibility(View.VISIBLE);
                 }
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
+
     private void initBrainStroke() {
         Questions questionsa = Common.qustionsRepository.getQuestions("Q52a", update);
         edit_yes_heart_brain_stroke.setText(questionsa.answer);
@@ -1253,7 +1308,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         Questions questionsc = Common.qustionsRepository.getQuestions("Q52c", update);
         String diab = questionsb.answer;
         String diac = questionsc.answer;
-        final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         int brain = 0;
         try {
@@ -1265,8 +1320,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         if (brain != 0) {
             int div = brain;
 
-            for (int i = 0; i < controlDiseaseBrainStrokeModels .size(); i++) {
-                if (controlDiseaseBrainStrokeModels .get(i).getId() == div) {
+            for (int i = 0; i < controlDiseaseBrainStrokeModels.size(); i++) {
+                if (controlDiseaseBrainStrokeModels.get(i).getId() == div) {
                     spinner_medicine_name_brain_stroke_disease.setSelection(i);
                 }
             }
@@ -1278,10 +1333,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayListBrainStroke.add(medicine.Name);
                         }
                     }
@@ -1304,21 +1359,19 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListLung.addAll(hs);
 //        spinnerForMedicine.closeSpinerDialog();
                 if (arrayListLung.size() > 0) {
-                    text_brain_stroke_text .setVisibility(View.GONE);
+                    text_brain_stroke_text.setVisibility(View.GONE);
                     rcl_this_brain_stroke.setVisibility(View.VISIBLE);
                 } else {
                     rcl_this_brain_stroke.setVisibility(View.GONE);
-                    text_brain_stroke_text .setVisibility(View.VISIBLE);
+                    text_brain_stroke_text.setVisibility(View.VISIBLE);
                 }
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
+
     private void initLungDisease() {
         Questions questionsa = Common.qustionsRepository.getQuestions("Q53a", update);
         edit_yes_lung_disease.setText(questionsa.answer);
@@ -1326,7 +1379,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         Questions questionsc = Common.qustionsRepository.getQuestions("Q53c", update);
         String diab = questionsb.answer;
         String diac = questionsc.answer;
-        final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         int brain = 0;
         try {
@@ -1338,8 +1391,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         if (brain != 0) {
             int div = brain;
 
-            for (int i = 0; i < controlDiseaseLungsModels .size(); i++) {
-                if (controlDiseaseLungsModels .get(i).getId() == div) {
+            for (int i = 0; i < controlDiseaseLungsModels.size(); i++) {
+                if (controlDiseaseLungsModels.get(i).getId() == div) {
                     spinner_medicine_name_control_lung_disease.setSelection(i);
                 }
             }
@@ -1351,10 +1404,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayListBrainStroke.add(medicine.Name);
                         }
                     }
@@ -1377,21 +1430,19 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListBrainStroke.addAll(hs);
 //        spinnerForMedicine.closeSpinerDialog();
                 if (arrayListBrainStroke.size() > 0) {
-                    text_brain_stroke_text .setVisibility(View.GONE);
+                    text_brain_stroke_text.setVisibility(View.GONE);
                     rcl_this_brain_stroke.setVisibility(View.VISIBLE);
                 } else {
                     rcl_this_brain_stroke.setVisibility(View.GONE);
-                    text_brain_stroke_text .setVisibility(View.VISIBLE);
+                    text_brain_stroke_text.setVisibility(View.VISIBLE);
                 }
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
+
     private void initAshma() {
         Questions questionsa = Common.qustionsRepository.getQuestions("Q54a", update);
         edit_yes_ashma.setText(questionsa.answer);
@@ -1399,7 +1450,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         Questions questionsc = Common.qustionsRepository.getQuestions("Q54c", update);
         String diab = questionsb.answer;
         String diac = questionsc.answer;
-        final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         int ashma = 0;
         try {
@@ -1411,8 +1462,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         if (ashma != 0) {
             int div = ashma;
 
-            for (int i = 0; i < controlDiseaseAshmaModels .size(); i++) {
-                if (controlDiseaseAshmaModels .get(i).getId() == div) {
+            for (int i = 0; i < controlDiseaseAshmaModels.size(); i++) {
+                if (controlDiseaseAshmaModels.get(i).getId() == div) {
                     spinner_medicine_control_name_ashma.setSelection(i);
                 }
             }
@@ -1424,10 +1475,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayListAshma.add(medicine.Name);
                         }
                     }
@@ -1450,21 +1501,19 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListAshma.addAll(hs);
 //        spinnerForMedicine.closeSpinerDialog();
                 if (arrayListAshma.size() > 0) {
-                    text_ashma_text .setVisibility(View.GONE);
+                    text_ashma_text.setVisibility(View.GONE);
                     rcl_this_ashma.setVisibility(View.VISIBLE);
                 } else {
                     rcl_this_ashma.setVisibility(View.GONE);
-                    text_ashma_text .setVisibility(View.VISIBLE);
+                    text_ashma_text.setVisibility(View.VISIBLE);
                 }
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
+
     private void initKidney() {
         Questions questionsa = Common.qustionsRepository.getQuestions("Q55a", update);
         edit_yes_kidney_disease.setText(questionsa.answer);
@@ -1472,7 +1521,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         Questions questionsc = Common.qustionsRepository.getQuestions("Q55c", update);
         String diab = questionsb.answer;
         String diac = questionsc.answer;
-        final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         int ashma = 0;
         try {
@@ -1485,7 +1534,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
             int div = ashma;
 
             for (int i = 0; i < controlDiseaseKidneyModels.size(); i++) {
-                if (controlDiseaseKidneyModels .get(i).getId() == div) {
+                if (controlDiseaseKidneyModels.get(i).getId() == div) {
                     spinner_medicine_control_name_kidney_disease.setSelection(i);
                 }
             }
@@ -1497,10 +1546,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayListKidney.add(medicine.Name);
                         }
                     }
@@ -1523,21 +1572,19 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListKidney.addAll(hs);
 //        spinnerForMedicine.closeSpinerDialog();
                 if (arrayListKidney.size() > 0) {
-                    text_kidney_text .setVisibility(View.GONE);
+                    text_kidney_text.setVisibility(View.GONE);
                     rcl_this_kidney.setVisibility(View.VISIBLE);
                 } else {
                     rcl_this_kidney.setVisibility(View.GONE);
-                    text_kidney_text .setVisibility(View.VISIBLE);
+                    text_kidney_text.setVisibility(View.VISIBLE);
                 }
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
+
     private void initCancer() {
         Questions questionsa = Common.qustionsRepository.getQuestions("Q56a", update);
         edit_yes_cancer.setText(questionsa.answer);
@@ -1545,7 +1592,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         Questions questionsc = Common.qustionsRepository.getQuestions("Q56c", update);
         String diab = questionsb.answer;
         String diac = questionsc.answer;
-        final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         int ashma = 0;
         try {
@@ -1558,7 +1605,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
             int div = ashma;
 
             for (int i = 0; i < controlDiseaseCancerModels.size(); i++) {
-                if (controlDiseaseCancerModels .get(i).getId() == div) {
+                if (controlDiseaseCancerModels.get(i).getId() == div) {
                     spinner_medicine_control_name_cancer.setSelection(i);
                 }
             }
@@ -1570,10 +1617,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayListCancer.add(medicine.Name);
                         }
                     }
@@ -1596,21 +1643,19 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListCancer.addAll(hs);
 //        spinnerForMedicine.closeSpinerDialog();
                 if (arrayListCancer.size() > 0) {
-                    text_cancer_text .setVisibility(View.GONE);
+                    text_cancer_text.setVisibility(View.GONE);
                     rcl_this_cancer.setVisibility(View.VISIBLE);
                 } else {
                     rcl_this_cancer.setVisibility(View.GONE);
-                    text_cancer_text .setVisibility(View.VISIBLE);
+                    text_cancer_text.setVisibility(View.VISIBLE);
                 }
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
+
     private void initMental() {
         Questions questionsa = Common.qustionsRepository.getQuestions("Q57a", update);
         edit_yes_mental_disorder.setText(questionsa.answer);
@@ -1618,7 +1663,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         Questions questionsc = Common.qustionsRepository.getQuestions("Q57c", update);
         String diab = questionsb.answer;
         String diac = questionsc.answer;
-        final   String[] values1 = diac.split(",");
+        final String[] values1 = diac.split(",");
 
         int ashma = 0;
         try {
@@ -1631,7 +1676,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
             int div = ashma;
 
             for (int i = 0; i < controlDiseaseMentalModels.size(); i++) {
-                if (controlDiseaseMentalModels .get(i).getId() == div) {
+                if (controlDiseaseMentalModels.get(i).getId() == div) {
                     spinner_medicine_name_mental_disorders.setSelection(i);
                 }
             }
@@ -1643,10 +1688,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("Divisionload", "Divisionload" + new Gson().toJson(customers));
                 medicineArrayList = customers;
 
-                for(String s: values1){
-                    for (Medicine medicine:medicineArrayList){
+                for (String s : values1) {
+                    for (Medicine medicine : medicineArrayList) {
 
-                        if (s.equals(String.valueOf(medicine.MedicineId))){
+                        if (s.equals(String.valueOf(medicine.MedicineId))) {
                             arrayListMental.add(medicine.Name);
                         }
                     }
@@ -1669,21 +1714,19 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListMental.addAll(hs);
 //        spinnerForMedicine.closeSpinerDialog();
                 if (arrayListMental.size() > 0) {
-                    text_mental_disorders_text .setVisibility(View.GONE);
+                    text_mental_disorders_text.setVisibility(View.GONE);
                     rcl_this_mental_disorders.setVisibility(View.VISIBLE);
                 } else {
                     rcl_this_mental_disorders.setVisibility(View.GONE);
-                    text_mental_disorders_text .setVisibility(View.VISIBLE);
+                    text_mental_disorders_text.setVisibility(View.VISIBLE);
                 }
                 dismissLoadingProgress();
             }
-        },300);
-
-
-
+        }, 300);
 
 
     }
+
     private void checkboxHeartAttackClickListener() {
         checkBoxFoodHabit_heart_attack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -2632,8 +2675,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
         MemberMedicine memberMed = Common.memberMedicineRepository.getMemberMedicineNo(update);
 
-        if (memberMed != null)
-        {
+        if (memberMed != null) {
             if (diabetisYesNo == -1 || bloodPressureYesNo == -1 || heartAttackYesNo == -1 || brainStrokeYesNo == -1 || lungYesNo == -1 || ashmaYesNo == -1 || kidneyYesNo == -1 || cancerYesNo == -1 || mentalDisorderYesNo == -1) {
                 Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
             } else {
@@ -2644,7 +2686,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 if (diabetisYesNo == 2) {
                     Questions questions1 = Common.qustionsRepository.getQuestions("Q49", update);
 
-                    if (questions1==null){
+                    if (questions1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q49";
@@ -2656,8 +2698,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q49";
@@ -2678,7 +2719,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q49", update);
 
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q49";
@@ -2687,8 +2728,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q49";
@@ -2701,10 +2741,9 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
 
-
                     ////
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q49a", update);
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q49a";
@@ -2713,8 +2752,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q49a";
@@ -2730,7 +2768,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q49b", update);
 
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q49b";
@@ -2739,8 +2777,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q49b";
@@ -2756,7 +2793,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q49c", update);
 
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q49c";
@@ -2765,8 +2802,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q49c";
@@ -2785,7 +2821,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q50", update);
 
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q50";
@@ -2797,8 +2833,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q50";
@@ -2820,7 +2855,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q50", update);
 
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q50";
@@ -2829,8 +2864,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q50";
@@ -2848,7 +2882,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q50a", update);
 
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q50a";
@@ -2857,8 +2891,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q50a";
@@ -2874,7 +2907,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q50b", update);
 
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q50b";
@@ -2883,8 +2916,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.id = questionsFor3.id;
@@ -2899,7 +2931,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     ////
 
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q50c", update);
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q50c";
@@ -2908,8 +2940,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.master_id = memberMed.id;
                         questions4.date = currentDate;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
@@ -2926,7 +2957,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 if (heartAttackYesNo == 2) {
 
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q51", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q51";
@@ -2938,8 +2969,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.id = questionsFor1.id;
@@ -2959,7 +2989,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q51", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q51";
@@ -2968,8 +2998,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -2984,7 +3013,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q51a", update);
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q51a";
@@ -2993,8 +3022,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
@@ -3008,7 +3036,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q51b", update);
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q51b";
@@ -3017,8 +3045,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
@@ -3032,7 +3059,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q51c", update);
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q51c";
@@ -3041,8 +3068,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
@@ -3057,10 +3083,9 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 }
 
 
-
                 if (brainStrokeYesNo == 2) {
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q52", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q52";
@@ -3072,8 +3097,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3093,7 +3117,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q52", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q52";
@@ -3102,8 +3126,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3118,7 +3141,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q52a", update);
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q52a";
@@ -3127,8 +3150,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
@@ -3142,7 +3164,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q52b", update);
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q52b";
@@ -3151,8 +3173,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
@@ -3166,7 +3187,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q52c", update);
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q52c";
@@ -3175,8 +3196,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
@@ -3192,7 +3212,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                 if (lungYesNo == 2) {
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q53", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q53";
@@ -3204,8 +3224,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3225,7 +3244,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q53", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q53";
@@ -3234,8 +3253,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3250,7 +3268,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q53a", update);
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q53a";
@@ -3259,8 +3277,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
@@ -3274,7 +3291,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q53b", update);
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q53b";
@@ -3283,8 +3300,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
@@ -3298,7 +3314,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q53c", update);
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q53c";
@@ -3307,8 +3323,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
@@ -3324,7 +3339,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                 if (ashmaYesNo == 2) {
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q54", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q54";
@@ -3336,8 +3351,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3357,7 +3371,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q54", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q54";
@@ -3366,8 +3380,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3382,7 +3395,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q54a", update);
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q54a";
@@ -3391,8 +3404,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
@@ -3406,7 +3418,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q54b", update);
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q54b";
@@ -3415,8 +3427,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
@@ -3430,7 +3441,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q54c", update);
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q54c";
@@ -3439,8 +3450,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
@@ -3456,7 +3466,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                 if (kidneyYesNo == 2) {
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q55", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q55";
@@ -3468,8 +3478,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3489,7 +3498,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q55", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q55";
@@ -3499,8 +3508,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
 
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3515,7 +3523,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q55a", update);
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q55a";
@@ -3524,8 +3532,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
@@ -3539,7 +3546,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q55b", update);
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q55b";
@@ -3548,8 +3555,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
@@ -3563,7 +3569,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q55c", update);
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q55c";
@@ -3572,8 +3578,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
@@ -3590,7 +3595,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                 if (cancerYesNo == 2) {
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q56", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q56";
@@ -3602,8 +3607,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3624,7 +3628,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q56", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q56";
@@ -3633,8 +3637,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3649,7 +3652,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q56a", update);
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q56a";
@@ -3658,8 +3661,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
@@ -3673,7 +3675,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q56b", update);
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q56b";
@@ -3682,8 +3684,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
@@ -3697,7 +3698,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q56c", update);
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q56c";
@@ -3706,8 +3707,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
@@ -3721,10 +3721,9 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                 }
 
-                if (mentalDisorderYesNo == 2)
-                {
+                if (mentalDisorderYesNo == 2) {
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q57", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q57";
@@ -3736,8 +3735,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3752,13 +3750,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Common.qustionsRepository.updateQuestions(questions);
                     }
 
-                }
-                else {
+                } else {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q57", update);
-                    if (questionsFor1==null){
+                    if (questionsFor1 == null) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q57";
@@ -3767,8 +3764,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions);
-                    }
-                    else{
+                    } else {
                         Questions questions = new Questions();
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
@@ -3783,7 +3779,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q57a", update);
-                    if (questionsFor2==null){
+                    if (questionsFor2 == null) {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q57a";
@@ -3792,8 +3788,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions1);
-                    }
-                    else{
+                    } else {
                         Questions questions1 = new Questions();
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
@@ -3807,7 +3802,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q57b", update);
-                    if (questionsFor3==null){
+                    if (questionsFor3 == null) {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q57b";
@@ -3816,8 +3811,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions3);
-                    }
-                    else{
+                    } else {
                         Questions questions3 = new Questions();
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
@@ -3831,7 +3825,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     ////
                     Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q57c", update);
-                    if (questionsFor4==null){
+                    if (questionsFor4 == null) {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q57c";
@@ -3840,8 +3834,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
                         Common.qustionsRepository.insertToQuestions(questions4);
-                    }
-                    else{
+                    } else {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q57c";
@@ -3861,7 +3854,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
                 memberMedicine.member_unique_code = "";
                 memberMedicine.member_national_id = String.valueOf(memberMed.member_national_id);
-                Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);             arrayList.clear();
+                Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
+                arrayList.clear();
                 arrayListBlood.clear();
                 arrayListHeart.clear();
                 arrayListBrainStroke.clear();
@@ -3877,9 +3871,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             }
 
-        }
-        else
-            {
+        } else {
 
 
             MemberMedicine memberMedicine = new MemberMedicine();
@@ -3887,16 +3879,14 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             MemberMyself memberMyself = Common.memberMyselfRepository.getMemberMyselfNo(id);
 
-                SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
+            SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
             MemberMedicine memberMedicine1 = Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MemberId);
             MemberMedicine memberMedicineq = Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MemberId);
             if (diabetisYesNo == -1 || bloodPressureYesNo == -1 || heartAttackYesNo == -1 || brainStrokeYesNo == -1 || lungYesNo == -1 || ashmaYesNo == -1 || kidneyYesNo == -1 || cancerYesNo == -1 || mentalDisorderYesNo == -1) {
                 Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
-            } else
-            {
-                if (memberMedicine1 == null)
-                {
+            } else {
+                if (memberMedicine1 == null) {
                     memberMedicine.MemberId = memberMyself.MemberId;
                     memberMedicine.household_uniqe_id = memberMyself.UniqueId;
                     memberMedicine.member_unique_code = "";
@@ -4420,8 +4410,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     HHCreateMemberFragment.nextPages(2);
 
                     ////Evan
-                }
-                else {
+                } else {
                     memberMedicine.MemberId = memberMedicine1.MemberId;
                     memberMedicine.household_uniqe_id = memberMedicine1.household_uniqe_id;
                     memberMedicine.member_unique_code = "";
@@ -4430,7 +4419,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     if (diabetisYesNo == 2) {
                         Questions questions1 = Common.qustionsRepository.getQuestions("Q49", update);
 
-                        if (questions1==null){
+                        if (questions1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q49";
@@ -4442,8 +4431,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q49";
@@ -4464,7 +4452,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q49", update);
 
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q49";
@@ -4473,8 +4461,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q49";
@@ -4487,10 +4474,9 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         }
 
 
-
                         ////
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q49a", update);
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q49a";
@@ -4499,8 +4485,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q49a";
@@ -4516,7 +4501,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q49b", update);
 
-                        if (questionsFor3==null){
+                        if (questionsFor3 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q49b";
@@ -4525,8 +4510,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q49b";
@@ -4542,7 +4526,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q49c", update);
 
-                        if (questionsFor4==null){
+                        if (questionsFor4 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q49c";
@@ -4551,8 +4535,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q49c";
@@ -4571,7 +4554,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q50", update);
 
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q50";
@@ -4583,8 +4566,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q50";
@@ -4606,7 +4588,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q50", update);
 
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q50";
@@ -4615,8 +4597,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q50";
@@ -4633,7 +4614,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q50a", update);
 
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q50a";
@@ -4642,8 +4623,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q50a";
@@ -4659,7 +4639,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q50b", update);
 
-                        if (questionsFor3==null){
+                        if (questionsFor3 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q50b";
@@ -4668,8 +4648,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.id = questionsFor3.id;
@@ -4684,7 +4663,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         ////
 
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q50c", update);
-                        if (questionsFor4==null){
+                        if (questionsFor4 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q50c";
@@ -4693,8 +4672,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.master_id = memberMed.id;
                             questions4.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
@@ -4711,7 +4689,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     if (heartAttackYesNo == 2) {
 
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q51", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q51";
@@ -4723,8 +4701,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.id = questionsFor1.id;
@@ -4744,7 +4721,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q51", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q51";
@@ -4753,8 +4730,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -4769,7 +4745,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q51a", update);
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q51a";
@@ -4778,8 +4754,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
@@ -4793,7 +4768,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q51b", update);
-                        if (questionsFor3==null){
+                        if (questionsFor3 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q51b";
@@ -4802,8 +4777,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
@@ -4817,7 +4791,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q51c", update);
-                        if (questionsFor4==null){
+                        if (questionsFor4 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q51c";
@@ -4826,8 +4800,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
@@ -4842,10 +4815,9 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
 
-
                     if (brainStrokeYesNo == 2) {
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q52", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q52";
@@ -4857,8 +4829,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -4878,7 +4849,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q52", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q52";
@@ -4887,8 +4858,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -4903,7 +4873,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q52a", update);
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q52a";
@@ -4912,8 +4882,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
@@ -4927,7 +4896,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q52b", update);
-                        if (questionsFor3==null){
+                        if (questionsFor3 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q52b";
@@ -4936,8 +4905,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
@@ -4951,7 +4919,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q52c", update);
-                        if (questionsFor4==null){
+                        if (questionsFor4 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q52c";
@@ -4960,8 +4928,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
@@ -4977,7 +4944,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     if (lungYesNo == 2) {
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q53", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q53";
@@ -4989,8 +4956,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5010,7 +4976,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q53", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q53";
@@ -5019,8 +4985,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5035,7 +5000,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q53a", update);
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q53a";
@@ -5044,8 +5009,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
@@ -5059,7 +5023,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q53b", update);
-                        if (questionsFor3==null){
+                        if (questionsFor3 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q53b";
@@ -5068,8 +5032,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
@@ -5083,7 +5046,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q53c", update);
-                        if (questionsFor4==null){
+                        if (questionsFor4 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q53c";
@@ -5092,8 +5055,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
@@ -5109,7 +5071,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     if (ashmaYesNo == 2) {
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q54", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q54";
@@ -5121,8 +5083,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5142,7 +5103,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q54", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q54";
@@ -5151,8 +5112,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5167,7 +5127,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q54a", update);
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q54a";
@@ -5176,8 +5136,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
@@ -5191,7 +5150,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q54b", update);
-                        if (questionsFor3==null){
+                        if (questionsFor3 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q54b";
@@ -5200,8 +5159,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
@@ -5215,7 +5173,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q54c", update);
-                        if (questionsFor4==null){
+                        if (questionsFor4 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q54c";
@@ -5224,8 +5182,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
@@ -5241,7 +5198,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     if (kidneyYesNo == 2) {
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q55", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q55";
@@ -5253,8 +5210,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5274,7 +5230,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q55", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q55";
@@ -5284,8 +5240,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
 
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5300,7 +5255,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q55a", update);
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q55a";
@@ -5309,8 +5264,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
@@ -5324,7 +5278,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q55b", update);
-                        if (questionsFor3==null){
+                        if (questionsFor3 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q55b";
@@ -5333,8 +5287,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
@@ -5348,7 +5301,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q55c", update);
-                        if (questionsFor4==null){
+                        if (questionsFor4 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q55c";
@@ -5357,8 +5310,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
@@ -5375,7 +5327,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     if (cancerYesNo == 2) {
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q56", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q56";
@@ -5387,8 +5339,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5409,7 +5360,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q56", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q56";
@@ -5418,8 +5369,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5434,7 +5384,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q56a", update);
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q56a";
@@ -5443,8 +5393,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
@@ -5458,7 +5407,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q56b", update);
-                        if (questionsFor3==null){
+                        if (questionsFor3 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q56b";
@@ -5467,8 +5416,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
@@ -5482,7 +5430,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q56c", update);
-                        if (questionsFor4==null){
+                        if (questionsFor4 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q56c";
@@ -5491,8 +5439,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
@@ -5506,10 +5453,9 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     }
 
-                    if (mentalDisorderYesNo == 2)
-                    {
+                    if (mentalDisorderYesNo == 2) {
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q57", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q57";
@@ -5521,8 +5467,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5537,13 +5482,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Common.qustionsRepository.updateQuestions(questions);
                         }
 
-                    }
-                    else {
+                    } else {
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q57", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q57";
@@ -5552,8 +5496,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
@@ -5568,7 +5511,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q57a", update);
-                        if (questionsFor2==null){
+                        if (questionsFor2 == null) {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q57a";
@@ -5577,8 +5520,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions1);
-                        }
-                        else{
+                        } else {
                             Questions questions1 = new Questions();
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
@@ -5592,7 +5534,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q57b", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q57b";
@@ -5601,8 +5543,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions3);
-                        }
-                        else{
+                        } else {
                             Questions questions3 = new Questions();
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
@@ -5616,7 +5557,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                         ////
                         Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q57c", update);
-                        if (questionsFor1==null){
+                        if (questionsFor1 == null) {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q57c";
@@ -5625,8 +5566,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
                             Common.qustionsRepository.insertToQuestions(questions4);
-                        }
-                        else{
+                        } else {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q57c";
@@ -5657,16 +5597,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 }
 
 
-
-
             }
         }
 
     }
-
-
-
-
 
 
     @Override

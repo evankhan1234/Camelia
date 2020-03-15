@@ -28,6 +28,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_diabetis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -58,6 +59,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_diabetes_suffering"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -92,6 +94,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_diabetes_control"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -157,6 +160,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_diabetes_medicine_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -245,6 +249,7 @@
                 </LinearLayout>
                 <TextView
 
+                    android:id="@+id/tv_blood_pressure"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -274,6 +279,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/tv_blood_pressure_suffering"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -308,6 +314,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/tv_blood_pressure_control"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -366,6 +373,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_blood_pressure_medicine_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -451,6 +459,7 @@
                     android:layout_height="130px"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_heart_disease"
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -482,6 +491,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/tv_heart_disease_suffering"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -517,6 +527,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_heart_disease_control"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -573,6 +584,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_heart_disease_medicine_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -659,6 +671,7 @@
                 </LinearLayout>
                 <TextView
 
+                    android:id="@+id/tv_brain_stroke"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -691,6 +704,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_brain_stroke_suffering"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -725,6 +739,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                 <TextView
+                    android:id="@+id/tv_brain_stroke_control"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -763,6 +778,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_brain_stroke_medicine_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -786,7 +802,6 @@
                             android:layout_height="wrap_content">
                             <TextView
                                 android:id="@+id/text_brain_stroke_text"
-
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left"
@@ -848,6 +863,7 @@
 
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_lung"
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -882,6 +898,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_lung_suffering"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -920,6 +937,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_lung_control"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -937,10 +955,8 @@
                     android:visibility="visible"
                     android:background="@drawable/test"
                     android:layout_marginTop="30px"
-
                     android:id="@+id/spinner_medicine_name_control_lung_disease"
                     android:layout_width="match_parent"
-
                     android:layout_height="130px"/>
                 </LinearLayout>
                 <LinearLayout
@@ -955,6 +971,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_lung_medicine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -1039,6 +1056,7 @@
                     android:layout_height="130px"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_ashma"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1071,6 +1089,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/tv_ashma_suffering"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1109,6 +1128,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_ashma_control"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1145,6 +1165,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_ashma_medicine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -1229,6 +1250,7 @@
                     android:layout_height="130px"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_kidney"
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1260,7 +1282,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-
+                        android:id="@+id/tv_kidney_suffering"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -1299,6 +1321,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_kidney_control"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -1334,6 +1357,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_kidney_medicine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -1418,6 +1442,7 @@
                     android:layout_height="130px"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_cancer"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1450,6 +1475,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_cancer_suffering"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -1488,6 +1514,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_cancer_control"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -1523,6 +1550,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_cancer_medicine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -1607,6 +1635,7 @@
                     android:layout_height="130px"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_mental"
                     android:layout_marginRight="50px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -1640,6 +1669,7 @@
                     android:orientation="vertical">
                     <TextView
 
+                        android:id="@+id/tv_mental_suffering"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
@@ -1678,6 +1708,7 @@
 
                 <TextView
 
+                    android:id="@+id/tv_mental_control"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -1712,6 +1743,7 @@
 
 
                 <TextView
+                    android:id="@+id/tv_mental_treatment"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -217,17 +217,22 @@ public class Utils {
         return sexModelArrayList;
 
     }
-    public static ArrayList<ModerateModel> getModerateModelList() {
+    public static ArrayList<ModerateModel> getModerateModelList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<ModerateModel> fruitsModelArrayList = new ArrayList<>();
 
-        ModerateModel fruitsModelNo0 = new ModerateModel("0 Day/Week", 1);
-        ModerateModel fruitsModelNo1 = new ModerateModel("1 Day/Week", 2);
-        ModerateModel fruitsModelNo2 = new ModerateModel("2 Day/Week", 3);
-        ModerateModel fruitsModelNo3 = new ModerateModel("3 Day/Week", 4);
-        ModerateModel fruitsModelNo4 = new ModerateModel("4 Day/Week", 5);
-        ModerateModel fruitsModelNo5 = new ModerateModel("5 Day/Week", 6);
-        ModerateModel fruitsModelNo6 = new ModerateModel("6 Day/Week", 7);
-        ModerateModel fruitsModelNo7 = new ModerateModel("7 Day/Week", 8);
+        ModerateModel fruitsModelNo0 = new ModerateModel(resources.getString(R.string.zero_week), 1);
+        ModerateModel fruitsModelNo1 = new ModerateModel(resources.getString(R.string.one_week), 2);
+        ModerateModel fruitsModelNo2 = new ModerateModel(resources.getString(R.string.two_week), 3);
+        ModerateModel fruitsModelNo3 = new ModerateModel(resources.getString(R.string.three_week), 4);
+        ModerateModel fruitsModelNo4 = new ModerateModel(resources.getString(R.string.four_week), 5);
+        ModerateModel fruitsModelNo5 = new ModerateModel(resources.getString(R.string.five_week), 6);
+        ModerateModel fruitsModelNo6 = new ModerateModel(resources.getString(R.string.six_week), 7);
+        ModerateModel fruitsModelNo7 = new ModerateModel(resources.getString(R.string.seven_week), 8);
 
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
@@ -242,17 +247,22 @@ public class Utils {
         return fruitsModelArrayList;
 
     }
-    public static ArrayList<ModerateRecreationalModel> getModerateRecreationalModelList() {
+    public static ArrayList<ModerateRecreationalModel> getModerateRecreationalModelList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<ModerateRecreationalModel> fruitsModelArrayList = new ArrayList<>();
 
-        ModerateRecreationalModel fruitsModelNo0 = new ModerateRecreationalModel("0 Day/Week", 1);
-        ModerateRecreationalModel fruitsModelNo1 = new ModerateRecreationalModel("1 Day/Week", 2);
-        ModerateRecreationalModel fruitsModelNo2 = new ModerateRecreationalModel("2 Day/Week", 3);
-        ModerateRecreationalModel fruitsModelNo3 = new ModerateRecreationalModel("3 Day/Week", 4);
-        ModerateRecreationalModel fruitsModelNo4 = new ModerateRecreationalModel("4 Day/Week", 5);
-        ModerateRecreationalModel fruitsModelNo5 = new ModerateRecreationalModel("5 Day/Week", 6);
-        ModerateRecreationalModel fruitsModelNo6 = new ModerateRecreationalModel("6 Day/Week", 7);
-        ModerateRecreationalModel fruitsModelNo7 = new ModerateRecreationalModel("7 Day/Week", 8);
+        ModerateRecreationalModel fruitsModelNo0 = new ModerateRecreationalModel(resources.getString(R.string.zero_week), 1);
+        ModerateRecreationalModel fruitsModelNo1 = new ModerateRecreationalModel(resources.getString(R.string.one_week), 2);
+        ModerateRecreationalModel fruitsModelNo2 = new ModerateRecreationalModel(resources.getString(R.string.two_week), 3);
+        ModerateRecreationalModel fruitsModelNo3 = new ModerateRecreationalModel(resources.getString(R.string.three_week), 4);
+        ModerateRecreationalModel fruitsModelNo4 = new ModerateRecreationalModel(resources.getString(R.string.four_week), 5);
+        ModerateRecreationalModel fruitsModelNo5 = new ModerateRecreationalModel(resources.getString(R.string.five_week), 6);
+        ModerateRecreationalModel fruitsModelNo6 = new ModerateRecreationalModel(resources.getString(R.string.six_week), 7);
+        ModerateRecreationalModel fruitsModelNo7 = new ModerateRecreationalModel(resources.getString(R.string.seven_week), 8);
 
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
@@ -267,17 +277,22 @@ public class Utils {
         return fruitsModelArrayList;
 
     }
-    public static ArrayList<TypicalVigorousModel> getTypicalVigorousModelList() {
+    public static ArrayList<TypicalVigorousModel> getTypicalVigorousModelList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<TypicalVigorousModel> fruitsModelArrayList = new ArrayList<>();
 
-        TypicalVigorousModel fruitsModelNo0 = new TypicalVigorousModel("0 Day/Week", 1);
-        TypicalVigorousModel fruitsModelNo1 = new TypicalVigorousModel("1 Day/Week", 2);
-        TypicalVigorousModel fruitsModelNo2 = new TypicalVigorousModel("2 Day/Week", 3);
-        TypicalVigorousModel fruitsModelNo3 = new TypicalVigorousModel("3 Day/Week", 4);
-        TypicalVigorousModel fruitsModelNo4 = new TypicalVigorousModel("4 Day/Week", 5);
-        TypicalVigorousModel fruitsModelNo5 = new TypicalVigorousModel("5 Day/Week", 6);
-        TypicalVigorousModel fruitsModelNo6 = new TypicalVigorousModel("6 Day/Week", 7);
-        TypicalVigorousModel fruitsModelNo7 = new TypicalVigorousModel("7 Day/Week", 8);
+        TypicalVigorousModel fruitsModelNo0 = new TypicalVigorousModel(resources.getString(R.string.zero_week), 1);
+        TypicalVigorousModel fruitsModelNo1 = new TypicalVigorousModel(resources.getString(R.string.one_week), 2);
+        TypicalVigorousModel fruitsModelNo2 = new TypicalVigorousModel(resources.getString(R.string.two_week), 3);
+        TypicalVigorousModel fruitsModelNo3 = new TypicalVigorousModel(resources.getString(R.string.three_week), 4);
+        TypicalVigorousModel fruitsModelNo4 = new TypicalVigorousModel(resources.getString(R.string.four_week), 5);
+        TypicalVigorousModel fruitsModelNo5 = new TypicalVigorousModel(resources.getString(R.string.five_week), 6);
+        TypicalVigorousModel fruitsModelNo6 = new TypicalVigorousModel(resources.getString(R.string.six_week), 7);
+        TypicalVigorousModel fruitsModelNo7 = new TypicalVigorousModel(resources.getString(R.string.seven_week), 8);
 
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
@@ -292,17 +307,22 @@ public class Utils {
         return fruitsModelArrayList;
 
     }
-    public static ArrayList<TypicalVigorousRecreationModel> getTypicalVigorousRecreationModelList() {
+    public static ArrayList<TypicalVigorousRecreationModel> getTypicalVigorousRecreationModelList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<TypicalVigorousRecreationModel> fruitsModelArrayList = new ArrayList<>();
 
-        TypicalVigorousRecreationModel fruitsModelNo0 = new TypicalVigorousRecreationModel("0 Day/Week", 1);
-        TypicalVigorousRecreationModel fruitsModelNo1 = new TypicalVigorousRecreationModel("1 Day/Week", 2);
-        TypicalVigorousRecreationModel fruitsModelNo2 = new TypicalVigorousRecreationModel("2 Day/Week", 3);
-        TypicalVigorousRecreationModel fruitsModelNo3 = new TypicalVigorousRecreationModel("3 Day/Week", 4);
-        TypicalVigorousRecreationModel fruitsModelNo4 = new TypicalVigorousRecreationModel("4 Day/Week", 5);
-        TypicalVigorousRecreationModel fruitsModelNo5 = new TypicalVigorousRecreationModel("5 Day/Week", 6);
-        TypicalVigorousRecreationModel fruitsModelNo6 = new TypicalVigorousRecreationModel("6 Day/Week", 7);
-        TypicalVigorousRecreationModel fruitsModelNo7 = new TypicalVigorousRecreationModel("7 Day/Week", 8);
+        TypicalVigorousRecreationModel fruitsModelNo0 = new TypicalVigorousRecreationModel(resources.getString(R.string.zero_week), 1);
+        TypicalVigorousRecreationModel fruitsModelNo1 = new TypicalVigorousRecreationModel(resources.getString(R.string.one_week), 2);
+        TypicalVigorousRecreationModel fruitsModelNo2 = new TypicalVigorousRecreationModel(resources.getString(R.string.two_week), 3);
+        TypicalVigorousRecreationModel fruitsModelNo3 = new TypicalVigorousRecreationModel(resources.getString(R.string.three_week), 4);
+        TypicalVigorousRecreationModel fruitsModelNo4 = new TypicalVigorousRecreationModel(resources.getString(R.string.four_week), 5);
+        TypicalVigorousRecreationModel fruitsModelNo5 = new TypicalVigorousRecreationModel(resources.getString(R.string.five_week), 6);
+        TypicalVigorousRecreationModel fruitsModelNo6 = new TypicalVigorousRecreationModel(resources.getString(R.string.six_week), 7);
+        TypicalVigorousRecreationModel fruitsModelNo7 = new TypicalVigorousRecreationModel(resources.getString(R.string.seven_week), 8);
 
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
@@ -526,20 +546,25 @@ public class Utils {
         return controlDiseaseModelArrayList;
 
     }
-    public static ArrayList<SaltModel> getSaltModelList() {
+    public static ArrayList<SaltModel> getSaltModelList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<SaltModel> saltModelArrayList = new ArrayList<>();
 
-        SaltModel saltModel05 = new SaltModel("0.5 Kg", 1);
-        SaltModel saltModel1 = new SaltModel("1 Kg", 2);
-        SaltModel saltModel15 = new SaltModel("1.5 Kg", 3);
-        SaltModel saltModel2 = new SaltModel("2 Kg", 4);
-        SaltModel saltModel25 = new SaltModel("2.5 Kg", 5);
-        SaltModel saltModel3 = new SaltModel("3 Kg", 6);
-        SaltModel saltModel35 = new SaltModel("3.5 Kg", 7);
-        SaltModel saltModel4 = new SaltModel("4 Kg", 8);
-        SaltModel saltModel45 = new SaltModel("4.5 Kg", 9);
-        SaltModel saltModel50 = new SaltModel("5 Kg", 10);
-        SaltModel saltModel5up = new SaltModel("More than 5 Kg", 11);
+        SaltModel saltModel05 = new SaltModel(resources.getString(R.string.zero_five_kg), 1);
+        SaltModel saltModel1 = new SaltModel(resources.getString(R.string.one_kg), 2);
+        SaltModel saltModel15 = new SaltModel(resources.getString(R.string.one_five_kg), 3);
+        SaltModel saltModel2 = new SaltModel(resources.getString(R.string.two_kg), 4);
+        SaltModel saltModel25 = new SaltModel(resources.getString(R.string.two_five_kg), 5);
+        SaltModel saltModel3 = new SaltModel(resources.getString(R.string.three_kg), 6);
+        SaltModel saltModel35 = new SaltModel(resources.getString(R.string.three_five_kg), 7);
+        SaltModel saltModel4 = new SaltModel(resources.getString(R.string.four_kg), 8);
+        SaltModel saltModel45 = new SaltModel(resources.getString(R.string.four_five_kg), 9);
+        SaltModel saltModel50 = new SaltModel(resources.getString(R.string.five_kg), 10);
+        SaltModel saltModel5up = new SaltModel(resources.getString(R.string.more_five_kg), 11);
 
         saltModelArrayList.add(saltModel05);
         saltModelArrayList.add(saltModel1);
@@ -558,17 +583,22 @@ public class Utils {
 
     }
 
-    public static ArrayList<FruitsModel> getfruitsModelList() {
+    public static ArrayList<FruitsModel> getfruitsModelList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<FruitsModel> fruitsModelArrayList = new ArrayList<>();
 
-        FruitsModel fruitsModelNo0 = new FruitsModel("0 Day/Week", 1);
-        FruitsModel fruitsModelNo1 = new FruitsModel("1 Day/Week", 2);
-        FruitsModel fruitsModelNo2 = new FruitsModel("2 Day/Week", 3);
-        FruitsModel fruitsModelNo3 = new FruitsModel("3 Day/Week", 4);
-        FruitsModel fruitsModelNo4 = new FruitsModel("4 Day/Week", 5);
-        FruitsModel fruitsModelNo5 = new FruitsModel("5 Day/Week", 6);
-        FruitsModel fruitsModelNo6 = new FruitsModel("6 Day/Week", 7);
-        FruitsModel fruitsModelNo7 = new FruitsModel("7 Day/Week", 8);
+        FruitsModel fruitsModelNo0 = new FruitsModel(resources.getString(R.string.zero_week), 1);
+        FruitsModel fruitsModelNo1 = new FruitsModel(resources.getString(R.string.one_week), 2);
+        FruitsModel fruitsModelNo2 = new FruitsModel(resources.getString(R.string.two_week), 3);
+        FruitsModel fruitsModelNo3 = new FruitsModel(resources.getString(R.string.three_week), 4);
+        FruitsModel fruitsModelNo4 = new FruitsModel(resources.getString(R.string.four_week), 5);
+        FruitsModel fruitsModelNo5 = new FruitsModel(resources.getString(R.string.five_week), 6);
+        FruitsModel fruitsModelNo6 = new FruitsModel(resources.getString(R.string.six_week), 7);
+        FruitsModel fruitsModelNo7 = new FruitsModel(resources.getString(R.string.seven_week), 8);
 
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
@@ -583,17 +613,22 @@ public class Utils {
         return fruitsModelArrayList;
 
     }
-    public static ArrayList<VegetableModel> getvegetablesModelList() {
+    public static ArrayList<VegetableModel> getvegetablesModelList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<VegetableModel> fruitsModelArrayList = new ArrayList<>();
 
-        VegetableModel fruitsModelNo0 = new VegetableModel("0 Day/Week", 1);
-        VegetableModel fruitsModelNo1 = new VegetableModel("1 Day/Week", 2);
-        VegetableModel fruitsModelNo2 = new VegetableModel("2 Day/Week", 3);
-        VegetableModel fruitsModelNo3 = new VegetableModel("3 Day/Week", 4);
-        VegetableModel fruitsModelNo4 = new VegetableModel("4 Day/Week", 5);
-        VegetableModel fruitsModelNo5 = new VegetableModel("5 Day/Week", 6);
-        VegetableModel fruitsModelNo6 = new VegetableModel("6 Day/Week", 7);
-        VegetableModel fruitsModelNo7 = new VegetableModel("7 Day/Week", 8);
+        VegetableModel fruitsModelNo0 = new VegetableModel(resources.getString(R.string.zero_week), 1);
+        VegetableModel fruitsModelNo1 = new VegetableModel(resources.getString(R.string.one_week), 2);
+        VegetableModel fruitsModelNo2 = new VegetableModel(resources.getString(R.string.two_week), 3);
+        VegetableModel fruitsModelNo3 = new VegetableModel(resources.getString(R.string.three_week), 4);
+        VegetableModel fruitsModelNo4 = new VegetableModel(resources.getString(R.string.four_week), 5);
+        VegetableModel fruitsModelNo5 = new VegetableModel(resources.getString(R.string.five_week), 6);
+        VegetableModel fruitsModelNo6 = new VegetableModel(resources.getString(R.string.six_week), 7);
+        VegetableModel fruitsModelNo7 = new VegetableModel(resources.getString(R.string.seven_week), 8);
 
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
@@ -609,25 +644,30 @@ public class Utils {
 
     }
 
-    public static ArrayList<FruitsCardModel> getfruitsCardModelList() {
+    public static ArrayList<FruitsCardModel> getfruitsCardModelList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<FruitsCardModel> fruitsCardModelArrayList = new ArrayList<>();
 
-        FruitsCardModel fruitsModelNo0 = new FruitsCardModel("0 Serving/Day", 1);
-        FruitsCardModel fruitsModelNo05 = new FruitsCardModel("0.5 Serving/Day", 2);
-        FruitsCardModel fruitsModelNo1 = new FruitsCardModel("1 erving/Day", 3);
-        FruitsCardModel fruitsModelNo15 = new FruitsCardModel("1.5 Serving/Day", 4);
-        FruitsCardModel fruitsModelNo20 = new FruitsCardModel("2 Serving/Day", 5);
-        FruitsCardModel fruitsModelNo25 = new FruitsCardModel("2.5 Serving/Day", 6);
-        FruitsCardModel fruitsModelNo30 = new FruitsCardModel("3 Serving/Day", 7);
-        FruitsCardModel fruitsModelNo35 = new FruitsCardModel("3.5 Serving/Day", 8);
-        FruitsCardModel fruitsModelNo40 = new FruitsCardModel("4 Serving/Day", 9);
-        FruitsCardModel fruitsModelNo45 = new FruitsCardModel("4.5 Serving/Day", 10);
-        FruitsCardModel fruitsModelNo5 = new FruitsCardModel("5 Serving/Day", 11);
-        FruitsCardModel fruitsModelNo6 = new FruitsCardModel("6 Serving/Day", 12);
-        FruitsCardModel fruitsModelNo7 = new FruitsCardModel("7 Serving/Day", 13);
-        FruitsCardModel fruitsModelNo8 = new FruitsCardModel("8 Serving/Day", 14);
-        FruitsCardModel fruitsModelNo9 = new FruitsCardModel("9 Serving/Day", 15);
-        FruitsCardModel fruitsModelNo10 = new FruitsCardModel("10 Serving/Day", 16);
+        FruitsCardModel fruitsModelNo0 = new FruitsCardModel(resources.getString(R.string.zero_day), 1);
+        FruitsCardModel fruitsModelNo05 = new FruitsCardModel(resources.getString(R.string.zero_five_day), 2);
+        FruitsCardModel fruitsModelNo1 = new FruitsCardModel(resources.getString(R.string.one_day), 3);
+        FruitsCardModel fruitsModelNo15 = new FruitsCardModel(resources.getString(R.string.one_five_day), 4);
+        FruitsCardModel fruitsModelNo20 = new FruitsCardModel(resources.getString(R.string.two_day), 5);
+        FruitsCardModel fruitsModelNo25 = new FruitsCardModel(resources.getString(R.string.two_five_day), 6);
+        FruitsCardModel fruitsModelNo30 = new FruitsCardModel(resources.getString(R.string.three_day), 7);
+        FruitsCardModel fruitsModelNo35 = new FruitsCardModel(resources.getString(R.string.three_five_day), 8);
+        FruitsCardModel fruitsModelNo40 = new FruitsCardModel(resources.getString(R.string.four_day), 9);
+        FruitsCardModel fruitsModelNo45 = new FruitsCardModel(resources.getString(R.string.four_five_day), 10);
+        FruitsCardModel fruitsModelNo5 = new FruitsCardModel(resources.getString(R.string.fifth_day), 11);
+        FruitsCardModel fruitsModelNo6 = new FruitsCardModel(resources.getString(R.string.sixth_day), 12);
+        FruitsCardModel fruitsModelNo7 = new FruitsCardModel(resources.getString(R.string.seven_day), 13);
+        FruitsCardModel fruitsModelNo8 = new FruitsCardModel(resources.getString(R.string.eight_day), 14);
+        FruitsCardModel fruitsModelNo9 = new FruitsCardModel(resources.getString(R.string.nine_day), 15);
+        FruitsCardModel fruitsModelNo10 = new FruitsCardModel(resources.getString(R.string.ten_day), 16);
 
         fruitsCardModelArrayList.add(fruitsModelNo0);
         fruitsCardModelArrayList.add(fruitsModelNo05);
@@ -651,25 +691,29 @@ public class Utils {
         return fruitsCardModelArrayList;
 
     }
-    public static ArrayList<VegetablesCardModel> getvegetableCardModelList() {
+    public static ArrayList<VegetablesCardModel> getvegetableCardModelList(Activity mActivity){
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<VegetablesCardModel> fruitsCardModelArrayList = new ArrayList<>();
 
-        VegetablesCardModel fruitsModelNo0 = new VegetablesCardModel("0 Serving/Day", 1);
-        VegetablesCardModel fruitsModelNo05 = new VegetablesCardModel("0.5 Serving/Day", 2);
-        VegetablesCardModel fruitsModelNo1 = new VegetablesCardModel("1 Serving/Day", 3);
-        VegetablesCardModel fruitsModelNo15 = new VegetablesCardModel("1.5 Serving/Day", 4);
-        VegetablesCardModel fruitsModelNo20 = new VegetablesCardModel("2 Serving/Day", 5);
-        VegetablesCardModel fruitsModelNo25 = new VegetablesCardModel("2.5 Serving/Day", 6);
-        VegetablesCardModel fruitsModelNo30 = new VegetablesCardModel("3 Serving/Day", 7);
-        VegetablesCardModel fruitsModelNo35 = new VegetablesCardModel("3.5 Serving/Day", 8);
-        VegetablesCardModel fruitsModelNo40 = new VegetablesCardModel("4 Serving/Day", 9);
-        VegetablesCardModel fruitsModelNo45 = new VegetablesCardModel("4.5 Serving/Day", 10);
-        VegetablesCardModel fruitsModelNo5 = new VegetablesCardModel("5 Serving/Day", 11);
-        VegetablesCardModel fruitsModelNo6 = new VegetablesCardModel("6 Serving/Day", 12);
-        VegetablesCardModel fruitsModelNo7 = new VegetablesCardModel("7 Serving/Day", 13);
-        VegetablesCardModel fruitsModelNo8 = new VegetablesCardModel("8 Serving/Day", 14);
-        VegetablesCardModel fruitsModelNo9 = new VegetablesCardModel("9 Serving/Day", 15);
-        VegetablesCardModel fruitsModelNo10 = new VegetablesCardModel("10 Serving/Day", 16);
+        VegetablesCardModel fruitsModelNo0 = new VegetablesCardModel(resources.getString(R.string.zero_day), 1);
+        VegetablesCardModel fruitsModelNo05 = new VegetablesCardModel(resources.getString(R.string.zero_five_day), 2);
+        VegetablesCardModel fruitsModelNo1 = new VegetablesCardModel(resources.getString(R.string.one_day), 3);
+        VegetablesCardModel fruitsModelNo15 = new VegetablesCardModel(resources.getString(R.string.one_five_day), 4);
+        VegetablesCardModel fruitsModelNo20 = new VegetablesCardModel(resources.getString(R.string.two_day), 5);
+        VegetablesCardModel fruitsModelNo25 = new VegetablesCardModel(resources.getString(R.string.two_five_day), 6);
+        VegetablesCardModel fruitsModelNo30 = new VegetablesCardModel(resources.getString(R.string.three_day), 7);
+        VegetablesCardModel fruitsModelNo35 = new VegetablesCardModel(resources.getString(R.string.three_five_day), 8);
+        VegetablesCardModel fruitsModelNo40 = new VegetablesCardModel(resources.getString(R.string.four_day), 9);
+        VegetablesCardModel fruitsModelNo45 = new VegetablesCardModel(resources.getString(R.string.four_five_day), 10);
+        VegetablesCardModel fruitsModelNo5 = new VegetablesCardModel(resources.getString(R.string.fifth_day), 11);
+        VegetablesCardModel fruitsModelNo6 = new VegetablesCardModel(resources.getString(R.string.sixth_day), 12);
+        VegetablesCardModel fruitsModelNo7 = new VegetablesCardModel(resources.getString(R.string.seven_day), 13);
+        VegetablesCardModel fruitsModelNo8 = new VegetablesCardModel(resources.getString(R.string.eight_day), 14);
+        VegetablesCardModel fruitsModelNo9 = new VegetablesCardModel(resources.getString(R.string.nine_day), 15);
+        VegetablesCardModel fruitsModelNo10 = new VegetablesCardModel(resources.getString(R.string.ten_day), 16);
 
         fruitsCardModelArrayList.add(fruitsModelNo0);
         fruitsCardModelArrayList.add(fruitsModelNo05);

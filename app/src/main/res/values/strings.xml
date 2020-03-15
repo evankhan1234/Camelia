@@ -199,5 +199,41 @@
     <string name="pcs">Pcs</string>
     <string name="reclining">Do you spend your time in reclining activities (sitting, lying, gossiping, reading, watching TV) in a day?</string>
 
+    <string name="zero_five_kg">0.5 Kg</string>
+    <string name="one_kg">1 Kg</string>
+    <string name="one_five_kg">1.5 Kg</string>
+    <string name="two_kg">2 Kg</string>
+    <string name="two_five_kg">2.5 Kg</string>
+    <string name="three_kg">3 Kg</string>
+    <string name="three_five_kg">3.5 Kg</string>
+    <string name="four_kg">4 Kg</string>
+    <string name="four_five_kg">4.5 Kg</string>
+    <string name="five_kg">5 Kg</string>
+    <string name="more_five_kg">More than 5 Kg</string>
+    <string name="zero_week">0 Day/Week</string>
+    <string name="one_week">1 Day/Week</string>
+    <string name="two_week">2 Day/Week</string>
+    <string name="three_week">3 Day/Week</string>
+    <string name="four_week">4 Day/Week</string>
+    <string name="five_week">5 Day/Week</string>
+    <string name="six_week">6 Day/Week</string>
+    <string name="seven_week">7 Day/Week</string>
 
+
+    <string name="zero_day">0 Serving/Day</string>
+    <string name="zero_five_day">০.৫ Serving/Day</string>
+    <string name="one_day">1 Serving/Day</string>
+    <string name="one_five_day">1.5 Serving/Day</string>
+    <string name="two_day">2 Serving/Day</string>
+    <string name="two_five_day">2.5 Serving/Day</string>
+    <string name="three_day">3 Serving/Day</string>
+    <string name="three_five_day">3.5 Serving/Day</string>
+    <string name="four_day">4 Serving/Day</string>
+    <string name="four_five_day">4.5 Serving/Day</string>
+    <string name="fifth_day">5 Serving/Day</string>
+    <string name="sixth_day">6 Serving/Day</string>
+    <string name="seven_day">7 Serving/Day</string>
+    <string name="eight_day">8 Serving/Day</string>
+    <string name="nine_day">9 Serving/Day</string>
+    <string name="ten_day">10 Serving/Day</string>
 </resources>
