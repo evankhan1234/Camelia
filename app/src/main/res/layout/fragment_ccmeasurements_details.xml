@@ -69,17 +69,18 @@
             android:background="@drawable/capsule_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px"
+            android:background="@drawable/capsule_button"
+            android:backgroundTint="#2196F3"
             android:hint="Finish"
             android:tag="55"
-            android:textSize="55px"
             android:textColorHint="@color/white"
-            android:layout_marginTop="30px"
-            android:backgroundTint="#2196F3"
-            android:background="@drawable/capsule_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textSize="55px" />
     </LinearLayout>
 
 

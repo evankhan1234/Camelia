@@ -1,6 +1,8 @@
 package xact.idea.camelia.Fragment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,12 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -28,11 +32,13 @@ import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.Adapter.HHAdapter.HHMemberListAdapter;
 import xact.idea.camelia.Database.Model.MemberMyself;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 
 public class IncompleteFragment extends Fragment {
@@ -43,6 +49,7 @@ public class IncompleteFragment extends Fragment {
     static  CCIncompleteStatusAdapter mAdapters;
     static  CompositeDisposable compositeDisposable = new CompositeDisposable();
     static List<MemberMyself> memberMyselfList= new ArrayList<>();
+    EditText edit_content;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,7 +64,12 @@ public class IncompleteFragment extends Fragment {
 
         return view;
     }
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        edit_content.setHint(resources.getString(R.string.search));
 
+    }
     private static MedicineInterface clickListener = new MedicineInterface() {
         @Override
         public void postion(int position,String Type) {
@@ -72,10 +84,15 @@ public class IncompleteFragment extends Fragment {
     }
 
     private void initView() {
+        edit_content =  view.findViewById(R.id.edit_content);
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
     }
 
     public static void display() {

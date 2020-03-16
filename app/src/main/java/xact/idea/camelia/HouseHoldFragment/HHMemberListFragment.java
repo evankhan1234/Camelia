@@ -97,6 +97,10 @@ public class HHMemberListFragment extends Fragment {
         btn_member_new =  view.findViewById(R.id.btn_member_new);
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);
 
@@ -138,6 +142,12 @@ public class HHMemberListFragment extends Fragment {
                 mAdapters.getFilter().filter(edit_content.getText().toString());
             }
         });
+    }
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        edit_content.setHint(resources.getString(R.string.search));
+
     }
     public  void showInfoDialoga(final Context mContext) {
 

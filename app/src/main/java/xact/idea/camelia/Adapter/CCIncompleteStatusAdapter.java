@@ -7,6 +7,7 @@ import android.app.Dialog;
 
 import android.content.Context;
 
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -46,6 +47,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -60,6 +62,7 @@ import xact.idea.camelia.Database.Model.ReferHistory;
 import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Upazila;
 import xact.idea.camelia.Fragment.CCBloodPressureFragment;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.Model.DropDownModel.CenterModel;
@@ -115,7 +118,11 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         //    Log.e("Evan", "SDfs" + messageEntities.get(position));
         //  holder.btn_department.setHint(messageEntities.get(position).DepartmentName);
 
-
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
 
         if (memberMyself.get(position).GenderId==1){
             Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
@@ -135,14 +142,16 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                         }
                     });
         }
-        String agent_no = "<b><font color=#000 >Patient Name :  </font></b> <font color=#444444> "+memberMyself.get(position).FullName+"</font>";
-        String name = "<b><font color=#000 >Member ID :  </font></b> <font color=#444444>"+memberMyself.get(position).MemberId+"</font>";
-        String code = "<b><font color=#000 >Khana ID:  </font></b> <font color=#444444>"+memberMyself.get(position).UniqueId+"</font>";
-        String member_id = "<b><font color=#000 >Contact No :  </font></b> <font color=#444444>"+memberMyself.get(position).MobileNumber+"</font>";
-        String village = "<b><font color=#000 >Visit Date :  </font></b> <font color=#444444>"+memberMyself.get(position).VisitDate+"</font>";
-        String date = "<b><font color=#000 >Ref.CC :  </font></b> <font color=#444444>N/A</font>";
-        String block = "<b><font color=#000 >Condition :  </font></b> <font color=#444444> N/A</font>";
+        String agent_no = "<b><font color=#000 >"+resources.getString(R.string.patient_name) +":  </font></b> <font color=#444444> "+memberMyself.get(position).FullName+"</font>";
+        String name = "<b><font color=#000 >"+resources.getString(R.string.member_id_) +" :  </font></b> <font color=#444444>"+memberMyself.get(position).MemberId+"</font>";
+        String code = "<b><font color=#000 >"+resources.getString(R.string.khana_id) +":  </font></b> <font color=#444444>"+memberMyself.get(position).UniqueId+"</font>";
+        String member_id = "<b><font color=#000 >"+resources.getString(R.string.contact_no) +" :  </font></b> <font color=#444444>"+memberMyself.get(position).MobileNumber+"</font>";
+        String village = "<b><font color=#000 >"+resources.getString(R.string.visit_date) +" :  </font></b> <font color=#444444>"+memberMyself.get(position).VisitDate+"</font>";
+        String date = "<b><font color=#000 >"+resources.getString(R.string.ref) +" :  </font></b> <font color=#444444>N/A</font>";
+        String block = "<b><font color=#000 >"+resources.getString(R.string.conditions) +":  </font></b> <font color=#444444> N/A</font>";
         holder.text_name.setText(Html.fromHtml(name));
+        holder.text_follow.setText(resources.getString(R.string.follow_) );
+        holder.text_referral.setText(resources.getString(R.string.refer_) );
         holder.text_agent.setText(Html.fromHtml(agent_no));
         holder.text_phone_number.setText(Html.fromHtml(code));
         holder.text_member_id.setText(Html.fromHtml(member_id));

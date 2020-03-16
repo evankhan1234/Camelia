@@ -84,10 +84,14 @@ public class HHCreateMemberFragment extends Fragment {
             String language= SharedPreferenceUtil.getLanguage(mActivity);
             if (language.equals("en")){
                 categories = getResources().getStringArray(R.array.group_step);
+                btn_back.setText("Back");
+                btn_next.setText("Next");
             }
             else if(language.equals("bn")){
-
-            }  categories = getResources().getStringArray(R.array.group_step_bangla);
+                btn_back.setText("পুনরায়");
+                btn_next.setText("পরবর্তী");
+                categories = getResources().getStringArray(R.array.group_step_bangla);
+            }
 
             for (int i = 0; i < lnl_category.getChildCount(); i++) {
                 LinearLayout rlt = (LinearLayout) lnl_category.getChildAt(i);
@@ -165,13 +169,25 @@ public class HHCreateMemberFragment extends Fragment {
         vpg_home.setCurrentItem(pos);
     }
 
-    public static void nextPages(int pos) {
-        btn_next.setText("Complete");
+    public static void nextPages(int pos,String language) {
+        if (language.equals("en")){
+            btn_next.setText("Complete");
+        }
+        else if(language.equals("bn")){
+            btn_next.setText("সম্পূর্ণ");
+        }
         vpg_home.setCurrentItem(pos);
     }
 
-    public static void prevPage(int pos) {
-        btn_next.setText("Next");
+    public static void prevPage(int pos,String language) {
+
+        if (language.equals("en")){
+            btn_next.setText("Next");
+        }
+        else if(language.equals("bn")){
+            btn_next.setText("পরবর্তী");
+        }
+
         vpg_home.setCurrentItem(pos);
     }
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)

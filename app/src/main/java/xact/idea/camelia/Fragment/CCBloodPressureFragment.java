@@ -40,11 +40,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Database.Model.MeasurementDetails;
 import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.Questions;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -73,6 +75,11 @@ public class CCBloodPressureFragment extends Fragment {
     String type;
     String message;
     String refer;
+
+    TextView tv_time;
+    TextView tv_date;
+    TextView textView9;
+    TextView textView49;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -91,8 +98,21 @@ public class CCBloodPressureFragment extends Fragment {
         // display();
         return view;
     }
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        textView9.setText(resources.getString(R.string.read_1));
+        textView49.setText(resources.getString(R.string.read_2));
+        tv_time.setText(resources.getString(R.string.time));
+        tv_date.setText(resources.getString(R.string.date));
+        edit_reading1.setHint(resources.getString(R.string.mmhg));
+        edit_reading2.setHint(resources.getString(R.string.mmhg));
+        create.setText(resources.getString(R.string.done));
 
+    }
     private void initView() {
+        textView49 = view.findViewById(R.id.textView49);
+        textView9 = view.findViewById(R.id.textView9);
         edit_date = view.findViewById(R.id.edit_date);
         edit_time = view.findViewById(R.id.edit_time);
         linear = view.findViewById(R.id.linear);
@@ -101,8 +121,15 @@ public class CCBloodPressureFragment extends Fragment {
         text_number = view.findViewById(R.id.text_number);
         text_text = view.findViewById(R.id.text_text);
         create = view.findViewById(R.id.create);
+        tv_time = view.findViewById(R.id.tv_time);
+        tv_date = view.findViewById(R.id.tv_date);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter1 = new SimpleDateFormat("hh:mm aa");
         final Date date = new Date(System.currentTimeMillis());
         edit_date.setText(formatter.format(date));
         //edit_end_date.setText(formatter.format(date));
@@ -136,7 +163,7 @@ public class CCBloodPressureFragment extends Fragment {
         else{
             value1="0"+String.valueOf(hour);
         }
-        edit_time.setText(value1+":"+value+" "+format);
+        edit_time.setText(formatter1.format(date));
         edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

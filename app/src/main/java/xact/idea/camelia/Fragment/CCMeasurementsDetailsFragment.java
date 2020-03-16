@@ -2,6 +2,7 @@ package xact.idea.camelia.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -16,12 +17,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.Questions;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class CCMeasurementsDetailsFragment extends Fragment {
     Activity mActivity;
@@ -61,26 +65,30 @@ public class CCMeasurementsDetailsFragment extends Fragment {
         }
         measurements = Common.measurementsRepository.getMeasurementsNo(String.valueOf(position));
         text1.setText(measurements.Message);
-
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
+        button1.setText(resources.getString(R.string.done));
         if (measurements.Type.equals("Diastolic")) {
             Questions questions1 = Common.qustionsRepository.getQuestions("Q50", member);
             if (questions1.answer.equals("1")) {
                 if (measurements.Message.equals("Hypertension = Refer to UHC!")) {
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
-                    text2.setText("Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.");
+                    text2.setText(resources.getString(R.string.diastolic_1));
                 } else if (measurements.Message.equals("Normal = Follow up 6 months.")) {
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-                    text2.setText("NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.");
-
+                    text2.setText(resources.getString(R.string.diastolic_2));
                 }
             }
             else if (questions1.answer.equals("2")) {
                 if (measurements.Message.equals("Hypertension = Refer to UHC!")) {
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
-                    text2.setText("You have developed HYPERTENSION. Please take necessary steps to control it at this stage,  consult a physician for further management and monitor your blood pressure regularly.");
+                    text2.setText(resources.getString(R.string.diastolic_3));
                 } else if (measurements.Message.equals("Normal = Follow up 6 months.")) {
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-                    text2.setText("You have NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.");
+                    text2.setText(resources.getString(R.string.diastolic_4));
 
                 }
             }
@@ -92,20 +100,19 @@ public class CCMeasurementsDetailsFragment extends Fragment {
             if (questions1.answer.equals("1")) {
                 if (measurements.Message.equals("Hypertension = Refer to UHC!")) {
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
-                    text2.setText("Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.");
+                    text2.setText(resources.getString(R.string.diastolic_1));
                 } else if (measurements.Message.equals("Normal = Follow up 6 months.")) {
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-                    text2.setText("NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.");
-
+                    text2.setText(resources.getString(R.string.diastolic_2));
                 }
             }
             else if (questions1.answer.equals("2")) {
                 if (measurements.Message.equals("Hypertension = Refer to UHC!")) {
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
-                    text2.setText("You have developed HYPERTENSION. Please take necessary steps to control it at this stage,  consult a physician for further management and monitor your blood pressure regularly.");
+                    text2.setText(resources.getString(R.string.diastolic_3));
                 } else if (measurements.Message.equals("Normal = Follow up 6 months.")) {
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-                    text2.setText("You have NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.");
+                    text2.setText(resources.getString(R.string.diastolic_4));
 
                 }
             }
@@ -113,60 +120,59 @@ public class CCMeasurementsDetailsFragment extends Fragment {
         else if (measurements.Type.equals("BMI")){
             if (measurements.Message.equals("UnderWeight")) {
                 text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_processing));
-                text2.setText("You are UNDERWEIGHT, this may cause several health related problems, please consult with physician or nutritionist.");
+                text2.setText(resources.getString(R.string.underweight_message));
             }
             else  if (measurements.Message.equals("Normal")) {
                 text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-                text2.setText("Your BMI is in NORMAL, to maintain this level - do regular physical activity and eat balanced diet — both of which help you look and feel good and keep weight off.");
+                text2.setText(resources.getString(R.string.normal_message));
             }
             else  if (measurements.Message.equals("OverWeight")) {
                 text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_processing));
-                text2.setText("You are OVERWEIGHT, please consult with nutritionist or physician for weight reduction. Avoid taking oily & fatty food and do regular physical activity.");
-            }
+                text2.setText(resources.getString(R.string.overweight_message));
+       }
             else if (measurements.Message.equals("Obese")){
                 text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
-                text2.setText("You are OBESE. Being OBESE you are in high risk to develop hypertension, cardiovascular disease, diabetes, please consult with nutritionist or physician for weight reduction.");
+                text2.setText(resources.getString(R.string.obese_message));
             }
         }
         else if (measurements.Type.equals("Diabetes")){
             Questions questions1 = Common.qustionsRepository.getQuestions("Q50", member);
-
             if (questions1.answer.equals("1")){
                 if (measurements.Message.equals("Uncontrolled Diabetes = Refer to UHC!")){
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
-                    text2.setText("HIGH blood sugar, immediately consult with doctor, your medicine may need to be adjusted or changed.");
+                    text2.setText(resources.getString(R.string.diabetis_1));
                 }
                 else if (measurements.Message.equals("Controlled Diabetes = Follow up 6 months.")){
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-                    text2.setText("NORMAL blood sugar level, to maintain this level - do regular physical activity and eat balanced diet — both of which help you look and feel good and keep diabetes in control.");
-                }
+                    text2.setText(resources.getString(R.string.diabetis_2));                }
 
             }
             else  if (questions1.answer.equals("2")){
                 if (measurements.Message.equals("Diabetes = Refer to UHC!")){
                     text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_reject));
-                    text2.setText("You have HIGH blood sugar, you may have diabetes, immediately consult with doctor to confirm your diagnosis.");
-                }
-                else if (measurements.Message.equals("Controlled Diabetes = Follow up 6 months.")){
-                    text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-                    text2.setText("You have NORMAL blood sugar level, to maintain this level - do regular physical activity and eat balanced diet which will help you to keep diabetes in control.");
-                }
-                else if (measurements.Message.equals("Pre-diabetic = Next week follow-up")){
-                    text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_processing));
-                    text2.setText("You are in PRE-DIABETIC stage, you may develop diabetes at any time, consult with doctor, do regular physical activity and eat balanced diet which will help you to keep blood sugar in control.\n");
-                }
+                    text2.setText(resources.getString(R.string.diabetis_3));                }
             }
+            else if (measurements.Message.equals("Controlled Diabetes = Follow up 6 months.")){
+                text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
+                text2.setText(resources.getString(R.string.diabetis_4));            }
+            else if (measurements.Message.equals("Pre-diabetic = Next week follow-up")){
+                text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_processing));
+                text2.setText(resources.getString(R.string.diabetis_5));
+            }
+
+
+
 
 
         }
         else if (measurements.Type.equals("WHR")){
             text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-            text2.setText("Your WHR is NORMAL, to maintain this level - do regular physical activity and eat balanced diet.");
+            text2.setText(resources.getString(R.string.whr_1));
 
         }
         else if (measurements.Type.equals("Pulse")){
             text1.setBackground(mActivity.getResources().getDrawable(R.drawable.status_accepted));
-            text2.setText("Your Waist circumference is in NORMAL, to maintain this level - do regular physical activity and eat balanced diet");
+            text2.setText(resources.getString(R.string.pulse_1));
 
         }
         button1.setOnClickListener(new View.OnClickListener() {

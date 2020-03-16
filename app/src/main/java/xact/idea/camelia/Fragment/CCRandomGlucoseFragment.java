@@ -40,11 +40,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Database.Model.MeasurementDetails;
 import xact.idea.camelia.Database.Model.Measurements;
 import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.Questions;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -78,6 +80,9 @@ public class CCRandomGlucoseFragment extends Fragment {
     String refer;
     String typeGlucose;
     double total;
+    TextView tv_time;
+    TextView tv_date;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -96,7 +101,18 @@ public class CCRandomGlucoseFragment extends Fragment {
         // display();
         return view;
     }
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        radioFasting.setText(resources.getString(R.string.fasting));
+        radioRandom.setText(resources.getString(R.string.random));
+        textView49.setText(resources.getString(R.string.sugar));
+        tv_time.setText(resources.getString(R.string.time));
+        tv_date.setText(resources.getString(R.string.date));
+        create.setText(resources.getString(R.string.done));
+        edit_sugar.setHint(resources.getString(R.string.liter));
 
+    }
     private void initView() {
         textView49 = view.findViewById(R.id.textView49);
         radioFasting = view.findViewById(R.id.radioFasting);
@@ -109,8 +125,15 @@ public class CCRandomGlucoseFragment extends Fragment {
         text_number = view.findViewById(R.id.text_number);
         text_text = view.findViewById(R.id.text_text);
         create = view.findViewById(R.id.create);
+        tv_time = view.findViewById(R.id.tv_time);
+        tv_date = view.findViewById(R.id.tv_date);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter1 = new SimpleDateFormat("hh:mm aa");
         final Date date = new Date(System.currentTimeMillis());
         edit_date.setText(formatter.format(date));
         //edit_end_date.setText(formatter.format(date));
@@ -160,7 +183,7 @@ public class CCRandomGlucoseFragment extends Fragment {
                 typeGlucose="R";
             }
         });
-        edit_time.setText(value1+":"+value+" "+format);
+        edit_time.setText(formatter1.format(date));
         edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -182,6 +182,7 @@
                             android:background="@drawable/status_reject"
 
                             android:padding="15px"
+                            android:visibility="invisible"
                             android:tag="40"
                             android:text="Delete"
                             android:layout_marginRight="10px"

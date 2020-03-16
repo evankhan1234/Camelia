@@ -310,7 +310,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
         // sexArrayList= Utils.getSexList();
         hideSoftKeyboard(mActivity);
         headArrayList = Utils.getyesNoList(mActivity);
-        religionArrayList = Utils.getReligionList();
+        religionArrayList = Utils.getReligionList(mActivity);
         occupationArrayList = Utils.getOccupationList();
         educationArrayList = Utils.getEducationList();
         bloodGroupArrayList = Utils.getBloodGroupList();

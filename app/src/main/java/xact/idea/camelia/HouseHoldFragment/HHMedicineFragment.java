@@ -2,6 +2,7 @@ package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,6 +34,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -42,6 +44,7 @@ import xact.idea.camelia.Database.Model.Medicine;
 import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Questions;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Model.DropDownModel.ControlDiseaseModel;
 import xact.idea.camelia.Model.DropDownModel.YesNoModel;
@@ -646,6 +649,10 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         tv_mental_suffering = view.findViewById(R.id.tv_mental_suffering);
         tv_mental_control = view.findViewById(R.id.tv_mental_control);
         tv_mental_treatment = view.findViewById(R.id.tv_mental_treatment);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         LinearLayoutManager lm1 = new LinearLayoutManager(mActivity);
@@ -679,12 +686,12 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
 
         yesNoArrayListForDiabetis = Utils.getyesNoList(mActivity);
-        controlDiseaseBrainStrokeModels = Utils.getControlDiseaseList();
-        controlDiseaseLungsModels = Utils.getControlDiseaseList();
-        controlDiseaseCancerModels = Utils.getControlDiseaseList();
-        controlDiseaseMentalModels = Utils.getControlDiseaseList();
-        controlDiseaseKidneyModels = Utils.getControlDiseaseList();
-        controlDiseaseAshmaModels = Utils.getControlDiseaseList();
+        controlDiseaseBrainStrokeModels = Utils.getControlDiseaseList(mActivity);
+        controlDiseaseLungsModels = Utils.getControlDiseaseList(mActivity);
+        controlDiseaseCancerModels = Utils.getControlDiseaseList(mActivity);
+        controlDiseaseMentalModels = Utils.getControlDiseaseList(mActivity);
+        controlDiseaseKidneyModels = Utils.getControlDiseaseList(mActivity);
+        controlDiseaseAshmaModels = Utils.getControlDiseaseList(mActivity);
         yesNoArrayListForBloodPressure = Utils.getyesNoList(mActivity);
         yesNoArrayListForHeartAttack = Utils.getyesNoList(mActivity);
         yesNoArrayListForBrainStroke = Utils.getyesNoList(mActivity);
@@ -793,7 +800,79 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
         show();
     }
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        tv_diabetis .setText(resources.getString(R.string.do_diabetis));
+        tv_diabetes_suffering .setText(resources.getString(R.string.sufferring));
+        tv_diabetes_control.setText(resources.getString(R.string.control));
+        tv_diabetes_medicine_name .setText(resources.getString(R.string.medicine_name));
+        tv_blood_pressure .setText(resources.getString(R.string.do_blood_pressure));
+        tv_blood_pressure_suffering.setText(resources.getString(R.string.sufferring));
+        tv_blood_pressure_control .setText(resources.getString(R.string.control));
+        tv_blood_pressure_medicine_name.setText(resources.getString(R.string.medicine_name));
+        tv_heart_disease .setText(resources.getString(R.string.do_heart_attack));
+        tv_heart_disease_suffering .setText(resources.getString(R.string.sufferring));
+        tv_heart_disease_control .setText(resources.getString(R.string.control));
+        tv_heart_disease_medicine_name .setText(resources.getString(R.string.medicine_name));
+        tv_brain_stroke .setText(resources.getString(R.string.do_brain_stroke));
+        tv_brain_stroke_suffering.setText(resources.getString(R.string.sufferring));
+        tv_brain_stroke_control .setText(resources.getString(R.string.control));
+        tv_brain_stroke_medicine_name .setText(resources.getString(R.string.medicine_name));
+        tv_lung.setText(resources.getString(R.string.do_lung));
+        tv_lung_suffering .setText(resources.getString(R.string.sufferring));
+        tv_lung_control .setText(resources.getString(R.string.control));
+        tv_lung_medicine .setText(resources.getString(R.string.medicine_name));
+        tv_ashma .setText(resources.getString(R.string.do_ashma));
+        tv_ashma_suffering .setText(resources.getString(R.string.sufferring));
+        tv_ashma_control .setText(resources.getString(R.string.control));
+        tv_ashma_medicine .setText(resources.getString(R.string.medicine_name));
+        tv_kidney .setText(resources.getString(R.string.do_kidney));
+        tv_kidney_suffering .setText(resources.getString(R.string.sufferring));
+        tv_kidney_control .setText(resources.getString(R.string.control));
+        tv_kidney_medicine .setText(resources.getString(R.string.medicine_name));
+        tv_cancer .setText(resources.getString(R.string.do_cancer));
+        tv_cancer_suffering .setText(resources.getString(R.string.sufferring));
+        tv_cancer_control .setText(resources.getString(R.string.control));
+        tv_cancer_medicine .setText(resources.getString(R.string.medicine_name));
+        tv_mental .setText(resources.getString(R.string.do_mental));
+        tv_mental_suffering .setText(resources.getString(R.string.sufferring));
+        tv_mental_control.setText(resources.getString(R.string.control));
+        tv_mental_treatment.setText(resources.getString(R.string.medicine_name));
+        edit_diabetis_month.setHint(resources.getString(R.string.month));
+        edit_yes_blood.setHint(resources.getString(R.string.month));
+        edit_yes_heart_attack.setHint(resources.getString(R.string.month));
+        edit_yes_heart_brain_stroke.setHint(resources.getString(R.string.month));
+        edit_yes_lung_disease.setHint(resources.getString(R.string.month));
+        edit_yes_ashma.setHint(resources.getString(R.string.month));
+        edit_yes_kidney_disease.setHint(resources.getString(R.string.month));
+        edit_yes_cancer.setHint(resources.getString(R.string.month));
+        edit_yes_mental_disorder.setHint(resources.getString(R.string.month));
+        text_diabetis.setText(resources.getString(R.string.select));
+        text_bloodPressure.setText(resources.getString(R.string.select));
+        text_heart_attack_text.setText(resources.getString(R.string.select));
+        text_brain_stroke_text.setText(resources.getString(R.string.select));
+        text_lung_disease_text.setText(resources.getString(R.string.select));
+        text_ashma_text.setText(resources.getString(R.string.select));
+        text_kidney_text.setText(resources.getString(R.string.select));
+        text_cancer_text.setText(resources.getString(R.string.select));
+        text_mental_disorders_text.setText(resources.getString(R.string.select));
+        checkBoxFoodHabit.setText(resources.getString(R.string.food_habit));
+        checkBoxExercise.setText(resources.getString(R.string.exercises));
+        checkBoxMouthMedicine.setText(resources.getString(R.string.mouthe_medicine));
+        checkBoxInsulin.setText(resources.getString(R.string.insulin));
+        checkBoxNo.setText(resources.getString(R.string.no_one));
+        checkBoxFoodHabit_blood_pressure.setText(resources.getString(R.string.food_habit));
+        checkBoxMouthMedicine_blood_pressure.setText(resources.getString(R.string.mouthe_medicine));
+        checkBoxExercise_blood_pressure.setText(resources.getString(R.string.exercises));
+        checkBoxNo_blood_pressure.setText(resources.getString(R.string.no_one));
+        checkBoxFoodHabit_heart_attack.setText(resources.getString(R.string.food_habit));
+        checkBoxMouthMedicine_heart_attack.setText(resources.getString(R.string.mouthe_medicine));
+        checkBoxExercise_heart_attack.setText(resources.getString(R.string.exercises));
+        checkBoxNo_heart_attack.setText(resources.getString(R.string.no_one));
 
+
+    }
     public void show() {
         MemberMedicine memberMedicine = Common.memberMedicineRepository.getMemberMedicineNo(update);
 
@@ -3866,7 +3945,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 arrayListMental.clear();
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
-                HHCreateMemberFragment.nextPages(2);
+                String language= SharedPreferenceUtil.getLanguage(mActivity);
+                if (language.equals("en")){
+                    HHCreateMemberFragment.nextPages(2,"en");
+                }
+                else if(language.equals("bn")){
+                    HHCreateMemberFragment.nextPages(2,"bn");
+                }
 
 
             }
@@ -4407,7 +4492,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     arrayListKidney.clear();
                     arrayListCancer.clear();
                     arrayListMental.clear();
-                    HHCreateMemberFragment.nextPages(2);
+                    String language= SharedPreferenceUtil.getLanguage(mActivity);
+                    if (language.equals("en")){
+                        HHCreateMemberFragment.nextPages(2,"en");
+                    }
+                    else if(language.equals("bn")){
+                        HHCreateMemberFragment.nextPages(2,"bn");
+                    }
 
                     ////Evan
                 } else {
@@ -5593,7 +5684,13 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     arrayListKidney.clear();
                     arrayListCancer.clear();
                     arrayListMental.clear();
-                    HHCreateMemberFragment.nextPages(2);
+                    String language= SharedPreferenceUtil.getLanguage(mActivity);
+                    if (language.equals("en")){
+                        HHCreateMemberFragment.nextPages(2,"en");
+                    }
+                    else if(language.equals("bn")){
+                        HHCreateMemberFragment.nextPages(2,"bn");
+                    }
                 }
 
 
@@ -5608,7 +5705,14 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
         if (message.what == 1) {
             saveData();
         } else {
-            HHCreateMemberFragment.prevPage(0);
+            String language= SharedPreferenceUtil.getLanguage(mActivity);
+            if (language.equals("en")){
+                HHCreateMemberFragment.prevPage(0,"en");
+            }
+            else if(language.equals("bn")){
+                HHCreateMemberFragment.prevPage(0,"bn");
+            }
+
         }
         return false;
     }

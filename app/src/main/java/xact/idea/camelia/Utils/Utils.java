@@ -338,14 +338,19 @@ public class Utils {
 
     }
 
-    public static ArrayList<ReligionModel> getReligionList() {
+    public static ArrayList<ReligionModel> getReligionList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<ReligionModel> religionModelArrayList = new ArrayList<>();
-        ReligionModel religionModelIslam4 = new ReligionModel("Select", -1);
-        ReligionModel religionModelIslam = new ReligionModel("Islam", 1);
-        ReligionModel religionModelHindu = new ReligionModel("Hindu", 2);
-        ReligionModel religionModelChristan = new ReligionModel("Christian", 3);
-        ReligionModel religionModelBuddhist = new ReligionModel("Buddhisht", 4);
-        ReligionModel religionModelOthers = new ReligionModel("Others", 99);
+        ReligionModel religionModelIslam4 = new ReligionModel(resources.getString(R.string.select), -1);
+        ReligionModel religionModelIslam = new ReligionModel(resources.getString(R.string.islam), 1);
+        ReligionModel religionModelHindu = new ReligionModel(resources.getString(R.string.hindu), 2);
+        ReligionModel religionModelChristan = new ReligionModel(resources.getString(R.string.christain), 3);
+        ReligionModel religionModelBuddhist = new ReligionModel(resources.getString(R.string.buddhist), 4);
+        ReligionModel religionModelOthers = new ReligionModel(resources.getString(R.string.others_region), 99);
         religionModelArrayList.add(religionModelIslam4);
         religionModelArrayList.add(religionModelIslam);
         religionModelArrayList.add(religionModelHindu);
@@ -392,13 +397,18 @@ public class Utils {
 
     }
     public static ArrayList<TubewellModel> getTubewellList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<TubewellModel> sexModelArrayList = new ArrayList<>();
-        TubewellModel maritialStatusUnmarried1 = new TubewellModel(mActivity.getResources().getString(R.string.Select), -1);
-        TubewellModel maritialStatusUnmarried = new TubewellModel(mActivity.getResources().getString(R.string.tubewell), 1);
-        TubewellModel maritialStatusMarried = new TubewellModel(mActivity.getResources().getString(R.string.filter_water), 2);
-        TubewellModel maritialStatusDivorced = new TubewellModel(mActivity.getResources().getString(R.string.tap_water), 3);
-        TubewellModel maritialStatusWidow = new TubewellModel(mActivity.getResources().getString(R.string.boil_water), 4);
-        TubewellModel maritialStatusWidower = new TubewellModel(mActivity.getResources().getString(R.string.chlorine_water), 5);
+        TubewellModel maritialStatusUnmarried1 = new TubewellModel(resources.getString(R.string.Select), -1);
+        TubewellModel maritialStatusUnmarried = new TubewellModel(resources.getString(R.string.tubewell), 1);
+        TubewellModel maritialStatusMarried = new TubewellModel(resources.getString(R.string.filter_water), 2);
+        TubewellModel maritialStatusDivorced = new TubewellModel(resources.getString(R.string.tap_water), 3);
+        TubewellModel maritialStatusWidow = new TubewellModel(resources.getString(R.string.boil_water), 4);
+        TubewellModel maritialStatusWidower = new TubewellModel(resources.getString(R.string.chlorine_water), 5);
         sexModelArrayList.add(maritialStatusUnmarried1);
         sexModelArrayList.add(maritialStatusUnmarried);
         sexModelArrayList.add(maritialStatusMarried);
@@ -409,19 +419,23 @@ public class Utils {
 
     }
     public static ArrayList<BiomasFuelModel> getBiomasFuelList(Activity mActivity) {
-
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<BiomasFuelModel> sexModelArrayList = new ArrayList<>();
-        BiomasFuelModel maritialStatusUnmarried1 = new BiomasFuelModel(mActivity.getResources().getString(R.string.Select), -1);
-        BiomasFuelModel maritialStatusUnmarried = new BiomasFuelModel(mActivity.getResources().getString(R.string.kath), 1);
-        BiomasFuelModel maritialStatusMarried = new BiomasFuelModel(mActivity.getResources().getString(R.string.patkhori), 2);
-        BiomasFuelModel maritialStatusDivorced = new BiomasFuelModel(mActivity.getResources().getString(R.string.gobor), 3);
-        BiomasFuelModel maritialStatusWidow = new BiomasFuelModel(mActivity.getResources().getString(R.string.fosol), 4);
-        BiomasFuelModel maritialStatusWidower1 = new BiomasFuelModel(mActivity.getResources().getString(R.string.kura), 5);
-        BiomasFuelModel maritialStatusWidower2 = new BiomasFuelModel(mActivity.getResources().getString(R.string.alchocol), 6);
-        BiomasFuelModel maritialStatusWidower3 = new BiomasFuelModel(mActivity.getResources().getString(R.string.kerosin_chula), 7);
-        BiomasFuelModel maritialStatusWidower4 = new BiomasFuelModel(mActivity.getResources().getString(R.string.land_fill_gas), 8);
-        BiomasFuelModel maritialStatusWidower5 = new BiomasFuelModel(mActivity.getResources().getString(R.string.electric_chula), 9);
-        BiomasFuelModel maritialStatusWidower6 = new BiomasFuelModel(mActivity.getResources().getString(R.string.ittadi), 10);
+        BiomasFuelModel maritialStatusUnmarried1 = new BiomasFuelModel(resources.getString(R.string.Select), -1);
+        BiomasFuelModel maritialStatusUnmarried = new BiomasFuelModel(resources.getString(R.string.kath), 1);
+        BiomasFuelModel maritialStatusMarried = new BiomasFuelModel(resources.getString(R.string.patkhori), 2);
+        BiomasFuelModel maritialStatusDivorced = new BiomasFuelModel(resources.getString(R.string.gobor), 3);
+        BiomasFuelModel maritialStatusWidow = new BiomasFuelModel(resources.getString(R.string.fosol), 4);
+        BiomasFuelModel maritialStatusWidower1 = new BiomasFuelModel(resources.getString(R.string.kura), 5);
+        BiomasFuelModel maritialStatusWidower2 = new BiomasFuelModel(resources.getString(R.string.alchocol), 6);
+        BiomasFuelModel maritialStatusWidower3 = new BiomasFuelModel(resources.getString(R.string.kerosin_chula), 7);
+        BiomasFuelModel maritialStatusWidower4 = new BiomasFuelModel(resources.getString(R.string.land_fill_gas), 8);
+        BiomasFuelModel maritialStatusWidower5 = new BiomasFuelModel(resources.getString(R.string.electric_chula), 9);
+        BiomasFuelModel maritialStatusWidower6 = new BiomasFuelModel(resources.getString(R.string.ittadi), 10);
         sexModelArrayList.add(maritialStatusUnmarried1);
         sexModelArrayList.add(maritialStatusUnmarried);
         sexModelArrayList.add(maritialStatusMarried);
@@ -531,12 +545,17 @@ public class Utils {
             yesNoModelArrayList.add(yesNoModelYes);
             return yesNoModelArrayList;
     }
-    public static ArrayList<ControlDiseaseModel> getControlDiseaseList() {
+    public static ArrayList<ControlDiseaseModel> getControlDiseaseList(Activity mActivity) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         ArrayList<ControlDiseaseModel> controlDiseaseModelArrayList = new ArrayList<>();
 
         //ControlDiseaseModel controlDiseaseModel12= new ControlDiseaseModel("Select", -1);
-        ControlDiseaseModel controlDiseaseModel1= new ControlDiseaseModel("Mouth to Mouth  Medicine", 1);
-        ControlDiseaseModel controlDiseaseModel2 = new ControlDiseaseModel("Don't Know", 2);
+        ControlDiseaseModel controlDiseaseModel1= new ControlDiseaseModel(resources.getString(R.string.mouthe_medicine_1), 1);
+        ControlDiseaseModel controlDiseaseModel2 = new ControlDiseaseModel(resources.getString(R.string.no_one_1), 2);
 
        // controlDiseaseModelArrayList.add(controlDiseaseModel12);
         controlDiseaseModelArrayList.add(controlDiseaseModel1);

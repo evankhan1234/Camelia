@@ -2,6 +2,8 @@ package xact.idea.camelia.Adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,15 +20,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Database.Model.Measurements;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncompleStatusDetailsAdapter.CCIncompleteStatusListiewHolder> {
     CCMesaurementDetailsAdapter mAdapters;
@@ -60,12 +65,16 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
     @SuppressLint("NewApi")
     @Override
     public void onBindViewHolder(final CCIncompleStatusDetailsAdapter.CCIncompleteStatusListiewHolder holder, final int position) {
-
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
 
 
         if(position==0){
-            String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>18.5-24.9</font>";
-            holder.text_name.setText("BMI");
+            String normal_range = "<b><font color=#000 >"+resources.getString(R.string.normal_range) +" :  </font></b> <font color=#444444>"+resources.getString(R.string.bmi_range) +"</font>";
+            holder.text_name.setText(resources.getString(R.string.bmi_));
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
 
             compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("BMI",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
@@ -79,8 +88,8 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             }));
         }
         else if(position==1){
-            String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>N/A</font>";
-            holder.text_name.setText("WHR");
+            String normal_range = "<b><font color=#000 >"+resources.getString(R.string.normal_range) +" :  </font></b> <font color=#444444>"+resources.getString(R.string.whr_range) +"</font>";
+            holder.text_name.setText(resources.getString(R.string.whr));
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
             compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("WHR",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
@@ -93,8 +102,8 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             }));
         }
         else if(position==2){
-            String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>18.5-24.9</font>";
-            holder.text_name.setText("Pulse(beat/min)");
+            String normal_range = "<b><font color=#000 >"+resources.getString(R.string.normal_range) +" :  </font></b> <font color=#444444>"+resources.getString(R.string.pulse_range) +"</font>";
+            holder.text_name.setText(resources.getString(R.string.pulse));
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
             compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Pulse",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
@@ -107,8 +116,8 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             }));
         }
         else if(position==3){
-            String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>Fasting 6.1 && Random 8</font>";
-            holder.text_name.setText("Blood Glucose (Diabetes)");
+            String normal_range = "<b><font color=#000 >"+resources.getString(R.string.normal_range) +" :  </font></b> <font color=#444444>"+resources.getString(R.string.diabetis_range) +"</font>";
+            holder.text_name.setText(resources.getString(R.string.blood_glucose));
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
             compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Diabetes",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
@@ -121,8 +130,8 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             }));
         }
         else if(position==4){
-            String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>130-140</font>";
-            holder.text_name.setText("Blood Pressure (Systolic)");
+            String normal_range = "<b><font color=#000 >"+resources.getString(R.string.normal_range) +":  </font></b> <font color=#444444>"+resources.getString(R.string.systolic_range) +"</font>";
+            holder.text_name.setText(resources.getString(R.string.systolic));
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
             compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Systolic",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
@@ -135,8 +144,8 @@ public class CCIncompleStatusDetailsAdapter extends RecyclerView.Adapter<CCIncom
             }));
         }
         else if(position==5){
-            String normal_range = "<b><font color=#000 >Normal Range :  </font></b> <font color=#444444>80-90</font>";
-            holder.text_name.setText("Blood Pressure (Diastolic)");
+            String normal_range = "<b><font color=#000 >"+resources.getString(R.string.normal_range) +":  </font></b> <font color=#444444>"+resources.getString(R.string.diastolic_range) +"</font>";
+            holder.text_name.setText(resources.getString(R.string.diastolic));
             holder.text_normal_range.setText(Html.fromHtml(normal_range));
             compositeDisposable.add(Common.measurementsRepository.getMeasurementsItemById("Diastolic",type).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
                 @Override
