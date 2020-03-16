@@ -5616,7 +5616,14 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (message.what == 2) {
             saveData();
         } else {
-            HHCreateMemberFragment.prevPage(1);
+            String language= SharedPreferenceUtil.getLanguage(mActivity);
+            if (language.equals("en")){
+                HHCreateMemberFragment.prevPage(1,"en");
+            }
+            else if(language.equals("bn")){
+                HHCreateMemberFragment.prevPage(1,"bn");
+            }
+
         }
         return false;
     }

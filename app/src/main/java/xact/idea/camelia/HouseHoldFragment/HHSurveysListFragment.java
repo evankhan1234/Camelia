@@ -2,6 +2,7 @@ package xact.idea.camelia.HouseHoldFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -37,11 +39,13 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Fragment.CCUserMemberStatusFragment;
 import xact.idea.camelia.Fragment.CCuserMesaurementsFragment;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.Constant;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 
 public class HHSurveysListFragment extends Fragment {
@@ -80,6 +84,10 @@ public class HHSurveysListFragment extends Fragment {
         btn_survey_create =  view.findViewById(R.id.btn_survey_create);
         rcl_this_customer_list =  view.findViewById(R.id.rcl_this_customer_list);
         LinearLayoutManager lm = new LinearLayoutManager(mActivity);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rcl_this_customer_list.setLayoutManager(lm);
         btn_survey_create.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +180,12 @@ public class HHSurveysListFragment extends Fragment {
 
         }
     };
+    private void updateView(String language) {
+        Context context= LocaleHelper.setLocale(mActivity,language);
+        Resources resources= context.getResources();
+        edit_content.setHint(resources.getString(R.string.search));
+
+    }
     private  void display() {
         compositeDisposable.add(Common.surveyRepository.getSurveyItemById(uniqueId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Survey>>() {
             @Override

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -44,6 +45,7 @@ import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.paperdb.Paper;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -58,6 +60,7 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.ReferHistory;
 import xact.idea.camelia.Filter.MemberFilter;
 import xact.idea.camelia.Filter.NotSyncFilter;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
@@ -96,17 +99,22 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
 
     @Override
     public void onBindViewHolder(final HHMemberListAdapter.CCDashboardListiewHolder holder, final int position) {
-
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         holder.text_name.setText(memberMyselfes.get(position).FullName);
         holder.text_phone.setText(memberMyselfes.get(position).MemberId);
-        String agent_no = "<b><font color=#000 >Name :  </font></b> <font color=#03A9F4> " + memberMyselfes.get(position).FullName + "</font>";
-        String mobile = "<b><font color=#000 >MemberId :  </font></b> <font color=#03A9F4> " + memberMyselfes.get(position).MemberId + "</font>";
-        String member = "<b><font color=#000 >Mobile :  </font></b> <font color=#03A9F4> " + memberMyselfes.get(position).MobileNumber + "</font>";
-        String dateof = "<b><font color=#000 >DOB :  </font></b> <font color=#03A9F4> " + memberMyselfes.get(position).DateOfBirth + "</font>";
+        String agent_no = "<b><font color=#000 >"+resources.getString(R.string.name_) +":  </font></b> <font color=#03A9F4> " + memberMyselfes.get(position).FullName + "</font>";
+        String mobile = "<b><font color=#000 >"+resources.getString(R.string.member_id) +":  </font></b> <font color=#03A9F4> " + memberMyselfes.get(position).MemberId + "</font>";
+        String member = "<b><font color=#000 >"+resources.getString(R.string.number_) +" :  </font></b> <font color=#03A9F4> " + memberMyselfes.get(position).MobileNumber + "</font>";
+        String dateof = "<b><font color=#000 >"+resources.getString(R.string.dob_) +" :  </font></b> <font color=#03A9F4> " + memberMyselfes.get(position).DateOfBirth + "</font>";
         holder.text_name.setText(Html.fromHtml(agent_no));
         holder.text_phone.setText(Html.fromHtml(member));
         holder.text_date_of.setText(Html.fromHtml(dateof));
         holder.text_mobile_nmber.setText(Html.fromHtml(mobile));
+        holder.text_update.setText(resources.getString(R.string.view));
         if (memberMyselfes.get(position).GenderId == 1) {
             Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
                     .into(new SimpleTarget<GlideDrawable>() {

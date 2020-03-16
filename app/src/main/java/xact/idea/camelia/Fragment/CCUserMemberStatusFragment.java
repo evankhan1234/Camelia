@@ -215,7 +215,12 @@ public class CCUserMemberStatusFragment extends Fragment implements TabLayout.On
         viewPager.setPagingEnabled(false);
       //  CCUserMemberStatusFragment.viewPager.beginFakeDrag();
         // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-        ((CCUserHomeActivity) getActivity()).ShowText("Details");
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
+        ((CCUserHomeActivity) getActivity()).ShowTexts(resources.getString(R.string.details));
         ((CCUserHomeActivity) getActivity()).showHeaderDetail("status");
     }
 }

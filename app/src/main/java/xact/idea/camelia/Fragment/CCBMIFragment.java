@@ -39,9 +39,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Database.Model.MeasurementDetails;
 import xact.idea.camelia.Database.Model.Measurements;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.HouseHoldFragment.HHMyselfFragment;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
@@ -70,6 +72,10 @@ public class CCBMIFragment extends Fragment {
     String type;
     String message;
     double bmi;
+    TextView tv_time;
+    TextView tv_date;
+    TextView text_1;
+    TextView text_2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,7 +100,20 @@ public class CCBMIFragment extends Fragment {
 //        super.onCreate(savedInstanceState);
 //        setRetainInstance(true);
 //    }
+private void updateView(String language) {
+    Context context= LocaleHelper.setLocale(mActivity,language);
+    Resources resources= context.getResources();
+    text_1.setText(resources.getString(R.string.weight_kg));
+    text_2.setText(resources.getString(R.string.weight_meter));
+    tv_time.setText(resources.getString(R.string.time));
+    tv_date.setText(resources.getString(R.string.date));
+    edit_weight.setHint(resources.getString(R.string.kg));
+    edit_height.setHint(resources.getString(R.string.meter));
+    create.setText(resources.getString(R.string.done));
+}
     private void initView() {
+        text_1 = view.findViewById(R.id.text_1);
+        text_2 = view.findViewById(R.id.text_2);
         linear = view.findViewById(R.id.linear);
         text_bmi_number = view.findViewById(R.id.text_bmi_number);
         text_bmi_text = view.findViewById(R.id.text_bmi_text);
@@ -103,8 +122,15 @@ public class CCBMIFragment extends Fragment {
         edit_date = view.findViewById(R.id.edit_date);
         edit_height = view.findViewById(R.id.edit_height);
         edit_weight = view.findViewById(R.id.edit_weight);
+        tv_time = view.findViewById(R.id.tv_time);
+        tv_date = view.findViewById(R.id.tv_date);
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        updateView((String)Paper.book().read("language"));
         calendar = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter1 = new SimpleDateFormat("hh:mm aa");
         final Date date = new Date(System.currentTimeMillis());
         edit_date.setText(formatter.format(date));
         //edit_end_date.setText(formatter.format(date));
@@ -138,7 +164,7 @@ public class CCBMIFragment extends Fragment {
         else{
             value1="0"+String.valueOf(hour);
         }
-        edit_time.setText(value1+":"+value+" "+format);
+        edit_time.setText(formatter1.format(date));
         edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

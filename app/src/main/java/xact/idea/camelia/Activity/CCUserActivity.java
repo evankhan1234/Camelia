@@ -419,7 +419,14 @@ public class CCUserActivity extends AppCompatActivity {
                     @Override
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("memberResponseModel", "memberResponseModel" + new Gson().toJson(memberResponseModel));
-                        //downloadHousehold();
+                        downloadHousehold();
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                downloadWorkingArea();
+                            }
+                        },5000);
                         dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
@@ -3764,7 +3771,14 @@ public class CCUserActivity extends AppCompatActivity {
 
         if (Common.householdRepository.size()<1){
             if (Utils.broadcastIntent(CCUserActivity.this, relative)) {
-                //downloadHousehold();
+                downloadHousehold();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadWorkingArea();
+                    }
+                },5000);
+                dismissLoadingProgress();
             }
             else {
                 Snackbar snackbar = Snackbar

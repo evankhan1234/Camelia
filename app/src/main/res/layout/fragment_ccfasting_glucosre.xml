@@ -27,6 +27,7 @@
                 android:layout_weight="1">
                 <TextView
                     android:tag="35"
+                    android:id="@+id/tv_date"
                     android:textStyle="bold"
                     android:textSize="35px"
                     android:textAlignment="center"
@@ -51,7 +52,7 @@
                     android:textAlignment="center"
                     android:tag="35"
                     android:textSize="35px"
-                    android:id="@+id/textView47"
+                    android:id="@+id/tv_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8px"

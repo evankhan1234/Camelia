@@ -1,6 +1,8 @@
 package xact.idea.camelia.Adapter.HHAdapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +18,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Filter.NotSyncFilter;
 import xact.idea.camelia.Filter.SurveyFilter;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDashboardListiewHolder> implements Filterable {
 
@@ -49,6 +54,11 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
 
     @Override
     public void onBindViewHolder(final HHSurveysAdapter.CCDashboardListiewHolder holder, final int position) {
+        Paper.init(mActivity);
+        String language= SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language",language);
+        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+        Resources resources= context.getResources();
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM,yyyy");
         holder.text_date.setText(formatter.format(survey.get(position).CreatedDate));
         String safe="";
@@ -56,39 +66,40 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
         String bondhoChula="";
         String biomasFuel="";
         if (survey.get(position).SafeDrinkingYesNo==1){
-            safe  = "<b><font color=#000 >Safe Drinking Water :  </font></b> <font color=#358ED3> Yes </font>";
+            safe  = "<b><font color=#000 >"+resources.getString(R.string.safe_drinking_1) +" :  </font></b> <font color=#358ED3> Yes </font>";
 
         }
         else{
-            safe  = "<b><font color=#000 >Safe Drinking Water:  </font></b> <font color=#358ED3> No </font>";
+            safe  = "<b><font color=#000 >"+resources.getString(R.string.safe_drinking_1) +":  </font></b> <font color=#358ED3> No </font>";
             String store = "<b><font color=#000 >Store Id :  </font></b> <font color=#358ED3></font>";
 
         }
         if (survey.get(position).SanitaryYesNo==1){
-            sanitary  = "<b><font color=#000 >Sanitary Latrine :  </font></b> <font color=#358ED3> Yes </font>";
+            sanitary  = "<b><font color=#000 >"+resources.getString(R.string.sanitary_latrine_1) +":  </font></b> <font color=#358ED3> Yes </font>";
 
         }
         else{
-            sanitary  = "<b><font color=#000 >Sanitary Latrine :  </font></b> <font color=#358ED3> No </font>";
+            sanitary  = "<b><font color=#000 >"+resources.getString(R.string.sanitary_latrine_1) +" :  </font></b> <font color=#358ED3> No </font>";
         }
         if (survey.get(position).BondhoChulaYesNo==1){
-            bondhoChula  = "<b><font color=#000 >Bondho Chula :  </font></b> <font color=#358ED3> Yes </font>";
+            bondhoChula  = "<b><font color=#000 >"+resources.getString(R.string.bondho_chula_1) +" :  </font></b> <font color=#358ED3> Yes </font>";
 
         }
         else{
-            bondhoChula  = "<b><font color=#000 >Bondho Chula :  </font></b> <font color=#358ED3> No </font>";
+            bondhoChula  = "<b><font color=#000 >"+resources.getString(R.string.bondho_chula_1) +":  </font></b> <font color=#358ED3> No </font>";
         }
         if (survey.get(position).BiomasFuelYesNo==1){
-            biomasFuel  = "<b><font color=#000 >Biomas Fuel :  </font></b> <font color=#358ED3> Yes </font>";
+            biomasFuel  = "<b><font color=#000 >"+resources.getString(R.string.biomas_fuel_1) +" :  </font></b> <font color=#358ED3> Yes </font>";
 
         }
         else{
-            biomasFuel  = "<b><font color=#000 >Biomas Fuel :  </font></b> <font color=#358ED3> No </font>";
+            biomasFuel  = "<b><font color=#000 >"+resources.getString(R.string.biomas_fuel_1) +":  </font></b> <font color=#358ED3> No </font>";
         }
         holder.text_safe_drinking.setText(Html.fromHtml(safe));
         holder.text_sanitary.setText(Html.fromHtml(sanitary));
         holder.text_bondho.setText(Html.fromHtml(bondhoChula));
         holder.text_biomas_fuel.setText(Html.fromHtml(biomasFuel));
+        holder.text_update.setText(resources.getString(R.string.view));
 //        holder.text_delete.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {

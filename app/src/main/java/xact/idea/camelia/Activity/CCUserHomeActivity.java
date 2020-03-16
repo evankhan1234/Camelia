@@ -74,6 +74,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
     private RelativeLayout rlt_header_details;
     private RelativeLayout rlt_header_status_details;
     private TextView details_title;
+    private TextView details_status_title;
     private View view_header_details;
     private View view_header_status_details;
     private ImageButton btn_header_back_;
@@ -133,6 +134,7 @@ public class CCUserHomeActivity extends AppCompatActivity {
         rlt_header = findViewById(R.id.rlt_header);
         rlt_header_details = findViewById(R.id.rlt_header_details);
         details_title = findViewById(R.id.details_title);
+        details_status_title = findViewById(R.id.details_status_title);
         btn_footer_home = findViewById(R.id.btn_footer_home);
         tv_home_menu = findViewById(R.id.tv_home_menu);
         btn_footer_dashboard = findViewById(R.id.btn_footer_dashboard);
@@ -618,9 +620,14 @@ public class CCUserHomeActivity extends AppCompatActivity {
         title.setVisibility(View.VISIBLE);
 
     }
+    public void ShowTexts(String name) {
+        details_status_title.setText(name);
+    }
     public void ShowText(String name) {
         details_title.setText(name);
+
     }
+
 
     public void openStatusDetails(int position,String Type,String value) {
        Fragment fragment= getSupportFragmentManager().findFragmentByTag(CCUserMemberStatusFragment.class.getSimpleName());

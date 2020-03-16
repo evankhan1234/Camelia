@@ -2,6 +2,7 @@ package xact.idea.camelia.Fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -22,14 +23,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Collections;
 import java.util.List;
 
+import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleStatusDetailsAdapter;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.Database.Model.Measurements;
+import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.SharedPreferenceUtil;
 
 public class CCMemberStausDetailsFragment extends Fragment {
     Activity mActivity;
@@ -78,7 +82,12 @@ public class CCMemberStausDetailsFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
-                ((CCUserHomeActivity) getActivity()).ShowText("Measurements");
+                Paper.init(mActivity);
+                String language= SharedPreferenceUtil.getLanguage(mActivity);
+                Paper.book().write("language",language);
+                Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+                Resources resources= context.getResources();
+                ((CCUserHomeActivity) getActivity()).ShowText(resources.getString(R.string.measurements));
                 ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
             }
         });
@@ -129,7 +138,12 @@ public class CCMemberStausDetailsFragment extends Fragment {
             Log.e("handle123","handle"+handle);
             if (handle==3)
             {
-                ((CCUserHomeActivity) getActivity()).ShowText("Measurements");
+                Paper.init(mActivity);
+                String language= SharedPreferenceUtil.getLanguage(mActivity);
+                Paper.book().write("language",language);
+                Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
+                Resources resources= context.getResources();
+                ((CCUserHomeActivity) getActivity()).ShowText(resources.getString(R.string.measurements));
                 ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 Log.e("evankhan","handle"+handle);
                 CCUserMemberStatusFragment.tabLayout.setVisibility(View.GONE);

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -320,7 +321,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("memberResponseModel", "memberResponseModel" + new Gson().toJson(memberResponseModel));
                         dismissLoadingProgress();
-                     //   downloadHousehold();
+                        downloadHousehold();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                downloadWorkingArea();
+                            }
+                        },5000);
+                        dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -624,7 +632,14 @@ public class HouseHoldActivity extends AppCompatActivity {
         initDB();
         if (Common.householdRepository.size()<1){
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
-                //downloadHousehold();
+                downloadHousehold();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadWorkingArea();
+                    }
+                },5000);
+                dismissLoadingProgress();
             }
             else {
                 Snackbar snackbar = Snackbar
