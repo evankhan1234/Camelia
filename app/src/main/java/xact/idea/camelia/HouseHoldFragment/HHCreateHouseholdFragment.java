@@ -177,7 +177,7 @@ public class HHCreateHouseholdFragment extends Fragment {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isNullOrEmpty(edit_household.getText().toString()) || isNullOrEmpty(edit_sub_household.getText().toString()) || isNullOrEmpty(edit_family_memeber.getText().toString()) || isNullOrEmpty(edit_village.getText().toString()) || isNullOrEmpty(edit_household_income.getText().toString())) {
+                if (isNullOrEmpty(edit_household.getText().toString()) ||  isNullOrEmpty(edit_family_memeber.getText().toString()) || isNullOrEmpty(edit_village.getText().toString()) || isNullOrEmpty(edit_household_income.getText().toString())) {
                     Toast.makeText(mActivity, "Please insert all field", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -195,7 +195,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                         houseHold.UnionId = UnionId;
                         houseHold.WordId = WardId;
                         houseHold.HH = Integer.parseInt(edit_household.getText().toString());
-                        houseHold.SHH = Integer.parseInt(edit_sub_household.getText().toString());
+                       // houseHold.SHH = Integer.parseInt(edit_sub_household.getText().toString());
                         houseHold.UniqueId = edit_unique_id.getText().toString();
                         houseHold.VillageName = edit_village.getText().toString();
                         houseHold.FamilyIncome = Double.parseDouble(edit_household_income.getText().toString());
@@ -270,60 +270,69 @@ public class HHCreateHouseholdFragment extends Fragment {
                 else{
                     union= String.valueOf(UnionId);
                 }
-                String val = DivisionId + "" + DistrictId + UpazilaId  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1+ "" + values2;
-                edit_unique_id.setText(val + values2);
-            }
-        });
-        edit_sub_household.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String values1 = "";
-                String values2 = "";
-                values2 = s.toString();
-                values1 = edit_household.getText().toString();
-
-                //  int value2;
-
-                if (values1.length()==1) {
-                    values1 = "000" + values1;
-                } else if (values1.length()==2) {
-                    values1 = "00" + values1;
-
-                } else if (values1.length()==3) {
-                    values1 = "0" + values1;
-                } else if (values1.length()==4) {
-                    values1 = ""+values1;
-                } else {
-                    values1 = "";
+                if (WardId==-1 ){
+                    Toast.makeText(mActivity, "Please Select Ward ", Toast.LENGTH_SHORT).show();
                 }
-                if (values2.length() == 1) {
-                    values2 = "0" + values2;
-                } else if (values2.length() == 2) {
-                    values2 = "" + values2;
-                }  else {
-                    values2 = "";
-                }
-                String union="";
-                if(UnionId==0){
-                    union="00";
+                else if ( BlockId==-1){
+                    Toast.makeText(mActivity, "Please Select Block", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    union= String.valueOf(UnionId);
+                    String val = DivisionId + "" + DistrictId + UpazilaId  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1;
+                    edit_unique_id.setText(val);
                 }
-                String val = DivisionId + "" + DistrictId + "" + UpazilaId + "" + union + "" + WardId + "" + BlockId + "" + values1+ "" + values2;
-                edit_unique_id.setText(val);
+
             }
         });
+//        edit_sub_household.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                String values1 = "";
+//                String values2 = "";
+//                values2 = s.toString();
+//                values1 = edit_household.getText().toString();
+//
+//                //  int value2;
+//
+//                if (values1.length()==1) {
+//                    values1 = "000" + values1;
+//                } else if (values1.length()==2) {
+//                    values1 = "00" + values1;
+//
+//                } else if (values1.length()==3) {
+//                    values1 = "0" + values1;
+//                } else if (values1.length()==4) {
+//                    values1 = ""+values1;
+//                } else {
+//                    values1 = "";
+//                }
+//                if (values2.length() == 1) {
+//                    values2 = "0" + values2;
+//                } else if (values2.length() == 2) {
+//                    values2 = "" + values2;
+//                }  else {
+//                    values2 = "";
+//                }
+//                String union="";
+//                if(UnionId==0){
+//                    union="00";
+//                }
+//                else{
+//                    union= String.valueOf(UnionId);
+//                }
+//                String val = DivisionId + "" + DistrictId + "" + UpazilaId + "" + union + "" + WardId + "" + BlockId + "" + values1+ "" + values2;
+//                edit_unique_id.setText(val);
+//            }
+//        });
 
 
     }

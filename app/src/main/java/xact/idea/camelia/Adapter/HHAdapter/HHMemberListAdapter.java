@@ -115,6 +115,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         holder.text_date_of.setText(Html.fromHtml(dateof));
         holder.text_mobile_nmber.setText(Html.fromHtml(mobile));
         holder.text_update.setText(resources.getString(R.string.view));
+        holder.text_cc.setText(resources.getString(R.string.ref_adapter));
         if (memberMyselfes.get(position).GenderId == 1) {
             Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
                     .into(new SimpleTarget<GlideDrawable>() {
@@ -143,7 +144,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             holder.text_cc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showInfoDialog(mActivity, memberMyselfes.get(position).MemberId);
+                    showInfoDialog(mActivity, memberMyselfes.get(position).MemberId, memberMyselfes.get(position).UniqueId);
                 }
             });
         } else {
@@ -189,7 +190,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         }
     }
 
-    public void showInfoDialog(final Context mContext, final String member) {
+    public void showInfoDialog(final Context mContext, final String member, final String uniqueId) {
 
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -411,10 +412,12 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             public void onClick(View view) {
                 Common.memberMyselfRepository.updateReciverAgain("CC", String.valueOf(refer[0]), edit_date.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
-                referHistory.From = "CC";
-                referHistory.To = String.valueOf(refer[0]);
+                referHistory.From = "HH";
+                referHistory.To ="CC";
+                referHistory.ToId = String.valueOf(refer[0]);
                 referHistory.VisitDate = edit_date.getText().toString();
                 referHistory.MemberId = member;
+                referHistory.UniqueId = uniqueId;
                 Common.referRepository.insertToReferHistory(referHistory);
                 infoDialog.dismiss();
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");

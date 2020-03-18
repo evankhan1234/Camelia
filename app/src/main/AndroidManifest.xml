@@ -18,6 +18,7 @@
         android:roundIcon="@drawable/img_background"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:ignore="LockedOrientationActivity"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
         <activity android:name=".Activity.LanguageActivity"></activity>
@@ -25,7 +26,8 @@
             android:name=".Activity.Household.HouseholdHomeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize|adjustPan"
+            />
         <activity
             android:name=".Activity.Household.HouseHoldActivity"
             android:launchMode="singleTop"

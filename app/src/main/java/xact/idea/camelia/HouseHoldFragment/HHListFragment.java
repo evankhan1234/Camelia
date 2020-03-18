@@ -120,12 +120,19 @@ public class HHListFragment extends Fragment {
                 transaction.addToBackStack(f.getClass().getSimpleName());
                 transaction.commit();
                 // CCUserMemberStatusFragment.viewPager.setVisibility(View.GONE);
+                Paper.init(mActivity);
+                String language= SharedPreferenceUtil.getLanguage(mActivity);
+                Paper.book().write("language",language);
+                updateView((String)Paper.book().read("language"));
+                Context context= LocaleHelper.setLocale(mActivity,language);
+                Resources resources= context.getResources();
+
                 if (frag.equals("frag")){
-                    ((CCUserHomeActivity) getActivity()).ShowText("Create Household");
+                    ((CCUserHomeActivity) getActivity()).ShowText(resources.getString(R.string.create_household));
                     ((CCUserHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 }
                 else{
-                    ((HouseholdHomeActivity) getActivity()).ShowText("Create Household");
+                    ((HouseholdHomeActivity) getActivity()).ShowText(resources.getString(R.string.create_household));
                     ((HouseholdHomeActivity) getActivity()).showHeaderDetail("Measurements");
                 }
 

@@ -180,7 +180,7 @@
 
                                     android:padding="15px"
                                     android:tag="40"
-                                    android:text="Add to CC"
+                                    android:text="Ref to CC"
                                     android:textAlignment="center"
 
                                     android:textColor="@color/white"

@@ -81,8 +81,9 @@
     <string name="number">Phone Number</string>
     <string name="cc_sending">CC Sending</string>
     <string name="total_member">Total Members</string>
-    <string name="sync_not_sync">SENT BUT NOT SYNCED</string>
-    <string name="sync_sync">SENT AND SYNCED</string>
+    <string name="sync_not_sync">NOT SYNCED</string>
+    <string name="sync_sync">SYNCED</string>
+    <string name="ref_adapter">Ref to CC</string>
     <string name="show">Show</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
@@ -123,9 +124,7 @@
     <string name="date_of_death">Date of Death</string>
     <string name="new_member">New Member</string>
     <string name="update_member">Update Member</string>
-
-
-
+    <string name="create_household">Create Household</string>
     <string name="smoke">Do you currently smoke?</string>
     <string name="smoke_years">How many years?</string>
     <string name="jorda">Do you currently consume betel nut, zorda, gul, sada pata, khoyer?</string>
@@ -160,7 +159,7 @@
     <string name="others">Others</string>
     <string name="week">In a typical week on how many days do you do such activities? </string>
     <string name="day">How much time do you spend doing those activities on a typical day?</string>
-    <string name="hour">Hours and Minute</string>
+    <string name="hour">Minute</string>
     <string name="moderate_intensit">Do you do any moderate intensity activity that causes small increases in breathing or heart rate for at least 10 minutes? (use show card)</string>
     <string name="household_work">Household work (sweeping, mopping, washing dishes, ironing etc.)</string>
     <string name="gardening">Gardening</string>

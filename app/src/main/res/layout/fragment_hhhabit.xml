@@ -729,11 +729,10 @@
                         android:id="@+id/edit_typical_day"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
-                        android:focusable="false"
                         android:layout_width="match_parent"
                         android:layout_height="120px"
                         android:layout_marginBottom="10px"
-                        android:hint="Hours and Minute"
+                        android:hint="Minute"
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
@@ -1026,7 +1025,6 @@
                         android:layout_marginRight="50px"
                         android:layout_marginLeft="50px"
                         android:tag="35"
-                        android:focusable="false"
                         android:textSize="35px"
                         android:id="@+id/edit_typical_day_moderate"
                         android:background="@drawable/input_bg"
@@ -1034,7 +1032,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120px"
                         android:layout_marginBottom="10px"
-                        android:hint="Hours and Minute"
+                        android:hint="Minute"
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
@@ -1234,7 +1232,6 @@
                         android:layout_marginRight="50px"
                         android:layout_marginLeft="50px"
                         android:tag="35"
-                        android:focusable="false"
                         android:textSize="35px"
                         android:id="@+id/edit_typical_day_recreational"
                         android:background="@drawable/input_bg"
@@ -1242,7 +1239,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120px"
                         android:layout_marginBottom="10px"
-                        android:hint="Hours and Minute"
+                        android:hint="Minute"
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
@@ -1444,14 +1441,13 @@
                         android:layout_marginLeft="50px"
                         android:tag="35"
                         android:textSize="35px"
-                        android:focusable="false"
                         android:id="@+id/edit_typical_day_moderate_recreational"
                         android:background="@drawable/input_bg"
                         android:padding="25px"
                         android:layout_width="match_parent"
                         android:layout_height="120px"
                         android:layout_marginBottom="10px"
-                        android:hint="Hours and Minute"
+                        android:hint="Minute"
                         android:ems="10"
                         android:inputType="number"/>
                 </LinearLayout>
