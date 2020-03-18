@@ -13,10 +13,16 @@ public class ReferHistory {
     public int id;
     @ColumnInfo(name = "MemberId")
     public String MemberId;
+    @ColumnInfo(name = "UniqueId")
+    public String UniqueId;
     @ColumnInfo(name = "From")
     public String From;
+    @ColumnInfo(name = "FromId")
+    public String FromId;
     @ColumnInfo(name = "To")
     public String To;
+    @ColumnInfo(name = "ToId")
+    public String ToId;
     @ColumnInfo(name = "VisitDate")
     public String VisitDate;
 

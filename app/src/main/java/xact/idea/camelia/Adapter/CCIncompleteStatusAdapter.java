@@ -174,13 +174,13 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         holder.text_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInfoDialogFollow(mActivity,memberMyself.get(position).MemberId);
+                showInfoDialogFollow(mActivity,memberMyself.get(position).MemberId,memberMyself.get(position).UniqueId);
             }
         });
         holder.text_referral.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showInfoDialogRefer(mActivity,memberMyself.get(position).MemberId);
+                showInfoDialogRefer(mActivity,memberMyself.get(position).MemberId,memberMyself.get(position).UniqueId);
             }
         });
         holder.text_visit.setOnClickListener(new View.OnClickListener() {
@@ -280,7 +280,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         infoDialog.show();
     }
 
-    public  void showInfoDialogFollow(final Activity mContext, final String member) {
+    public  void showInfoDialogFollow(final Activity mContext, final String member, final String uniqueId) {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         ArrayAdapter<ClinicModel> divisionArrayAdapter;
 //        List<CCModel> clinicModelArrayList = new ArrayList<>();
@@ -374,9 +374,11 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 Common.memberMyselfRepository.updateReciverAgain("CC", refer[0], edit_date.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
-                referHistory.To = refer[0];
+                referHistory.To = "CC";
+                referHistory.ToId = refer[0];
                 referHistory.VisitDate = edit_date.getText().toString();
                 referHistory.MemberId = member;
+                referHistory.UniqueId = uniqueId;
                 Common.referRepository.insertToReferHistory(referHistory);
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 //                Measurements measurements = new Measurements();
@@ -403,7 +405,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     }
      static EditText edit_date;
      static EditText edit_dates;
-    public  void showInfoDialogRefer(final Context mContext, final String member) {
+    public  void showInfoDialogRefer(final Context mContext, final String member, final String uniqueId) {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         showLoadingProgress(mActivity);
 
@@ -563,10 +565,12 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             public void onClick(View view) {
                 Common.memberMyselfRepository.updateReciverAgain("UHC",   refer[0], edit_dates.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
-                referHistory.From = "UHC";
-                referHistory.To = refer[0];
+                referHistory.From = "CC";
+                referHistory.To = "UHC";
+                referHistory.ToId = refer[0];
                 referHistory.VisitDate = edit_dates.getText().toString();
                 referHistory.MemberId = member;
+                referHistory.UniqueId = uniqueId;
                 Common.referRepository.insertToReferHistory(referHistory);
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 //                Measurements measurements = new Measurements();

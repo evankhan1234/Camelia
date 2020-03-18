@@ -512,38 +512,38 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
-        edit_typical_day.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dFragment = new TypicalDayTimePickerFragment();
-
-                dFragment.show(getFragmentManager(), "Time Picker");
-            }
-        });
-        edit_typical_day_moderate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dFragment = new TypicalDayModerateTimePickerFragment();
-
-                dFragment.show(getFragmentManager(), "Time Picker");
-            }
-        });
-        edit_typical_day_recreational.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dFragment = new TypicalDayRecreationalTimePickerFragment();
-
-                dFragment.show(getFragmentManager(), "Time Picker");
-            }
-        });
-        edit_typical_day_moderate_recreational.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dFragment = new ModerateRecreationalTimePickerFragment();
-
-                dFragment.show(getFragmentManager(), "Time Picker");
-            }
-        });
+//        edit_typical_day.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DialogFragment dFragment = new TypicalDayTimePickerFragment();
+//
+//                dFragment.show(getFragmentManager(), "Time Picker");
+//            }
+//        });
+//        edit_typical_day_moderate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DialogFragment dFragment = new TypicalDayModerateTimePickerFragment();
+//
+//                dFragment.show(getFragmentManager(), "Time Picker");
+//            }
+//        });
+//        edit_typical_day_recreational.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DialogFragment dFragment = new TypicalDayRecreationalTimePickerFragment();
+//
+//                dFragment.show(getFragmentManager(), "Time Picker");
+//            }
+//        });
+//        edit_typical_day_moderate_recreational.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                DialogFragment dFragment = new ModerateRecreationalTimePickerFragment();
+//
+//                dFragment.show(getFragmentManager(), "Time Picker");
+//            }
+//        });
         show();
     }
     private void updateView(String language) {

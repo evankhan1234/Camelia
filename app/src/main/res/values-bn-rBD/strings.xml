@@ -159,7 +159,9 @@
     <string name="others">অন্যান্য</string>
     <string name="week">সপ্তাহে কত দিন করেন? </string>
     <string name="day">১ দিনে কত মিনিট করেন ?</string>
-    <string name="hour">ঘন্টা এবং মিনিট</string>
+    <string name="hour">মিনিট</string>
+    <string name="ref_adapter">সিসিকে রেফার</string>
+    <string name="create_household">গৃহস্থালী তৈরি করুন</string>
     <string name="moderate_intensit"> আপনি কি কোন মাঝারি শারীরিক কর্মকান্ড করেন কমপক্ষে ১০ মিনিট? (শোকার্ড দেখান)</string>
     <string name="household_work">গৃহস্থালি কাজ (ঝাড়ু, মোপ্পিং, থালা বাসন ধোওয়া, ইস্ত্রি করা ইত্যাদি)</string>
     <string name="gardening">বাগান করা</string>

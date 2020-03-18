@@ -157,7 +157,7 @@
     <string name="others">Others</string>
     <string name="week">In a typical week on how many days do you do such activities? </string>
     <string name="day">How much time do you spend doing those activities on a typical day?</string>
-    <string name="hour">Hours and Minute</string>
+    <string name="hour">Minute</string>
     <string name="moderate_intensit">Do you do any moderate intensity activity that causes small increases in breathing or heart rate for at least 10 minutes? (use show card)</string>
     <string name="household_work">Household work (sweeping, mopping, washing dishes, ironing etc.)</string>
     <string name="gardening">Gardening</string>
@@ -263,6 +263,7 @@
     <string name="no_one_1">Do not Know</string>
     <string name="member_id">Member Id</string>
     <string name="view">View/Update</string>
+    <string name="ref_adapter">Ref to CC</string>
     <string name="name_">Name</string>
     <string name="dob_">DOB</string>
     <string name="number_">Mobile</string>
@@ -314,6 +315,7 @@
     <string name="normal_">Normal</string>
     <string name="overweight">Overweight</string>
     <string name="obese">Obese</string>
+    <string name="create_household">Create Household</string>
     <string name="whr_1">Your WHR is NORMAL, to maintain this level - do regular physical activity and eat balanced diet.</string>
     <string name="pulse_1">Your Waist circumference is in NORMAL, to maintain this level - do regular physical activity and eat balanced diet</string>
     <string name="diabetis_5">You are in PRE-DIABETIC stage, you may develop diabetes at any time, consult with doctor, do regular physical activity and eat balanced diet which will help you to keep blood sugar in control.</string>
