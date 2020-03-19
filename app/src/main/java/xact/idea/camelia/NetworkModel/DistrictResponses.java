@@ -16,6 +16,8 @@ public class DistrictResponses extends ApiResponses {
     public class Data {
         @SerializedName("id")
         public int id;
+        @SerializedName("division_code")
+        public int division_code;
         @SerializedName("division_id")
         public int division_id;
         @SerializedName("district_name_en")

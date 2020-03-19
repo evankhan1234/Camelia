@@ -19,6 +19,8 @@ public class UpazilaResponses extends ApiResponses {
         public int UpazilaId;
         @SerializedName("district_id")
         public int district_id;
+        @SerializedName("district_code")
+        public int district_code;
         @SerializedName("upazila_name_en")
         public String upazila_name_en;
         @SerializedName("upazila_name_bn")

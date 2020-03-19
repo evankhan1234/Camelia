@@ -193,7 +193,6 @@ public class HHCreateHouseholdFragment extends Fragment {
                         view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 // Hide the soft keyboard
                 inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
             }
 
 
@@ -201,14 +200,17 @@ public class HHCreateHouseholdFragment extends Fragment {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
 
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                // Hide the soft keyboard
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         });
         view.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
-                Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -416,7 +418,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + districtyList.get(position).DistrictId);
-                DistrictId = districtyList.get(position).DistrictId;
+                DistrictId = Integer.parseInt(districtyList.get(position).district_code);
                 Log.e("wwwww2", "wwwww" + DistrictId);
                 compositeDisposable.add(Common.upazilaRepository.getUpazilaItemById(DistrictId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Upazila>>() {
                     @Override
@@ -432,7 +434,7 @@ public class HHCreateHouseholdFragment extends Fragment {
 
 
                             for (int i = 0; i < upazilaList.size(); i++) {
-                                if (upazilaList.get(i).UpazilaId == div) {
+                                if (Integer.parseInt(upazilaList.get(i).upazila_code) == div) {
                                     spinner_upazila.setSelection(i);
                                 }
                             }
@@ -454,7 +456,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                UpazilaId = upazilaList.get(position).UpazilaId;
+                UpazilaId = Integer.parseInt(upazilaList.get(position).upazila_code);
                 Log.e("wwwww3", "wwwww" + upazilaList.get(position).UpazilaId);
                 compositeDisposable.add(Common.unionRepository.getUnionItemById(UpazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Unions>>() {
                     @Override
@@ -469,7 +471,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                             int div = Integer.parseInt(auth.union);
 
                             for (int i = 0; i < unionList.size(); i++) {
-                                if (unionList.get(i).UnionId == div) {
+                                if (Integer.parseInt(unionList.get(i).union_code) == div) {
                                     spinner_union.setSelection(i);
                                 }
                             }
@@ -488,7 +490,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("unionss", "" + unionList.get(position).UnionId);
-                UnionId = unionList.get(position).UnionId;
+                UnionId = Integer.parseInt(unionList.get(position).union_code);
 
             }
 
@@ -502,7 +504,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + blockList.get(position).BlockId);
-                BlockId = blockList.get(position).BlockId;
+                BlockId = Integer.parseInt(blockList.get(position).block_code);
 
             }
 
@@ -517,7 +519,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + wardList.get(position).WardId);
-                WardId = wardList.get(position).WardId;
+                WardId = Integer.parseInt(wardList.get(position).ward_code);
 
             }
 
@@ -617,7 +619,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             int div = Integer.parseInt(auth.division);
 
             for (int i = 0; i < divisionList.size(); i++) {
-                if (divisionList.get(i).DivisionId == div) {
+                if (Integer.parseInt(divisionList.get(i).division_code) == div) {
                     spinner_division.setSelection(i);
                 }
             }
@@ -637,7 +639,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                DivisionId = divisionList.get(position).DivisionId;
+                DivisionId = Integer.parseInt(divisionList.get(position).division_code);
                 Log.e("wwwww1", "wwwww" + DivisionId);
                 compositeDisposable.add(Common.districtRepository.getDistrictItemById(DivisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<District>>() {
                     @Override
@@ -652,7 +654,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                             int div = Integer.parseInt(auth.district);
 
                             for (int i = 0; i < districtyList.size(); i++) {
-                                if (districtyList.get(i).DistrictId == div) {
+                                if (Integer.parseInt(districtyList.get(i).district_code)== div) {
                                     spinner_district.setSelection(i);
                                 }
                             }

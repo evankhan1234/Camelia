@@ -638,7 +638,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void run() {
                         downloadWorkingArea();
                     }
-                },500);
+                },5000);
                 dismissLoadingProgress();
             }
             else {
@@ -734,7 +734,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 block.block_name_bn = "সিলেক্ট";
                 block.block_shortname_en = "";
                 block.block_shortname_bn = "";
-                block.block_code = "";
+                block.block_code = "-1";
                 block.note_en = "";
                 block.note_bn = "";
                 block.status = "1";
@@ -757,7 +757,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 ward.ward_name_bn = "সিলেক্ট";
                 ward.ward_shortname_bn = "";
                 ward.ward_shortname_en = "";
-                ward.ward_code = "";
+                ward.ward_code = "-1";
                 ward.note_en = "";
                 ward.note_bn = "";
                 ward.status = "1";
@@ -800,7 +800,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 division.division_name_bn = "সিলেক্ট";
                 division.division_shortname_en = "";
                 division.division_shortname_bn = "";
-                division.division_code = "";
+                division.division_code = "-1";
                 division.note_en = "";
                 division.note_bn = "";
                 division.status = "1";
@@ -823,7 +823,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 unions1.union_name_bn = "সিলেক্ট";
                 unions1.union_shortname_en = "";
                 unions1.union_shortname_bn = "";
-                unions1.union_code = "";
+                unions1.union_code = "-1";
                 unions1.note_en = "";
                 unions1.note_bn = "";
                 unions1.status = "";
@@ -846,7 +846,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 district.district_name_bn = "সিলেক্ট";
                 district.district_shortname_en = "";
                 district.district_shortname_bn = "";
-                district.district_code = "";
+                district.district_code = "-1";
                 district.note_en = "";
                 district.note_bn = "";
                 district.status = "1";
@@ -865,6 +865,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Upazila upazila = new Upazila();
                 upazila.UpazilaId = -1;
                 upazila.district_id = -1;
+                upazila.upazila_code = "-1";
                 upazila.upazila_name_en = "Select";
                 upazila.upazila_name_bn = "সিলেক্ট";
                 upazila.upazila_shortname_en = "";
@@ -1230,7 +1231,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 for (UnionResponses.Data unions : unionResponses.data) {
                     Unions unions1 = new Unions();
                     unions1.UnionId = unions.id;
-                    unions1.upazila_id = unions.upazila_id;
+                    unions1.upazila_id = unions.upazila_code;
                     unions1.union_name_en = unions.union_name_en;
                     unions1.union_name_bn = unions.union_name_bn;
                     unions1.union_shortname_en = unions.union_shortname_en;
@@ -1295,7 +1296,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 for (DistrictResponses.Data districts : districtResponses.data) {
                     District district = new District();
                     district.DistrictId = districts.id;
-                    district.DivisionId = districts.division_id;
+                    district.DivisionId = districts.division_code;
                     district.district_name_en = districts.district_name_en;
                     district.district_name_bn = districts.district_name_bn;
                     district.district_shortname_en = districts.district_shortname_en;
@@ -1328,7 +1329,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 for (UpazilaResponses.Data upazilas : upazilaResponses.data) {
                     Upazila upazila = new Upazila();
                     upazila.UpazilaId = upazilas.id;
-                    upazila.district_id = upazilas.district_id;
+                    upazila.upazila_code = upazilas.upazila_code;
+                    upazila.district_id = upazilas.district_code;
                     upazila.upazila_name_en = upazilas.upazila_name_en;
                     upazila.upazila_name_bn = upazilas.upazila_name_bn;
                     upazila.upazila_shortname_en = upazilas.upazila_shortname_en;
