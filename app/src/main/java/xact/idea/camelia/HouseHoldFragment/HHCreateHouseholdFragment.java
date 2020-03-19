@@ -1,11 +1,14 @@
 package xact.idea.camelia.HouseHoldFragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -13,12 +16,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -112,6 +119,8 @@ public class HHCreateHouseholdFragment extends Fragment {
     TextView tv_union;
     TextView tv_ward;
     TextView tv_block;
+    ScrollView scroll;
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -144,7 +153,10 @@ public class HHCreateHouseholdFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     private void initView() {
+        boolean isScrollListenerAdded=false;
+        scroll = view.findViewById(R.id.scroll);
         tv_block = view.findViewById(R.id.tv_block);
         tv_ward = view.findViewById(R.id.tv_ward);
         tv_union = view.findViewById(R.id.tv_union);
@@ -174,6 +186,32 @@ public class HHCreateHouseholdFragment extends Fragment {
         String language= SharedPreferenceUtil.getLanguage(mActivity);
         Paper.book().write("language",language);
         updateView((String)Paper.book().read("language"));
+        view.getViewTreeObserver().addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
+            @Override
+            public void onWindowFocusChanged(boolean hasFocus) {
+                InputMethodManager inputMethodManager = (InputMethodManager)
+                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                // Hide the soft keyboard
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
+            }
+
+
+        });
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+        view.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -215,7 +253,10 @@ public class HHCreateHouseholdFragment extends Fragment {
                             ((HouseholdHomeActivity) getActivity()).backForDetails();
                         }
 
-
+                        InputMethodManager inputMethodManager = (InputMethodManager)
+                                view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        // Hide the soft keyboard
+                        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         Toast.makeText(mActivity, "Successfully Created", Toast.LENGTH_SHORT).show();
                     }
 
@@ -277,8 +318,16 @@ public class HHCreateHouseholdFragment extends Fragment {
                     Toast.makeText(mActivity, "Please Select Block", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    String val = DivisionId + "" + DistrictId + UpazilaId  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1;
-                    edit_unique_id.setText(val);
+                    if (DistrictId<10){
+                        String val = DivisionId + "0" + DistrictId + UpazilaId  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1;
+                        edit_unique_id.setText(val);
+                    }
+                    else{
+                        String val = DivisionId + "" + DistrictId + UpazilaId  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1;
+
+                        edit_unique_id.setText(val);
+                    }
+
                 }
 
             }
@@ -336,6 +385,7 @@ public class HHCreateHouseholdFragment extends Fragment {
 
 
     }
+
 
     private void updateView(String language) {
         Context context= LocaleHelper.setLocale(mActivity,language);

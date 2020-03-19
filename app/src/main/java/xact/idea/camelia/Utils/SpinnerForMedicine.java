@@ -54,7 +54,7 @@ public class SpinnerForMedicine implements Filterable {
     public void showSpinerDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(context);
         View v = context.getLayoutInflater().inflate(R.layout.layout_spinner, null);
-        //CorrectSizeUtil.getInstance(context).correctSize(v);
+        CorrectSizeUtil.getInstance(context).correctSize(v);
 
         TextView rippleViewClose = (TextView) v.findViewById(R.id.close);
         TextView title = (TextView) v.findViewById(R.id.spinerTitle);

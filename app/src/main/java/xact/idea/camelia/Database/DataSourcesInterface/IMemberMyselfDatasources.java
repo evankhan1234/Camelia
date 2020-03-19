@@ -20,6 +20,7 @@ public interface IMemberMyselfDatasources {
     MemberMyself getMemberMyselfForHousehold(String MemberMyselfItem);
     void emptyMemberMyself();
     int maxValue();
+    Flowable<List<MemberMyself>> getMemberListCC();
     HHDashboardModel hhModel();
     MemberMyself getMemberId(String MemberMyselfItem);
     int size();

@@ -24,7 +24,8 @@ public interface MemberMyselfDao {
 
     @Query("SELECT * FROM MemberMyself WHERE UniqueId=:MemberMyselfId")
     Flowable<List<MemberMyself>> getMemberMyselfItemById(String MemberMyselfId);
-
+    @Query("SELECT * FROM MemberMyself WHERE `From` ='CC'")
+    Flowable<List<MemberMyself>> getMemberListCC();
     @Query("SELECT * FROM MemberMyself WHERE NationalId=:MemberMyselfItem")
     MemberMyself getMemberMyself(String MemberMyselfItem);
 
@@ -78,7 +79,7 @@ public interface MemberMyselfDao {
 
     @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MemberId=Measure.MemberIds where  Measure.Refer='UHC' Group BY Member.id")
     Flowable<List<MemberMyself>> getReferMembersFor();
-    @Query("SELECT  * FROM MemberMyself as Member  where  Member.`To`='CC' Group BY Member.id")
+    @Query("SELECT  * FROM MemberMyself as Member  where  Member.`from`='CC' Group BY Member.id")
     Flowable<List<MemberMyself>> getReferMembersForCC();
 
     @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MemberId=Measure.MemberIds where  Measure.Refer='Follow' Group BY Member.id")

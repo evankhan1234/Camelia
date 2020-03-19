@@ -56,6 +56,11 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
+    public Flowable<List<MemberMyself>> getMemberListCC() {
+        return IMemberMyselfDatasources.getMemberListCC();
+    }
+
+    @Override
     public HHDashboardModel hhModel() {
         return IMemberMyselfDatasources.hhModel();
     }
