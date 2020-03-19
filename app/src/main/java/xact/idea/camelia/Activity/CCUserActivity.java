@@ -426,7 +426,7 @@ public class CCUserActivity extends AppCompatActivity {
                             public void run() {
                                 downloadWorkingArea();
                             }
-                        },5000);
+                        },500);
                         dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
@@ -443,7 +443,7 @@ public class CCUserActivity extends AppCompatActivity {
     }
     private void downloadMeasurements(String uniueId){
         ReferallPostModel referallPostModel = new ReferallPostModel();
-        referallPostModel.unique_code=uniueId;
+        referallPostModel.household_uniqe_id=uniueId;
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getMeasurementsGetResponse(referallPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MeasurementsGetResponseModel>() {
             @Override
@@ -709,7 +709,7 @@ public class CCUserActivity extends AppCompatActivity {
         showLoadingProgress(CCUserActivity.this);
         Log.e("asdas", "asd" + uniueId);
         ReferallPostModel referallPostModel = new ReferallPostModel();
-        referallPostModel.unique_code=uniueId;
+        referallPostModel.household_uniqe_id=uniueId;
         compositeDisposable.add(mService.getMemberShow(referallPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberGetResponseModel>() {
             @Override
             public void accept(MemberGetResponseModel memberGetResponseModel) throws Exception {
@@ -3777,7 +3777,7 @@ public class CCUserActivity extends AppCompatActivity {
                     public void run() {
                         downloadWorkingArea();
                     }
-                },5000);
+                },500);
                 dismissLoadingProgress();
             }
             else {

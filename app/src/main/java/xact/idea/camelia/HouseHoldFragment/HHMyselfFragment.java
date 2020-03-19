@@ -499,8 +499,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                         Calendar today = Calendar.getInstance();
 
                         int total = today.get(Calendar.YEAR) - years;
-                        int month = today.get(Calendar.DAY_OF_MONTH) + 1;
-                        int day = today.get(Calendar.DAY_OF_WEEK);
+                        int month = today.get(Calendar.MONTH)+1;
+                        int day = today.get(Calendar.DAY_OF_MONTH);
 
                         String months = "";
                         String days = "";
@@ -658,14 +658,15 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
 //            return false;
 //        }
 //        else
-        if (Utils.isEmpty(edit_national_id.getText().toString())) {
-            Toast.makeText(mActivity, "Please fill national id", Toast.LENGTH_SHORT).show();
+        if (Utils.isEmpty(edit_name.getText().toString())) {
+            Toast.makeText(mActivity, "Please fill Full Name", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (Utils.isEmpty(edit_name.getText().toString())) {
-            Toast.makeText(mActivity, "Please fill national id", Toast.LENGTH_SHORT).show();
+        else if (Utils.isEmpty(edit_national_id.getText().toString())) {
+            Toast.makeText(mActivity, "Please fill National id", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (Utils.isEmpty(edit_mobile_number.getText().toString())) {
+        }
+         else if (Utils.isEmpty(edit_mobile_number.getText().toString())) {
             Toast.makeText(mActivity, "Please fill Mobile Number", Toast.LENGTH_SHORT).show();
             return false;
         }

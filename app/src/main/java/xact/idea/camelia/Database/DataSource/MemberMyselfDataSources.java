@@ -57,6 +57,11 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     }
 
     @Override
+    public Flowable<List<MemberMyself>> getMemberListCC() {
+        return MemberMyselfDao.getMemberListCC();
+    }
+
+    @Override
     public HHDashboardModel hhModel() {
         return MemberMyselfDao.hhModel();
     }

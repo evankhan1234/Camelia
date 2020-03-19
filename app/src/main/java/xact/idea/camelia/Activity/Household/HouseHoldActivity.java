@@ -327,7 +327,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             public void run() {
                                 downloadWorkingArea();
                             }
-                        },5000);
+                        },500);
                         dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
@@ -638,7 +638,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void run() {
                         downloadWorkingArea();
                     }
-                },5000);
+                },500);
                 dismissLoadingProgress();
             }
             else {
@@ -1599,7 +1599,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         showLoadingProgress(HouseHoldActivity.this);
         Log.e("asdas", "asd" + uniueId);
         ReferallPostModel referallPostModel = new ReferallPostModel();
-        referallPostModel.unique_code=uniueId;
+        referallPostModel.household_uniqe_id=uniueId;
         compositeDisposable.add(mService.getMemberShow(referallPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberGetResponseModel>() {
             @Override
             public void accept(MemberGetResponseModel memberGetResponseModel) throws Exception {
