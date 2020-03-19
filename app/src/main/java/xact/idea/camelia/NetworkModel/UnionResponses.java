@@ -18,6 +18,8 @@ public class UnionResponses extends ApiResponses {
         public int id;
         @SerializedName("UnionId")
         public int UnionId;
+        @SerializedName("upazila_code")
+        public int upazila_code;
         @SerializedName("upazila_id")
         public int upazila_id;
         @SerializedName("union_name_en")
