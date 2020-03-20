@@ -432,9 +432,10 @@ public class HHCreateHouseholdFragment extends Fragment {
                         if (auth.upazila != null) {
                             int div = Integer.parseInt(auth.upazila);
 
-
                             for (int i = 0; i < upazilaList.size(); i++) {
+                                Log.e("EEEE", "EEE" + upazilaList.get(i).upazila_code);
                                 if (Integer.parseInt(upazilaList.get(i).upazila_code) == div) {
+                                    Log.e("EEEE", "EEE" + upazilaList.get(i).upazila_code);
                                     spinner_upazila.setSelection(i);
                                 }
                             }

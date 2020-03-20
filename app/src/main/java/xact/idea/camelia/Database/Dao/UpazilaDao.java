@@ -16,7 +16,7 @@ public interface UpazilaDao {
     @Query("SELECT * FROM Upazila")
     Flowable<List<Upazila>> getUpazilaItems();
     @Query("SELECT * FROM Upazila WHERE district_id=:UpazilaItemId")
-    Flowable<List<Upazila>> getDivisionItemById(int UpazilaItemId);
+    Flowable<List<Upazila>> getUpazilaItemById(int UpazilaItemId);
     @Query("SELECT * FROM Upazila WHERE UpazilaId=:UpazilaItem")
     Upazila getUpazila(String UpazilaItem);
     @Query("SELECT * FROM Upazila WHERE UpazilaId=:UpazilaItem")

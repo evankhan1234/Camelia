@@ -638,7 +638,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void run() {
                         downloadWorkingArea();
                     }
-                },5000);
+                },500);
                 dismissLoadingProgress();
             }
             else {
