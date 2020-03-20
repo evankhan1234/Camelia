@@ -29,7 +29,7 @@ public class UpazilaDatasources implements IUpazilaDatasources {
 
     @Override
     public Flowable<List<Upazila>> getUpazilaItemById(int UpazilaItemId) {
-        return UpazilaDao.getDivisionItemById(UpazilaItemId);
+        return UpazilaDao.getUpazilaItemById(UpazilaItemId);
     }
 
     @Override
