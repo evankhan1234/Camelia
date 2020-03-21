@@ -23,17 +23,17 @@ public class CCModelresponse extends  ApiResponses {
         public String short_name;
         @SerializedName("information")
         public String information;
-        @SerializedName("division_code")
+        @SerializedName("division_id")
         public int division_code;
-        @SerializedName("district_code")
+        @SerializedName("district_id")
         public int district_code;
-        @SerializedName("upazila_code")
+        @SerializedName("upazila_id")
         public int upazila_code;
-        @SerializedName("union_code")
+        @SerializedName("union_id")
         public int union_code;
-        @SerializedName("ward_code")
+        @SerializedName("ward_id")
         public int ward_code;
-        @SerializedName("block_code")
+        @SerializedName("block_id")
         public int block_code;
         @SerializedName("status")
         public int status;
