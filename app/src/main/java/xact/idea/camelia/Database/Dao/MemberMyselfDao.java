@@ -77,7 +77,7 @@ public interface MemberMyselfDao {
     @Query("SELECT  * FROM MemberMyself as Member left join Measurements as Measure ON Member.MemberId=Measure.MemberIds  WHERE Measure.id  IS NULL")
     Flowable<List<MemberMyself>> getInCompleteMembersFor();
 
-    @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MemberId=Measure.MemberIds where  Measure.Refer='UHC' Group BY Member.id")
+    @Query("SELECT  * FROM MemberMyself as Member  where  Member.`from`='UHC' Group BY Member.id")
     Flowable<List<MemberMyself>> getReferMembersFor();
     @Query("SELECT  * FROM MemberMyself as Member  where  Member.`from`='CC' Group BY Member.id")
     Flowable<List<MemberMyself>> getReferMembersForCC();
