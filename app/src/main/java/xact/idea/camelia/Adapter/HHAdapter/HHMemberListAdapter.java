@@ -410,12 +410,24 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
+                ReferHistory history =Common.referRepository.getReferHistoryFrom(uniqueId+ member);
+                if(history!=null){
+                    Common.referRepository.updateReferHistoryFrom(uniqueId+ member);
+                }
                 Common.memberMyselfRepository.updateReciverAgain("CC", String.valueOf(refer[0]), edit_date.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "HH";
                 referHistory.To ="CC";
                 referHistory.ToId = String.valueOf(refer[0]);
                 referHistory.VisitDate = edit_date.getText().toString();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date date12 = new Date(System.currentTimeMillis());
+                String currentDate = formatter.format(date12);
+                referHistory.FromId = "";
+                referHistory.Reason = "1";
+                referHistory.Date = currentDate;
+                referHistory.Type = "1";
+                referHistory.MemberUniqueCode = uniqueId+ member;
                 referHistory.MemberId = member;
                 referHistory.UniqueId = uniqueId;
                 Common.referRepository.insertToReferHistory(referHistory);

@@ -95,7 +95,7 @@ public class FollowUpFragment extends Fragment {
     }
 
     public static  void display() {
-        compositeDisposable.add(Common.memberMyselfRepository.getFollowUpMembersFor().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
+        compositeDisposable.add(Common.memberMyselfRepository.getMemberListForFollowUp().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
             @Override
             public void accept(List<MemberMyself> memberMyselfes) throws Exception {
                 Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));

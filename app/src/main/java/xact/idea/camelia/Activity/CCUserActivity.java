@@ -3,6 +3,7 @@ package xact.idea.camelia.Activity;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,7 +11,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -75,6 +79,7 @@ import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.Questions;
+import xact.idea.camelia.Database.Model.ReferHistory;
 import xact.idea.camelia.Database.Model.StudyClass;
 import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Database.Model.UHC;
@@ -114,7 +119,9 @@ import xact.idea.camelia.NetworkModel.CCModelresponse;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
+import xact.idea.camelia.NetworkModel.HouseholdGetResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdListResponseModel;
+import xact.idea.camelia.NetworkModel.HouseholdPostModel;
 import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
@@ -130,6 +137,7 @@ import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
 import xact.idea.camelia.NetworkModel.MemberGetResponseModel;
+import xact.idea.camelia.NetworkModel.MemberPrescriptionResponseModel;
 import xact.idea.camelia.NetworkModel.MemberResponseModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
@@ -143,6 +151,7 @@ import xact.idea.camelia.NetworkModel.WardResponses;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.CustomDialog;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
@@ -249,14 +258,9 @@ public class CCUserActivity extends AppCompatActivity {
         linear_sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMeasurements();
-                loadSurvey();
-                loadHousehold();
-                medicineList();
-                loadMemberId();
-                getBehaviorialList();
-                SharedPreferenceUtil.saveShared(CCUserActivity.this, SharedPreferenceUtil.SYNC, "off");
-                linear_sync.setBackground(getResources().getDrawable(R.drawable.background_programitical));
+                showInfoDialog(CCUserActivity.this);
+
+
 
             }
         });
@@ -283,8 +287,8 @@ public class CCUserActivity extends AppCompatActivity {
     }
     private void loadMeasurements() {
 
-        showLoadingProgress(CCUserActivity.this);
 
+        showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(Common.measurementsRepository.getMeasurementsItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Measurements>>() {
             @Override
             public void accept(List<Measurements> memberMedicineList) throws Exception {
@@ -313,7 +317,7 @@ public class CCUserActivity extends AppCompatActivity {
                     medicalHistoryUploadList.add(mdata);
 
 
-                    dismissLoadingProgress();
+
                 }
                 data.data = medicalHistoryUploadList;
                 data.user_credential = auth.email;
@@ -361,6 +365,8 @@ public class CCUserActivity extends AppCompatActivity {
         }
         return memberMyselves;
     }
+
+    boolean t1=true;
     private void loadHousehold() {
 
         compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
@@ -386,6 +392,7 @@ public class CCUserActivity extends AppCompatActivity {
                     householdUploadModel.family_member = String.valueOf(houseHold.FamilyMember);
                     householdUploadModel.income_per_month = String.valueOf(houseHold.FamilyIncome);
                     householdUploadModel.hh_number = String.valueOf(houseHold.HH);
+                    householdUploadModel.village = houseHold.VillageName;
                     householdUploadModel.sub_hh_number = String.valueOf(houseHold.SHH);
                     householdUploadModel.household_uniqe_id = houseHold.UniqueId;
                     syncMember.addAll(getMemberMyself(houseHold.UniqueId, auth.email));
@@ -419,14 +426,7 @@ public class CCUserActivity extends AppCompatActivity {
                     @Override
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("memberResponseModel", "memberResponseModel" + new Gson().toJson(memberResponseModel));
-                        downloadHousehold();
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                downloadWorkingArea();
-                            }
-                        },500);
                         dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
@@ -643,7 +643,6 @@ public class CCUserActivity extends AppCompatActivity {
 //
 //                            }
                             houseHold.HH = Integer.parseInt(house.hh_number);
-                            houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                            // downloadMember(house.household_uniqe_id);
                             downloadMeasurements(house.household_uniqe_id);
@@ -651,7 +650,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
+                            downloadSurvey(house.household_uniqe_id);
                             Date date = null;
                             try {
                                 date = new SimpleDateFormat("yyyy-MM-dd").parse(house.created_at);
@@ -672,7 +671,6 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.UnionId = Integer.parseInt(house.union_id);;
                             houseHold.WordId = Integer.parseInt(house.ward_id);;
                             houseHold.HH = Integer.parseInt(house.hh_number);
-                            houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             houseHold.VillageName = house.village;
                            //downloadMember(house.household_uniqe_id);
@@ -681,6 +679,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = null;
+                            downloadSurvey(house.household_uniqe_id);
                             try {
                                 date = new SimpleDateFormat("yyyy-MM-dd").parse(house.created_at);
                             } catch (ParseException e) {
@@ -768,6 +767,10 @@ public class CCUserActivity extends AppCompatActivity {
                         memberMyself.UniqueId = member.household_uniqe_id;
                         memberMyself.VisitDate =member.visit_date;
                         memberMyself.MemberId = member.member_id;
+                        memberMyself.From = member.referred_to;
+                        memberMyself.To = member.refer_to_id;
+                        memberMyself.MemberId = member.member_id;
+                        memberMyself.UniqueCode = member.unique_code;
                         memberMyself.Status = "1";
                         Common.memberMyselfRepository.updateMemberMyself(memberMyself);
 
@@ -807,7 +810,8 @@ public class CCUserActivity extends AppCompatActivity {
                         String birthDate = formatter.format(date1);
 
                         memberMyself.DateOfBirth = birthDate;
-
+                        memberMyself.From = member.referred_to;
+                        memberMyself.To = member.refer_to_id;
                         memberMyself.CreatedDate = date2;
                         memberMyself.GenderId = Integer.parseInt(member.sex);
                         memberMyself.BloodGroupId =  Integer.parseInt(member.blood_group);
@@ -820,6 +824,7 @@ public class CCUserActivity extends AppCompatActivity {
                         memberMyself.UniqueId = member.household_uniqe_id;
                         memberMyself.VisitDate = member.visit_date;
                         memberMyself.MemberId =member.member_id;
+                        memberMyself.UniqueCode = member.unique_code;
                         memberMyself.Status = "1";
                         Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
                     }
@@ -3613,7 +3618,7 @@ public class CCUserActivity extends AppCompatActivity {
                     mdata.member_id = memberMedicine.MemberId;
                     mdata.member_national_id = memberMedicine.member_national_id;
                     memberMyselvesdetails = getMedicalHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
-                    mdata.member_unique_code = memberMedicine.household_uniqe_id;
+                    mdata.member_unique_code = memberMedicine.household_uniqe_id+memberMedicine.MemberId;
                     mdata.status = "1";
                     mdata.update_no = "0";
                     mdata.created_at = currentDate;
@@ -3633,12 +3638,7 @@ public class CCUserActivity extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("MedicalBehaviorial", "MedicalBehaviorial" + throwable.getMessage());
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                medicineList();
-                            }
-                        }, 300);
+
                         dismissLoadingProgress();
                     }
                 }));
@@ -3669,7 +3669,7 @@ public class CCUserActivity extends AppCompatActivity {
                     mdata.member_id = memberMedicine.MemberId;
                     mdata.member_national_id = memberMedicine.member_national_id;
                     memberMyselvesdetails = getBeahviorialHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
-                    mdata.member_unique_code = memberMedicine.household_uniqe_id;
+                    mdata.member_unique_code = memberMedicine.household_uniqe_id+memberMedicine.MemberId;
                     mdata.status = "1";
                     mdata.update_no = "0";
                     mdata.created_at = currentDate;
@@ -3689,14 +3689,7 @@ public class CCUserActivity extends AppCompatActivity {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("MemberBehaviorial", "MemberBehaviorialResponsel" + throwable.getMessage());
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                getBehaviorialList();
-                            }
-                        }, 300);
-                        dismissLoadingProgress();
+
                     }
                 }));
                 Log.e("Behaviorial", "Behaviorial" + new Gson().toJson(data));
@@ -3711,7 +3704,7 @@ public class CCUserActivity extends AppCompatActivity {
         for (MemberMyself memberMyself : myselfLists.blockingFirst()) {
             MemberUploadModel.Data mData = new MemberUploadModel.Data();
             mData.household_uniqe_id = memberMyself.UniqueId;
-            mData.unique_code = memberMyself.UniqueId;
+            mData.unique_code = memberMyself.UniqueCode;
             mData.name = memberMyself.FullName;
             mData.death_date = memberMyself.DateOfDeath;
             mData.member_id = memberMyself.MemberId;
@@ -4710,5 +4703,394 @@ public class CCUserActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         compositeDisposable.clear();
+    }
+
+    private void loadReferHistory(){
+        compositeDisposable.add(Common.referRepository.getReferHistoryItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<ReferHistory>>() {
+            @Override
+            public void accept(List<ReferHistory> referHistoryList) throws Exception {
+                MemberPrescriptionResponseModel memberPrescriptionResponseModel = new MemberPrescriptionResponseModel();
+                Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
+                memberPrescriptionResponseModel.user_credential = auth.email;
+                ArrayList<MemberPrescriptionResponseModel.Data> sync = new ArrayList<>();
+                for (ReferHistory referHistory:referHistoryList){
+
+                    MemberPrescriptionResponseModel.Data data = new  MemberPrescriptionResponseModel.Data();
+                    data.from=referHistory.From;
+                    data.from_id=referHistory.FromId;
+                    data.to=referHistory.To;
+                    data.to_id=referHistory.ToId;
+                    data.household_uniqe_id=referHistory.UniqueId;
+                    data.visit_date=referHistory.VisitDate;
+                    data.member_unique_code=referHistory.MemberUniqueCode;
+                    data.member_id=referHistory.MemberId;
+                    data.reason=referHistory.Reason;
+                    data.ref_type=referHistory.Type;
+                    data.created_at=referHistory.Date;
+                    data.update_no="1";
+                    sync.add(data);
+
+
+                }
+                memberPrescriptionResponseModel.data=sync;
+                showLoadingProgress(CCUserActivity.this);
+                compositeDisposable.add(mService.postReferral_historyList(memberPrescriptionResponseModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberBehaviorialResponseModel>() {
+                    @Override
+                    public void accept(MemberBehaviorialResponseModel memberResponseModel) throws Exception {
+                        Log.e("Referalla", "Referalla" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("Referalla", "Referalla" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+
+            }
+        }));
+    }
+    public  void showInfoDialog(final Context mContext) {
+
+        final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
+        LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.layout_sync, null);
+
+        infoDialog.setContentView(v);
+        infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
+        Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
+        Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+
+        CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
+        btn_no.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                downloadHousehold();
+                loadMemberId();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        downloadWorkingArea();
+                    }
+                }, 300);
+                infoDialog.dismiss();
+                SharedPreferenceUtil.saveShared(CCUserActivity.this, SharedPreferenceUtil.SYNC, "off");
+                linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
+
+            }
+        });
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadMeasurements();
+                loadSurvey();
+                loadHousehold();
+                medicineList();
+                loadReferHistory();
+                getBehaviorialList();
+                SharedPreferenceUtil.saveShared(CCUserActivity.this, SharedPreferenceUtil.SYNC, "off");
+                linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
+                infoDialog.dismiss();
+            }
+        });
+        infoDialog.show();
+    }
+    private void downloadSurvey(final String houseHoldId){
+        HouseholdPostModel householdPostModel= new HouseholdPostModel();
+        householdPostModel.household_uniqe_id=houseHoldId;
+        compositeDisposable.add(mService.getHouseholdShow(householdPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdGetResponseModel>() {
+            @Override
+            public void accept(HouseholdGetResponseModel memberResponseModel) throws Exception {
+                Log.e("HouseholdSurvey", "Household" + new Gson().toJson(memberResponseModel));
+
+                for (HouseholdGetResponseModel.Details khanas: memberResponseModel.khanaSurveys){
+                    DownSurveyList(khanas.details,houseHoldId);
+                }
+
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("HouseholdSurvey", "Household" + throwable.getMessage());
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    String val="";
+    private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas,String houseHoldId){
+        Survey survey = new Survey();
+        survey.UniqueId=houseHoldId;
+        Date date11 = null;
+
+
+
+        for (HouseholdGetResponseModel.Details.Khana khan: khanas){
+            val=khan.master_id;
+            if (khan.question.equals("Q12")){
+                survey.SafeDrinkingYesNo= Integer.parseInt(khan.answer);
+                try {
+                    date11 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if (khan.question.equals("Q12a")){
+                survey.SafeDrinkingDetails= Integer.parseInt(khan.answer);
+            }
+            else if (khan.question.equals("Q13")){
+                survey.SanitaryYesNo= Integer.parseInt(khan.answer);
+            }
+            else if (khan.question.equals("Q14")){
+                survey.BondhoChulaYesNo= Integer.parseInt(khan.answer);
+            }
+            else if (khan.question.equals("Q15")){
+                survey.BiomasFuelYesNo= Integer.parseInt(khan.answer);
+            }
+            else if (khan.question.equals("Q15a")){
+                survey.BiomasFuelDetails= Integer.parseInt(khan.answer);
+            }
+
+
+            if (khan.question.equals("Q12")) {
+
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q12", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q12a")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q12a", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q13")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q13", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q14")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q14", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q15")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q15", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q15a")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q15a", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+
+
+        }
+        survey.CreatedDate=date11;
+        Survey surveys=Common.surveyRepository.getSurveyNo(val);
+        if (surveys!=null){
+            survey.id=surveys.id;
+            Common.surveyRepository.updateSurvey(survey);
+        }
+        else{
+            Common.surveyRepository.insertToSurvey(survey);
+        }
+
     }
 }

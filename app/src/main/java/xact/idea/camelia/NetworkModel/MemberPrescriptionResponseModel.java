@@ -4,16 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class MemberPrescriptionResponseModel extends ApiResponses {
-    @SerializedName("total_record")
-    public int total_record;
+public class MemberPrescriptionResponseModel  {
+    @SerializedName("user_credential")
+    public String user_credential;
 
-    @SerializedName("referral_history")
-    public ArrayList<Data> referral_history;
+    @SerializedName("data")
+    public ArrayList<Data> data;
 
-    public class Data{
-        @SerializedName("id")
-        public int id;
+    public static class Data{
         @SerializedName("member_unique_code")
         public String member_unique_code;
         @SerializedName("household_uniqe_id")
@@ -30,36 +28,14 @@ public class MemberPrescriptionResponseModel extends ApiResponses {
         public String visit_date;
         @SerializedName("reason")
         public String reason;
+        @SerializedName("ref_type")
+        public String ref_type;
         @SerializedName("created_at")
         public String created_at;
-        @SerializedName("created_by")
-        public String created_by;
-        @SerializedName("updated_at")
-        public String updated_at;
         @SerializedName("update_no")
         public String update_no;
+        @SerializedName("member_id")
+        public String member_id;
 
-        @SerializedName("visits")
-        public ArrayList<Visit> visits;
-        public class Visit{
-            @SerializedName("id")
-            public String id;
-            @SerializedName("ref_id")
-            public String ref_id;
-            @SerializedName("visit_status")
-            public String visit_status;
-            @SerializedName("status")
-            public String status;
-            @SerializedName("visit_date")
-            public String visit_date;
-            @SerializedName("created_at")
-            public String created_at;
-            @SerializedName("created_by")
-            public String created_by;
-            @SerializedName("updated_at")
-            public String updated_at;
-            @SerializedName("update_no")
-            public String update_no;
-        }
     }
 }

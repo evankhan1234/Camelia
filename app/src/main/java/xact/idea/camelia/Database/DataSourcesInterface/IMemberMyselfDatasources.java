@@ -26,6 +26,8 @@ public interface IMemberMyselfDatasources {
     int size();
     int notSync(Date from,Date to);
     int Sync(Date from,Date to);
+    Flowable<List<MemberMyself>> getMemberListForRefer();
+    Flowable<List<MemberMyself>> getMemberListForFollowUp();
     Flowable<List<MemberMyself>> getReferMembersForCC();
     Flowable<List<SummaryModel>> TotalListOfSum(Date from , Date to);
     SummaryModel TotalSum(Date from);
