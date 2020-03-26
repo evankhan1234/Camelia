@@ -4,11 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class MemberPrescriptionResponseModel  {
-    @SerializedName("user_credential")
-    public String user_credential;
-    @SerializedName("data")
-    public ArrayList<Data> data;
+public class ReferalHistoryResponse extends ApiResponses{
+    @SerializedName("referral_history")
+    public ArrayList<Data> referral_history;
     public static class Data{
         @SerializedName("member_unique_code")
         public String member_unique_code;

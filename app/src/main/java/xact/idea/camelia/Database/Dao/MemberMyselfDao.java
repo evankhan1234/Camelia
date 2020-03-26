@@ -44,10 +44,12 @@ public interface MemberMyselfDao {
     int value();
     @Query("UPDATE  MemberMyself SET `From`=:from,`To`=:to,VisitDate=:date where MemberId=:memberId")
     void updateReciverAgain(String from,String to,String date,String memberId);
-    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberId WHERE refer.Type='1' AND refer.Reason='1' group by member.MemberId")
+    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='1' AND refer.Reason='1' group by member.MemberId")
     Flowable<List<MemberMyself>> getMemberListForRefer();
-    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberId WHERE refer.Type='0' AND refer.Reason='1'group by member.MemberId")
+    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='0' AND refer.Reason='1'group by member.MemberId")
     Flowable<List<MemberMyself>> getMemberListForFollowUp();
+    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='2' AND refer.Reason='1'group by member.MemberId")
+    Flowable<List<MemberMyself>> getReferMembersFor();
     @Query("Select Count(id)  FROM MemberMyself  where Status='0' and CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
     int notSync(Date from,Date to);
     @Query("Select Count(id)  FROM MemberMyself  where Status='1' and CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
@@ -82,8 +84,7 @@ public interface MemberMyselfDao {
     @Query("SELECT  * FROM MemberMyself as Member left join Measurements as Measure ON Member.MemberId=Measure.MemberIds  WHERE Measure.id  IS NULL")
     Flowable<List<MemberMyself>> getInCompleteMembersFor();
 
-    @Query("SELECT  * FROM MemberMyself as Member  where  Member.`from`='UHC' Group BY Member.id")
-    Flowable<List<MemberMyself>> getReferMembersFor();
+
     @Query("SELECT  * FROM MemberMyself as Member  where  Member.`from`='CC' Group BY Member.id")
     Flowable<List<MemberMyself>> getReferMembersForCC();
 
@@ -169,72 +170,69 @@ public interface MemberMyselfDao {
     HHDashboardModel hhModel();
 
     @Query("select datetime,sum(UHC) UHC,sum(Incomplete1) Incomplete1,sum(Incomplete2) Incomplete2,sum(Follow) Follow,sum(Total5) Complete from (\n" +
-            "            SELECT datetime, Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as Member inner join (select distinct MemberIds,refer,datetime from Measurements where datetime between :from and :to) as Measure ON Member.MemberId=Measure.MemberIds where \n" +
-            "            Measure.Refer='UHC'\n" +
-            "            UNION all\n" +
-            "            SELECT CreatedDate datetime,0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
-            "            left join  Measurements as Measure ON Member.MemberId=Measure.MemberIds  where Measure.id is null and Member.CreatedDate between :from and :to\n" +
-            "            UNION all\n" +
-            "            SELECT datetime,0 UHC,0 Incomplete1,count(*) Incomplete2,0 Follow,0 Complete FROM\n" +
-            "            ( SELECT datetime, q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
-            "            \n" +
-            "            SELECT ms.datetime,ms.MemberIds,ms.Type FROM (select distinct MemberIds,type,datetime from Measurements where datetime between :from and :to) ms\n" +
-            "            WHERE\n" +
-            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
-            "            GROUP BY ms.MemberIds,ms.type,ms.datetime\n" +
-            "            ) q\n" +
-            "            GROUP BY q.MemberIds,datetime\n" +
-            "            HAVING COUNT(q.MemberIds) < 6\n" +
-            "            ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId\n" +
-            "            UNION all\n" +
-            "            SELECT datetime,0 UHC,0 Incomplete1,0 Incomplete2, Count(*) as Follow,0 Complete FROM MemberMyself as Member inner join (select distinct MemberIds,refer,datetime from Measurements where datetime between :from and :to) as Measure ON Member.MemberId=Measure.MemberIds where  Measure.Refer='Follow'\n" +
-            "            UNION all\n" +
-            "            SELECT datetime,0 UHC,0 Incomplete1,0 Incomplete2,0 Follow, Count(*)as Complete FROM\n" +
-            "            ( SELECT datetime,q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
-            "            \n" +
-            "            SELECT datetime,ms.MemberIds,ms.Type FROM (select distinct MemberIds,type,datetime from Measurements where datetime between :from and :to) ms\n" +
-            "            WHERE\n" +
-            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
-            "            GROUP BY ms.MemberIds,ms.type,datetime\n" +
-            "            ) q\n" +
-            "            GROUP BY q.MemberIds,datetime\n" +
-            "            HAVING COUNT(q.MemberIds) > 5\n" +
-            "            ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId) where datetime is not null \n" +
-            "             group by datetime")
+            "                      SELECT Date datetime, Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Date between :from and :to AND refer.Type='2' AND refer.Reason='1'group by member.MemberId\n" +
+            "                     UNION all\n" +
+            "                    SELECT CreatedDate datetime,0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
+            "                       left join  Measurements as Measure ON Member.MemberId=Measure.MemberIds  where Measure.id is null and Member.CreatedDate between :from and :to\n" +
+            "                        UNION all\n" +
+            "                       SELECT datetime,0 UHC,0 Incomplete1,count(*) Incomplete2,0 Follow,0 Complete FROM\n" +
+            "                        ( SELECT datetime, q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
+            "                        \n" +
+            "                        SELECT ms.datetime,ms.MemberIds,ms.Type FROM (select distinct MemberIds,type,datetime from Measurements where datetime between :from and :to) ms\n" +
+            "                        WHERE\n" +
+            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "                        GROUP BY ms.MemberIds,ms.type,ms.datetime\n" +
+            "                        ) q\n" +
+            "                       GROUP BY q.MemberIds,datetime\n" +
+            "                        HAVING COUNT(q.MemberIds) < 6\n" +
+            "                       ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId\n" +
+            "                       UNION all\n" +
+            "                        SELECT Date datetime,0 UHC,0 Incomplete1,0 Incomplete2, Count(*) as Follow,0 Complete FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Date between :from and :to AND refer.Type='1' AND refer.Reason='1'group by member.MemberId\n" +
+            "                     UNION all\n" +
+            "                       SELECT datetime,0 UHC,0 Incomplete1,0 Incomplete2,0 Follow, Count(*)as Complete FROM\n" +
+            "                        ( SELECT datetime,q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
+            "                        \n" +
+            "                        SELECT datetime,ms.MemberIds,ms.Type FROM (select distinct MemberIds,type,datetime from Measurements where datetime between :from and :to) ms\n" +
+            "                        WHERE\n" +
+            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "                       GROUP BY ms.MemberIds,ms.type,datetime\n" +
+            "                        ) q\n" +
+            "                        GROUP BY q.MemberIds,datetime\n" +
+            "                        HAVING COUNT(q.MemberIds) > 5\n" +
+            "                        ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId) where datetime is not null \n" +
+            "                        group by datetime")
     Flowable<List<Count>> TotalCountByDateRange(Date from ,Date to);
 
     @Query("select sum(UHC) UHC,sum(Incomplete1) Incomplete1,sum(Incomplete2) Incomplete2,sum(Follow) Follow,sum(Total5) Complete from (\n" +
-            "            SELECT  Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as Member inner join (select distinct MemberIds,refer from Measurements where datetime = :from) as Measure ON Member.MemberId=Measure.MemberIds where \n" +
-            "            Member.`To`='CC'\n" +
-            "            UNION all\n" +
-            "            SELECT  0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
-            "            left join  Measurements as Measure ON Member.MemberId = Measure.MemberIds  where Measure.id is null and Member.CreatedDate = :from\n" +
-            "            UNION all\n" +
-            "            SELECT 0 UHC,0 Incomplete1,count(*) Incomplete2,0 Follow,0 Complete FROM\n" +
-            "            ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
-            "            \n" +
-            "            SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements where datetime = :from) ms\n" +
-            "            WHERE\n" +
-            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
-            "            GROUP BY ms.MemberIds,ms.type\n" +
-            "            ) q\n" +
-            "            GROUP BY q.MemberIds\n" +
-            "            HAVING COUNT(q.MemberIds) < 6\n" +
-            "            ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId\n" +
-            "            UNION all\n" +
-            "            SELECT 0 UHC,0 Incomplete1,0 Incomplete2, Count(*) as Follow,0 Complete FROM MemberMyself as Member inner join (select distinct MemberIds,refer from Measurements where datetime = :from) as Measure ON Member.MemberId=Measure.MemberIds where  Measure.Refer='Follow' Group BY Member.id\n" +
-            "            UNION all\n" +
-            "            SELECT 0 UHC,0 Incomplete1,0 Incomplete2,0 Follow, Count(*)as Complete FROM\n" +
-            "            ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
-            "            \n" +
-            "            SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements where datetime = :from) ms\n" +
-            "            WHERE\n" +
-            "            ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
-            "            GROUP BY ms.MemberIds,ms.type\n" +
-            "            ) q\n" +
-            "            GROUP BY q.MemberIds\n" +
-            "            HAVING COUNT(q.MemberIds) > 5\n" +
-            "            ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId)")
+            "                       SELECT  Count(*)as UHC,0 Incomplete1,0 Incomplete2,0 Follow,0 Total5 FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Date = :from AND refer.Type='2' AND refer.Reason='1'group by member.MemberId\n" +
+            "                       UNION all\n" +
+            "                        SELECT  0 UHC,Count(*)as Incomplete1,0 Incomplete2,0 Follow,0 Complete FROM MemberMyself as Member\n" +
+            "                       left join  Measurements as Measure ON Member.MemberId = Measure.MemberIds  where Measure.id is null and Member.CreatedDate = :from\n" +
+            "                        UNION all\n" +
+            "                       SELECT 0 UHC,0 Incomplete1,count(*) Incomplete2,0 Follow,0 Complete FROM\n" +
+            "                       ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
+            "                      \n" +
+            "                       SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements where datetime = :from) ms\n" +
+            "                       WHERE\n" +
+            "                       ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "                       GROUP BY ms.MemberIds,ms.type\n" +
+            "                        ) q\n" +
+            "                        GROUP BY q.MemberIds\n" +
+            "                       HAVING COUNT(q.MemberIds) < 6\n" +
+            "                        ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId\n" +
+            "                        UNION all\n" +
+            "                       SELECT 0 UHC,0 Incomplete1,0 Incomplete2, Count(*) as Follow,0 Complete FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Date = :from AND refer.Type='1' AND refer.Reason='1'group by member.MemberId\n" +
+            "                       UNION all\n" +
+            "                       SELECT 0 UHC,0 Incomplete1,0 Incomplete2,0 Follow, Count(*)as Complete FROM\n" +
+            "                        ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
+            "                        SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements where datetime = :from) ms\n" +
+            "                        WHERE\n" +
+            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "                        GROUP BY ms.MemberIds,ms.type\n" +
+            "                        ) q\n" +
+            "                        GROUP BY q.MemberIds\n" +
+            "                        HAVING COUNT(q.MemberIds) > 5\n" +
+            "                        ) q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId)")
     Count TotalCountByDate(Date from);
 
 

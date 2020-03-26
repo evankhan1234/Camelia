@@ -142,6 +142,7 @@ import xact.idea.camelia.NetworkModel.MemberResponseModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
+import xact.idea.camelia.NetworkModel.ReferalHistoryResponse;
 import xact.idea.camelia.NetworkModel.ReferallPostModel;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UHCModel;
@@ -651,6 +652,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             downloadSurvey(house.household_uniqe_id);
+                            downloadRefer(house.household_uniqe_id);
                             Date date = null;
                             try {
                                 date = new SimpleDateFormat("yyyy-MM-dd").parse(house.created_at);
@@ -680,6 +682,7 @@ public class CCUserActivity extends AppCompatActivity {
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = null;
                             downloadSurvey(house.household_uniqe_id);
+                            downloadRefer(house.household_uniqe_id);
                             try {
                                 date = new SimpleDateFormat("yyyy-MM-dd").parse(house.created_at);
                             } catch (ParseException e) {
@@ -4721,12 +4724,20 @@ public class CCUserActivity extends AppCompatActivity {
                     data.to=referHistory.To;
                     data.to_id=referHistory.ToId;
                     data.household_uniqe_id=referHistory.UniqueId;
-                    data.visit_date=referHistory.VisitDate;
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date1 = null;
+
+
+                    date1 = new SimpleDateFormat("dd-MM-yyyy").parse(referHistory.VisitDate);
+                    String currentDate = formatter.format(date1);
+
+                    data.visit_date = currentDate;
                     data.member_unique_code=referHistory.MemberUniqueCode;
-                    data.member_id=referHistory.MemberId;
                     data.reason=referHistory.Reason;
                     data.ref_type=referHistory.Type;
-                    data.created_at=referHistory.Date;
+
+                    String currentDate1 = formatter.format(referHistory.Date);
+                    data.created_at=currentDate1;
                     data.update_no="1";
                     sync.add(data);
 
@@ -4809,6 +4820,75 @@ public class CCUserActivity extends AppCompatActivity {
 
                 for (HouseholdGetResponseModel.Details khanas: memberResponseModel.khanaSurveys){
                     DownSurveyList(khanas.details,houseHoldId);
+                }
+
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("HouseholdSurvey", "Household" + throwable.getMessage());
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    private void downloadRefer(final String houseHoldId){
+        ReferallPostModel householdPostModel= new ReferallPostModel();
+        householdPostModel.household_uniqe_id=houseHoldId;
+        compositeDisposable.add(mService.getMemberReferalhistory(householdPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<ReferalHistoryResponse>() {
+            @Override
+            public void accept(ReferalHistoryResponse memberResponseModel) throws Exception {
+                Log.e("HouseholdSurvey", "Household" + new Gson().toJson(memberResponseModel));
+
+                for (ReferalHistoryResponse.Data khanas: memberResponseModel.referral_history){
+                    ReferHistory referHistory = new ReferHistory();
+                    ReferHistory ref= Common.referRepository.getReferHistoryNo(khanas.member_unique_code);
+                    if (ref!=null){
+                        referHistory.id=ref.id;
+                        referHistory.MemberUniqueCode=khanas.member_unique_code;
+                        referHistory.UniqueId=khanas.household_uniqe_id;
+                        referHistory.From=khanas.from;
+                        referHistory.FromId=khanas.from_id;
+                        referHistory.To=khanas.to;
+                        referHistory.ToId=khanas.to_id;
+                        referHistory.Reason=khanas.reason;
+                        referHistory.Type=khanas.ref_type;
+                        String s=khanas.created_at.substring(0,10);
+                        Date date1 = null;
+                        try {
+                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khanas.created_at.substring(0,10));
+                            // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        referHistory.Date=date1;
+                        referHistory.VisitDate=khanas.visit_date;
+
+                        Common.referRepository.updateReferHistory(referHistory);
+                    }
+                    else{
+                        referHistory.MemberUniqueCode=khanas.member_unique_code;
+                        referHistory.UniqueId=khanas.household_uniqe_id;
+                        referHistory.From=khanas.from;
+                        referHistory.FromId=khanas.from_id;
+                        referHistory.To=khanas.to;
+                        referHistory.ToId=khanas.to_id;
+                        referHistory.Reason=khanas.reason;
+                        referHistory.Type=khanas.ref_type;
+                        String s=khanas.created_at.substring(0,10);
+                        Date date1 = null;
+                        try {
+                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khanas.created_at.substring(0,10));
+                            // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        referHistory.Date=date1;
+                        referHistory.VisitDate=khanas.visit_date;
+
+                        Common.referRepository.insertToReferHistory(referHistory);
+                    }
+
                 }
 
             }

@@ -5,14 +5,14 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Date;
+
 @Entity(tableName = "ReferHistory")
 public class ReferHistory {
     @NonNull
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
-    @ColumnInfo(name = "MemberId")
-    public String MemberId;
     @ColumnInfo(name = "MemberUniqueCode")
     public String MemberUniqueCode;
     @ColumnInfo(name = "UniqueId")
@@ -30,7 +30,7 @@ public class ReferHistory {
     @ColumnInfo(name = "Type")
     public String Type;
     @ColumnInfo(name = "Date")
-    public String Date;
+    public Date Date;
     @ColumnInfo(name = "Reason")
     public String Reason;
 

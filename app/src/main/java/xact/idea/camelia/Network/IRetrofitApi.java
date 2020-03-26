@@ -37,6 +37,7 @@ import xact.idea.camelia.NetworkModel.MemberResponseModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
+import xact.idea.camelia.NetworkModel.ReferalHistoryResponse;
 import xact.idea.camelia.NetworkModel.ReferallPostModel;
 import xact.idea.camelia.NetworkModel.StudyClassResponses;
 import xact.idea.camelia.NetworkModel.UHCModel;
@@ -84,7 +85,7 @@ public interface IRetrofitApi {
     @POST("household/store")
     io.reactivex.Observable<HouseholdResponseModel> postHouseholdUpload(@Body HouseholdUploadModel householdUploadModel);
     @POST("member/referral_history")
-    io.reactivex.Observable<MemberPrescriptionResponseModel> getMemberReferalhistory(@Body ReferallPostModel referallPostModel);
+    io.reactivex.Observable<ReferalHistoryResponse> getMemberReferalhistory(@Body ReferallPostModel referallPostModel);
     @POST("member/lab_reports")
     io.reactivex.Observable<LabReportsResponseModel> getLabReports(@Body ReferallPostModel referallPostModel);
     @POST("member/measurements")

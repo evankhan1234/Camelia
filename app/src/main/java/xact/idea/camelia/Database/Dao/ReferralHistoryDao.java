@@ -19,15 +19,15 @@ public interface ReferralHistoryDao {
     Flowable<List<ReferHistory>> getReferHistoryItemById(int ReferHistoryItemId);
     @Query("SELECT * FROM ReferHistory WHERE id=:ReferHistoryItem")
     ReferHistory getReferHistory(String ReferHistoryItem);
-    @Query("SELECT * FROM ReferHistory WHERE id=:ReferHistoryItem")
+    @Query("SELECT * FROM ReferHistory WHERE MemberUniqueCode=:ReferHistoryItem")
     ReferHistory getReferHistoryNo(String ReferHistoryItem);
     @Query("Select Count(id)  FROM ReferHistory")
     int value();
     @Query("DELETE  FROM ReferHistory")
     void emptyReferHistory();
-    @Query("SELECT * FROM  ReferHistory as refer  WHERE  refer.Reason='1' and refer.MemberId=:member")
+    @Query("SELECT * FROM  ReferHistory as refer  WHERE  refer.Reason='1' and refer.MemberUniqueCode=:member")
     ReferHistory getReferHistoryFrom(String member);
-    @Query("UPDATE  ReferHistory SET Reason='2' WHERE MemberId=:memberId")
+    @Query("UPDATE  ReferHistory SET Reason='2' WHERE MemberUniqueCode=:memberId")
     void updateReferHistoryFrom(String memberId);
     @Insert
     void insertToReferHistory(ReferHistory...ReferHistory);
