@@ -103,6 +103,6 @@ public interface IRetrofitApi {
     io.reactivex.Observable<CCModelresponse> getCC();
     @GET("household/list")
     io.reactivex.Observable<HouseholdListResponseModel> getHouseholdList();
-    @GET("member/referral_history/store")
-    io.reactivex.Observable<HouseholdListResponseModel> postReferral_historyList();
+    @POST("member/referral_history/store")
+    io.reactivex.Observable<MemberBehaviorialResponseModel> postReferral_historyList(@Body MemberPrescriptionResponseModel memberPrescriptionResponseModel);
 }

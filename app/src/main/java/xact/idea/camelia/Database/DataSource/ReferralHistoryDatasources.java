@@ -49,6 +49,16 @@ public class ReferralHistoryDatasources implements IReferralDatasources {
     }
 
     @Override
+    public ReferHistory getReferHistoryFrom(String member) {
+        return ReferralHistoryDao.getReferHistoryFrom(member);
+    }
+
+    @Override
+    public void updateReferHistoryFrom(String memberId) {
+        ReferralHistoryDao.updateReferHistoryFrom(memberId);
+    }
+
+    @Override
     public ReferHistory getReferHistoryNo(String ReferHistoryItem) {
         return ReferralHistoryDao.getReferHistoryNo(ReferHistoryItem);
     }

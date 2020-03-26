@@ -144,7 +144,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
     RelativeLayout relativeLayout;
 
     String memberId;
-    String update;
+    static String update;
 
     TextView tv_full_name;
     TextView tv_gender;
@@ -714,6 +714,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                     memberMyself.HouseHeadId = headId;
                     memberMyself.MemberId = memberIds.MemberId;
                     memberMyself.UniqueId = uniqueId;
+                    memberMyself.UniqueCode = uniqueId+memberIds.MemberId;
                     memberMyself.Status = memberIds.Status;
                     SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     Common.memberMyselfRepository.updateMemberMyself(memberMyself);
@@ -760,6 +761,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
 
 
                             memberMyself.MemberId = memberId;
+                            memberMyself.UniqueCode = uniqueId+memberId;
                             memberMyself.Status = "0";
                             Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
                             SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
@@ -828,6 +830,26 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar calendar = Calendar.getInstance();
+
+            MemberMyself memberId = Common.memberMyselfRepository.getMemberId(update);
+            DateFormat df = new SimpleDateFormat("dd-MM-yyyy",Locale.US);
+            SimpleDateFormat df1 = new SimpleDateFormat("yyyy",Locale.US);
+            SimpleDateFormat df2 = new SimpleDateFormat("MM",Locale.US);
+            SimpleDateFormat df3 = new SimpleDateFormat("dd",Locale.US);
+
+            if (memberId!=null){
+                try {
+                    Date d = df.parse(memberId.DateOfBirth);
+                    String year = df1.format(d);
+                    String month = df2.format(d);
+                    String day = df3.format(d);
+                    int mon=Integer.parseInt(month)-1;
+                    calendar.set(Integer.parseInt(year),mon,Integer.parseInt(day));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
             try {
                 calendar.setTime(sdf.parse(edit_birthday_date.getText().toString()));

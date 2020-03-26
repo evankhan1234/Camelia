@@ -15,7 +15,8 @@ public interface IReferralDatasources {
     void emptyReferHistory();
 
     int size();
-
+    ReferHistory getReferHistoryFrom(String member);
+    void updateReferHistoryFrom(String memberId);
     ReferHistory getReferHistoryNo(String ReferHistoryItem);
 
     void insertToReferHistory(ReferHistory... ReferHistory);

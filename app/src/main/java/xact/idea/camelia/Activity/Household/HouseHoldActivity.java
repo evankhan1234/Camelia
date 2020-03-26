@@ -1,6 +1,7 @@
 package xact.idea.camelia.Activity.Household;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,8 +10,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -76,6 +81,7 @@ import xact.idea.camelia.Database.Model.MemberMedicine;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.Occupation;
 import xact.idea.camelia.Database.Model.Questions;
+import xact.idea.camelia.Database.Model.ReferHistory;
 import xact.idea.camelia.Database.Model.StudyClass;
 import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Database.Model.UHC;
@@ -114,7 +120,9 @@ import xact.idea.camelia.NetworkModel.CCModelresponse;
 import xact.idea.camelia.NetworkModel.DistrictResponses;
 import xact.idea.camelia.NetworkModel.DivisionResponses;
 import xact.idea.camelia.NetworkModel.GenderResponses;
+import xact.idea.camelia.NetworkModel.HouseholdGetResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdListResponseModel;
+import xact.idea.camelia.NetworkModel.HouseholdPostModel;
 import xact.idea.camelia.NetworkModel.HouseholdResponseModel;
 import xact.idea.camelia.NetworkModel.HouseholdUploadModel;
 import xact.idea.camelia.NetworkModel.KhanaServeyResponseModel;
@@ -128,6 +136,7 @@ import xact.idea.camelia.NetworkModel.MemberAlocateResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialResponseModel;
 import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
 import xact.idea.camelia.NetworkModel.MemberGetResponseModel;
+import xact.idea.camelia.NetworkModel.MemberPrescriptionResponseModel;
 import xact.idea.camelia.NetworkModel.MemberResponseModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
@@ -140,6 +149,7 @@ import xact.idea.camelia.NetworkModel.WardResponses;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
+import xact.idea.camelia.Utils.CustomDialog;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
 import xact.idea.camelia.Utils.Utils;
 
@@ -187,17 +197,17 @@ public class HouseHoldActivity extends AppCompatActivity {
         text_cc_sending = findViewById(R.id.text_cc_sending);
         text_dashboard = findViewById(R.id.text_dashboard);
         Paper.init(this);
-        String language=SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-        Paper.book().write("language",language);
-        updateView((String)Paper.book().read("language"));
+        String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+        Paper.book().write("language", language);
+        updateView((String) Paper.book().read("language"));
         tv_store.setSelected(true);
         linear_logout.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ApplySharedPref")
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-              //  getSharedPreferences(SharedPreferenceUtil.TYPE_USER_ID, 0).edit().clear().apply();
-             SharedPreferenceUtil.removeShared(HouseHoldActivity.this,SharedPreferenceUtil.TYPE_USER_ID);
+                //  getSharedPreferences(SharedPreferenceUtil.TYPE_USER_ID, 0).edit().clear().apply();
+                SharedPreferenceUtil.removeShared(HouseHoldActivity.this, SharedPreferenceUtil.TYPE_USER_ID);
                 Intent intent = new Intent(HouseHoldActivity.this, LoginActivity.class);
                 intent.putExtra("EXTRA_SESSION", "dashboard");
                 startActivity(intent);
@@ -231,29 +241,22 @@ public class HouseHoldActivity extends AppCompatActivity {
         linear_sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadHousehold();
-                loadSurvey();
-                medicineList();
-                getBehaviorialList();
-                loadMemberId();
-                SharedPreferenceUtil.saveShared(HouseHoldActivity.this, SharedPreferenceUtil.SYNC, "off");
-                linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
+                showInfoDialog(HouseHoldActivity.this);
             }
         });
 
-        if (SharedPreferenceUtil.getSync(HouseHoldActivity.this).equals("on")){
+        if (SharedPreferenceUtil.getSync(HouseHoldActivity.this).equals("on")) {
             linear_sync.setBackground(getResources().getDrawable(R.drawable.background_programitical));
 
-        }
-        else{
+        } else {
             linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
         }
 
     }
 
     private void updateView(String language) {
-        Context context= LocaleHelper.setLocale(this,language);
-        Resources resources= context.getResources();
+        Context context = LocaleHelper.setLocale(this, language);
+        Resources resources = context.getResources();
         tv_store.setText(resources.getString(R.string.real_time));
         text_welcome.setText(resources.getString(R.string.welcome));
         text_sync.setText(resources.getString(R.string.sync));
@@ -263,6 +266,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         text_household.setText(resources.getString(R.string.family));
         text_dashboard.setText(resources.getString(R.string.dashboard));
     }
+    boolean t1=true;
     private void loadHousehold() {
 
         compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
@@ -287,6 +291,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     householdUploadModel.family_member = String.valueOf(houseHold.FamilyMember);
                     householdUploadModel.income_per_month = String.valueOf(houseHold.FamilyIncome);
                     householdUploadModel.hh_number = String.valueOf(houseHold.HH);
+                    householdUploadModel.village = houseHold.VillageName;
                     householdUploadModel.sub_hh_number = String.valueOf(houseHold.SHH);
                     householdUploadModel.household_uniqe_id = houseHold.UniqueId;
                     syncMember.addAll(getMemberMyself(houseHold.UniqueId, auth.email));
@@ -321,14 +326,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("Execute", "------2" + new Gson().toJson(memberResponseModel));
                         dismissLoadingProgress();
-                        downloadHousehold();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                downloadWorkingArea();
-                            }
-                        },500);
-                        dismissLoadingProgress();
+
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -363,7 +362,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     mdata.member_id = memberMedicine.MemberId;
                     mdata.member_national_id = memberMedicine.member_national_id;
                     memberMyselvesdetails = getMedicalHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
-                    mdata.member_unique_code = memberMedicine.household_uniqe_id;
+                    mdata.member_unique_code = memberMedicine.household_uniqe_id + memberMedicine.MemberId;
                     mdata.status = "1";
                     mdata.update_no = "1";
                     mdata.created_at = currentDate;
@@ -384,10 +383,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("Execute", "-------31" + throwable.getMessage());
                         dismissLoadingProgress();
-                        if (medicine=false){
-                            medicineList();
-                            medicine=true;
-                        }
+//                        if (medicine=false){
+//                            medicineList();
+//                            medicine=true;
+//                        }
 
                     }
                 }));
@@ -398,9 +397,10 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     }
 
-    boolean beahve= false;
-    boolean medicine= false;
-    private void getBehaviorialList(){
+    boolean beahve = false;
+    boolean medicine = false;
+
+    private void getBehaviorialList() {
         showLoadingProgress(HouseHoldActivity.this);
 
         compositeDisposable.add(Common.memberHabitRepository.getMemberHabitItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberHabit>>() {
@@ -420,7 +420,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     mdata.member_id = memberMedicine.MemberId;
                     mdata.member_national_id = memberMedicine.member_national_id;
                     memberMyselvesdetails = getBeahviorialHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
-                    mdata.member_unique_code = memberMedicine.household_uniqe_id;
+                    mdata.member_unique_code = memberMedicine.household_uniqe_id + memberMedicine.MemberId;
                     mdata.status = "1";
                     mdata.update_no = "1";
                     mdata.created_at = currentDate;
@@ -434,17 +434,17 @@ public class HouseHoldActivity extends AppCompatActivity {
                 compositeDisposable.add(mService.postMemberBehaviorialUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberBehaviorialResponseModel>() {
                     @Override
                     public void accept(MemberBehaviorialResponseModel memberResponseModel) throws Exception {
-                        Log.e("Execute", "-----4" + new Gson().toJson(memberResponseModel));
+                        Log.e("Execute", "e1" + new Gson().toJson(memberResponseModel));
                         dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("Execute", "-------41" + throwable.getMessage());
-                        if (beahve=false){
-                            getBehaviorialList();
-                            beahve=true;
-                        }
+                        Log.e("Execute", "e12" + throwable.getMessage());
+//                        if (beahve=false){
+//                            getBehaviorialList();
+//                            beahve=true;
+//                        }
                     }
                 }));
                 Log.e("Behaviorial", "Behaviorial" + new Gson().toJson(data));
@@ -459,7 +459,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         for (MemberMyself memberMyself : myselfLists.blockingFirst()) {
             MemberUploadModel.Data mData = new MemberUploadModel.Data();
             mData.household_uniqe_id = memberMyself.UniqueId;
-            mData.unique_code = memberMyself.UniqueId;
+            mData.unique_code = memberMyself.UniqueCode;
             mData.name = memberMyself.FullName;
             mData.death_date = memberMyself.DateOfDeath;
             mData.member_id = memberMyself.MemberId;
@@ -517,8 +517,8 @@ public class HouseHoldActivity extends AppCompatActivity {
         for (Questions questions : questionsList.blockingFirst()) {
             MedicalHistoryUpload.Data.Details mdata = new MedicalHistoryUpload.Data.Details();
 
-            if (questions.question.equals("Q55a")){
-                Log.e("answer__", "answer__" +questions.answer);
+            if (questions.question.equals("Q55a")) {
+                Log.e("answer__", "answer__" + questions.answer);
             }
             mdata.parent_question = "";
             mdata.member_id = memberId;
@@ -533,6 +533,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         return memberMyselves;
     }
+
     private ArrayList<MemberBehaviorialUploadModel.Data.Details> getBeahviorialHistoryDetailsData(String memberId, String date, int id) {
         final ArrayList<MemberBehaviorialUploadModel.Data.Details> memberMyselves = new ArrayList<>();
         showLoadingProgress(HouseHoldActivity.this);
@@ -552,6 +553,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         }
         return memberMyselves;
     }
+
     private void loadSurvey() {
 
         showLoadingProgress(HouseHoldActivity.this);
@@ -573,7 +575,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 
 
                     String currentDate = formatter.format(measurements.CreatedDate);
-                    memberMyselvesdetails = getKhanaDetailsData(String.valueOf(measurements.id),currentDate);
+                    memberMyselvesdetails = getKhanaDetailsData(String.valueOf(measurements.id), currentDate);
                     mdata.status = "1";
                     mdata.update_no = "0";
                     mdata.created_by = "0";
@@ -606,20 +608,21 @@ public class HouseHoldActivity extends AppCompatActivity {
         }));
 
     }
-    private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id,String Date) {
+
+    private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id, String Date) {
         final ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselves = new ArrayList<>();
         showLoadingProgress(HouseHoldActivity.this);
 
-        Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("survey",id);
+        Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("survey", id);
 
         for (Questions questions : questionsList.blockingFirst()) {
             KhanaServeyUploadModel.Data.KhanaDetails mdata = new KhanaServeyUploadModel.Data.KhanaDetails();
-            mdata.id= Integer.parseInt(questions.member_id);
-            mdata.question= questions.question;
-            mdata.answer= questions.answer;
-            mdata.created_at=Date;
-            mdata.question_type=questions.type;
-            mdata.update_no= "0";
+            mdata.id = Integer.parseInt(questions.member_id);
+            mdata.question = questions.question;
+            mdata.answer = questions.answer;
+            mdata.created_at = Date;
+            mdata.question_type = questions.type;
+            mdata.update_no = "0";
             memberMyselves.add(mdata);
             dismissLoadingProgress();
         }
@@ -630,18 +633,18 @@ public class HouseHoldActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initDB();
-        if (Common.householdRepository.size()<1){
+        if (Common.householdRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
                 downloadHousehold();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         downloadWorkingArea();
+
                     }
-                },500);
+                }, 500);
                 dismissLoadingProgress();
-            }
-            else {
+            } else {
                 Snackbar snackbar = Snackbar
                         .make(relative, "No Internet", Snackbar.LENGTH_LONG);
                 snackbar.show();
@@ -657,8 +660,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 studyClass.note_en = "";
                 studyClass.note_bn = "";
                 studyClass.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                studyClass.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                studyClass.ln = language;
                 Common.studyClassRepository.insertToStudyClass(studyClass);
                 loadStudyClass();
             } else {
@@ -676,8 +679,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 occupation.note_en = "";
                 occupation.note_bn = "";
                 occupation.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                occupation.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                occupation.ln = language;
                 Common.occupationRepository.insertToOccupation(occupation);
                 loadOccupation();
             } else {
@@ -695,8 +698,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 female.note_en = "";
                 female.note_bn = "";
                 female.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                female.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                female.ln = language;
                 Common.femaleRepository.insertToFemale(female);
                 loadGender();
 
@@ -715,8 +718,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 maritialStatus.note_en = "";
                 maritialStatus.note_bn = "";
                 maritialStatus.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                maritialStatus.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                maritialStatus.ln = language;
                 Common.maritialStatusRepository.insertToMaritialStatus(maritialStatus);
                 loadMaritialStatus();
             } else {
@@ -738,8 +741,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 block.note_en = "";
                 block.note_bn = "";
                 block.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                block.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                block.ln = language;
                 Common.blockRepository.insertToBlock(block);
                 loadBlock();
             } else {
@@ -761,8 +764,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 ward.note_en = "";
                 ward.note_bn = "";
                 ward.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                ward.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                ward.ln = language;
                 Common.wardRepository.insertToWard(ward);
                 loadWard();
             } else {
@@ -780,8 +783,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 bloodGroup.note_en = "";
                 bloodGroup.note_bn = "";
                 bloodGroup.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                bloodGroup.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                bloodGroup.ln = language;
                 Common.bloodGroupRepository.insertToBloodGroup(bloodGroup);
 
                 loadBloodGroup();
@@ -804,8 +807,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 division.note_en = "";
                 division.note_bn = "";
                 division.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                division.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                division.ln = language;
                 Common.divisionRepository.insertToDivision(division);
                 loadDivision();
             } else {
@@ -827,8 +830,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 unions1.note_en = "";
                 unions1.note_bn = "";
                 unions1.status = "";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                unions1.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                unions1.ln = language;
                 Common.unionRepository.insertToUnion(unions1);
                 loadUnion();
             } else {
@@ -850,8 +853,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 district.note_en = "";
                 district.note_bn = "";
                 district.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                district.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                district.ln = language;
                 Common.districtRepository.insertToDistrict(district);
                 loadDistrict();
             } else {
@@ -873,8 +876,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 upazila.note_en = "";
                 upazila.note_bn = "";
                 upazila.status = "1";
-                String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                upazila.ln=language;
+                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                upazila.ln = language;
                 Common.upazilaRepository.insertToUpazila(upazila);
                 loadUpazila();
             } else {
@@ -900,12 +903,11 @@ public class HouseHoldActivity extends AppCompatActivity {
                         .make(relative, "No Internet", Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
-        }
-        else{
+        } else {
 
-            int maxId=Common.memberIdRepository.maxValue();
-            MemberId memberId=Common.memberIdRepository.getMemberIdNo(String.valueOf(maxId));
-            if (!SharedPreferenceUtil.getUserRole(HouseHoldActivity.this).equals(memberId.From)){
+            int maxId = Common.memberIdRepository.maxValue();
+            MemberId memberId = Common.memberIdRepository.getMemberIdNo(String.valueOf(maxId));
+            if (!SharedPreferenceUtil.getUserRole(HouseHoldActivity.this).equals(memberId.From)) {
                 Common.memberIdRepository.emptyMember();
                 loadMemberId();
             }
@@ -973,19 +975,17 @@ public class HouseHoldActivity extends AppCompatActivity {
         showLoadingProgress(HouseHoldActivity.this);
         MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
-        int maxValue= Common.memberIdRepository.maxValue();
-        if (maxValue>0){
-            MemberId memberId=Common.memberIdRepository.getMemberIdNo(String.valueOf(maxValue));
-            Log.e("memberId","memberId"+memberId.Value);
+        int maxValue = Common.memberIdRepository.maxValue();
+        if (maxValue > 0) {
+            MemberId memberId = Common.memberIdRepository.getMemberIdNo(String.valueOf(maxValue));
+            Log.e("memberId", "memberId" + memberId.Value);
             Flowable<List<MemberId>> memberIdList = Common.memberIdRepository.getMemberIdItems();
-            if (memberIdList.blockingFirst().size()>0){
+            if (memberIdList.blockingFirst().size() > 0) {
                 memberAlocatePostModel.data.last_used_id = memberId.Value;
-            }
-            else{
+            } else {
                 memberAlocatePostModel.data.last_used_id = "";
             }
-        }
-        else{
+        } else {
             memberAlocatePostModel.data.last_used_id = "";
         }
 
@@ -998,7 +998,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 for (MemberAlocateResponseModel.Data.AllocatedMember alocateResponseModel : upazilaResponses.data.newly_allocated_member_ids) {
                     MemberId id = new MemberId();
                     id.Value = alocateResponseModel.generated_member_id;
-                    id.From=SharedPreferenceUtil.getUserRole(HouseHoldActivity.this);
+                    id.From = SharedPreferenceUtil.getUserRole(HouseHoldActivity.this);
                     Common.memberIdRepository.insertToMemberId(id);
                 }
                 dismissLoadingProgress();
@@ -1027,7 +1027,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     studyClass.note_en = stdy.note_en;
                     studyClass.note_bn = stdy.note_bn;
                     studyClass.status = stdy.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     studyClass.ln = language;
                     Common.studyClassRepository.insertToStudyClass(studyClass);
                 }
@@ -1056,7 +1056,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     occupation.note_en = occupations.note_en;
                     occupation.note_bn = occupations.note_bn;
                     occupation.status = occupations.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     occupation.ln = language;
                     Common.occupationRepository.insertToOccupation(occupation);
                 }
@@ -1085,7 +1085,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     maritialStatus.note_en = maritial.note_en;
                     maritialStatus.note_bn = maritial.note_bn;
                     maritialStatus.status = maritial.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     maritialStatus.ln = language;
                     Common.maritialStatusRepository.insertToMaritialStatus(maritialStatus);
                 }
@@ -1114,7 +1114,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     female.note_en = genders.note_en;
                     female.note_bn = genders.note_bn;
                     female.status = genders.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     female.ln = language;
                     Common.femaleRepository.insertToFemale(female);
                 }
@@ -1146,7 +1146,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     ward.note_en = wards.note_en;
                     ward.note_bn = wards.note_bn;
                     ward.status = wards.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     ward.ln = language;
                     Common.wardRepository.insertToWard(ward);
                 }
@@ -1178,7 +1178,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     block.note_en = blocks.note_en;
                     block.note_bn = blocks.note_bn;
                     block.status = blocks.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     block.ln = language;
                     Common.blockRepository.insertToBlock(block);
                 }
@@ -1207,7 +1207,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     bloodGroup.note_en = bloods.note_en;
                     bloodGroup.note_bn = bloods.note_bn;
                     bloodGroup.status = bloods.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     bloodGroup.ln = language;
                     Common.bloodGroupRepository.insertToBloodGroup(bloodGroup);
                 }
@@ -1240,7 +1240,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     unions1.note_en = unions.note_en;
                     unions1.note_bn = unions.note_bn;
                     unions1.status = unions.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     unions1.ln = language;
                     Common.unionRepository.insertToUnion(unions1);
                 }
@@ -1272,7 +1272,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     division.note_en = divisions.note_en;
                     division.note_bn = divisions.note_bn;
                     division.status = divisions.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     division.ln = language;
                     Common.divisionRepository.insertToDivision(division);
                 }
@@ -1305,7 +1305,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     district.note_en = districts.note_en;
                     district.note_bn = districts.note_bn;
                     district.status = districts.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     district.ln = language;
                     Common.districtRepository.insertToDistrict(district);
                 }
@@ -1338,7 +1338,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     upazila.note_en = upazilas.note_en;
                     upazila.note_bn = upazilas.note_bn;
                     upazila.status = upazilas.status;
-                    String language= SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     upazila.ln = language;
                     Common.upazilaRepository.insertToUpazila(upazila);
                 }
@@ -1446,7 +1446,7 @@ public class HouseHoldActivity extends AppCompatActivity {
     }
 
 
-    private void downloadHousehold(){
+    private void downloadHousehold() {
         showLoadingProgress(HouseHoldActivity.this);
 
         final Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
@@ -1456,28 +1456,28 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Log.e("study", "study" + new Gson().toJson(uhcModel));
                 for (HouseholdListResponseModel.Data house : uhcModel.data) {
 
-                    if (auth.division.equals(house.division_id) && auth.district.equals(house.district_id)){
+                    if (auth.division.equals(house.division_id) && auth.district.equals(house.district_id)) {
                         HouseHold houseHold = new HouseHold();
-                        HouseHold houseHoldNew=Common.householdRepository.getHouseHold(house.household_uniqe_id);
+                        HouseHold houseHoldNew = Common.householdRepository.getHouseHold(house.household_uniqe_id);
 
-                        if(houseHoldNew!=null){
+                        if (houseHoldNew != null) {
                             houseHold.MemberId = 100000000;
                             houseHold.id = houseHoldNew.id;
                             houseHold.BlockId = Integer.parseInt(house.block_id);
-                            houseHold.DistrictId = Integer.parseInt(house.district_id);;
-                            houseHold.DivisionId = Integer.parseInt(house.division_id);;
-                            houseHold.UpazilaId = Integer.parseInt(house.upazila_id);;
-                            houseHold.UnionId = Integer.parseInt(house.union_id);;
-                            houseHold.WordId = Integer.parseInt(house.ward_id);;
+                            houseHold.DistrictId = Integer.parseInt(house.district_id);
+                            houseHold.DivisionId = Integer.parseInt(house.division_id);
+                            houseHold.UpazilaId = Integer.parseInt(house.upazila_id);
+                            houseHold.UnionId = Integer.parseInt(house.union_id);
+                            houseHold.WordId = Integer.parseInt(house.ward_id);
                             houseHold.HH = Integer.parseInt(house.hh_number);
-                          //  houseHold.SHH = Integer.parseInt(house.sub_hh_number);
+                            //  houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
-                           // downloadMember(house.household_uniqe_id);
+                            // downloadMember(house.household_uniqe_id);
                             houseHold.VillageName = house.village;
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
+                            downloadSurvey(house.household_uniqe_id);
                             Date date = null;
                             try {
                                 date = new SimpleDateFormat("yyyy-MM-dd").parse(house.created_at);
@@ -1488,20 +1488,20 @@ public class HouseHoldActivity extends AppCompatActivity {
                             houseHold.DateValue = currentDate;
                             houseHold.Date = date;
                             Common.householdRepository.updateHouseHold(houseHold);
-                        }
-                        else{
+                        } else {
                             houseHold.MemberId = 100000000;
                             houseHold.BlockId = Integer.parseInt(house.block_id);
-                            houseHold.DistrictId = Integer.parseInt(house.district_id);;
-                            houseHold.DivisionId = Integer.parseInt(house.division_id);;
-                            houseHold.UpazilaId = Integer.parseInt(house.upazila_id);;
-                            houseHold.UnionId = Integer.parseInt(house.union_id);;
-                            houseHold.WordId = Integer.parseInt(house.ward_id);;
+                            houseHold.DistrictId = Integer.parseInt(house.district_id);
+                            downloadSurvey(house.household_uniqe_id);
+                            houseHold.DivisionId = Integer.parseInt(house.division_id);
+                            houseHold.UpazilaId = Integer.parseInt(house.upazila_id);
+                            houseHold.UnionId = Integer.parseInt(house.union_id);
+                            houseHold.WordId = Integer.parseInt(house.ward_id);
                             houseHold.HH = Integer.parseInt(house.hh_number);
 //                            houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             houseHold.VillageName = house.village;
-                           // downloadMember(house.household_uniqe_id);
+                            // downloadMember(house.household_uniqe_id);
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -1531,7 +1531,302 @@ public class HouseHoldActivity extends AppCompatActivity {
         }));
     }
 
-    private void downloadWorkingArea(){
+    private void downloadSurvey(final String houseHoldId){
+        HouseholdPostModel householdPostModel= new HouseholdPostModel();
+        householdPostModel.household_uniqe_id=houseHoldId;
+        compositeDisposable.add(mService.getHouseholdShow(householdPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdGetResponseModel>() {
+            @Override
+            public void accept(HouseholdGetResponseModel memberResponseModel) throws Exception {
+                Log.e("HouseholdSurvey", "Household" + new Gson().toJson(memberResponseModel));
+
+                for (HouseholdGetResponseModel.Details khanas: memberResponseModel.khanaSurveys){
+                    DownSurveyList(khanas.details,houseHoldId);
+                }
+                dismissLoadingProgress();
+
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                Log.e("HouseholdSurvey", "Household" + throwable.getMessage());
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    String val="";
+    private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas,String houseHoldId){
+        Survey survey = new Survey();
+        survey.UniqueId=houseHoldId;
+        Date date11 = null;
+
+
+
+        for (HouseholdGetResponseModel.Details.Khana khan: khanas){
+            val=khan.master_id;
+                if (khan.question.equals("Q12")){
+                    survey.SafeDrinkingYesNo= Integer.parseInt(khan.answer);
+                    try {
+                        date11 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if (khan.question.equals("Q12a")){
+                    survey.SafeDrinkingDetails= Integer.parseInt(khan.answer);
+                }
+                else if (khan.question.equals("Q13")){
+                    survey.SanitaryYesNo= Integer.parseInt(khan.answer);
+                }
+                else if (khan.question.equals("Q14")){
+                    survey.BondhoChulaYesNo= Integer.parseInt(khan.answer);
+                }
+                else if (khan.question.equals("Q15")){
+                    survey.BiomasFuelYesNo= Integer.parseInt(khan.answer);
+                }
+                else if (khan.question.equals("Q15a")){
+                    survey.BiomasFuelDetails= Integer.parseInt(khan.answer);
+                }
+
+
+            if (khan.question.equals("Q12")) {
+
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q12", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+           else if (khan.question.equals("Q12a")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q12a", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q13")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q13", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q14")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q14", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q15")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q15", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+            else if (khan.question.equals("Q15a")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q15a", khan.master_id);
+                if (questions49 != null) {
+                    Questions questions = new Questions();
+                    questions.id = questions49.id;
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.updateQuestions(questions);
+                } else {
+                    Questions questions = new Questions();
+                    questions.type = khan.question_type;
+                    questions.question = khan.question;
+                    questions.member_id = khan.master_id;
+                    questions.answer = khan.answer;
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date1 = null;
+                    try {
+                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    String currentDate = formatter.format(date1);
+                    questions.date = currentDate;
+                    Common.qustionsRepository.insertToQuestions(questions);
+                }
+            }
+
+
+        }
+        survey.CreatedDate=date11;
+        Survey surveys=Common.surveyRepository.getSurveyNo(val);
+        if (surveys!=null){
+            survey.id=surveys.id;
+            Common.surveyRepository.updateSurvey(survey);
+        }
+        else{
+            Common.surveyRepository.insertToSurvey(survey);
+        }
+
+    }
+    private void downloadWorkingArea() {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
         String divisionId = "";
         String districtId = "";
@@ -1542,54 +1837,50 @@ public class HouseHoldActivity extends AppCompatActivity {
         upazilaId = auth.upazila;
         unionId = auth.union;
         if (divisionId != null && districtId != null && upazilaId != null && unionId != null) {
-            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByFour(divisionId,districtId,upazilaId,unionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByFour(divisionId, districtId, upazilaId, unionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
 
 
-                    for (HouseHold houseHold:houseHolds){
+                    for (HouseHold houseHold : houseHolds) {
                         downloadMember(houseHold.UniqueId);
                     }
                 }
             }));
-        }
-        else if(divisionId != null && districtId != null && upazilaId != null){
-            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByThree(divisionId,districtId,upazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+        } else if (divisionId != null && districtId != null && upazilaId != null) {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByThree(divisionId, districtId, upazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
-                    for (HouseHold houseHold:houseHolds){
+                    for (HouseHold houseHold : houseHolds) {
                         downloadMember(houseHold.UniqueId);
                     }
                 }
             }));
-        }
-        else if(divisionId != null && districtId != null ){
-            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByTwo(divisionId,districtId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
+        } else if (divisionId != null && districtId != null) {
+            compositeDisposable.add(Common.householdRepository.getHouseHoldItemByTwo(divisionId, districtId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
-                    for (HouseHold houseHold:houseHolds){
+                    for (HouseHold houseHold : houseHolds) {
                         downloadMember(houseHold.UniqueId);
                     }
 
                 }
             }));
-        }
-        else if(divisionId != null ){
+        } else if (divisionId != null) {
             compositeDisposable.add(Common.householdRepository.getHouseHoldItemByOne(divisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
-                    for (HouseHold houseHold:houseHolds){
+                    for (HouseHold houseHold : houseHolds) {
                         downloadMember(houseHold.UniqueId);
                     }
 
                 }
             }));
-        }
-        else {
+        } else {
             compositeDisposable.add(Common.householdRepository.getHouseHoldItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
-                    for (HouseHold houseHold:houseHolds){
+                    for (HouseHold houseHold : houseHolds) {
                         downloadMember(houseHold.UniqueId);
                     }
 
@@ -1597,127 +1888,129 @@ public class HouseHoldActivity extends AppCompatActivity {
             }));
         }
     }
-    private void downloadMember(String uniueId){
+
+    private void downloadMember(String uniueId) {
         showLoadingProgress(HouseHoldActivity.this);
         Log.e("asdas", "asd" + uniueId);
         ReferallPostModel referallPostModel = new ReferallPostModel();
-        referallPostModel.household_uniqe_id=uniueId;
+        referallPostModel.household_uniqe_id = uniueId;
         compositeDisposable.add(mService.getMemberShow(referallPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberGetResponseModel>() {
             @Override
             public void accept(MemberGetResponseModel memberGetResponseModel) throws Exception {
 
-               for (MemberGetResponseModel.Data member: memberGetResponseModel.member){
-                   Log.e("evan", "asd" + new Gson().toJson(memberGetResponseModel));
-                   MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(member.member_id);
-                   if (memberMyself1 != null) {
-                       MemberMyself memberMyself = new MemberMyself();
-                       memberMyself.id = memberMyself1.id;
-                       memberMyself.NationalId =member.national_id;
-                       memberMyself.MobileNumber = member.mobile_number;
-                       memberMyself.FullName = member.name;
-                       SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                for (MemberGetResponseModel.Data member : memberGetResponseModel.member) {
+                    Log.e("evan", "asd" + new Gson().toJson(memberGetResponseModel));
+                    MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(member.member_id);
+                    if (memberMyself1 != null) {
+                        MemberMyself memberMyself = new MemberMyself();
+                        memberMyself.id = memberMyself1.id;
+                        memberMyself.NationalId = member.national_id;
+                        memberMyself.MobileNumber = member.mobile_number;
+                        memberMyself.FullName = member.name;
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
-                       Date date1 = null;
+                        Date date1 = null;
 
-                       try {
-                           date1 = new SimpleDateFormat("yyyy-MM-dd").parse(member.birth_date);
-                       } catch (ParseException e) {
-                           e.printStackTrace();
-                       }
-                       Date date2 = null;
-                       try {
-                           date2 = new SimpleDateFormat("yyyy-MM-dd").parse(member.created_at);
-                           // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
-                       } catch (ParseException e) {
-                           e.printStackTrace();
-                       }
-                       if (member.death_date!=null){
-                           Date date3 = null;
-                           try {
-                               date3 = new SimpleDateFormat("yyyy-MM-dd").parse(member.death_date);
-                               String deathDate = formatter.format(date3);
-                               memberMyself.DateOfDeath = deathDate;
-                               // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
-                           } catch (ParseException e) {
-                               e.printStackTrace();
-                           }
-                       }
-                       String birthDate = formatter.format(date1);
+                        try {
+                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(member.birth_date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Date date2 = null;
+                        try {
+                            date2 = new SimpleDateFormat("yyyy-MM-dd").parse(member.created_at);
+                            // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (member.death_date != null) {
+                            Date date3 = null;
+                            try {
+                                date3 = new SimpleDateFormat("yyyy-MM-dd").parse(member.death_date);
+                                String deathDate = formatter.format(date3);
+                                memberMyself.DateOfDeath = deathDate;
+                                // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        String birthDate = formatter.format(date1);
 
-                       memberMyself.DateOfBirth = birthDate;
+                        memberMyself.DateOfBirth = birthDate;
 
-                       memberMyself.CreatedDate = date2;
-                       downMedicalHistory(member.medical_history_details,member.member_id,member.household_uniqe_id,member.national_id);
-                       downBehaviorialHistory(member.behavioral_info_details,member.member_id,member.household_uniqe_id,member.national_id);
-                       memberMyself.GenderId = Integer.parseInt(member.sex);
-                       memberMyself.BloodGroupId =  Integer.parseInt(member.blood_group);
-                       memberMyself.ReligionId =  Integer.parseInt(member.religion);
-                       memberMyself.StudyId = Integer.parseInt(member.education);
-                       memberMyself.MaritialId = Integer.parseInt(member.marital_status);
-                       memberMyself.OccupationId = Integer.parseInt(member.occupation);
-                       memberMyself.LivingId = Integer.parseInt(member.living_status);
-                       memberMyself.HouseHeadId = Integer.parseInt(member.head_of_house);
-                       memberMyself.UniqueId = member.household_uniqe_id;
-                       memberMyself.VisitDate =member.visit_date;
-                       memberMyself.MemberId = member.member_id;
-                       memberMyself.Status = "1";
-                       Common.memberMyselfRepository.updateMemberMyself(memberMyself);
+                        memberMyself.CreatedDate = date2;
+                        downMedicalHistory(member.medical_history_details, member.member_id, member.household_uniqe_id, member.national_id);
+                        downBehaviorialHistory(member.behavioral_info_details, member.member_id, member.household_uniqe_id, member.national_id);
+                        memberMyself.GenderId = Integer.parseInt(member.sex);
+                        memberMyself.BloodGroupId = Integer.parseInt(member.blood_group);
+                        memberMyself.ReligionId = Integer.parseInt(member.religion);
+                        memberMyself.StudyId = Integer.parseInt(member.education);
+                        memberMyself.MaritialId = Integer.parseInt(member.marital_status);
+                        memberMyself.OccupationId = Integer.parseInt(member.occupation);
+                        memberMyself.LivingId = Integer.parseInt(member.living_status);
+                        memberMyself.HouseHeadId = Integer.parseInt(member.head_of_house);
+                        memberMyself.UniqueId = member.household_uniqe_id;
+                        memberMyself.VisitDate = member.visit_date;
+                        memberMyself.MemberId = member.member_id;
+                        memberMyself.UniqueCode = member.unique_code;
+                        memberMyself.Status = "1";
+                        Common.memberMyselfRepository.updateMemberMyself(memberMyself);
 
-                   }
-                   else{
-                       MemberMyself memberMyself = new MemberMyself();
-                       memberMyself.NationalId = member.national_id;
-                       memberMyself.MobileNumber = member.mobile_number;
-                       memberMyself.FullName =member.name;
-                       SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    } else {
+                        MemberMyself memberMyself = new MemberMyself();
+                        memberMyself.NationalId = member.national_id;
+                        memberMyself.MobileNumber = member.mobile_number;
+                        memberMyself.FullName = member.name;
+                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 
-                       Date date1 = null;
+                        Date date1 = null;
 
 
-                       try {
-                           date1 = new SimpleDateFormat("yyyy-MM-dd").parse(member.birth_date);
-                       } catch (ParseException e) {
-                           e.printStackTrace();
-                       }
-                       Date date2 = null;
-                       try {
-                           date2 = new SimpleDateFormat("yyyy-MM-dd").parse(member.created_at);
-                           // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
-                       } catch (ParseException e) {
-                           e.printStackTrace();
-                       }
-                       if (member.death_date!=null){
-                           Date date3 = null;
-                           try {
-                               date3 = new SimpleDateFormat("yyyy-MM-dd").parse(member.death_date);
-                               String deathDate = formatter.format(date3);
-                               memberMyself.DateOfDeath = deathDate;
-                               // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
-                           } catch (ParseException e) {
-                               e.printStackTrace();
-                           }
-                       }
+                        try {
+                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(member.birth_date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Date date2 = null;
+                        try {
+                            date2 = new SimpleDateFormat("yyyy-MM-dd").parse(member.created_at);
+                            // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (member.death_date != null) {
+                            Date date3 = null;
+                            try {
+                                date3 = new SimpleDateFormat("yyyy-MM-dd").parse(member.death_date);
+                                String deathDate = formatter.format(date3);
+                                memberMyself.DateOfDeath = deathDate;
+                                // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
-                       downMedicalHistory(member.medical_history_details,member.member_id,member.household_uniqe_id,member.national_id);
-                       downBehaviorialHistory(member.behavioral_info_details,member.member_id,member.household_uniqe_id,member.national_id);
-                       String birthDate = formatter.format(date1);
-                       memberMyself.DateOfBirth = birthDate;
-                       memberMyself.CreatedDate = date2;
-                       memberMyself.GenderId = Integer.parseInt(member.sex);
-                       memberMyself.BloodGroupId =  Integer.parseInt(member.blood_group);
-                       memberMyself.ReligionId =  Integer.parseInt(member.religion);
-                       memberMyself.StudyId = Integer.parseInt(member.education);
-                       memberMyself.MaritialId = Integer.parseInt(member.marital_status);
-                       memberMyself.OccupationId = Integer.parseInt(member.occupation);
-                       memberMyself.LivingId = Integer.parseInt(member.living_status);
-                       memberMyself.HouseHeadId = Integer.parseInt(member.head_of_house);
-                       memberMyself.UniqueId = member.household_uniqe_id;
-                       memberMyself.VisitDate = member.visit_date;
-                       memberMyself.MemberId =member.member_id;
-                       memberMyself.Status = "1";
-                       Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
-                   }
-               }
+                        downMedicalHistory(member.medical_history_details, member.member_id, member.household_uniqe_id, member.national_id);
+                        downBehaviorialHistory(member.behavioral_info_details, member.member_id, member.household_uniqe_id, member.national_id);
+                        String birthDate = formatter.format(date1);
+                        memberMyself.DateOfBirth = birthDate;
+                        memberMyself.CreatedDate = date2;
+                        memberMyself.GenderId = Integer.parseInt(member.sex);
+                        memberMyself.BloodGroupId = Integer.parseInt(member.blood_group);
+                        memberMyself.ReligionId = Integer.parseInt(member.religion);
+                        memberMyself.StudyId = Integer.parseInt(member.education);
+                        memberMyself.MaritialId = Integer.parseInt(member.marital_status);
+                        memberMyself.OccupationId = Integer.parseInt(member.occupation);
+                        memberMyself.LivingId = Integer.parseInt(member.living_status);
+                        memberMyself.HouseHeadId = Integer.parseInt(member.head_of_house);
+                        memberMyself.UniqueId = member.household_uniqe_id;
+                        memberMyself.VisitDate = member.visit_date;
+                        memberMyself.MemberId = member.member_id;
+                        memberMyself.UniqueCode = member.unique_code;
+                        memberMyself.Status = "1";
+                        Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+                    }
+                }
 
                 dismissLoadingProgress();
             }
@@ -1730,23 +2023,22 @@ public class HouseHoldActivity extends AppCompatActivity {
         }));
     }
 
-    private void downMedicalHistory(ArrayList<MemberGetResponseModel.Data.Visit> medical_history,String MemberId,String HouseholdId,String NationalId){
+    private void downMedicalHistory(ArrayList<MemberGetResponseModel.Data.Visit> medical_history, String MemberId, String HouseholdId, String NationalId) {
 
 
-        if (medical_history!=null){
-            if (medical_history.size()>1){
-                for (MemberGetResponseModel.Data.Visit visit : medical_history){
+        if (medical_history != null) {
+            if (medical_history.size() > 1) {
+                for (MemberGetResponseModel.Data.Visit visit : medical_history) {
                     MemberMedicine memberMedicine = new MemberMedicine();
                     MemberMedicine memberMed = Common.memberMedicineRepository.getMemberMedicineNo(MemberId);
-                    if (memberMed!=null){
-                        memberMedicine.id=memberMed.id;
+                    if (memberMed != null) {
+                        memberMedicine.id = memberMed.id;
                         memberMedicine.MemberId = memberMed.MemberId;
                         memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
                         memberMedicine.member_unique_code = "";
                         memberMedicine.member_national_id = String.valueOf(memberMed.member_national_id);
                         Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
-                    }
-                    else{
+                    } else {
                         memberMedicine.MemberId = MemberId;
                         memberMedicine.household_uniqe_id = HouseholdId;
                         memberMedicine.member_unique_code = "";
@@ -1755,9 +2047,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                     }
 
 
-                    if (visit.question.equals("Q49")){
+                    if (visit.question.equals("Q49")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q49", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -1774,8 +2066,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -1792,10 +2083,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q49a")){
+                    } else if (visit.question.equals("Q49a")) {
                         Questions questions49a = Common.qustionsRepository.getQuestions("Q49a", visit.member_id);
-                        if (questions49a!=null){
+                        if (questions49a != null) {
                             Questions questions = new Questions();
                             questions.id = questions49a.id;
                             questions.type = visit.question_type;
@@ -1812,8 +2102,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -1830,10 +2119,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q49b")){
+                    } else if (visit.question.equals("Q49b")) {
                         Questions questions49b = Common.qustionsRepository.getQuestions("Q49b", visit.member_id);
-                        if (questions49b!=null){
+                        if (questions49b != null) {
                             Questions questions = new Questions();
                             questions.id = questions49b.id;
                             questions.type = visit.question_type;
@@ -1850,8 +2138,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -1868,10 +2155,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q49c")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q49c", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q49c")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q49c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -1888,8 +2174,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -1906,11 +2191,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q50")){
+                    } else if (visit.question.equals("Q50")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q50", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q50", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -1927,8 +2211,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -1945,11 +2228,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q50a")){
+                    } else if (visit.question.equals("Q50a")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q50a", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q50a", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -1966,8 +2248,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -1984,11 +2265,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q50b")){
+                    } else if (visit.question.equals("Q50b")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q50b", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q50b", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2005,8 +2285,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2023,10 +2302,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q50c")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q50c", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q50c")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q50c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2043,8 +2321,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2062,10 +2339,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q51")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q51", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q51")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q51", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2082,8 +2358,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2101,10 +2376,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q51a")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q51a", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q51a")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q51a", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2121,8 +2395,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2140,11 +2413,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q51b")){
+                    } else if (visit.question.equals("Q51b")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q51b", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q51b", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2161,8 +2433,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2179,10 +2450,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q51c")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q51c", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q51c")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q51c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2199,8 +2469,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2218,10 +2487,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q52")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q52", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q52")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q52", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2238,8 +2506,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2257,10 +2524,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q52a")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q52a", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q52a")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q52a", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2277,8 +2543,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2296,10 +2561,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q52b")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q52b", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q52b")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q52b", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2316,8 +2580,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2335,9 +2598,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    } else if (visit.question.equals("Q52c")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q52c", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q52c")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q52c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2354,8 +2617,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2373,10 +2635,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    } else if (visit.question.equals("Q53")){
+                    } else if (visit.question.equals("Q53")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q53", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q53", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2393,8 +2655,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2411,11 +2672,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q53a")){
+                    } else if (visit.question.equals("Q53a")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q53a", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q53a", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2432,8 +2692,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2450,11 +2709,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q53b")){
+                    } else if (visit.question.equals("Q53b")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q53b", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q53b", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2471,8 +2729,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2489,10 +2746,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q53c")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q53c", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q53c")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q53c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2509,8 +2765,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2528,10 +2783,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    } else if (visit.question.equals("Q54")){
+                    } else if (visit.question.equals("Q54")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q54", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q54", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2548,8 +2803,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2566,10 +2820,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q54a")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q54a", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q54a")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q54a", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2586,8 +2839,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2605,11 +2857,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q54b")){
+                    } else if (visit.question.equals("Q54b")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q54b", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q54b", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2626,8 +2877,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2644,11 +2894,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q54c")){
+                    } else if (visit.question.equals("Q54c")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q54c", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q54c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2665,8 +2914,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2683,10 +2931,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q55")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q55", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q55")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q55", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2703,8 +2950,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2722,10 +2968,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    } else if (visit.question.equals("Q55a")){
+                    } else if (visit.question.equals("Q55a")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q55a", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q55a", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2742,8 +2988,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2760,11 +3005,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q55b")){
+                    } else if (visit.question.equals("Q55b")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q55b", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q55b", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2781,8 +3025,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2799,12 +3042,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
+                    } else if (visit.question.equals("Q55c")) {
 
-                    else if (visit.question.equals("Q55c")){
-
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q55c", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q55c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2821,8 +3062,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2839,11 +3079,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q56")){
+                    } else if (visit.question.equals("Q56")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q56", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q56", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2860,8 +3099,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2878,11 +3116,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q56a")){
+                    } else if (visit.question.equals("Q56a")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q56a", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q56a", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2899,8 +3136,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2917,11 +3153,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q56b")){
+                    } else if (visit.question.equals("Q56b")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q56b", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q56b", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2938,8 +3173,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2956,11 +3190,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q56c")){
+                    } else if (visit.question.equals("Q56c")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q56c", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q56c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -2977,8 +3210,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -2995,10 +3227,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q57")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q57", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q57")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q57", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -3015,8 +3246,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3034,11 +3264,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-
-                    else if (visit.question.equals("Q57a")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q57a", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q57a")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q57a", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -3055,8 +3283,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3074,11 +3301,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q57b")){
+                    } else if (visit.question.equals("Q57b")) {
 
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q57b", visit.member_id);
-                        if (questions49c!=null){
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q57b", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -3095,8 +3321,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3113,10 +3338,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q57c")){
-                        Questions questions49c= Common.qustionsRepository.getQuestions("Q57c", visit.member_id);
-                        if (questions49c!=null){
+                    } else if (visit.question.equals("Q57c")) {
+                        Questions questions49c = Common.qustionsRepository.getQuestions("Q57c", visit.member_id);
+                        if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
                             questions.type = visit.question_type;
@@ -3133,8 +3357,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3158,38 +3381,35 @@ public class HouseHoldActivity extends AppCompatActivity {
             }
 
 
-
-
         }
 
     }
 
-    private void downBehaviorialHistory(ArrayList<MemberGetResponseModel.Data.Behavior> behavioral_info,String MemberId,String HouseholdId,String NationalId){
+    private void downBehaviorialHistory(ArrayList<MemberGetResponseModel.Data.Behavior> behavioral_info, String MemberId, String HouseholdId, String NationalId) {
 
-        if (behavioral_info!=null){
+        if (behavioral_info != null) {
 
-            if (behavioral_info.size()>1){
-                for (MemberGetResponseModel.Data.Behavior  visit : behavioral_info){
+            if (behavioral_info.size() > 1) {
+                for (MemberGetResponseModel.Data.Behavior visit : behavioral_info) {
                     MemberHabit memberMedicine = new MemberHabit();
                     MemberHabit memberMed = Common.memberHabitRepository.getMemberHabitNo(MemberId);
-                    if (memberMed!=null){
-                        memberMedicine.id=memberMed.id;
+                    if (memberMed != null) {
+                        memberMedicine.id = memberMed.id;
                         memberMedicine.MemberId = memberMed.MemberId;
                         memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
                         memberMedicine.member_unique_code = "";
                         memberMedicine.member_national_id = String.valueOf(memberMed.member_national_id);
                         Common.memberHabitRepository.updateMemberHabit(memberMedicine);
-                    }
-                    else{
+                    } else {
                         memberMedicine.MemberId = MemberId;
                         memberMedicine.household_uniqe_id = HouseholdId;
                         memberMedicine.member_unique_code = "";
                         memberMedicine.member_national_id = NationalId;
                         Common.memberHabitRepository.insertToMemberHabit(memberMedicine);
                     }
-                    if (visit.question.equals("Q32")){
+                    if (visit.question.equals("Q32")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q32", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3206,8 +3426,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3224,10 +3443,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q32a")){
+                    } else if (visit.question.equals("Q32a")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q32a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3244,8 +3462,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3263,11 +3480,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-
-                    else if (visit.question.equals("Q33")){
+                    } else if (visit.question.equals("Q33")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q33", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3284,8 +3499,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3303,11 +3517,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-
-                    else if (visit.question.equals("Q33a")){
+                    } else if (visit.question.equals("Q33a")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q33a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3324,8 +3536,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3343,11 +3554,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q34")){
+                    } else if (visit.question.equals("Q34")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q34", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3364,8 +3574,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3382,11 +3591,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q34a")){
+                    } else if (visit.question.equals("Q34a")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q34a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3403,8 +3611,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3421,10 +3628,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q35")){
+                    } else if (visit.question.equals("Q35")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q35", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3441,8 +3647,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3460,11 +3665,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-
-                    else if (visit.question.equals("Q35a")){
+                    } else if (visit.question.equals("Q35a")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q35a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3481,8 +3684,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3500,12 +3702,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-
-                    else if (visit.question.equals("Q36")){
+                    } else if (visit.question.equals("Q36")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q36", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3522,8 +3722,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3540,10 +3739,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q37")){
+                    } else if (visit.question.equals("Q37")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q37", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3560,8 +3758,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3579,11 +3776,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q38")){
+                    } else if (visit.question.equals("Q38")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q38", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3600,8 +3796,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3618,11 +3813,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q39")){
+                    } else if (visit.question.equals("Q39")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q39", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3639,8 +3833,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3657,11 +3850,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-
-                    else if (visit.question.equals("Q41")){
+                    } else if (visit.question.equals("Q41")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q41", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3678,8 +3869,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3697,12 +3887,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-
-                    else if (visit.question.equals("Q42")){
+                    } else if (visit.question.equals("Q42")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q42", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3719,8 +3907,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3737,10 +3924,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q42a")){
+                    } else if (visit.question.equals("Q42a")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q42a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3757,8 +3943,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3776,11 +3961,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q43")){
+                    } else if (visit.question.equals("Q43")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q43", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3797,8 +3981,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3815,11 +3998,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q43a")){
+                    } else if (visit.question.equals("Q43a")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q43a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3836,8 +4018,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3854,12 +4035,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-
-                    else if (visit.question.equals("Q43b")){
+                    } else if (visit.question.equals("Q43b")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q43b", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3876,8 +4055,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3894,11 +4072,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-
-                    else if (visit.question.equals("Q43c")){
+                    } else if (visit.question.equals("Q43c")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q43c", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3915,8 +4091,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3934,11 +4109,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    }
-                    else if (visit.question.equals("Q44")){
+                    } else if (visit.question.equals("Q44")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q44", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3955,8 +4129,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -3973,11 +4146,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q44a")){
+                    } else if (visit.question.equals("Q44a")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q44a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -3994,8 +4166,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4012,11 +4183,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q44b")){
+                    } else if (visit.question.equals("Q44b")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q44b", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4033,8 +4203,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4051,11 +4220,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q44c")){
+                    } else if (visit.question.equals("Q44c")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q44c", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4072,8 +4240,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4090,11 +4257,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q45")){
+                    } else if (visit.question.equals("Q45")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q45", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4111,8 +4277,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4129,11 +4294,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q45a")){
+                    } else if (visit.question.equals("Q45a")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q45a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4150,8 +4314,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4168,11 +4331,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q45b")){
+                    } else if (visit.question.equals("Q45b")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q45b", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4189,8 +4351,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4207,11 +4368,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q45c")){
+                    } else if (visit.question.equals("Q45c")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q45c", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4228,8 +4388,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4246,11 +4405,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q46")){
+                    } else if (visit.question.equals("Q46")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q46", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4267,8 +4425,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4285,11 +4442,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q46a")){
+                    } else if (visit.question.equals("Q46a")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q46a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4306,8 +4462,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4324,11 +4479,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q46b")){
+                    } else if (visit.question.equals("Q46b")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q46b", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4345,8 +4499,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4363,11 +4516,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q46c")){
+                    } else if (visit.question.equals("Q46c")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q46c", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4384,8 +4536,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4402,11 +4553,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q48")){
+                    } else if (visit.question.equals("Q48")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q48", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4423,8 +4573,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4441,11 +4590,10 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q48a")){
+                    } else if (visit.question.equals("Q48a")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q48a", visit.member_id);
-                        if (questions49!=null){
+                        if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
                             questions.type = visit.question_type;
@@ -4462,8 +4610,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             String currentDate = formatter.format(date1);
                             questions.date = currentDate;
                             Common.qustionsRepository.updateQuestions(questions);
-                        }
-                        else{
+                        } else {
                             Questions questions = new Questions();
                             questions.type = visit.question_type;
                             questions.question = visit.question;
@@ -4486,7 +4633,6 @@ public class HouseHoldActivity extends AppCompatActivity {
 
         }
     }
-
 
 
     @Override
@@ -4499,5 +4645,107 @@ public class HouseHoldActivity extends AppCompatActivity {
     public void onStop() {
         super.onStop();
         compositeDisposable.clear();
+    }
+
+    private void loadReferHistory() {
+        compositeDisposable.add(Common.referRepository.getReferHistoryItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<ReferHistory>>() {
+            @Override
+            public void accept(List<ReferHistory> referHistoryList) throws Exception {
+                MemberPrescriptionResponseModel memberPrescriptionResponseModel = new MemberPrescriptionResponseModel();
+                Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
+                memberPrescriptionResponseModel.user_credential = auth.email;
+                ArrayList<MemberPrescriptionResponseModel.Data> sync = new ArrayList<>();
+                for (ReferHistory referHistory : referHistoryList) {
+
+                    MemberPrescriptionResponseModel.Data data = new MemberPrescriptionResponseModel.Data();
+                    data.from = referHistory.From;
+                    data.from_id = referHistory.FromId;
+                    data.to = referHistory.To;
+                    data.to_id = referHistory.ToId;
+                    data.household_uniqe_id = referHistory.UniqueId;
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    Date date1 = null;
+
+
+                    date1 = new SimpleDateFormat("dd-MM-yyyy").parse(referHistory.VisitDate);
+                    String currentDate = formatter.format(date1);
+
+                    data.visit_date = currentDate;
+                    data.member_unique_code = referHistory.MemberUniqueCode;
+                    data.member_id = referHistory.MemberId;
+                    data.reason = referHistory.Reason;
+                    data.ref_type = referHistory.Type;
+                    data.created_at = referHistory.Date;
+                    data.update_no = "1";
+                    sync.add(data);
+
+
+                }
+                memberPrescriptionResponseModel.data = sync;
+                showLoadingProgress(HouseHoldActivity.this);
+                compositeDisposable.add(mService.postReferral_historyList(memberPrescriptionResponseModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberBehaviorialResponseModel>() {
+                    @Override
+                    public void accept(MemberBehaviorialResponseModel memberResponseModel) throws Exception {
+                        Log.e("Referalla", "Referalla" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("Referalla", "Referalla" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+                Log.e("Referalla", "Referalla" + new Gson().toJson(memberPrescriptionResponseModel));
+
+            }
+
+
+        }));
+    }
+    public  void showInfoDialog(final Context mContext) {
+
+        final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
+        LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.layout_sync, null);
+
+        infoDialog.setContentView(v);
+        infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
+        Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
+        Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
+
+        CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
+        btn_no.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+            @Override
+            public void onClick(View view) {
+                downloadHousehold();
+                loadMemberId();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadWorkingArea();
+                    }
+                }, 500);
+                infoDialog.dismiss();
+
+            }
+        });
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadHousehold();
+                loadSurvey();
+                medicineList();
+                getBehaviorialList();
+                loadReferHistory();
+
+                SharedPreferenceUtil.saveShared(HouseHoldActivity.this, SharedPreferenceUtil.SYNC, "off");
+                linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
+                infoDialog.dismiss();
+            }
+        });
+        infoDialog.show();
     }
 }

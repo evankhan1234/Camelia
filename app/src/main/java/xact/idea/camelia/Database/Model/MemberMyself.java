@@ -45,6 +45,8 @@ public class MemberMyself {
     public String DateOfDeath;
     @ColumnInfo(name = "UniqueId")
     public String UniqueId;
+    @ColumnInfo(name = "UniqueCode")
+    public String UniqueCode;
     @ColumnInfo(name = "VisitDate")
     public String VisitDate;
     @ColumnInfo(name = "From")

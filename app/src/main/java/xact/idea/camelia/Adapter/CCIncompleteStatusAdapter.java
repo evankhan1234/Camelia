@@ -371,14 +371,26 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
+                ReferHistory history =Common.referRepository.getReferHistoryFrom(uniqueId+ member);
+                if(history!=null){
+                    Common.referRepository.updateReferHistoryFrom(uniqueId+ member);
+                }
                 Common.memberMyselfRepository.updateReciverAgain("CC", refer[0], edit_date.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = "CC";
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = edit_date.getText().toString();
+                referHistory.MemberUniqueCode = uniqueId+ member;
                 referHistory.MemberId = member;
                 referHistory.UniqueId = uniqueId;
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date date12 = new Date(System.currentTimeMillis());
+                String currentDate = formatter.format(date12);
+                referHistory.FromId = "";
+                referHistory.Reason = "1";
+                referHistory.Date = currentDate;
+                referHistory.Type = "0";
                 Common.referRepository.insertToReferHistory(referHistory);
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 //                Measurements measurements = new Measurements();
@@ -563,24 +575,28 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
+                ReferHistory history =Common.referRepository.getReferHistoryFrom(uniqueId+ member);
+                if(history!=null){
+                    Common.referRepository.updateReferHistoryFrom(uniqueId+ member);
+                }
                 Common.memberMyselfRepository.updateReciverAgain("UHC",   refer[0], edit_dates.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = "UHC";
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = edit_dates.getText().toString();
-                referHistory.MemberId = member;
+                referHistory.MemberUniqueCode =uniqueId+ member;
                 referHistory.UniqueId = uniqueId;
+                referHistory.MemberId = member;
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date date12 = new Date(System.currentTimeMillis());
+                String currentDate = formatter.format(date12);
+                referHistory.FromId = "";
+                referHistory.Reason = "1";
+                referHistory.Date = currentDate;
+                referHistory.Type = "2";
                 Common.referRepository.insertToReferHistory(referHistory);
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
-//                Measurements measurements = new Measurements();
-//                measurements.DateTime= finalDate;
-//                measurements.MemberIds=member;
-//                measurements.Message="N/A";
-//                measurements.Type="N/A";
-//                measurements.Result=0.0;
-//                measurements.Refer="UHC";
-//                Common.measurementsRepository.insertToMeasurements(measurements);
                 infoDialog.dismiss();
 
 

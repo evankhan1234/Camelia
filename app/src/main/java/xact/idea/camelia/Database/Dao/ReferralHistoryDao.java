@@ -25,6 +25,10 @@ public interface ReferralHistoryDao {
     int value();
     @Query("DELETE  FROM ReferHistory")
     void emptyReferHistory();
+    @Query("SELECT * FROM  ReferHistory as refer  WHERE  refer.Reason='1' and refer.MemberId=:member")
+    ReferHistory getReferHistoryFrom(String member);
+    @Query("UPDATE  ReferHistory SET Reason='2' WHERE MemberId=:memberId")
+    void updateReferHistoryFrom(String memberId);
     @Insert
     void insertToReferHistory(ReferHistory...ReferHistory);
     @Update

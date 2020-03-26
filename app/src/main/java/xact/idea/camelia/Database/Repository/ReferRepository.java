@@ -46,6 +46,16 @@ public class ReferRepository implements IReferralDatasources {
     }
 
     @Override
+    public ReferHistory getReferHistoryFrom(String member) {
+        return IReferralDatasources.getReferHistoryFrom(member);
+    }
+
+    @Override
+    public void updateReferHistoryFrom(String memberId) {
+        IReferralDatasources.updateReferHistoryFrom(memberId);
+    }
+
+    @Override
     public ReferHistory getReferHistoryNo(String ReferHistoryItem) {
         return IReferralDatasources.getReferHistoryNo(ReferHistoryItem);
     }
