@@ -108,12 +108,12 @@ public class CCUserDashBoardFragment extends Fragment {
     private void updateView(String language) {
         Context context=LocaleHelper.setLocale(mActivity,language);
         Resources resources= context.getResources();
-        xdata= new String[]{resources.getString(R.string.incomplete), resources.getString(R.string.complete), resources.getString(R.string.uhc), resources.getString(R.string.follow_up)};
+        xdata= new String[]{resources.getString(R.string.incomplete), resources.getString(R.string.complete), resources.getString(R.string.uhc), resources.getString(R.string.refer)};
     }
     private void updateViewAgain(String language) {
         Context context=LocaleHelper.setLocale(mActivity,language);
         Resources resources= context.getResources();
-        text_follow_up.setText(resources.getString(R.string.follow_up));
+        text_follow_up.setText(resources.getString(R.string.refer));
         text_complete.setText(resources.getString(R.string.complete));
         text_incomplete.setText(resources.getString(R.string.incomplete));
         text_uhc.setText(resources.getString(R.string.uhc));

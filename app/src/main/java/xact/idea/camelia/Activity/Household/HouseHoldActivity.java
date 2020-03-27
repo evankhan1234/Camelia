@@ -4672,10 +4672,10 @@ public class HouseHoldActivity extends AppCompatActivity {
 
                     data.visit_date = currentDate;
                     data.member_unique_code = referHistory.MemberUniqueCode;
-                    data.member_id = referHistory.MemberId;
                     data.reason = referHistory.Reason;
                     data.ref_type = referHistory.Type;
-                    data.created_at = referHistory.Date;
+                    String currentDat1 = formatter.format(referHistory.Date);
+                    data.created_at=currentDat1;
                     data.update_no = "1";
                     sync.add(data);
 

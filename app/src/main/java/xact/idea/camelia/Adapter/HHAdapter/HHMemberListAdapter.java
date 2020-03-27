@@ -38,6 +38,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -425,10 +426,16 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 String currentDate = formatter.format(date12);
                 referHistory.FromId = "";
                 referHistory.Reason = "1";
-                referHistory.Date = currentDate;
+                Date date1 = null;
+                try {
+                    date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                    // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                referHistory.Date = date1;
                 referHistory.Type = "1";
                 referHistory.MemberUniqueCode = uniqueId+ member;
-                referHistory.MemberId = member;
                 referHistory.UniqueId = uniqueId;
                 Common.referRepository.insertToReferHistory(referHistory);
                 infoDialog.dismiss();

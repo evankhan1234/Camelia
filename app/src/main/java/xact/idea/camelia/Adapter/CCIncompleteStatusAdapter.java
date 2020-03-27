@@ -382,14 +382,20 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = edit_date.getText().toString();
                 referHistory.MemberUniqueCode = uniqueId+ member;
-                referHistory.MemberId = member;
                 referHistory.UniqueId = uniqueId;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
                 referHistory.FromId = "";
                 referHistory.Reason = "1";
-                referHistory.Date = currentDate;
+                Date date1 = null;
+                try {
+                    date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                    // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                referHistory.Date = date1;
                 referHistory.Type = "0";
                 Common.referRepository.insertToReferHistory(referHistory);
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
@@ -587,13 +593,19 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 referHistory.VisitDate = edit_dates.getText().toString();
                 referHistory.MemberUniqueCode =uniqueId+ member;
                 referHistory.UniqueId = uniqueId;
-                referHistory.MemberId = member;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
                 referHistory.FromId = "";
                 referHistory.Reason = "1";
-                referHistory.Date = currentDate;
+                Date date1 = null;
+                try {
+                    date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                    // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                referHistory.Date = date1;
                 referHistory.Type = "2";
                 Common.referRepository.insertToReferHistory(referHistory);
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
