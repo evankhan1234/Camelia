@@ -33,6 +33,7 @@ import xact.idea.camelia.Database.Dao.SurveyDao;
 import xact.idea.camelia.Database.Dao.UHCDao;
 import xact.idea.camelia.Database.Dao.UnionDao;
 import xact.idea.camelia.Database.Dao.UpazilaDao;
+import xact.idea.camelia.Database.Dao.VisitDao;
 import xact.idea.camelia.Database.Dao.WardDao;
 import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.Block;
@@ -58,9 +59,10 @@ import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
+import xact.idea.camelia.Database.Model.Visit;
 import xact.idea.camelia.Database.Model.Ward;
 
-@Database(entities = {Auth.class, Block.class, BloodGroup.class, District.class,Division.class, Female.class, MaritialStatus.class, Occupation.class, StudyClass.class, Unions.class, Upazila.class, Ward.class, HouseHold.class, Measurements.class, Medicine.class, MemberHabit.class, MemberMedicine.class, MemberMyself.class, Survey.class, MeasurementDetails.class, MemberId.class, Questions.class, ReferHistory.class, CCModel.class, UHC.class}, version =3,exportSchema = false)
+@Database(entities = {Auth.class, Block.class, BloodGroup.class, District.class,Division.class, Female.class, MaritialStatus.class, Occupation.class, StudyClass.class, Unions.class, Upazila.class, Ward.class, HouseHold.class, Measurements.class, Medicine.class, MemberHabit.class, MemberMedicine.class, MemberMyself.class, Survey.class, MeasurementDetails.class, MemberId.class, Questions.class, ReferHistory.class, CCModel.class, UHC.class, Visit.class}, version =3,exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class MainDataBase extends RoomDatabase {
     public abstract DivisionDao divisionDao();
@@ -88,6 +90,7 @@ public abstract class MainDataBase extends RoomDatabase {
     public abstract ReferralHistoryDao referralHistoryDao();
     public abstract UHCDao uhcDao();
     public abstract CCDao ccDao();
+    public abstract VisitDao visitDao();
 
     private static MainDataBase instance;
 

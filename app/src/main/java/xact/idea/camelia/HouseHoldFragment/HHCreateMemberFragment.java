@@ -178,7 +178,14 @@ public class HHCreateMemberFragment extends Fragment {
         }
         vpg_home.setCurrentItem(pos);
     }
-
+    public static void nextPagesAlive(String language) {
+        if (language.equals("en")){
+            btn_next.setText("Complete");
+        }
+        else if(language.equals("bn")){
+            btn_next.setText("সম্পূর্ণ");
+        }
+    }
     public static void prevPage(int pos,String language) {
 
         if (language.equals("en")){
@@ -240,7 +247,7 @@ public class HHCreateMemberFragment extends Fragment {
     }
     private void initPager() {
         mPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        mPagerAdapter.addFragment(new HHMyselfFragment(uniquKey,update), "");
+        mPagerAdapter.addFragment(new HHMyselfFragment(uniquKey,update,frag), "");
      //   mPagerAdapter.addFragment(new HHFamilyDiseaseFragment(), "");
         mPagerAdapter.addFragment(new HHMedicineFragment(update), "");
         mPagerAdapter.addFragment(new HHHabitFragment(frag,update), "");

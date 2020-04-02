@@ -58,6 +58,7 @@ import xact.idea.camelia.Database.DataSource.SurveyDataSources;
 import xact.idea.camelia.Database.DataSource.UHCDataSources;
 import xact.idea.camelia.Database.DataSource.UnionDataSources;
 import xact.idea.camelia.Database.DataSource.UpazilaDatasources;
+import xact.idea.camelia.Database.DataSource.VisitDataSources;
 import xact.idea.camelia.Database.DataSource.WardDatasources;
 import xact.idea.camelia.Database.MainDataBase;
 import xact.idea.camelia.Database.Model.Auth;
@@ -85,6 +86,7 @@ import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
+import xact.idea.camelia.Database.Repository.VisitRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
 import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Network.IRetrofitApi;
@@ -331,6 +333,7 @@ public class LoginActivity extends AppCompatActivity {
         Common.referRepository = ReferRepository.getInstance(ReferralHistoryDatasources.getInstance(Common.mainDatabase.referralHistoryDao()));
         Common.ccRepository = CCRepository.getInstance(CCDataSources.getInstance(Common.mainDatabase.ccDao()));
         Common.uhcRepository = UHCRepository.getInstance(UHCDataSources.getInstance(Common.mainDatabase.uhcDao()));
+        Common.visitRepository = VisitRepository.getInstance(VisitDataSources.getInstance(Common.mainDatabase.visitDao()));
     }
 
     @Override

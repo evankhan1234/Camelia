@@ -32,5 +32,23 @@ public class ReferalHistoryResponse extends ApiResponses{
         public String update_no;
         @SerializedName("member_id")
         public String member_id;
+        @SerializedName("visits")
+        public ArrayList<Visits> visits;
+
+        public static class Visits{
+            @SerializedName("id")
+            public int id;
+            @SerializedName("ref_id")
+            public String ref_id;
+            @SerializedName("visit_date")
+            public String visit_date;
+            @SerializedName("visit_status")
+            public String visit_status;
+            @SerializedName("created_at")
+            public String created_at;
+            @SerializedName("update_no")
+            public String update_no;
+
+        }
     }
 }

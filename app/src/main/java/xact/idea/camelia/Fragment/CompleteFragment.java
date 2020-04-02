@@ -105,7 +105,7 @@ public class CompleteFragment extends Fragment {
                 memberMyselfList=memberMyselfes;
                 FragmentActivity activity = (FragmentActivity)mActivity;
                 FragmentManager manager = activity.getSupportFragmentManager();
-                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager);
+                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager,1);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {

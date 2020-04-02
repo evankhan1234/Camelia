@@ -9,6 +9,7 @@ import xact.idea.camelia.Database.AnotherModel.HHDashboardModel;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.AnotherModel.SummaryModel;
+import xact.idea.camelia.Database.AnotherModel.VisitMyself;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
 public interface IMemberMyselfDatasources {
@@ -26,8 +27,8 @@ public interface IMemberMyselfDatasources {
     int size();
     int notSync(Date from,Date to);
     int Sync(Date from,Date to);
-    Flowable<List<MemberMyself>> getMemberListForRefer();
-    Flowable<List<MemberMyself>> getMemberListForFollowUp();
+    Flowable<List<VisitMyself>> getMemberListForRefer();
+    Flowable<List<VisitMyself>> getMemberListForFollowUp();
     Flowable<List<MemberMyself>> getReferMembersForCC();
     Flowable<List<SummaryModel>> TotalListOfSum(Date from , Date to);
     SummaryModel TotalSum(Date from);
@@ -42,7 +43,7 @@ public interface IMemberMyselfDatasources {
     MemberMyself getMemberMyselfNo(int MemberMyselfItem);
     Flowable<List<MemberMyself>> getInCompleteMembersFor();
     void insertToMemberMyself(MemberMyself... MemberMyself);
-    Flowable<List<MemberMyself>> getReferMembersFor();
+    Flowable<List<VisitMyself>> getReferMembersFor();
     Flowable<List<MemberMyself>> getFollowUpMembersFor();
     void updateMemberMyself(MemberMyself... MemberMyself);
     Count TotalCount();

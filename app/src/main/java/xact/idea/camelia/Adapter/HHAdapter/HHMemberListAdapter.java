@@ -153,6 +153,11 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             holder.text_cc.setVisibility(View.INVISIBLE);
 
         }
+
+        MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).MemberId);
+        if (myself.From.equals("CC")){
+            holder.text_cc.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
