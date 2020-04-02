@@ -15,13 +15,13 @@ import xact.idea.camelia.Database.Model.ReferHistory;
 public interface ReferralHistoryDao {
     @Query("SELECT * FROM ReferHistory")
     Flowable<List<ReferHistory>> getReferHistoryItems();
-    @Query("SELECT * FROM ReferHistory WHERE id=:ReferHistoryItemId")
+    @Query("SELECT * FROM ReferHistory WHERE ids=:ReferHistoryItemId")
     Flowable<List<ReferHistory>> getReferHistoryItemById(int ReferHistoryItemId);
-    @Query("SELECT * FROM ReferHistory WHERE id=:ReferHistoryItem")
+    @Query("SELECT * FROM ReferHistory WHERE ids=:ReferHistoryItem")
     ReferHistory getReferHistory(String ReferHistoryItem);
     @Query("SELECT * FROM ReferHistory WHERE MemberUniqueCode=:ReferHistoryItem")
     ReferHistory getReferHistoryNo(String ReferHistoryItem);
-    @Query("Select Count(id)  FROM ReferHistory")
+    @Query("Select Count(ids)  FROM ReferHistory")
     int value();
     @Query("DELETE  FROM ReferHistory")
     void emptyReferHistory();

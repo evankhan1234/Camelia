@@ -63,6 +63,7 @@ import xact.idea.camelia.Database.DataSource.SurveyDataSources;
 import xact.idea.camelia.Database.DataSource.UHCDataSources;
 import xact.idea.camelia.Database.DataSource.UnionDataSources;
 import xact.idea.camelia.Database.DataSource.UpazilaDatasources;
+import xact.idea.camelia.Database.DataSource.VisitDataSources;
 import xact.idea.camelia.Database.DataSource.WardDatasources;
 import xact.idea.camelia.Database.MainDataBase;
 import xact.idea.camelia.Database.Model.Auth;
@@ -111,6 +112,7 @@ import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
+import xact.idea.camelia.Database.Repository.VisitRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
 import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Network.IRetrofitApi;
@@ -1443,6 +1445,8 @@ public class HouseHoldActivity extends AppCompatActivity {
         Common.referRepository = ReferRepository.getInstance(ReferralHistoryDatasources.getInstance(Common.mainDatabase.referralHistoryDao()));
         Common.ccRepository = CCRepository.getInstance(CCDataSources.getInstance(Common.mainDatabase.ccDao()));
         Common.uhcRepository = UHCRepository.getInstance(UHCDataSources.getInstance(Common.mainDatabase.uhcDao()));
+        Common.visitRepository = VisitRepository.getInstance(VisitDataSources.getInstance(Common.mainDatabase.visitDao()));
+
     }
 
 
@@ -1937,7 +1941,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                         String birthDate = formatter.format(date1);
 
                         memberMyself.DateOfBirth = birthDate;
-
+                        memberMyself.From = member.referred_to;
+                        memberMyself.To = member.refer_to_id;
                         memberMyself.CreatedDate = date2;
                         downMedicalHistory(member.medical_history_details, member.member_id, member.household_uniqe_id, member.national_id);
                         downBehaviorialHistory(member.behavioral_info_details, member.member_id, member.household_uniqe_id, member.national_id);
@@ -2008,6 +2013,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                         memberMyself.MemberId = member.member_id;
                         memberMyself.UniqueCode = member.unique_code;
                         memberMyself.Status = "1";
+                        memberMyself.From = member.referred_to;
+                        memberMyself.To = member.refer_to_id;
                         Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
                     }
                 }
@@ -3480,7 +3487,46 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
-                    } else if (visit.question.equals("Q33")) {
+                    }
+                    else if (visit.question.equals("Q32b")) {
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q32b", visit.member_id);
+                        if (questions49 != null) {
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+
+                    }
+                    else if (visit.question.equals("Q33")) {
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q33", visit.member_id);
                         if (questions49 != null) {
                             Questions questions = new Questions();
@@ -4659,6 +4705,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 
                     MemberPrescriptionResponseModel.Data data = new MemberPrescriptionResponseModel.Data();
                     data.from = referHistory.From;
+                    data.id=referHistory.ids;
                     data.from_id = referHistory.FromId;
                     data.to = referHistory.To;
                     data.to_id = referHistory.ToId;
@@ -4670,7 +4717,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     date1 = new SimpleDateFormat("dd-MM-yyyy").parse(referHistory.VisitDate);
                     String currentDate = formatter.format(date1);
 
-                    data.visit_date = currentDate;
+                    data.visit_date = referHistory.VisitDate;
                     data.member_unique_code = referHistory.MemberUniqueCode;
                     data.reason = referHistory.Reason;
                     data.ref_type = referHistory.Type;

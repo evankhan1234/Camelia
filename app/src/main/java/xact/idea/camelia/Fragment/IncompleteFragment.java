@@ -106,7 +106,7 @@ public class IncompleteFragment extends Fragment {
                 if (memberMyselfList.size()>0){
                     FragmentActivity activity = (FragmentActivity)mActivity;
                     FragmentManager manager = activity.getSupportFragmentManager();
-                    mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager);
+                    mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager,2);
                     try {
                         rcl_this_customer_list.setAdapter(mAdapters);
                     } catch (Exception e) {
@@ -125,7 +125,7 @@ public class IncompleteFragment extends Fragment {
                 if (memberMyselfList.size()==0){
                     FragmentActivity activity = (FragmentActivity)mActivity;
                     FragmentManager manager = activity.getSupportFragmentManager();
-                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager);
+                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager,2);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {

@@ -168,6 +168,49 @@
 
                             android:layout_weight="1"
                             android:textAlignment="center"
+                            android:id="@+id/text_visited"
+                            android:layout_width="350px"
+                            android:layout_height="100px"
+                            android:minWidth="350px"
+
+                            android:layout_marginLeft="140px"
+
+
+                            android:padding="15px"
+                            android:tag="40"
+                            android:textStyle="bold"
+                            android:text="Visit"
+                            android:visibility="gone"
+                            android:textColor="@color/black"
+                            android:textSize="40px" />
+                        <TextView
+
+                            android:layout_marginTop="20px"
+                            android:backgroundTint="#00BCD4"
+
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:id="@+id/text_visits"
+                            android:layout_width="350px"
+                            android:layout_height="100px"
+                            android:minWidth="350px"
+
+                            android:layout_marginLeft="140px"
+                            android:background="@drawable/btn_yes"
+
+                            android:padding="15px"
+                            android:tag="40"
+                            android:text="Visit"
+                            android:visibility="gone"
+                            android:textColor="@color/white"
+                            android:textSize="40px" />
+                        <TextView
+
+                            android:layout_marginTop="20px"
+                            android:backgroundTint="#00BCD4"
+
+                            android:layout_weight="1"
+                            android:textAlignment="center"
                             android:id="@+id/text_follow"
                             android:layout_width="350px"
                             android:layout_height="100px"

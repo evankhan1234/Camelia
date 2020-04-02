@@ -11,8 +11,8 @@ import java.util.Date;
 public class ReferHistory {
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    public int id;
+    @ColumnInfo(name = "ids")
+    public int ids;
     @ColumnInfo(name = "MemberUniqueCode")
     public String MemberUniqueCode;
     @ColumnInfo(name = "UniqueId")

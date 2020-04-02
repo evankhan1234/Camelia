@@ -9,6 +9,7 @@ import xact.idea.camelia.Database.AnotherModel.HHDashboardModel;
 import xact.idea.camelia.Database.AnotherModel.Members;
 import xact.idea.camelia.Database.AnotherModel.SentSyncModel;
 import xact.idea.camelia.Database.AnotherModel.SummaryModel;
+import xact.idea.camelia.Database.AnotherModel.VisitMyself;
 import xact.idea.camelia.Database.DataSourcesInterface.IMemberMyselfDatasources;
 import xact.idea.camelia.Database.Model.MemberMyself;
 
@@ -86,12 +87,12 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
-    public Flowable<List<MemberMyself>> getMemberListForRefer() {
+    public Flowable<List<VisitMyself>> getMemberListForRefer() {
         return IMemberMyselfDatasources.getMemberListForRefer();
     }
 
     @Override
-    public Flowable<List<MemberMyself>> getMemberListForFollowUp() {
+    public Flowable<List<VisitMyself>> getMemberListForFollowUp() {
         return IMemberMyselfDatasources.getMemberListForFollowUp();
     }
 
@@ -166,7 +167,7 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
-    public Flowable<List<MemberMyself>> getReferMembersFor() {
+    public Flowable<List<VisitMyself>> getReferMembersFor() {
         return IMemberMyselfDatasources.getReferMembersFor();
     }
 

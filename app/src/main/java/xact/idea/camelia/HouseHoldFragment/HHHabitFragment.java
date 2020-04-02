@@ -863,8 +863,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     try {
                         Questions questions1a = Common.qustionsRepository.getQuestions("Q32a", update);
                         Questions questions1b = Common.qustionsRepository.getQuestions("Q32b", update);
-                        edit_smoke_years.setText(questions1a.answer);
-                        edit_smoke_stick.setText(questions1b.answer);
+                        edit_smoke_years.setText(String.valueOf(questions1a.answer));
+                        edit_smoke_stick.setText(String.valueOf(questions1b.answer));
                     } catch (Exception e) {
                         edit_smoke_years.setText("");
                         edit_smoke_stick.setText("");

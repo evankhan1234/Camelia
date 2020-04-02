@@ -26,6 +26,7 @@ import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
+import xact.idea.camelia.Database.Repository.VisitRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
 import xact.idea.camelia.Network.IRetrofitApi;
 import xact.idea.camelia.Network.RetrofitClient;
@@ -57,6 +58,7 @@ public abstract class Common {
     public static CCRepository ccRepository;
     public static UHCRepository uhcRepository;
     public static ReferRepository referRepository;
+    public static VisitRepository visitRepository;
 
     public static final String BASE_URL_XACT = "http://demo.xactidea.com/camelia/api/";
 

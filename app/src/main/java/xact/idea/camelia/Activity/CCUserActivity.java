@@ -59,6 +59,7 @@ import xact.idea.camelia.Database.DataSource.SurveyDataSources;
 import xact.idea.camelia.Database.DataSource.UHCDataSources;
 import xact.idea.camelia.Database.DataSource.UnionDataSources;
 import xact.idea.camelia.Database.DataSource.UpazilaDatasources;
+import xact.idea.camelia.Database.DataSource.VisitDataSources;
 import xact.idea.camelia.Database.DataSource.WardDatasources;
 import xact.idea.camelia.Database.MainDataBase;
 import xact.idea.camelia.Database.Model.Auth;
@@ -85,6 +86,7 @@ import xact.idea.camelia.Database.Model.Survey;
 import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Unions;
 import xact.idea.camelia.Database.Model.Upazila;
+import xact.idea.camelia.Database.Model.Visit;
 import xact.idea.camelia.Database.Model.Ward;
 import xact.idea.camelia.Database.Repository.AuthRepository;
 import xact.idea.camelia.Database.Repository.BlockRepository;
@@ -110,6 +112,7 @@ import xact.idea.camelia.Database.Repository.SurveyRepository;
 import xact.idea.camelia.Database.Repository.UHCRepository;
 import xact.idea.camelia.Database.Repository.UnionRepository;
 import xact.idea.camelia.Database.Repository.UpazilaRepository;
+import xact.idea.camelia.Database.Repository.VisitRepository;
 import xact.idea.camelia.Database.Repository.WardRepository;
 import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Network.IRetrofitApi;
@@ -2378,7 +2381,45 @@ public class CCUserActivity extends AppCompatActivity {
                         }
 
                     }
+                    else if (visit.question.equals("Q32b")){
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q32b", visit.member_id);
+                        if (questions49!=null){
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        }
+                        else{
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
 
+                    }
                     else if (visit.question.equals("Q33")){
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q33", visit.member_id);
                         if (questions49!=null){
@@ -4633,6 +4674,8 @@ public class CCUserActivity extends AppCompatActivity {
         Common.ccRepository = CCRepository.getInstance(CCDataSources.getInstance(Common.mainDatabase.ccDao()));
         Common.uhcRepository = UHCRepository.getInstance(UHCDataSources.getInstance(Common.mainDatabase.uhcDao()));
         Common.qustionsRepository = QustionsRepository.getInstance(QuestionsDataSources.getInstance(Common.mainDatabase.questionsDao()));
+        Common.visitRepository = VisitRepository.getInstance(VisitDataSources.getInstance(Common.mainDatabase.visitDao()));
+
     }
     private void loadCC() {
         showLoadingProgress(CCUserActivity.this);
@@ -4719,6 +4762,7 @@ public class CCUserActivity extends AppCompatActivity {
                 for (ReferHistory referHistory:referHistoryList){
 
                     MemberPrescriptionResponseModel.Data data = new  MemberPrescriptionResponseModel.Data();
+                    data.id=referHistory.ids;
                     data.from=referHistory.From;
                     data.from_id=referHistory.FromId;
                     data.to=referHistory.To;
@@ -4731,7 +4775,7 @@ public class CCUserActivity extends AppCompatActivity {
                     date1 = new SimpleDateFormat("dd-MM-yyyy").parse(referHistory.VisitDate);
                     String currentDate = formatter.format(date1);
 
-                    data.visit_date = currentDate;
+                    data.visit_date = referHistory.VisitDate;
                     data.member_unique_code=referHistory.MemberUniqueCode;
                     data.reason=referHistory.Reason;
                     data.ref_type=referHistory.Type;
@@ -4739,6 +4783,7 @@ public class CCUserActivity extends AppCompatActivity {
                     String currentDate1 = formatter.format(referHistory.Date);
                     data.created_at=currentDate1;
                     data.update_no="1";
+                    data.visits=getVisit(referHistory.ids);
                     sync.add(data);
 
 
@@ -4759,8 +4804,26 @@ public class CCUserActivity extends AppCompatActivity {
                     }
                 }));
 
+                Log.e("json","gson"+new Gson().toJson(memberPrescriptionResponseModel));
             }
         }));
+    }
+
+    public ArrayList<MemberPrescriptionResponseModel.Data.Visits> getVisit(int refId){
+        ArrayList<MemberPrescriptionResponseModel.Data.Visits> visitsArrayList= new ArrayList<>();
+
+        Flowable<List<Visit>> visits1=Common.visitRepository.getVisitItemById(refId);
+        MemberPrescriptionResponseModel.Data.Visits visits=new MemberPrescriptionResponseModel.Data.Visits();
+        for (Visit visit: visits1.blockingFirst()){
+            visits.id=visit.id;
+            visits.created_at=visit.Created;
+            visits.visit_date=visit.VisitDate;
+            visits.visit_status=visit.VisitStatus;
+            visits.ref_id=visit.RefId;
+            visits.update_no="1";
+            visitsArrayList.add(visits);
+        }
+        return visitsArrayList;
     }
     public  void showInfoDialog(final Context mContext) {
 
@@ -4844,7 +4907,7 @@ public class CCUserActivity extends AppCompatActivity {
                     ReferHistory referHistory = new ReferHistory();
                     ReferHistory ref= Common.referRepository.getReferHistoryNo(khanas.member_unique_code);
                     if (ref!=null){
-                        referHistory.id=ref.id;
+                        referHistory.ids=ref.ids;
                         referHistory.MemberUniqueCode=khanas.member_unique_code;
                         referHistory.UniqueId=khanas.household_uniqe_id;
                         referHistory.From=khanas.from;
@@ -4853,6 +4916,7 @@ public class CCUserActivity extends AppCompatActivity {
                         referHistory.ToId=khanas.to_id;
                         referHistory.Reason=khanas.reason;
                         referHistory.Type=khanas.ref_type;
+                        visitDownload(khanas.visits);
                         String s=khanas.created_at.substring(0,10);
                         Date date1 = null;
                         try {
@@ -4901,6 +4965,31 @@ public class CCUserActivity extends AppCompatActivity {
         }));
 
     }
+
+    private void visitDownload(ArrayList<ReferalHistoryResponse.Data.Visits> visits) {
+
+        for (ReferalHistoryResponse.Data.Visits visits1: visits){
+            Visit visit = new Visit();
+            Visit v1= Common.visitRepository.getVisitNo(visits1.ref_id);
+
+            if (v1!=null){
+                visit.id=v1.id;
+                visit.RefId=visits1.ref_id;
+                visit.VisitStatus=visits1.visit_status;
+                visit.VisitDate=visits1.visit_date;
+                visit.Created=visits1.created_at;
+                Common.visitRepository.updateVisit(visit);
+            }
+            else{
+                visit.RefId=visits1.ref_id;
+                visit.VisitStatus=visits1.visit_status;
+                visit.VisitDate=visits1.visit_date;
+                visit.Created=visits1.created_at;
+                Common.visitRepository.insertToVisit(visit);
+            }
+        }
+    }
+
     String val="";
     private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas,String houseHoldId){
         Survey survey = new Survey();

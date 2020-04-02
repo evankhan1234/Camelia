@@ -30,6 +30,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
+import xact.idea.camelia.Database.AnotherModel.VisitMyself;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
@@ -46,7 +47,7 @@ public class FollowUpFragment extends Fragment {
     static   RecyclerView rcl_this_customer_list;
     static CCIncompleteStatusAdapter mAdapters;
     static  CompositeDisposable compositeDisposable = new CompositeDisposable();
-    static  List<MemberMyself> memberMyselfList= new ArrayList<>();
+    static  List<VisitMyself> memberMyselfList= new ArrayList<>();
     EditText edit_content;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,14 +96,14 @@ public class FollowUpFragment extends Fragment {
     }
 
     public static  void display() {
-        compositeDisposable.add(Common.memberMyselfRepository.getMemberListForFollowUp().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMyself>>() {
+        compositeDisposable.add(Common.memberMyselfRepository.getMemberListForFollowUp().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<VisitMyself>>() {
             @Override
-            public void accept(List<MemberMyself> memberMyselfes) throws Exception {
+            public void accept(List<VisitMyself> memberMyselfes) throws Exception {
                 Log.e("fsd","dfsdf"+new Gson().toJson(memberMyselfes));
                 memberMyselfList=memberMyselfes;
                 FragmentActivity activity = (FragmentActivity)mActivity;
                 FragmentManager manager = activity.getSupportFragmentManager();
-                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager);
+                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager,4,1);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {

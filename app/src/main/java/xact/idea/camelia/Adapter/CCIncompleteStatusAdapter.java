@@ -53,6 +53,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserActivity;
+import xact.idea.camelia.Database.AnotherModel.VisitMyself;
 import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.CCModel;
 import xact.idea.camelia.Database.Model.Division;
@@ -61,6 +62,7 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Database.Model.ReferHistory;
 import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Model.Upazila;
+import xact.idea.camelia.Database.Model.Visit;
 import xact.idea.camelia.Fragment.CCBloodPressureFragment;
 import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Interface.MedicineInterface;
@@ -84,22 +86,33 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     //  private List<Department> messageEntities;
 
     private MedicineInterface uccMemberClickListener;
-    int row_index = 0;
-    List<MemberMyself> memberMyself;
+    int row_index;
+    List<VisitMyself> memberMyself;
+    List<MemberMyself> memberMyselfs;
     androidx.fragment.app.FragmentManager fragmentManagers;
     Context context;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    public CCIncompleteStatusAdapter(Activity activity, List<MemberMyself> memberMyselfes, MedicineInterface uccMemberClickListeners, FragmentManager fragmentManager) {
+
+    public CCIncompleteStatusAdapter(Activity activity, List<VisitMyself> memberMyselfes, MedicineInterface uccMemberClickListeners, FragmentManager fragmentManager, int row,int data) {
         mActivity = activity;
-        uccMemberClickListener=uccMemberClickListeners;
+        uccMemberClickListener = uccMemberClickListeners;
         //Toast.makeText(mActivity, "sdfsdf", Toast.LENGTH_SHORT).show();
         //messageEntities = messageEntitie;
         //mClick = mClicks;
-        memberMyself=memberMyselfes;
-        fragmentManagers=fragmentManager;
-        // clickInterface=clickInterfaces;
+        memberMyself = memberMyselfes;
+        fragmentManagers = fragmentManager;
+        row_index = row;
     }
-
+    public CCIncompleteStatusAdapter(Activity activity, List<MemberMyself> memberMyselfes, MedicineInterface uccMemberClickListeners, FragmentManager fragmentManager, int row) {
+        mActivity = activity;
+        uccMemberClickListener = uccMemberClickListeners;
+        //Toast.makeText(mActivity, "sdfsdf", Toast.LENGTH_SHORT).show();
+        //messageEntities = messageEntitie;
+        //mClick = mClicks;
+        memberMyselfs = memberMyselfes;
+        fragmentManagers = fragmentManager;
+        row_index = row;
+    }
 
     @Override
     public CCIncompleteStatusAdapter.CCIncompleteStatusListiewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -114,87 +127,194 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     public void onBindViewHolder(final CCIncompleteStatusAdapter.CCIncompleteStatusListiewHolder holder, final int position) {
 
 
+        if (memberMyself!=null){
 
-        //    Log.e("Evan", "SDfs" + messageEntities.get(position));
-        //  holder.btn_department.setHint(messageEntities.get(position).DepartmentName);
+            if (row_index == 1 || row_index == 2 || row_index == 3) {
+                holder.text_visits.setVisibility(View.GONE);
+                holder.text_follow.setVisibility(View.VISIBLE);
+                holder.text_referral.setVisibility(View.VISIBLE);
+            } else if (row_index == 4) {
+                holder.text_visits.setVisibility(View.VISIBLE);
+                holder.text_follow.setVisibility(View.GONE);
+            } else if (row_index == 5) {
+                holder.text_visits.setVisibility(View.GONE);
+                holder.text_follow.setVisibility(View.GONE);
+                holder.text_referral.setVisibility(View.GONE);
+            }
 
-        Paper.init(mActivity);
-        String language= SharedPreferenceUtil.getLanguage(mActivity);
-        Paper.book().write("language",language);
-        Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
-        Resources resources= context.getResources();
+            Paper.init(mActivity);
+            String language = SharedPreferenceUtil.getLanguage(mActivity);
+            Paper.book().write("language", language);
+            Context context = LocaleHelper.setLocale(mActivity, (String) Paper.book().read("language"));
+            Resources resources = context.getResources();
 
-        if (memberMyself.get(position).GenderId==1){
-            Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
-                    .into(new SimpleTarget<GlideDrawable>() {
-                        @Override
-                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                            holder.img_avatar.setImageDrawable(resource);
-                        }
-                    });
-        }
-        else{
-            Glide.with(mActivity).load("https://previews.123rf.com/images/thesomeday123/thesomeday1231712/thesomeday123171200008/91087328-default-avatar-profile-icon-for-female-grey-photo-placeholder-illustrations-vector.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
-                    .into(new SimpleTarget<GlideDrawable>() {
-                        @Override
-                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                            holder.img_avatar.setImageDrawable(resource);
-                        }
-                    });
-        }
-        String agent_no = "<b><font color=#000 >"+resources.getString(R.string.patient_name) +":  </font></b> <font color=#444444> "+memberMyself.get(position).FullName+"</font>";
-        String name = "<b><font color=#000 >"+resources.getString(R.string.member_id_) +" :  </font></b> <font color=#444444>"+memberMyself.get(position).MemberId+"</font>";
-        String code = "<b><font color=#000 >"+resources.getString(R.string.khana_id) +":  </font></b> <font color=#444444>"+memberMyself.get(position).UniqueId+"</font>";
-        String member_id = "<b><font color=#000 >"+resources.getString(R.string.contact_no) +" :  </font></b> <font color=#444444>"+memberMyself.get(position).MobileNumber+"</font>";
-        String village = "<b><font color=#000 >"+resources.getString(R.string.visit_date) +" :  </font></b> <font color=#444444>"+memberMyself.get(position).VisitDate+"</font>";
-        String date = "<b><font color=#000 >"+resources.getString(R.string.ref) +" :  </font></b> <font color=#444444>N/A</font>";
-        String block = "<b><font color=#000 >"+resources.getString(R.string.conditions) +":  </font></b> <font color=#444444> N/A</font>";
-        holder.text_name.setText(Html.fromHtml(name));
-        holder.text_follow.setText(resources.getString(R.string.follow_) );
-        holder.text_referral.setText(resources.getString(R.string.refer_) );
-        holder.text_agent.setText(Html.fromHtml(agent_no));
-        holder.text_phone_number.setText(Html.fromHtml(code));
-        holder.text_member_id.setText(Html.fromHtml(member_id));
-        holder.text_date.setText(Html.fromHtml(date));
-        holder.text_village.setText(Html.fromHtml(village));
-        holder.text_block.setText(Html.fromHtml(block));
-        if(Utils.isEmpty(memberMyself.get(position).VisitDate)){
-            holder.text_visit.setText("Visit");
-        }
-        else{
-            holder.text_visit.setText("Visited");
-        }
-        holder.img_next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uccMemberClickListener.postion(memberMyself.get(position).id,memberMyself.get(position).MemberId);
-                //Toast.makeText(mActivity, messageEntities.get(position).FullName, Toast.LENGTH_SHORT).show();
+            if (memberMyself.get(position).GenderId == 1) {
+                Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                        .into(new SimpleTarget<GlideDrawable>() {
+                            @Override
+                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                                holder.img_avatar.setImageDrawable(resource);
+                            }
+                        });
+            } else {
+                Glide.with(mActivity).load("https://previews.123rf.com/images/thesomeday123/thesomeday1231712/thesomeday123171200008/91087328-default-avatar-profile-icon-for-female-grey-photo-placeholder-illustrations-vector.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                        .into(new SimpleTarget<GlideDrawable>() {
+                            @Override
+                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                                holder.img_avatar.setImageDrawable(resource);
+                            }
+                        });
             }
-        });
-        holder.text_follow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showInfoDialogFollow(mActivity,memberMyself.get(position).MemberId,memberMyself.get(position).UniqueId);
+            String agent_no = "<b><font color=#000 >" + resources.getString(R.string.patient_name) + ":  </font></b> <font color=#444444> " + memberMyself.get(position).FullName + "</font>";
+            String name = "<b><font color=#000 >" + resources.getString(R.string.member_id_) + " :  </font></b> <font color=#444444>" + memberMyself.get(position).MemberId + "</font>";
+            String code = "<b><font color=#000 >" + resources.getString(R.string.khana_id) + ":  </font></b> <font color=#444444>" + memberMyself.get(position).UniqueId + "</font>";
+            String member_id = "<b><font color=#000 >" + resources.getString(R.string.contact_no) + " :  </font></b> <font color=#444444>" + memberMyself.get(position).MobileNumber + "</font>";
+            String village = "<b><font color=#000 >" + resources.getString(R.string.visit_date) + " :  </font></b> <font color=#444444>" + memberMyself.get(position).VisitDate + "</font>";
+            String date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>N/A</font>";
+            String block = "<b><font color=#000 >" + resources.getString(R.string.conditions) + ":  </font></b> <font color=#444444> N/A</font>";
+            holder.text_name.setText(Html.fromHtml(name));
+            holder.text_follow.setText(resources.getString(R.string.follow_));
+            holder.text_referral.setText(resources.getString(R.string.refer_));
+            holder.text_agent.setText(Html.fromHtml(agent_no));
+            holder.text_phone_number.setText(Html.fromHtml(code));
+            holder.text_member_id.setText(Html.fromHtml(member_id));
+            holder.text_date.setText(Html.fromHtml(date));
+            holder.text_village.setText(Html.fromHtml(village));
+            holder.text_block.setText(Html.fromHtml(block));
+            Visit visitss= Common.visitRepository.getVisitNo(String.valueOf(memberMyself.get(position).ids));
+            if (visitss!=null){
+                holder.text_visits.setVisibility(View.GONE);
+                holder.text_visited.setVisibility(View.VISIBLE);
+                holder.text_visited.setText("Already Visited");
             }
-        });
-        holder.text_referral.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showInfoDialogRefer(mActivity,memberMyself.get(position).MemberId,memberMyself.get(position).UniqueId);
+
+            holder.img_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    uccMemberClickListener.postion(memberMyself.get(position).id, memberMyself.get(position).MemberId);
+                    //Toast.makeText(mActivity, messageEntities.get(position).FullName, Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.text_follow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showInfoDialogFollow(mActivity, memberMyself.get(position).MemberId, memberMyself.get(position).UniqueId);
+                }
+            });
+            holder.text_referral.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showInfoDialogRefer(mActivity, memberMyself.get(position).MemberId, memberMyself.get(position).UniqueId);
+                }
+            });
+            holder.text_visits.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showInfoDialog(mActivity, memberMyself.get(position).ids);
+                }
+            });
+        }
+        else if (memberMyselfs!=null){
+
+            if (row_index == 1 || row_index == 2 || row_index == 3) {
+                holder.text_visits.setVisibility(View.GONE);
+                holder.text_follow.setVisibility(View.VISIBLE);
+                holder.text_referral.setVisibility(View.VISIBLE);
+            } else if (row_index == 4) {
+                holder.text_visits.setVisibility(View.VISIBLE);
+                holder.text_follow.setVisibility(View.GONE);
+            } else if (row_index == 5) {
+                holder.text_visits.setVisibility(View.GONE);
+                holder.text_follow.setVisibility(View.GONE);
+                holder.text_referral.setVisibility(View.GONE);
             }
-        });
-        holder.text_visit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               showInfoDialog(mActivity,memberMyself.get(position).MemberId);
+
+            Paper.init(mActivity);
+            String language = SharedPreferenceUtil.getLanguage(mActivity);
+            Paper.book().write("language", language);
+            Context context = LocaleHelper.setLocale(mActivity, (String) Paper.book().read("language"));
+            Resources resources = context.getResources();
+
+            if (memberMyselfs.get(position).GenderId == 1) {
+                Glide.with(mActivity).load("https://www.hardiagedcare.com.au/wp-content/uploads/2019/02/default-avatar-profile-icon-vector-18942381.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                        .into(new SimpleTarget<GlideDrawable>() {
+                            @Override
+                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                                holder.img_avatar.setImageDrawable(resource);
+                            }
+                        });
+            } else {
+                Glide.with(mActivity).load("https://previews.123rf.com/images/thesomeday123/thesomeday1231712/thesomeday123171200008/91087328-default-avatar-profile-icon-for-female-grey-photo-placeholder-illustrations-vector.jpg").diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.backwhite)
+                        .into(new SimpleTarget<GlideDrawable>() {
+                            @Override
+                            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                                holder.img_avatar.setImageDrawable(resource);
+                            }
+                        });
             }
-        });
+            String agent_no = "<b><font color=#000 >" + resources.getString(R.string.patient_name) + ":  </font></b> <font color=#444444> " + memberMyselfs.get(position).FullName + "</font>";
+            String name = "<b><font color=#000 >" + resources.getString(R.string.member_id_) + " :  </font></b> <font color=#444444>" + memberMyselfs.get(position).MemberId + "</font>";
+            String code = "<b><font color=#000 >" + resources.getString(R.string.khana_id) + ":  </font></b> <font color=#444444>" + memberMyselfs.get(position).UniqueId + "</font>";
+            String member_id = "<b><font color=#000 >" + resources.getString(R.string.contact_no) + " :  </font></b> <font color=#444444>" + memberMyselfs.get(position).MobileNumber + "</font>";
+            String village = "<b><font color=#000 >" + resources.getString(R.string.visit_date) + " :  </font></b> <font color=#444444>" + memberMyselfs.get(position).VisitDate + "</font>";
+            String date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>N/A</font>";
+            String block = "<b><font color=#000 >" + resources.getString(R.string.conditions) + ":  </font></b> <font color=#444444> N/A</font>";
+            holder.text_name.setText(Html.fromHtml(name));
+            holder.text_follow.setText(resources.getString(R.string.follow_));
+            holder.text_referral.setText(resources.getString(R.string.refer_));
+            holder.text_agent.setText(Html.fromHtml(agent_no));
+            holder.text_phone_number.setText(Html.fromHtml(code));
+            holder.text_member_id.setText(Html.fromHtml(member_id));
+            holder.text_date.setText(Html.fromHtml(date));
+            holder.text_village.setText(Html.fromHtml(village));
+            holder.text_block.setText(Html.fromHtml(block));
+            if (Utils.isEmpty(memberMyselfs.get(position).VisitDate)) {
+                holder.text_visit.setText("Visit");
+            } else {
+                holder.text_visit.setText("Visited");
+            }
+            holder.img_next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    uccMemberClickListener.postion(memberMyselfs.get(position).id, memberMyselfs.get(position).MemberId);
+                    //Toast.makeText(mActivity, messageEntities.get(position).FullName, Toast.LENGTH_SHORT).show();
+                }
+            });
+            holder.text_follow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showInfoDialogFollow(mActivity, memberMyselfs.get(position).MemberId, memberMyselfs.get(position).UniqueId);
+                }
+            });
+            holder.text_referral.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showInfoDialogRefer(mActivity, memberMyselfs.get(position).MemberId, memberMyselfs.get(position).UniqueId);
+                }
+            });
+            holder.text_visits.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                  //  showInfoDialog(mActivity, memberMyself.get(position).UniqueCode);
+                }
+            });
+        }
+
     }
 
     @Override
     public int getItemCount() {
 
-        return memberMyself.size();
+        if (memberMyself!=null){
+            return memberMyself.size();
+        }
+        else if(memberMyselfs!=null){
+            return memberMyselfs.size();
+        }
+        else{
+            return memberMyself.size();
+        }
+
     }
 
     public class CCIncompleteStatusListiewHolder extends RecyclerView.ViewHolder {
@@ -210,12 +330,15 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         private TextView text_block;
         private TextView text_follow;
         private TextView text_visit;
+        private TextView text_visits;
+        private TextView text_visited;
         private TextView text_referral;
 
 
         public CCIncompleteStatusListiewHolder(View itemView) {
             super(itemView);
 
+            text_visited = itemView.findViewById(R.id.text_visited);
             img_next = itemView.findViewById(R.id.img_next);
             img_avatar = itemView.findViewById(R.id.img_avatar);
             text_agent = itemView.findViewById(R.id.text_agent);
@@ -227,12 +350,14 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             text_block = itemView.findViewById(R.id.text_block);
             text_follow = itemView.findViewById(R.id.text_follow);
             text_visit = itemView.findViewById(R.id.text_visit);
+            text_visits = itemView.findViewById(R.id.text_visits);
             text_referral = itemView.findViewById(R.id.text_referral);
 
 
         }
     }
-    public  void showInfoDialog(final Context mContext, final String member) {
+
+    public void showInfoDialog(final Context mContext, final int member) {
 
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -242,31 +367,47 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
+        Spinner spinner_sex = infoDialog.findViewById(R.id.spinner_sex);
+        TextView tv_info = infoDialog.findViewById(R.id.tv_info);
+        tv_info.setText("Are you Confirm Visit?");
+        spinner_sex.setVisibility(View.GONE);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
         RadioButton radioRefer = infoDialog.findViewById(R.id.radioRefer);
         RadioButton radioFollow = infoDialog.findViewById(R.id.radioFollow);
-        radioRefer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        edit_dateq = infoDialog.findViewById(R.id.edit_date);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+        final Date date = new Date(System.currentTimeMillis());
+        Date date1 = null;
+        final String currentDate = formatter1.format(date);
 
+        edit_dateq.setText(formatter.format(date));
+        try {
+            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(edit_dateq.getText().toString());
+            // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        final String visits = formatter1.format(date1);
+        edit_dateq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DatePickerVisitFragment newFragment = new DatePickerVisitFragment();
+                newFragment.show(fragmentManagers, "DatePicker");
             }
         });
-        radioFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-//                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-//                Date date = new Date(System.currentTimeMillis());
-//                String currentDate = formatter.format(date);
-//                Common.memberMyselfRepository.updateReciver(currentDate,member);
+                Visit visit = new Visit();
+                visit.Created = currentDate;
+                visit.VisitDate = visits;
+                visit.RefId = String.valueOf(member);
+                visit.VisitStatus = "1";
+                Common.visitRepository.insertToVisit(visit);
                 infoDialog.dismiss();
 
             }
@@ -280,7 +421,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         infoDialog.show();
     }
 
-    public  void showInfoDialogFollow(final Activity mContext, final String member, final String uniqueId) {
+    public void showInfoDialogFollow(final Activity mContext, final String member, final String uniqueId) {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         ArrayAdapter<ClinicModel> divisionArrayAdapter;
 //        List<CCModel> clinicModelArrayList = new ArrayList<>();
@@ -294,23 +435,22 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
-        final Spinner spinner=infoDialog.findViewById(R.id.spinner_sex);
-        edit_date=infoDialog.findViewById(R.id.edit_date);
+        final Spinner spinner = infoDialog.findViewById(R.id.spinner_sex);
+        edit_date = infoDialog.findViewById(R.id.edit_date);
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
         final Date date = new Date(System.currentTimeMillis());
-         Date date1 = null;
+        Date date1 = null;
         String currentDate = formatter.format(date);
         try {
-            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(edit_date.getText().toString());
             // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        final String visitDate = formatter1.format(date1);
         edit_date.setText(formatter.format(date));
         edit_date.setOnClickListener(new View.OnClickListener() {
-
-
-
 
 
             @Override
@@ -323,15 +463,15 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             }
         });
 
-        String divisionId="";
-        String districtId="";
-        String upazilaId="";
-        String unionId="";
+        String divisionId = "";
+        String districtId = "";
+        String upazilaId = "";
+        String unionId = "";
         final String[] refer = {""};
-        divisionId=auth.division;
-        districtId=auth.district;
-        upazilaId=auth.upazila;
-        unionId=auth.union;
+        divisionId = auth.division;
+        districtId = auth.district;
+        upazilaId = auth.upazila;
+        unionId = auth.union;
         compositeDisposable.add(Common.ccRepository.getCCModelItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<CCModel>>() {
             @Override
             public void accept(List<CCModel> customers) throws Exception {
@@ -340,7 +480,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 ArrayAdapter<CCModel> divisionArrayAdapter;
                 List<CCModel> centerModelArrayList = new ArrayList<>();
 
-                centerModelArrayList=customers;
+                centerModelArrayList = customers;
                 divisionArrayAdapter = new ArrayAdapter<CCModel>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
                 divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(divisionArrayAdapter);
@@ -351,7 +491,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
 
-                        refer[0] =finalCenterModelArrayList.get(position).name;
+                        refer[0] = String.valueOf(finalCenterModelArrayList.get(position).CCId);
 
                     }
 
@@ -371,17 +511,17 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                ReferHistory history =Common.referRepository.getReferHistoryFrom(uniqueId+ member);
-                if(history!=null){
-                    Common.referRepository.updateReferHistoryFrom(uniqueId+ member);
+                ReferHistory history = Common.referRepository.getReferHistoryFrom(uniqueId + member);
+                if (history != null) {
+                    Common.referRepository.updateReferHistoryFrom(uniqueId + member);
                 }
                 Common.memberMyselfRepository.updateReciverAgain("CC", refer[0], edit_date.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = "CC";
                 referHistory.ToId = refer[0];
-                referHistory.VisitDate = edit_date.getText().toString();
-                referHistory.MemberUniqueCode = uniqueId+ member;
+                referHistory.VisitDate = visitDate;
+                referHistory.MemberUniqueCode = uniqueId + member;
                 referHistory.UniqueId = uniqueId;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());
@@ -421,13 +561,14 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         });
         infoDialog.show();
     }
-     static EditText edit_date;
-     static EditText edit_dates;
-    public  void showInfoDialogRefer(final Context mContext, final String member, final String uniqueId) {
+
+    static EditText edit_date;
+    static EditText edit_dateq;
+    static EditText edit_dates;
+
+    public void showInfoDialogRefer(final Context mContext, final String member, final String uniqueId) {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         showLoadingProgress(mActivity);
-
-
 
 
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
@@ -439,18 +580,20 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
-        final Spinner spinner=infoDialog.findViewById(R.id.spinner_sex);
-         edit_dates=infoDialog.findViewById(R.id.edit_date);
+        final Spinner spinner = infoDialog.findViewById(R.id.spinner_sex);
+        edit_dates = infoDialog.findViewById(R.id.edit_date);
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
         final Date date = new Date(System.currentTimeMillis());
         Date date1 = null;
         String currentDate = formatter.format(date);
         try {
-            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(edit_dates.getText().toString());
             // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        final String visitDate = formatter1.format(date1);
         edit_dates.setText(formatter.format(date));
         edit_dates.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -460,15 +603,15 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 newFragment.show(fragmentManagers, "DatePicker");
             }
         });
-        String divisionId="";
-        String districtId="";
-        String upazilaId="";
-        String unionId="";
+        String divisionId = "";
+        String districtId = "";
+        String upazilaId = "";
+        String unionId = "";
         final String[] refer = {""};
-        divisionId=auth.division;
-        districtId=auth.district;
-        upazilaId=auth.upazila;
-        unionId=auth.union;
+        divisionId = auth.division;
+        districtId = auth.district;
+        upazilaId = auth.upazila;
+        unionId = auth.union;
         compositeDisposable.add(Common.uhcRepository.getUHCItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<UHC>>() {
             @Override
             public void accept(List<UHC> customers) throws Exception {
@@ -477,7 +620,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 ArrayAdapter<UHC> divisionArrayAdapter;
                 List<UHC> centerModelArrayList = new ArrayList<>();
 
-                centerModelArrayList=customers;
+                centerModelArrayList = customers;
                 divisionArrayAdapter = new ArrayAdapter<UHC>(mActivity, android.R.layout.simple_spinner_item, centerModelArrayList);
                 divisionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(divisionArrayAdapter);
@@ -487,7 +630,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
 
-                        refer[0] = finalCenterModelArrayList.get(position).name;
+                        refer[0] = String.valueOf(finalCenterModelArrayList.get(position).UHCId);
 
                     }
 
@@ -581,17 +724,17 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                ReferHistory history =Common.referRepository.getReferHistoryFrom(uniqueId+ member);
-                if(history!=null){
-                    Common.referRepository.updateReferHistoryFrom(uniqueId+ member);
+                ReferHistory history = Common.referRepository.getReferHistoryFrom(uniqueId + member);
+                if (history != null) {
+                    Common.referRepository.updateReferHistoryFrom(uniqueId + member);
                 }
-                Common.memberMyselfRepository.updateReciverAgain("UHC",   refer[0], edit_dates.getText().toString(), member);
+                Common.memberMyselfRepository.updateReciverAgain("UHC", refer[0], edit_dates.getText().toString(), member);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = "UHC";
                 referHistory.ToId = refer[0];
-                referHistory.VisitDate = edit_dates.getText().toString();
-                referHistory.MemberUniqueCode =uniqueId+ member;
+                referHistory.VisitDate = visitDate;
+                referHistory.MemberUniqueCode = uniqueId + member;
                 referHistory.UniqueId = uniqueId;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());
@@ -622,7 +765,8 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         });
         infoDialog.show();
     }
-  public  static class DatePickerDeadFragments extends DialogFragment  implements DatePickerDialog.OnDateSetListener {
+
+    public static class DatePickerDeadFragments extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -646,7 +790,8 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             edit_date.setText(formattedDate);
         }
     }
-    public  static class DatePickerDeadFragment extends DialogFragment  implements DatePickerDialog.OnDateSetListener {
+
+    public static class DatePickerDeadFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -668,6 +813,31 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             String formattedDate = formatter.format(chosenDate);
             edit_dates.setText(formattedDate);
+        }
+    }
+
+    public static class DatePickerVisitFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(), this, year, month, day);
+
+            return dpd;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            Calendar today = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(0);
+            cal.set(year, month, day, 0, 0, 0);
+            Date chosenDate = cal.getTime();
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            String formattedDate = formatter.format(chosenDate);
+            edit_dateq.setText(formattedDate);
         }
     }
 }
