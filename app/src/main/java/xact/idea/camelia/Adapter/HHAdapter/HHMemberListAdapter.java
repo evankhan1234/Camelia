@@ -212,6 +212,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         RadioButton radioFollow = infoDialog.findViewById(R.id.radioFollow);
         edit_date = infoDialog.findViewById(R.id.edit_date);
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
         final Date date = new Date(System.currentTimeMillis());
         edit_date.setText(formatter.format(date));
         edit_date.setOnClickListener(new View.OnClickListener() {
@@ -425,7 +426,15 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 referHistory.From = "HH";
                 referHistory.To ="CC";
                 referHistory.ToId = String.valueOf(refer[0]);
-                referHistory.VisitDate = edit_date.getText().toString();
+                Date date11 = null;
+                try {
+                    date11 = new SimpleDateFormat("dd-MM-yyyy").parse(referHistory.VisitDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+                String visitDate = formatter1.format(date11);
+                referHistory.VisitDate = visitDate;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
