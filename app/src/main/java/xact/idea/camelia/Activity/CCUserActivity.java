@@ -4844,7 +4844,6 @@ public class CCUserActivity extends AppCompatActivity {
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
-
         CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
         btn_no.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
