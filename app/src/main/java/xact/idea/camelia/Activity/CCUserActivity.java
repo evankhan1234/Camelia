@@ -4838,7 +4838,6 @@ public class CCUserActivity extends AppCompatActivity {
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.layout_sync, null);
-
         infoDialog.setContentView(v);
         infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
