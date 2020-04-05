@@ -155,8 +155,16 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         }
 
         MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).MemberId);
-        if (myself.From.equals("CC")){
-            holder.text_cc.setVisibility(View.INVISIBLE);
+        try {
+            if (SharedPreferenceUtil.getUserRole(mActivity).equals("HH")) {
+                if (myself.From.equals("CC")){
+                    holder.text_cc.setVisibility(View.VISIBLE);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+          //  holder.text_cc.setVisibility(View.VISIBLE);
         }
     }
 
@@ -425,10 +433,11 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "HH";
                 referHistory.To ="CC";
+                referHistory.UpdateNo ="1";
                 referHistory.ToId = String.valueOf(refer[0]);
                 Date date11 = null;
                 try {
-                    date11 = new SimpleDateFormat("dd-MM-yyyy").parse(referHistory.VisitDate);
+                    date11 = new SimpleDateFormat("dd-MM-yyyy").parse(edit_date.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

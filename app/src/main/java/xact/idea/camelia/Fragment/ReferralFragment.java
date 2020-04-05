@@ -33,6 +33,7 @@ import xact.idea.camelia.Adapter.CCIncompleteStatusAdapter;
 import xact.idea.camelia.Database.AnotherModel.VisitMyself;
 import xact.idea.camelia.Database.Model.MemberMyself;
 import xact.idea.camelia.Helper.LocaleHelper;
+import xact.idea.camelia.Interface.EmptyInterface;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
@@ -103,7 +104,7 @@ public class ReferralFragment extends Fragment {
                 memberMyselfList=memberMyselfes;
                 FragmentActivity activity = (FragmentActivity)mActivity;
                 FragmentManager manager = activity.getSupportFragmentManager();
-                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager,3,1);
+                mAdapters = new CCIncompleteStatusAdapter(mActivity,memberMyselfes,clickListener,manager,3,1,emptyInterface);
                 try {
                     rcl_this_customer_list.setAdapter(mAdapters);
                 } catch (Exception e) {
@@ -115,7 +116,12 @@ public class ReferralFragment extends Fragment {
 
 
     }
+   static   EmptyInterface emptyInterface= new EmptyInterface() {
+        @Override
+        public void empty() {
 
+        }
+    };
 
     @Override
     public void onDestroy() {

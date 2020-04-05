@@ -65,6 +65,7 @@ import xact.idea.camelia.Database.Model.Upazila;
 import xact.idea.camelia.Database.Model.Visit;
 import xact.idea.camelia.Fragment.CCBloodPressureFragment;
 import xact.idea.camelia.Helper.LocaleHelper;
+import xact.idea.camelia.Interface.EmptyInterface;
 import xact.idea.camelia.Interface.MedicineInterface;
 import xact.idea.camelia.Interface.UccMemberClickListener;
 import xact.idea.camelia.Model.DropDownModel.CenterModel;
@@ -84,7 +85,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
 
     private Activity mActivity = null;
     //  private List<Department> messageEntities;
-
+    private EmptyInterface emptyInterface;
     private MedicineInterface uccMemberClickListener;
     int row_index;
     List<VisitMyself> memberMyself;
@@ -93,7 +94,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     Context context;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public CCIncompleteStatusAdapter(Activity activity, List<VisitMyself> memberMyselfes, MedicineInterface uccMemberClickListeners, FragmentManager fragmentManager, int row,int data) {
+    public CCIncompleteStatusAdapter(Activity activity, List<VisitMyself> memberMyselfes, MedicineInterface uccMemberClickListeners, FragmentManager fragmentManager, int row,int data,EmptyInterface emptyInterfaces) {
         mActivity = activity;
         uccMemberClickListener = uccMemberClickListeners;
         //Toast.makeText(mActivity, "sdfsdf", Toast.LENGTH_SHORT).show();
@@ -102,6 +103,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         memberMyself = memberMyselfes;
         fragmentManagers = fragmentManager;
         row_index = row;
+        emptyInterface=emptyInterfaces;
     }
     public CCIncompleteStatusAdapter(Activity activity, List<MemberMyself> memberMyselfes, MedicineInterface uccMemberClickListeners, FragmentManager fragmentManager, int row) {
         mActivity = activity;
@@ -136,10 +138,17 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             } else if (row_index == 4) {
                 holder.text_visits.setVisibility(View.VISIBLE);
                 holder.text_follow.setVisibility(View.GONE);
+                Visit visitss= Common.visitRepository.getVisitNo(String.valueOf(memberMyself.get(position).ids));
+                if (visitss!=null){
+                    holder.text_visits.setVisibility(View.GONE);
+                    holder.text_visited.setVisibility(View.VISIBLE);
+                    holder.text_visited.setText("Already Visited");
+                }
             } else if (row_index == 5) {
                 holder.text_visits.setVisibility(View.GONE);
                 holder.text_follow.setVisibility(View.GONE);
                 holder.text_referral.setVisibility(View.GONE);
+                holder.text_visited.setVisibility(View.GONE);
             }
 
             Paper.init(mActivity);
@@ -181,12 +190,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             holder.text_date.setText(Html.fromHtml(date));
             holder.text_village.setText(Html.fromHtml(village));
             holder.text_block.setText(Html.fromHtml(block));
-            Visit visitss= Common.visitRepository.getVisitNo(String.valueOf(memberMyself.get(position).ids));
-            if (visitss!=null){
-                holder.text_visits.setVisibility(View.GONE);
-                holder.text_visited.setVisibility(View.VISIBLE);
-                holder.text_visited.setText("Already Visited");
-            }
+
 
             holder.img_next.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -211,6 +215,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 @Override
                 public void onClick(View view) {
                     showInfoDialog(mActivity, memberMyself.get(position).ids);
+                    emptyInterface.empty();
                 }
             });
         }
@@ -330,7 +335,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         private TextView text_block;
         private TextView text_follow;
         private TextView text_visit;
-        private TextView text_visits;
+        public TextView text_visits;
         private TextView text_visited;
         private TextView text_referral;
 
@@ -408,6 +413,8 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 visit.RefId = String.valueOf(member);
                 visit.VisitStatus = "1";
                 Common.visitRepository.insertToVisit(visit);
+                emptyInterface.empty();
+                notifyDataSetChanged();
                 infoDialog.dismiss();
 
             }
@@ -519,6 +526,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = "CC";
+                //referHistory.UpdateNo ="1";
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = visitDate;
                 referHistory.MemberUniqueCode = uniqueId + member;
@@ -547,6 +555,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
 //                measurements.Result=0.0;
 //                measurements.Refer="Follow";
 //                Common.measurementsRepository.insertToMeasurements(measurements);
+
                 Log.e("sp_water", "" + refer[0]);
                 infoDialog.dismiss();
 
@@ -732,6 +741,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = "UHC";
+//                referHistory.UpdateNo ="1";
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = visitDate;
                 referHistory.MemberUniqueCode = uniqueId + member;
