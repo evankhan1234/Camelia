@@ -155,8 +155,16 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         }
 
         MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).MemberId);
-        if (myself.From.equals("CC")){
-            holder.text_cc.setVisibility(View.INVISIBLE);
+        try {
+            if (SharedPreferenceUtil.getUserRole(mActivity).equals("HH")) {
+                if (myself.From.equals("CC")){
+                    holder.text_cc.setVisibility(View.VISIBLE);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+          //  holder.text_cc.setVisibility(View.VISIBLE);
         }
     }
 
@@ -212,6 +220,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         RadioButton radioFollow = infoDialog.findViewById(R.id.radioFollow);
         edit_date = infoDialog.findViewById(R.id.edit_date);
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+
         final Date date = new Date(System.currentTimeMillis());
         edit_date.setText(formatter.format(date));
         edit_date.setOnClickListener(new View.OnClickListener() {
@@ -424,8 +433,17 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "HH";
                 referHistory.To ="CC";
+                referHistory.UpdateNo ="1";
                 referHistory.ToId = String.valueOf(refer[0]);
-                referHistory.VisitDate = edit_date.getText().toString();
+                Date date11 = null;
+                try {
+                    date11 = new SimpleDateFormat("dd-MM-yyyy").parse(edit_date.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+                String visitDate = formatter1.format(date11);
+                referHistory.VisitDate = visitDate;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);

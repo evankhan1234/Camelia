@@ -8,6 +8,8 @@ public class ReferalHistoryResponse extends ApiResponses{
     @SerializedName("referral_history")
     public ArrayList<Data> referral_history;
     public static class Data{
+        @SerializedName("id")
+        public String id;
         @SerializedName("member_unique_code")
         public String member_unique_code;
         @SerializedName("household_uniqe_id")

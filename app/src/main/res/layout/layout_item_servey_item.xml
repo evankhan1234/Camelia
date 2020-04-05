@@ -40,7 +40,7 @@
                 <LinearLayout
                     android:id="@+id/linears3s"
                     android:layout_marginTop="20px"
-                    android:layout_below="@+id/linears2"
+
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

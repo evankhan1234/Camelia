@@ -4782,7 +4782,15 @@ public class CCUserActivity extends AppCompatActivity {
 
                     String currentDate1 = formatter.format(referHistory.Date);
                     data.created_at=currentDate1;
-                    data.update_no="1";
+                    if (referHistory.UpdateNo!=null){
+                        int value=Integer.parseInt(referHistory.UpdateNo);
+                        data.update_no= String.valueOf(value+1);
+                    }
+                    else{
+                        data.update_no="1";
+                    }
+
+
                     data.visits=getVisit(referHistory.ids);
                     sync.add(data);
 
@@ -4830,13 +4838,11 @@ public class CCUserActivity extends AppCompatActivity {
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflator.inflate(R.layout.layout_sync, null);
-
         infoDialog.setContentView(v);
         infoDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         RelativeLayout main_root = infoDialog.findViewById(R.id.main_root);
         Button btn_yes = infoDialog.findViewById(R.id.btn_ok);
         Button btn_no = infoDialog.findViewById(R.id.btn_cancel);
-
         CorrectSizeUtil.getInstance((Activity) mContext).correctSize(main_root);
         btn_no.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -4901,13 +4907,14 @@ public class CCUserActivity extends AppCompatActivity {
         compositeDisposable.add(mService.getMemberReferalhistory(householdPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<ReferalHistoryResponse>() {
             @Override
             public void accept(ReferalHistoryResponse memberResponseModel) throws Exception {
-                Log.e("HouseholdSurvey", "Household" + new Gson().toJson(memberResponseModel));
+                Log.e("refer", "Household" + new Gson().toJson(memberResponseModel));
 
                 for (ReferalHistoryResponse.Data khanas: memberResponseModel.referral_history){
                     ReferHistory referHistory = new ReferHistory();
-                    ReferHistory ref= Common.referRepository.getReferHistoryNo(khanas.member_unique_code);
+                    ReferHistory ref= Common.referRepository.getReferHistory(khanas.id);
                     if (ref!=null){
                         referHistory.ids=ref.ids;
+                        referHistory.UpdateNo=khanas.update_no;
                         referHistory.MemberUniqueCode=khanas.member_unique_code;
                         referHistory.UniqueId=khanas.household_uniqe_id;
                         referHistory.From=khanas.from;
@@ -4931,6 +4938,7 @@ public class CCUserActivity extends AppCompatActivity {
                         Common.referRepository.updateReferHistory(referHistory);
                     }
                     else{
+                        referHistory.UpdateNo=khanas.update_no;
                         referHistory.MemberUniqueCode=khanas.member_unique_code;
                         referHistory.UniqueId=khanas.household_uniqe_id;
                         referHistory.From=khanas.from;
@@ -4947,6 +4955,7 @@ public class CCUserActivity extends AppCompatActivity {
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
+                        visitDownload(khanas.visits);
                         referHistory.Date=date1;
                         referHistory.VisitDate=khanas.visit_date;
 
