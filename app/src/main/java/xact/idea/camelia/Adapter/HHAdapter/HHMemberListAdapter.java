@@ -137,7 +137,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         holder.text_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                medicineInterface.postion(position, memberMyselfes.get(position).MemberId);
+                medicineInterface.postion(position, memberMyselfes.get(position).UniqueCode);
             }
         });
         if (SharedPreferenceUtil.getUserRole(mActivity).equals("hh")) {
@@ -145,7 +145,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             holder.text_cc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showInfoDialog(mActivity, memberMyselfes.get(position).MemberId, memberMyselfes.get(position).UniqueId);
+                    showInfoDialog(mActivity, memberMyselfes.get(position).UniqueCode);
                 }
             });
         } else {
@@ -204,7 +204,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         }
     }
 
-    public void showInfoDialog(final Context mContext, final String member, final String uniqueId) {
+    public void showInfoDialog(final Context mContext, final String uniqueId) {
 
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -425,11 +425,11 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                ReferHistory history =Common.referRepository.getReferHistoryFrom(uniqueId+ member);
+                ReferHistory history =Common.referRepository.getReferHistoryFrom(uniqueId);
                 if(history!=null){
-                    Common.referRepository.updateReferHistoryFrom(uniqueId+ member);
+                    Common.referRepository.updateReferHistoryFrom(uniqueId);
                 }
-                Common.memberMyselfRepository.updateReciverAgain("CC", String.valueOf(refer[0]), edit_date.getText().toString(), member);
+                Common.memberMyselfRepository.updateReciverAgain("CC", String.valueOf(refer[0]), edit_date.getText().toString(), uniqueId);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "HH";
                 referHistory.To ="CC";
@@ -458,7 +458,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 }
                 referHistory.Date = date1;
                 referHistory.Type = "1";
-                referHistory.MemberUniqueCode = uniqueId+ member;
+                referHistory.MemberUniqueCode = uniqueId;
                 referHistory.UniqueId = uniqueId;
                 Common.referRepository.insertToReferHistory(referHistory);
                 infoDialog.dismiss();

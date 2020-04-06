@@ -15,11 +15,11 @@ import xact.idea.camelia.Database.Model.MemberMedicine;
 public interface MemberMedicineDao {
     @Query("SELECT * FROM MemberMedicine")
     Flowable<List<MemberMedicine>> getMemberMedicineItems();
-    @Query("SELECT * FROM MemberMedicine WHERE MemberId=:MemberMedicineId")
+    @Query("SELECT * FROM MemberMedicine WHERE member_unique_code=:MemberMedicineId")
     Flowable<List<MemberMedicine>> getMemberMedicineItemById(String MemberMedicineId);
     @Query("SELECT * FROM MemberMedicine WHERE id=:MemberMedicineItem")
     MemberMedicine getMemberMedicine(String MemberMedicineItem);
-    @Query("SELECT * FROM MemberMedicine WHERE MemberId=:MemberMedicineItem")
+    @Query("SELECT * FROM MemberMedicine WHERE member_unique_code=:MemberMedicineItem")
     MemberMedicine getMemberMedicineNo(String MemberMedicineItem);
     @Query("Select Count(id)  FROM MemberMedicine")
     int value();

@@ -17,9 +17,9 @@ public interface MemberHabitDao {
     Flowable<List<MemberHabit>> getMemberHabitItems();
     @Query("SELECT * FROM MemberHabit WHERE id=:MemberHabitId")
     Flowable<List<MemberHabit>> getMemberHabitItemById(int MemberHabitId);
-    @Query("SELECT * FROM MemberHabit WHERE MemberId=:MemberHabitItem")
+    @Query("SELECT * FROM MemberHabit WHERE member_unique_code=:MemberHabitItem")
     MemberHabit getMemberHabit(String MemberHabitItem);
-    @Query("SELECT * FROM MemberHabit WHERE MemberId=:MemberHabitItem")
+    @Query("SELECT * FROM MemberHabit WHERE member_unique_code=:MemberHabitItem")
     MemberHabit getMemberHabitNo(String MemberHabitItem);
     @Query("Select Count(id)  FROM MemberHabit")
     int value();

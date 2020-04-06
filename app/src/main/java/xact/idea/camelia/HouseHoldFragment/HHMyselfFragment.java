@@ -779,13 +779,27 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 memberMyself.VisitDate = "";
 
                                 memberMyself.DateOfDeath = edit_date_of_death.getText().toString();
-                                memberMyself.MemberId = memberId;
-                                memberMyself.UniqueCode = uniqueId+memberId;
+
+                                int  count=Common.memberMyselfRepository.count(uniqueId);
+                                String countSize=String.valueOf(count);
+                                String memberValue="";
+                                if (countSize.length()<9){
+                                    memberValue="00"+countSize;
+                                }
+                                else if (countSize.length()>10 && countSize.length()<99){
+                                    memberValue="0"+countSize;
+                                }
+                                else{
+                                    memberValue=countSize;
+                                }
+
+                                memberMyself.MemberId = memberValue;
+                                memberMyself.UniqueCode = uniqueId+memberValue;
                                 memberMyself.Status = "0";
                                 Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
                                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
-                                Common.memberIdRepository.emptyMemberId(memberId);
+                                //Common.memberIdRepository.emptyMemberId(memberId);
                                 showInfoDialog(mActivity, memberId);
 
                             }
@@ -918,14 +932,25 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 memberMyself.UniqueId = uniqueId;
                                 memberMyself.VisitDate = "";
 
-
-                                memberMyself.MemberId = memberId;
-                                memberMyself.UniqueCode = uniqueId+memberId;
+                                int  count=Common.memberMyselfRepository.count(uniqueId);
+                                String countSize=String.valueOf(count);
+                                String memberValue="";
+                                if (countSize.length()<9){
+                                    memberValue="00"+countSize;
+                                }
+                                else if (countSize.length()>10 && countSize.length()<99){
+                                    memberValue="0"+countSize;
+                                }
+                                else{
+                                    memberValue=countSize;
+                                }
+                                memberMyself.MemberId = memberValue;
+                                memberMyself.UniqueCode = uniqueId+memberValue;
                                 memberMyself.Status = "0";
                                 Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
                                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
-                                Common.memberIdRepository.emptyMemberId(memberId);
+                              //  Common.memberIdRepository.emptyMemberId(memberId);
                                 HHCreateMemberFragment.nextPage(1);
                             } else {
                                 MemberMyself memberMyself = new MemberMyself();
@@ -955,6 +980,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 memberMyself.ReligionId = religionId;
                                 memberMyself.StudyId = studyId;
                                 memberMyself.MaritialId = maritialId;
+                                memberMyself.UniqueCode = uniqueId+memberId;
                                 memberMyself.OccupationId = occupationId;
                                 memberMyself.LivingId = livingId;
                                 memberMyself.HouseHeadId = headId;
