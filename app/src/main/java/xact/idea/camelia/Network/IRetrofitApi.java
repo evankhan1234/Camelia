@@ -34,6 +34,7 @@ import xact.idea.camelia.NetworkModel.MemberGetResponseModel;
 import xact.idea.camelia.NetworkModel.MemberPrescriptionGetResponseModel;
 import xact.idea.camelia.NetworkModel.MemberPrescriptionResponseModel;
 import xact.idea.camelia.NetworkModel.MemberResponseModel;
+import xact.idea.camelia.NetworkModel.MemberUniquePostModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
@@ -89,7 +90,7 @@ public interface IRetrofitApi {
     @POST("member/lab_reports")
     io.reactivex.Observable<LabReportsResponseModel> getLabReports(@Body ReferallPostModel referallPostModel);
     @POST("member/measurements")
-    io.reactivex.Observable<MeasurementsGetResponseModel> getMeasurementsGetResponse(@Body ReferallPostModel referallPostModel);
+    io.reactivex.Observable<MeasurementsGetResponseModel> getMeasurementsGetResponse(@Body MemberUniquePostModel referallPostModel);
     @POST("member/prescriptions")
     io.reactivex.Observable<MemberPrescriptionGetResponseModel> getMemberPrescription(@Body ReferallPostModel referallPostModel);
     @POST("memberid/allocate")
