@@ -186,33 +186,33 @@ public class HHCreateHouseholdFragment extends Fragment {
         String language= SharedPreferenceUtil.getLanguage(mActivity);
         Paper.book().write("language",language);
         updateView((String)Paper.book().read("language"));
-        view.getViewTreeObserver().addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
-            @Override
-            public void onWindowFocusChanged(boolean hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager)
-                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                // Hide the soft keyboard
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-
-
-        });
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-
-                InputMethodManager inputMethodManager = (InputMethodManager)
-                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                // Hide the soft keyboard
-                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        });
-        view.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-
-            }
-        });
+//        view.getViewTreeObserver().addOnWindowFocusChangeListener(new ViewTreeObserver.OnWindowFocusChangeListener() {
+//            @Override
+//            public void onWindowFocusChanged(boolean hasFocus) {
+//                InputMethodManager inputMethodManager = (InputMethodManager)
+//                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                // Hide the soft keyboard
+//                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//            }
+//
+//
+//        });
+//        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//
+//                InputMethodManager inputMethodManager = (InputMethodManager)
+//                        view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                // Hide the soft keyboard
+//                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//            }
+//        });
+//        view.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//            @Override
+//            public void onScrollChanged() {
+//
+//            }
+//        });
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
