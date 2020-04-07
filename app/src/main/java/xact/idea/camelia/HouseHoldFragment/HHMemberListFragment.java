@@ -108,19 +108,20 @@ public class HHMemberListFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (Common.memberIdRepository.size()<0){
-                    showInfoDialogagain(mActivity);
-                }
-                else{
-                    if (Common.memberIdRepository.size()==1){
-                        showInfoDialoga(mActivity);
-                    }
-                    else{
-                        showInfoDialog();
-                    }
-
-
-                }
+                showInfoDialog();
+//                if (Common.memberIdRepository.size()<0){
+//                    showInfoDialogagain(mActivity);
+//                }
+//                else{
+//                    if (Common.memberIdRepository.size()==1){
+//                        showInfoDialoga(mActivity);
+//                    }
+//                    else{
+//
+//                    }
+//
+//
+//                }
 
             }
         });
