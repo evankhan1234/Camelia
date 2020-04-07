@@ -248,21 +248,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        edit_text_password.addTextChangedListener(new
-
-                                                          TextWatcher() {
-                                                              @Override
-                                                              public void afterTextChanged(Editable mEdit) {
-                                                                  show_pass.setImageDrawable(getResources().getDrawable(R.drawable.show_password));
-                                                                  //  edit_text_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                                                              }
-
-                                                              public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                                                              }
-
-                                                              public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                                              }
-                                                          });
+//        edit_text_password.addTextChangedListener(new
+//
+//                                                          TextWatcher() {
+//                                                              @Override
+//                                                              public void afterTextChanged(Editable mEdit) {
+//                                                                  show_pass.setImageDrawable(getResources().getDrawable(R.drawable.show_password));
+//                                                                  //  edit_text_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+//                                                              }
+//
+//                                                              public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                                                              }
+//
+//                                                              public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                                                              }
+//                                                          });
         show_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

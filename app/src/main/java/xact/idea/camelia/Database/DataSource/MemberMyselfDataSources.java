@@ -191,4 +191,9 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     public void deleteMemberMyself(MemberMyself... MemberMyself) {
         MemberMyselfDao.deleteMemberMyself(MemberMyself);
     }
+
+    @Override
+    public int count(String uniqueId) {
+        return MemberMyselfDao.count(uniqueId);
+    }
 }

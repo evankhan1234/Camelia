@@ -2754,7 +2754,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
         MemberMedicine memberMed = Common.memberMedicineRepository.getMemberMedicineNo(update);
 
-        if (memberMed != null) {
+        if (memberMed != null)
+        {
             if (diabetisYesNo == -1 || bloodPressureYesNo == -1 || heartAttackYesNo == -1 || brainStrokeYesNo == -1 || lungYesNo == -1 || ashmaYesNo == -1 || kidneyYesNo == -1 || cancerYesNo == -1 || mentalDisorderYesNo == -1) {
                 Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
             } else {
@@ -2769,7 +2770,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q49";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -2782,7 +2783,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.type = "medicine";
                         questions.question = "Q49";
                         questions.id = questions1.id;
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -2802,7 +2803,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q49";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -2812,7 +2813,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.type = "medicine";
                         questions.question = "Q49";
                         questions.id = questionsFor1.id;
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -2826,7 +2827,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q49a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_diabetis_month.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -2836,7 +2837,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.type = "medicine";
                         questions1.question = "Q49a";
                         questions1.id = questionsFor2.id;
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_diabetis_month.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -2851,7 +2852,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q49b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = diabetis();
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -2861,7 +2862,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.type = "medicine";
                         questions3.question = "Q49b";
                         questions3.id = questionsFor3.id;
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = diabetis();
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -2876,7 +2877,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q49c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = str;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -2886,7 +2887,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.type = "medicine";
                         questions4.question = "Q49c";
                         questions4.id = questionsFor4.id;
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = str;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -2904,7 +2905,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q50";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -2917,7 +2918,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.type = "medicine";
                         questions.question = "Q50";
                         questions.id = questionsFor1.id;
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -2938,7 +2939,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q50";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -2948,7 +2949,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.type = "medicine";
                         questions.question = "Q50";
                         questions.id = questionsFor1.id;
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
 
                         questions.date = currentDate;
@@ -2965,7 +2966,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q50a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_blood.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -2975,7 +2976,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.type = "medicine";
                         questions1.question = "Q50a";
                         questions1.id = questionsFor2.id;
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_blood.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -2990,7 +2991,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q50b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = bloodGroups();
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3000,7 +3001,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.type = "medicine";
                         questions3.id = questionsFor3.id;
                         questions3.question = "Q50b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = bloodGroups();
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3014,7 +3015,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q50c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strBlood;
                         questions4.master_id = memberMed.id;
                         questions4.date = currentDate;
@@ -3024,7 +3025,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
                         questions4.question = "Q50c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strBlood;
                         questions4.master_id = memberMed.id;
                         questions4.date = currentDate;
@@ -3040,7 +3041,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q51";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3053,7 +3054,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.type = "medicine";
                         questions.id = questionsFor1.id;
                         questions.question = "Q51";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3072,7 +3073,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q51";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3082,7 +3083,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q51";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3096,7 +3097,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q51a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_heart_attack.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3106,7 +3107,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
                         questions1.question = "Q51a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_heart_attack.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3119,7 +3120,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q51b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = heartAttack();
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3129,7 +3130,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
                         questions3.question = "Q51b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = heartAttack();
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3142,7 +3143,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q51c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strHeartAttack;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3152,7 +3153,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
                         questions4.question = "Q51c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strHeartAttack;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3168,7 +3169,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q52";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3181,7 +3182,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q52";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3200,7 +3201,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q52";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3210,7 +3211,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q52";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3224,7 +3225,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q52a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_heart_brain_stroke.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3234,7 +3235,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
                         questions1.question = "Q52a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_heart_brain_stroke.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3247,7 +3248,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q52b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseBrainStroke);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3257,7 +3258,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
                         questions3.question = "Q52b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseBrainStroke);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3270,7 +3271,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q52c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strBrainStrok;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3280,7 +3281,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
                         questions4.question = "Q52c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strBrainStrok;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3295,7 +3296,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q53";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3308,7 +3309,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q53";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3327,7 +3328,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q53";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3337,7 +3338,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q53";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3351,7 +3352,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q53a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_lung_disease.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3361,7 +3362,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
                         questions1.question = "Q53a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_lung_disease.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3374,7 +3375,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q53b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseLungDisease);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3384,7 +3385,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
                         questions3.question = "Q53b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseLungDisease);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3397,7 +3398,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q53c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strLung;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3407,7 +3408,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
                         questions4.question = "Q53c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strLung;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3422,7 +3423,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q54";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3435,7 +3436,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q54";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3454,7 +3455,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q54";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3464,7 +3465,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q54";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3478,7 +3479,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q54a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_ashma.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3488,7 +3489,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
                         questions1.question = "Q54a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_ashma.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3501,7 +3502,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q54b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseAshma);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3511,7 +3512,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
                         questions3.question = "Q54b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseAshma);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3524,7 +3525,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q54c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strAshma;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3534,7 +3535,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
                         questions4.question = "Q54c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strAshma;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3549,7 +3550,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q55";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3562,7 +3563,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q55";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3581,7 +3582,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q55";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3592,7 +3593,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q55";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3606,7 +3607,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q55a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_kidney_disease.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3616,7 +3617,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
                         questions1.question = "Q55a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_kidney_disease.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3629,7 +3630,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q55b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseKidney);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3639,7 +3640,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
                         questions3.question = "Q55b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseKidney);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3652,7 +3653,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q55c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strKidney;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3662,7 +3663,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
                         questions4.question = "Q55c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strKidney;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3678,7 +3679,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q56";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3691,7 +3692,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q56";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3711,7 +3712,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q56";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3721,7 +3722,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q56";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3735,7 +3736,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q56a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_cancer.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3745,7 +3746,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
                         questions1.question = "Q56a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_cancer.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3758,7 +3759,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q56b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseCancer);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3768,7 +3769,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
                         questions3.question = "Q56b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseCancer);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3781,7 +3782,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q56c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strCancer;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3791,7 +3792,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.id = questionsFor4.id;
                         questions4.type = "medicine";
                         questions4.question = "Q56c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strCancer;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3806,7 +3807,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q57";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3819,7 +3820,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q57";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3838,7 +3839,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q57";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3848,7 +3849,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.type = "medicine";
                         questions.question = "Q57";
-                        questions.member_id = memberMed.MemberId;
+                        questions.member_id = memberMed.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberMed.id;
@@ -3862,7 +3863,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q57a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_mental_disorder.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3872,7 +3873,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.id = questionsFor2.id;
                         questions1.type = "medicine";
                         questions1.question = "Q57a";
-                        questions1.member_id = memberMed.MemberId;
+                        questions1.member_id = memberMed.member_unique_code;
                         questions1.answer = edit_yes_mental_disorder.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMed.id;
@@ -3885,7 +3886,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q57b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseMentalDisorder);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3895,7 +3896,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions3.id = questionsFor3.id;
                         questions3.type = "medicine";
                         questions3.question = "Q57b";
-                        questions3.member_id = memberMed.MemberId;
+                        questions3.member_id = memberMed.member_unique_code;
                         questions3.answer = String.valueOf(controlDiseaseMentalDisorder);
                         questions3.date = currentDate;
                         questions3.master_id = memberMed.id;
@@ -3908,7 +3909,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q57c";
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strMental;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3918,7 +3919,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions4.type = "medicine";
                         questions4.question = "Q57c";
                         questions4.id = questionsFor4.id;
-                        questions4.member_id = memberMed.MemberId;
+                        questions4.member_id = memberMed.member_unique_code;
                         questions4.answer = strMental;
                         questions4.date = currentDate;
                         questions4.master_id = memberMed.id;
@@ -3931,7 +3932,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Log.e("fullstring", "data" + new Gson().toJson(memberMedicine));
                 memberMedicine.MemberId = memberMed.MemberId;
                 memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
-                memberMedicine.member_unique_code = "";
+                memberMedicine.member_unique_code = memberMed.member_unique_code;
                 memberMedicine.member_national_id = String.valueOf(memberMed.member_national_id);
                 Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
                 arrayList.clear();
@@ -3966,22 +3967,22 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
             SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
-            MemberMedicine memberMedicine1 = Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MemberId);
-            MemberMedicine memberMedicineq = Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.MemberId);
+            MemberMedicine memberMedicine1 = Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.UniqueCode);
+            MemberMedicine memberMedicineq = Common.memberMedicineRepository.getMemberMedicineNo(memberMyself.UniqueCode);
             if (diabetisYesNo == -1 || bloodPressureYesNo == -1 || heartAttackYesNo == -1 || brainStrokeYesNo == -1 || lungYesNo == -1 || ashmaYesNo == -1 || kidneyYesNo == -1 || cancerYesNo == -1 || mentalDisorderYesNo == -1) {
                 Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
             } else {
                 if (memberMedicine1 == null) {
                     memberMedicine.MemberId = memberMyself.MemberId;
                     memberMedicine.household_uniqe_id = memberMyself.UniqueId;
-                    memberMedicine.member_unique_code = "";
+                    memberMedicine.member_unique_code = memberMyself.UniqueCode;
                     memberMedicine.member_national_id = String.valueOf(memberMyself.NationalId);
                     Common.memberMedicineRepository.insertToMemberMedicine(memberMedicine);
                     if (diabetisYesNo == 2) {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q49";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3994,7 +3995,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q49";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4007,7 +4008,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q49a";
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_diabetis_month.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMyself.id;
@@ -4016,7 +4017,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q49b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = diabetis();
                         questions3.date = currentDate;
                         questions3.master_id = memberMyself.id;
@@ -4025,7 +4026,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q49c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = str;
                         questions4.date = currentDate;
                         questions4.master_id = memberMyself.id;
@@ -4037,7 +4038,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q50";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4051,7 +4052,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q50";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4064,7 +4065,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q50a";
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_yes_blood.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMyself.id;
@@ -4073,7 +4074,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q50b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = bloodGroups();
                         questions3.date = currentDate;
                         questions3.master_id = memberMyself.id;
@@ -4082,7 +4083,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q50c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = strBlood;
                         questions4.date = currentDate;
                         questions4.master_id = memberMyself.id;
@@ -4093,7 +4094,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q51";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4106,7 +4107,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q51";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4119,7 +4120,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q51a";
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_yes_heart_attack.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMyself.id;
@@ -4128,7 +4129,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q51b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = heartAttack();
                         questions3.date = currentDate;
                         questions3.master_id = memberMyself.id;
@@ -4137,7 +4138,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q51c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = strHeartAttack;
                         questions4.date = currentDate;
                         questions4.master_id = memberMyself.id;
@@ -4149,7 +4150,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q52";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4163,7 +4164,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q52";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4176,7 +4177,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q52a";
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_yes_heart_brain_stroke.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMyself.id;
@@ -4185,7 +4186,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q52b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = String.valueOf(controlDiseaseBrainStroke);
                         questions3.date = currentDate;
                         questions3.master_id = memberMyself.id;
@@ -4194,7 +4195,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q52c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = strBrainStrok;
                         questions4.date = currentDate;
                         questions4.master_id = memberMyself.id;
@@ -4205,7 +4206,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q53";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4219,7 +4220,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q53";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4232,7 +4233,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q53a";
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_yes_lung_disease.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMyself.id;
@@ -4241,7 +4242,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q53b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = String.valueOf(controlDiseaseLungDisease);
                         questions3.date = currentDate;
                         questions3.master_id = memberMyself.id;
@@ -4250,7 +4251,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q53c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = strLung;
                         questions4.date = currentDate;
                         questions4.master_id = memberMyself.id;
@@ -4261,7 +4262,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q54";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4274,7 +4275,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q54";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4287,7 +4288,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q54a";
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_yes_ashma.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMyself.id;
@@ -4296,7 +4297,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q54b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = String.valueOf(controlDiseaseAshma);
                         questions3.date = currentDate;
                         questions3.master_id = memberMyself.id;
@@ -4305,7 +4306,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q54c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = strAshma;
                         questions4.date = currentDate;
                         questions4.master_id = memberMyself.id;
@@ -4316,7 +4317,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q55";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4330,7 +4331,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q55";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4344,7 +4345,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions1.type = "medicine";
                         questions1.question = "Q55a";
                         questions1.master_id = memberMyself.id;
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_yes_kidney_disease.getText().toString();
                         questions1.date = currentDate;
                         Common.qustionsRepository.insertToQuestions(questions1);
@@ -4352,7 +4353,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q55b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = String.valueOf(controlDiseaseKidney);
                         questions3.date = currentDate;
                         questions3.master_id = memberMyself.id;
@@ -4361,7 +4362,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q55c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = strKidney;
                         questions4.date = currentDate;
                         questions4.master_id = memberMyself.id;
@@ -4372,7 +4373,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q56";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4386,7 +4387,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q56";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.master_id = memberMyself.id;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -4400,7 +4401,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q56a";
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_yes_cancer.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMyself.id;
@@ -4409,7 +4410,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q56b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = String.valueOf(controlDiseaseCancer);
                         questions3.date = currentDate;
                         questions3.master_id = memberMyself.id;
@@ -4418,7 +4419,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q56c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = strCancer;
                         questions4.master_id = memberMyself.id;
                         questions4.date = currentDate;
@@ -4429,7 +4430,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q57";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4442,7 +4443,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "medicine";
                         questions.question = "Q57";
-                        questions.member_id = memberMyself.MemberId;
+                        questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4454,7 +4455,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "medicine";
                         questions1.question = "Q57a";
-                        questions1.member_id = memberMyself.MemberId;
+                        questions1.member_id = memberMyself.UniqueCode;
                         questions1.answer = edit_yes_mental_disorder.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberMyself.id;
@@ -4463,7 +4464,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions3 = new Questions();
                         questions3.type = "medicine";
                         questions3.question = "Q57b";
-                        questions3.member_id = memberMyself.MemberId;
+                        questions3.member_id = memberMyself.UniqueCode;
                         questions3.answer = String.valueOf(controlDiseaseMentalDisorder);
                         ;
                         questions3.date = currentDate;
@@ -4473,7 +4474,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         Questions questions4 = new Questions();
                         questions4.type = "medicine";
                         questions4.question = "Q57c";
-                        questions4.member_id = memberMyself.MemberId;
+                        questions4.member_id = memberMyself.UniqueCode;
                         questions4.answer = strMental;
                         questions4.date = currentDate;
                         questions4.master_id = memberMyself.id;
@@ -4504,7 +4505,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 } else {
                     memberMedicine.MemberId = memberMedicine1.MemberId;
                     memberMedicine.household_uniqe_id = memberMedicine1.household_uniqe_id;
-                    memberMedicine.member_unique_code = "";
+                    memberMedicine.member_unique_code = memberMedicine1.member_unique_code;
                     memberMedicine.member_national_id = String.valueOf(memberMedicine1.member_national_id);
                     memberMedicine.id = memberMedicineq.id;
                     if (diabetisYesNo == 2) {
@@ -4514,7 +4515,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q49";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4527,7 +4528,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.type = "medicine";
                             questions.question = "Q49";
                             questions.id = questions1.id;
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4547,7 +4548,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q49";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -4557,7 +4558,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.type = "medicine";
                             questions.question = "Q49";
                             questions.id = questionsFor1.id;
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -4571,7 +4572,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q49a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_diabetis_month.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -4581,7 +4582,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.type = "medicine";
                             questions1.question = "Q49a";
                             questions1.id = questionsFor2.id;
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_diabetis_month.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -4596,7 +4597,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q49b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = diabetis();
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -4606,7 +4607,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.type = "medicine";
                             questions3.question = "Q49b";
                             questions3.id = questionsFor3.id;
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = diabetis();
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -4621,7 +4622,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q49c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = str;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -4631,7 +4632,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.type = "medicine";
                             questions4.question = "Q49c";
                             questions4.id = questionsFor4.id;
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = str;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -4649,7 +4650,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q50";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4662,7 +4663,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.type = "medicine";
                             questions.question = "Q50";
                             questions.id = questionsFor1.id;
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4683,7 +4684,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q50";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -4693,7 +4694,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.type = "medicine";
                             questions.question = "Q50";
                             questions.id = questionsFor1.id;
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -4709,7 +4710,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q50a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_blood.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -4719,7 +4720,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.type = "medicine";
                             questions1.question = "Q50a";
                             questions1.id = questionsFor2.id;
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_blood.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -4734,7 +4735,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q50b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = bloodGroups();
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -4744,7 +4745,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.type = "medicine";
                             questions3.id = questionsFor3.id;
                             questions3.question = "Q50b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = bloodGroups();
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -4758,7 +4759,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q50c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strBlood;
                             questions4.master_id = memberMed.id;
                             questions4.date = currentDate;
@@ -4768,7 +4769,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
                             questions4.question = "Q50c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strBlood;
                             questions4.master_id = memberMed.id;
                             questions4.date = currentDate;
@@ -4784,7 +4785,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q51";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4797,7 +4798,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.type = "medicine";
                             questions.id = questionsFor1.id;
                             questions.question = "Q51";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4816,7 +4817,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q51";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -4826,7 +4827,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q51";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -4840,7 +4841,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q51a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_heart_attack.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -4850,7 +4851,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
                             questions1.question = "Q51a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_heart_attack.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -4863,7 +4864,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q51b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = heartAttack();
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -4873,7 +4874,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
                             questions3.question = "Q51b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = heartAttack();
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -4886,7 +4887,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q51c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strHeartAttack;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -4896,7 +4897,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
                             questions4.question = "Q51c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strHeartAttack;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -4912,7 +4913,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q52";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4925,7 +4926,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q52";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4944,7 +4945,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q52";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -4954,7 +4955,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q52";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -4968,7 +4969,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q52a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_heart_brain_stroke.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -4978,7 +4979,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
                             questions1.question = "Q52a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_heart_brain_stroke.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -4991,7 +4992,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q52b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseBrainStroke);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5001,7 +5002,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
                             questions3.question = "Q52b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseBrainStroke);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5014,7 +5015,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q52c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strBrainStrok;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5024,7 +5025,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
                             questions4.question = "Q52c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strBrainStrok;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5039,7 +5040,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q53";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5052,7 +5053,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q53";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5071,7 +5072,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q53";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5081,7 +5082,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q53";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5095,7 +5096,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q53a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_lung_disease.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5105,7 +5106,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
                             questions1.question = "Q53a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_lung_disease.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5118,7 +5119,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q53b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseLungDisease);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5128,7 +5129,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
                             questions3.question = "Q53b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseLungDisease);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5141,7 +5142,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q53c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strLung;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5151,7 +5152,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
                             questions4.question = "Q53c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strLung;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5166,7 +5167,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q54";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5179,7 +5180,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q54";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5198,7 +5199,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q54";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5208,7 +5209,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q54";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5222,7 +5223,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q54a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_ashma.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5232,7 +5233,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
                             questions1.question = "Q54a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_ashma.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5245,7 +5246,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q54b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseAshma);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5255,7 +5256,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
                             questions3.question = "Q54b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseAshma);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5268,7 +5269,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q54c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strAshma;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5278,7 +5279,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
                             questions4.question = "Q54c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strAshma;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5293,7 +5294,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q55";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5306,7 +5307,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q55";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5325,7 +5326,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q55";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5336,7 +5337,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q55";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5350,7 +5351,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q55a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_kidney_disease.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5360,7 +5361,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
                             questions1.question = "Q55a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_kidney_disease.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5373,7 +5374,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q55b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseKidney);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5383,7 +5384,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
                             questions3.question = "Q55b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseKidney);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5396,7 +5397,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q55c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strKidney;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5406,7 +5407,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
                             questions4.question = "Q55c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strKidney;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5422,7 +5423,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q56";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5435,7 +5436,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q56";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5455,7 +5456,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q56";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5465,7 +5466,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q56";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5479,7 +5480,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q56a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_cancer.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5489,7 +5490,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
                             questions1.question = "Q56a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_cancer.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5502,7 +5503,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q56b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseCancer);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5512,7 +5513,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
                             questions3.question = "Q56b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseCancer);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5525,7 +5526,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q56c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strCancer;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5535,7 +5536,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.id = questionsFor4.id;
                             questions4.type = "medicine";
                             questions4.question = "Q56c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strCancer;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5550,7 +5551,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q57";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5563,7 +5564,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q57";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -5582,7 +5583,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "medicine";
                             questions.question = "Q57";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5592,7 +5593,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.type = "medicine";
                             questions.question = "Q57";
-                            questions.member_id = memberMed.MemberId;
+                            questions.member_id = memberMed.member_unique_code;
                             questions.answer = "1";
                             questions.date = currentDate;
                             questions.master_id = memberMed.id;
@@ -5606,7 +5607,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "medicine";
                             questions1.question = "Q57a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_mental_disorder.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5616,7 +5617,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions1.id = questionsFor2.id;
                             questions1.type = "medicine";
                             questions1.question = "Q57a";
-                            questions1.member_id = memberMed.MemberId;
+                            questions1.member_id = memberMed.member_unique_code;
                             questions1.answer = edit_yes_mental_disorder.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMed.id;
@@ -5629,7 +5630,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions3 = new Questions();
                             questions3.type = "medicine";
                             questions3.question = "Q57b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseMentalDisorder);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5639,7 +5640,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions3.id = questionsFor3.id;
                             questions3.type = "medicine";
                             questions3.question = "Q57b";
-                            questions3.member_id = memberMed.MemberId;
+                            questions3.member_id = memberMed.member_unique_code;
                             questions3.answer = String.valueOf(controlDiseaseMentalDisorder);
                             questions3.date = currentDate;
                             questions3.master_id = memberMed.id;
@@ -5652,7 +5653,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             Questions questions4 = new Questions();
                             questions4.type = "medicine";
                             questions4.question = "Q57c";
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strMental;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;
@@ -5662,7 +5663,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions4.type = "medicine";
                             questions4.question = "Q57c";
                             questions4.id = questionsFor4.id;
-                            questions4.member_id = memberMed.MemberId;
+                            questions4.member_id = memberMed.member_unique_code;
                             questions4.answer = strMental;
                             questions4.date = currentDate;
                             questions4.master_id = memberMed.id;

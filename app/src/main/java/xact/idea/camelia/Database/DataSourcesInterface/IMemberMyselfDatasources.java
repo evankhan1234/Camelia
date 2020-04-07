@@ -48,4 +48,5 @@ public interface IMemberMyselfDatasources {
     void updateMemberMyself(MemberMyself... MemberMyself);
     Count TotalCount();
     void deleteMemberMyself(MemberMyself... MemberMyself);
+    int count(String uniqueId);
 }

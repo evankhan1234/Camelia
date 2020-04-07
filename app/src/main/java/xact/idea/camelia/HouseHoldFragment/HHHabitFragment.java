@@ -2908,7 +2908,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         questions.type = "behavioral";
                         questions.id = questions1.id;
                         questions.question = "Q32";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -2920,7 +2920,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q32";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -2940,7 +2940,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q32";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "1";
 
                         questions.date = currentDate;
@@ -2950,7 +2950,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q32";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "1";
 
                         questions.date = currentDate;
@@ -2967,7 +2967,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q32a";
-                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.member_id = memberHabitsFor.member_unique_code;
                         questions1.answer = edit_smoke_years.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberHabitsFor.id;
@@ -2976,7 +2976,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q32a";
-                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.member_id = memberHabitsFor.member_unique_code;
                         questions1.answer = edit_smoke_years.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberHabitsFor.id;
@@ -2988,7 +2988,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions2 = new Questions();
                         questions2.type = "behavioral";
                         questions2.question = "Q32b";
-                        questions2.member_id = memberHabitsFor.MemberId;
+                        questions2.member_id = memberHabitsFor.member_unique_code;
                         questions2.answer = edit_smoke_stick.getText().toString();
                         questions2.date = currentDate;
                         questions2.master_id = memberHabitsFor.id;
@@ -2997,7 +2997,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions2 = new Questions();
                         questions2.type = "behavioral";
                         questions2.question = "Q32b";
-                        questions2.member_id = memberHabitsFor.MemberId;
+                        questions2.member_id = memberHabitsFor.member_unique_code;
                         questions2.answer = edit_smoke_stick.getText().toString();
                         questions2.date = currentDate;
                         questions2.master_id = memberHabitsFor.id;
@@ -3012,7 +3012,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q33";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3024,7 +3024,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q33";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3045,7 +3045,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q33";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "1";
 
                         questions.date = currentDate;
@@ -3055,7 +3055,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q33";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "1";
                         questions.date = currentDate;
                         questions.master_id = memberHabitsFor.id;
@@ -3070,7 +3070,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q33a";
-                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.member_id = memberHabitsFor.member_unique_code;
                         questions1.answer = edit_jorda.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberHabitsFor.id;
@@ -3079,7 +3079,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q33a";
-                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.member_id = memberHabitsFor.member_unique_code;
                         questions1.answer = edit_jorda.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberHabitsFor.id;
@@ -3095,7 +3095,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q34";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3107,7 +3107,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q34";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3128,7 +3128,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q34";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "1";
 
                         questions.date = currentDate;
@@ -3138,7 +3138,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q34";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "1";
 
                         questions.date = currentDate;
@@ -3154,7 +3154,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q34a";
-                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.member_id = memberHabitsFor.member_unique_code;
                         questions1.answer = edit_workplace.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberHabitsFor.id;
@@ -3163,7 +3163,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q34a";
-                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.member_id = memberHabitsFor.member_unique_code;
                         questions1.answer = edit_workplace.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberHabitsFor.id;
@@ -3178,7 +3178,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q35";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3191,7 +3191,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q35";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "2";
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -3212,7 +3212,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q35";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "1";
 
                         questions.date = currentDate;
@@ -3223,7 +3223,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions = new Questions();
                         questions.type = "behavioral";
                         questions.question = "Q35";
-                        questions.member_id = memberHabitsFor.MemberId;
+                        questions.member_id = memberHabitsFor.member_unique_code;
                         questions.answer = "1";
 
                         questions.date = currentDate;
@@ -3239,7 +3239,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q35a";
-                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.member_id = memberHabitsFor.member_unique_code;
                         questions1.answer = edit_alcohol.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberHabitsFor.id;
@@ -3248,7 +3248,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions1 = new Questions();
                         questions1.type = "behavioral";
                         questions1.question = "Q35a";
-                        questions1.member_id = memberHabitsFor.MemberId;
+                        questions1.member_id = memberHabitsFor.member_unique_code;
                         questions1.answer = edit_alcohol.getText().toString();
                         questions1.date = currentDate;
                         questions1.master_id = memberHabitsFor.id;
@@ -3267,7 +3267,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions5 = new Questions();
                     questions5.type = "behavioral";
                     questions5.question = "Q36";
-                    questions5.member_id = memberHabitsFor.MemberId;
+                    questions5.member_id = memberHabitsFor.member_unique_code;
                     questions5.answer = String.valueOf(typicalFruits);
 
                     questions5.date = currentDate;
@@ -3277,7 +3277,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions5 = new Questions();
                     questions5.type = "behavioral";
                     questions5.question = "Q36";
-                    questions5.member_id = memberHabitsFor.MemberId;
+                    questions5.member_id = memberHabitsFor.member_unique_code;
                     questions5.answer = String.valueOf(typicalFruits);
 
                     questions5.date = currentDate;
@@ -3293,7 +3293,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions6 = new Questions();
                     questions6.type = "behavioral";
                     questions6.question = "Q37";
-                    questions6.member_id = memberHabitsFor.MemberId;
+                    questions6.member_id = memberHabitsFor.member_unique_code;
                     questions6.answer = String.valueOf(fruitsShowCard);
                     questions6.date = currentDate;
                     questions6.master_id = memberHabitsFor.id;
@@ -3302,7 +3302,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions6 = new Questions();
                     questions6.type = "behavioral";
                     questions6.question = "Q37";
-                    questions6.member_id = memberHabitsFor.MemberId;
+                    questions6.member_id = memberHabitsFor.member_unique_code;
                     questions6.answer = String.valueOf(fruitsShowCard);
                     questions6.date = currentDate;
                     questions6.master_id = memberHabitsFor.id;
@@ -3318,7 +3318,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions7 = new Questions();
                     questions7.type = "behavioral";
                     questions7.question = "Q38";
-                    questions7.member_id = memberHabitsFor.MemberId;
+                    questions7.member_id = memberHabitsFor.member_unique_code;
                     questions7.answer = String.valueOf(typicalVegetables);
                     questions7.date = currentDate;
                     questions7.master_id = memberHabitsFor.id;
@@ -3327,7 +3327,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions7 = new Questions();
                     questions7.type = "behavioral";
                     questions7.question = "Q38";
-                    questions7.member_id = memberHabitsFor.MemberId;
+                    questions7.member_id = memberHabitsFor.member_unique_code;
                     questions7.answer = String.valueOf(typicalVegetables);
                     questions7.date = currentDate;
                     questions7.master_id = memberHabitsFor.id;
@@ -3343,7 +3343,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions8 = new Questions();
                     questions8.type = "behavioral";
                     questions8.question = "Q39";
-                    questions8.member_id = memberHabitsFor.MemberId;
+                    questions8.member_id = memberHabitsFor.member_unique_code;
                     questions8.answer = String.valueOf(vegetablesShowCard);
                     questions8.date = currentDate;
                     questions8.master_id = memberHabitsFor.id;
@@ -3352,7 +3352,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions8 = new Questions();
                     questions8.type = "behavioral";
                     questions8.question = "Q39";
-                    questions8.member_id = memberHabitsFor.MemberId;
+                    questions8.member_id = memberHabitsFor.member_unique_code;
                     questions8.answer = String.valueOf(vegetablesShowCard);
                     questions8.date = currentDate;
                     questions8.master_id = memberHabitsFor.id;
@@ -3368,7 +3368,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions9 = new Questions();
                     questions9.type = "behavioral";
                     questions9.question = "Q39";
-                    questions9.member_id = memberHabitsFor.MemberId;
+                    questions9.member_id = memberHabitsFor.member_unique_code;
                     questions9.answer = String.valueOf(vegetablesShowCard);
                     questions9.date = currentDate;
                     questions9.master_id = memberHabitsFor.id;
@@ -3377,7 +3377,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions9 = new Questions();
                     questions9.type = "behavioral";
                     questions9.question = "Q39";
-                    questions9.member_id = memberHabitsFor.MemberId;
+                    questions9.member_id = memberHabitsFor.member_unique_code;
                     questions9.answer = String.valueOf(vegetablesShowCard);
                     questions9.date = currentDate;
                     questions9.master_id = memberHabitsFor.id;
@@ -3393,7 +3393,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions10 = new Questions();
                     questions10.type = "behavioral";
                     questions10.question = "Q41";
-                    questions10.member_id = memberHabitsFor.MemberId;
+                    questions10.member_id = memberHabitsFor.member_unique_code;
                     questions10.answer = String.valueOf(saltyBuy);
                     questions10.date = currentDate;
                     questions10.master_id = memberHabitsFor.id;
@@ -3402,7 +3402,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions10 = new Questions();
                     questions10.type = "behavioral";
                     questions10.question = "Q41";
-                    questions10.member_id = memberHabitsFor.MemberId;
+                    questions10.member_id = memberHabitsFor.member_unique_code;
                     questions10.answer = String.valueOf(saltyBuy);
                     questions10.date = currentDate;
                     questions10.master_id = memberHabitsFor.id;
@@ -3417,7 +3417,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions11 = new Questions();
                     questions11.type = "behavioral";
                     questions11.question = "Q42";
-                    questions11.member_id = memberHabitsFor.MemberId;
+                    questions11.member_id = memberHabitsFor.member_unique_code;
                     questions11.answer = String.valueOf(takingSalt);
                     questions11.date = currentDate;
                     questions11.master_id = memberHabitsFor.id;
@@ -3426,7 +3426,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions11 = new Questions();
                     questions11.type = "behavioral";
                     questions11.question = "Q42";
-                    questions11.member_id = memberHabitsFor.MemberId;
+                    questions11.member_id = memberHabitsFor.member_unique_code;
                     questions11.answer = String.valueOf(takingSalt);
                     questions11.date = currentDate;
                     questions11.master_id = memberHabitsFor.id;
@@ -3438,7 +3438,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions11 = new Questions();
                     questions11.type = "behavioral";
                     questions11.question = "Q42a";
-                    questions11.member_id = memberHabitsFor.MemberId;
+                    questions11.member_id = memberHabitsFor.member_unique_code;
                     questions11.answer = edit_yes_extra_salt.getText().toString();
                     questions11.date = currentDate;
                     questions11.master_id = memberHabitsFor.id;
@@ -3447,7 +3447,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     Questions questions11 = new Questions();
                     questions11.type = "behavioral";
                     questions11.question = "Q42";
-                    questions11.member_id = memberHabitsFor.MemberId;
+                    questions11.member_id = memberHabitsFor.member_unique_code;
                     questions11.answer = edit_yes_extra_salt.getText().toString();
                     questions11.date = currentDate;
                     questions11.master_id = memberHabitsFor.id;
@@ -3462,7 +3462,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q43";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "2";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3471,7 +3471,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q43";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "2";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3485,7 +3485,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q43";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3494,7 +3494,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q43";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3507,7 +3507,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q43a";
-                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.member_id = memberHabitsFor.member_unique_code;
                         questions13.answer = vigiriousIntensity();
                         questions13.date = currentDate;
                         questions13.master_id = memberHabitsFor.id;
@@ -3516,7 +3516,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q43a";
-                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.member_id = memberHabitsFor.member_unique_code;
                         questions13.answer = vigiriousIntensity();
                         questions13.date = currentDate;
                         questions13.master_id = memberHabitsFor.id;
@@ -3530,7 +3530,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q43b";
-                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.member_id = memberHabitsFor.member_unique_code;
                         questions14.answer = String.valueOf(vigorousIntensityTypical);
                         questions14.date = currentDate;
                         questions14.master_id = memberHabitsFor.id;
@@ -3539,7 +3539,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q43b";
-                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.member_id = memberHabitsFor.member_unique_code;
                         questions14.answer = String.valueOf(vigorousIntensityTypical);
                         questions14.date = currentDate;
                         questions14.master_id = memberHabitsFor.id;
@@ -3552,7 +3552,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q43c";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_typical_day.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3561,7 +3561,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q43c";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_typical_day.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3578,7 +3578,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q44";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "2";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3587,7 +3587,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q44";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "2";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3601,7 +3601,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q44";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3610,7 +3610,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q44";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3623,7 +3623,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q44a";
-                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.member_id = memberHabitsFor.member_unique_code;
                         questions13.answer = moderateIntensity();
                         questions13.date = currentDate;
                         questions13.master_id = memberHabitsFor.id;
@@ -3632,7 +3632,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q44a";
-                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.member_id = memberHabitsFor.member_unique_code;
                         questions13.answer = moderateIntensity();
                         questions13.date = currentDate;
                         questions13.master_id = memberHabitsFor.id;
@@ -3645,7 +3645,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q44b";
-                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.member_id = memberHabitsFor.member_unique_code;
                         questions14.answer = String.valueOf(moderateIntensityTypical);
                         questions14.date = currentDate;
                         questions14.master_id = memberHabitsFor.id;
@@ -3654,7 +3654,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q44b";
-                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.member_id = memberHabitsFor.member_unique_code;
                         questions14.answer = String.valueOf(moderateIntensityTypical);
                         questions14.date = currentDate;
                         questions14.master_id = memberHabitsFor.id;
@@ -3667,7 +3667,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q44c";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_typical_day_moderate.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3676,7 +3676,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q44c";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_typical_day_moderate.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3694,7 +3694,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q45";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "2";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3703,7 +3703,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q45";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "2";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3717,7 +3717,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q45";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3726,7 +3726,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q45";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3740,7 +3740,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q45a";
-                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.member_id = memberHabitsFor.member_unique_code;
                         questions13.answer = vigorousIntensityRecreational();
                         questions13.date = currentDate;
                         questions13.master_id = memberHabitsFor.id;
@@ -3749,7 +3749,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q45a";
-                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.member_id = memberHabitsFor.member_unique_code;
                         questions13.answer = vigorousIntensityRecreational();
                         questions13.date = currentDate;
                         questions13.master_id = memberHabitsFor.id;
@@ -3763,7 +3763,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q45b";
-                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.member_id = memberHabitsFor.member_unique_code;
                         questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
                         questions14.date = currentDate;
                         questions14.master_id = memberHabitsFor.id;
@@ -3772,7 +3772,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q45b";
-                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.member_id = memberHabitsFor.member_unique_code;
                         questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
                         questions14.date = currentDate;
                         questions14.master_id = memberHabitsFor.id;
@@ -3785,7 +3785,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q45c";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_typical_day_recreational.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3794,7 +3794,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q45c";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_typical_day_recreational.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3811,7 +3811,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q46";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "2";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3820,7 +3820,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q46";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.id = questionsFor31.id;
                         questions12.answer = "2";
                         questions12.date = currentDate;
@@ -3834,7 +3834,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q46";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3843,7 +3843,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q46";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.id = questionsFor21.id;
                         questions12.answer = "1";
                         questions12.date = currentDate;
@@ -3856,7 +3856,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q46a";
-                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.member_id = memberHabitsFor.member_unique_code;
                         questions13.answer = moderateIntensityRecreational();
                         questions13.date = currentDate;
                         questions13.master_id = memberHabitsFor.id;
@@ -3865,7 +3865,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions13 = new Questions();
                         questions13.type = "behavioral";
                         questions13.question = "Q46a";
-                        questions13.member_id = memberHabitsFor.MemberId;
+                        questions13.member_id = memberHabitsFor.member_unique_code;
                         questions13.id = questionsFor178.id;
                         questions13.answer = moderateIntensityRecreational();
                         questions13.date = currentDate;
@@ -3878,7 +3878,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q46b";
-                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.member_id = memberHabitsFor.member_unique_code;
                         questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
                         questions14.date = currentDate;
                         questions14.master_id = memberHabitsFor.id;
@@ -3887,7 +3887,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions14 = new Questions();
                         questions14.type = "behavioral";
                         questions14.question = "Q46b";
-                        questions14.member_id = memberHabitsFor.MemberId;
+                        questions14.member_id = memberHabitsFor.member_unique_code;
                         questions14.id = questionsFor17.id;
                         questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
                         questions14.date = currentDate;
@@ -3900,7 +3900,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q46c";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3909,7 +3909,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q46c";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.id = questionsFor199.id;
                         questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
                         questions15.date = currentDate;
@@ -3926,7 +3926,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q48";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3935,7 +3935,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q48";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.id = questionsFor19.id;
                         questions12.answer = "1";
                         questions12.date = currentDate;
@@ -3949,7 +3949,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions12 = new Questions();
                         questions12.type = "behavioral";
                         questions12.question = "Q48";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3959,7 +3959,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         questions12.id = questionsFor12.id;
                         questions12.type = "behavioral";
                         questions12.question = "Q48";
-                        questions12.member_id = memberHabitsFor.MemberId;
+                        questions12.member_id = memberHabitsFor.member_unique_code;
                         questions12.answer = "1";
                         questions12.date = currentDate;
                         questions12.master_id = memberHabitsFor.id;
@@ -3972,7 +3972,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions15 = new Questions();
                         questions15.type = "behavioral";
                         questions15.question = "Q48a";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_yes_reclining.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3982,7 +3982,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         questions15.id = questionsFor15.id;
                         questions15.type = "behavioral";
                         questions15.question = "Q48a";
-                        questions15.member_id = memberHabitsFor.MemberId;
+                        questions15.member_id = memberHabitsFor.member_unique_code;
                         questions15.answer = edit_yes_reclining.getText().toString();
                         questions15.date = currentDate;
                         questions15.master_id = memberHabitsFor.id;
@@ -3992,7 +3992,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 }
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                 memberHabit.household_uniqe_id = memberHabitsFor.household_uniqe_id;
-                memberHabit.member_unique_code = "";
+                memberHabit.MemberId = memberHabitsFor.MemberId;
+                memberHabit.member_unique_code = memberHabitsFor.member_unique_code;
                 memberHabit.member_national_id = String.valueOf(memberHabitsFor.member_national_id);
                 Common.memberHabitRepository.updateMemberHabit(memberHabit);
                 if (frag.equals("frag")) {
@@ -4006,9 +4007,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 MemberMyself memberMyself = Common.memberMyselfRepository.getMemberMyselfNo(id);
                 memberHabit.MemberId = memberMyself.MemberId;
                 memberHabit.household_uniqe_id = memberMyself.UniqueId;
-                memberHabit.member_unique_code = "";
+                memberHabit.member_unique_code = memberMyself.UniqueCode;
                 memberHabit.member_national_id = String.valueOf(memberMyself.NationalId);
-                MemberHabit memberHabits = Common.memberHabitRepository.getMemberHabitNo(memberMyself.MemberId);
+                MemberHabit memberHabits = Common.memberHabitRepository.getMemberHabitNo(memberMyself.UniqueCode);
                 if (smokeYesNo == -1 || jordaYesNo == -1 || workplaceYesNo == -1 || alcoholYesNo == -1 || takingSalt == -1 || vigorousIntensity == -1 || moderateIntensity == -1 || vigorousIntensityRecreational == -1 || moderateIntensityRecreational == -1 || recliningActivities == -1) {
                     Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
                 } else {
@@ -4019,7 +4020,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "behavioral";
                             questions.question = "Q32";
-                            questions.member_id = memberMyself.MemberId;
+                            questions.member_id = memberMyself.UniqueCode;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4033,7 +4034,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "behavioral";
                             questions.question = "Q32";
-                            questions.member_id = memberMyself.MemberId;
+                            questions.member_id = memberMyself.UniqueCode;
                             questions.answer = "1";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4046,7 +4047,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "behavioral";
                             questions1.question = "Q32a";
-                            questions1.member_id = memberMyself.MemberId;
+                            questions1.member_id = memberMyself.UniqueCode;
                             questions1.answer = edit_smoke_years.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMyself.id;
@@ -4055,7 +4056,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions2 = new Questions();
                             questions2.type = "behavioral";
                             questions2.question = "Q32b";
-                            questions2.member_id = memberMyself.MemberId;
+                            questions2.member_id = memberMyself.UniqueCode;
                             questions2.answer = edit_smoke_stick.getText().toString();
                             questions2.date = currentDate;
                             questions2.master_id = memberMyself.id;
@@ -4067,7 +4068,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "behavioral";
                             questions.question = "Q33";
-                            questions.member_id = memberMyself.MemberId;
+                            questions.member_id = memberMyself.UniqueCode;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4085,7 +4086,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "behavioral";
                             questions.question = "Q33";
-                            questions.member_id = memberMyself.MemberId;
+                            questions.member_id = memberMyself.UniqueCode;
                             questions.answer = "1";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4098,7 +4099,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "behavioral";
                             questions1.question = "Q33a";
-                            questions1.member_id = memberMyself.MemberId;
+                            questions1.member_id = memberMyself.UniqueCode;
                             questions1.answer = edit_jorda.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMyself.id;
@@ -4109,7 +4110,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "behavioral";
                             questions.question = "Q34";
-                            questions.member_id = memberMyself.MemberId;
+                            questions.member_id = memberMyself.UniqueCode;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4122,7 +4123,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "behavioral";
                             questions.question = "Q34";
-                            questions.member_id = memberMyself.MemberId;
+                            questions.member_id = memberMyself.UniqueCode;
                             questions.answer = "1";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4135,7 +4136,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "behavioral";
                             questions1.question = "Q34a";
-                            questions1.member_id = memberMyself.MemberId;
+                            questions1.member_id = memberMyself.UniqueCode;
                             questions1.answer = edit_workplace.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMyself.id;
@@ -4145,7 +4146,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "behavioral";
                             questions.question = "Q35";
-                            questions.member_id = memberMyself.MemberId;
+                            questions.member_id = memberMyself.UniqueCode;
                             questions.answer = "2";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4158,7 +4159,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions = new Questions();
                             questions.type = "behavioral";
                             questions.question = "Q35";
-                            questions.member_id = memberMyself.MemberId;
+                            questions.member_id = memberMyself.UniqueCode;
                             questions.answer = "1";
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = new Date(System.currentTimeMillis());
@@ -4171,7 +4172,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions1 = new Questions();
                             questions1.type = "behavioral";
                             questions1.question = "Q35a";
-                            questions1.member_id = memberMyself.MemberId;
+                            questions1.member_id = memberMyself.UniqueCode;
                             questions1.answer = edit_alcohol.getText().toString();
                             questions1.date = currentDate;
                             questions1.master_id = memberMyself.id;
@@ -4182,7 +4183,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions5 = new Questions();
                         questions5.type = "behavioral";
                         questions5.question = "Q36";
-                        questions5.member_id = memberMyself.MemberId;
+                        questions5.member_id = memberMyself.UniqueCode;
                         questions5.answer = String.valueOf(typicalFruits);
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
@@ -4196,7 +4197,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions6 = new Questions();
                         questions6.type = "behavioral";
                         questions6.question = "Q37";
-                        questions6.member_id = memberMyself.MemberId;
+                        questions6.member_id = memberMyself.UniqueCode;
                         questions6.answer = String.valueOf(fruitsShowCard);
                         questions6.date = currentDate;
                         questions6.master_id = memberMyself.id;
@@ -4208,7 +4209,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions7 = new Questions();
                         questions7.type = "behavioral";
                         questions7.question = "Q38";
-                        questions7.member_id = memberMyself.MemberId;
+                        questions7.member_id = memberMyself.UniqueCode;
                         questions7.answer = String.valueOf(typicalVegetables);
                         questions7.date = currentDate;
                         questions7.master_id = memberMyself.id;
@@ -4220,7 +4221,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions8 = new Questions();
                         questions8.type = "behavioral";
                         questions8.question = "Q39";
-                        questions8.member_id = memberMyself.MemberId;
+                        questions8.member_id = memberMyself.UniqueCode;
                         questions8.answer = String.valueOf(vegetablesShowCard);
                         questions8.date = currentDate;
                         questions8.master_id = memberMyself.id;
@@ -4246,7 +4247,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions10 = new Questions();
                         questions10.type = "behavioral";
                         questions10.question = "Q41";
-                        questions10.member_id = memberMyself.MemberId;
+                        questions10.member_id = memberMyself.UniqueCode;
                         questions10.answer = String.valueOf(saltyBuy);
                         questions10.date = currentDate;
                         questions10.master_id = memberMyself.id;
@@ -4258,7 +4259,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions311 = new Questions();
                         questions311.type = "behavioral";
                         questions311.question = "Q42a";
-                        questions311.member_id = memberMyself.MemberId;
+                        questions311.member_id = memberMyself.UniqueCode;
                         questions311.answer = edit_yes_extra_salt.getText().toString();
                         questions311.date = currentDate;
                         questions311.master_id = memberMyself.id;
@@ -4268,7 +4269,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         Questions questions11 = new Questions();
                         questions11.type = "behavioral";
                         questions11.question = "Q42";
-                        questions11.member_id = memberMyself.MemberId;
+                        questions11.member_id = memberMyself.UniqueCode;
                         questions11.answer = String.valueOf(takingSalt);
                         questions11.date = currentDate;
                         questions11.master_id = memberMyself.id;
@@ -4279,7 +4280,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q43";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "2";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4288,7 +4289,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q43";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "1";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4297,7 +4298,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions13 = new Questions();
                             questions13.type = "behavioral";
                             questions13.question = "Q43a";
-                            questions13.member_id = memberMyself.MemberId;
+                            questions13.member_id = memberMyself.UniqueCode;
                             questions13.answer = vigiriousIntensity();
                             questions13.date = currentDate;
                             questions13.master_id = memberMyself.id;
@@ -4305,7 +4306,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions14 = new Questions();
                             questions14.type = "behavioral";
                             questions14.question = "Q43b";
-                            questions14.member_id = memberMyself.MemberId;
+                            questions14.member_id = memberMyself.UniqueCode;
                             questions14.answer = String.valueOf(vigorousIntensityTypical);
                             questions14.date = currentDate;
                             questions14.master_id = memberMyself.id;
@@ -4314,7 +4315,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions15 = new Questions();
                             questions15.type = "behavioral";
                             questions15.question = "Q43c";
-                            questions15.member_id = memberMyself.MemberId;
+                            questions15.member_id = memberMyself.UniqueCode;
                             questions15.answer = edit_typical_day.getText().toString();
                             questions15.date = currentDate;
                             questions15.master_id = memberMyself.id;
@@ -4326,7 +4327,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q44";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "2";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4335,7 +4336,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q44";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "1";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4344,7 +4345,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions13 = new Questions();
                             questions13.type = "behavioral";
                             questions13.question = "Q44a";
-                            questions13.member_id = memberMyself.MemberId;
+                            questions13.member_id = memberMyself.UniqueCode;
                             questions13.answer = moderateIntensity();
                             questions13.date = currentDate;
                             questions13.master_id = memberMyself.id;
@@ -4352,7 +4353,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions14 = new Questions();
                             questions14.type = "behavioral";
                             questions14.question = "Q44b";
-                            questions14.member_id = memberMyself.MemberId;
+                            questions14.member_id = memberMyself.UniqueCode;
                             questions14.answer = String.valueOf(moderateIntensityTypical);
                             questions14.date = currentDate;
                             questions14.master_id = memberMyself.id;
@@ -4361,7 +4362,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions15 = new Questions();
                             questions15.type = "behavioral";
                             questions15.question = "Q44c";
-                            questions15.member_id = memberMyself.MemberId;
+                            questions15.member_id = memberMyself.UniqueCode;
                             questions15.answer = edit_typical_day_moderate.getText().toString();
                             questions15.date = currentDate;
                             questions15.master_id = memberMyself.id;
@@ -4374,7 +4375,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q45";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "2";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4383,7 +4384,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q45";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "1";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4392,7 +4393,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions13 = new Questions();
                             questions13.type = "behavioral";
                             questions13.question = "Q45a";
-                            questions13.member_id = memberMyself.MemberId;
+                            questions13.member_id = memberMyself.UniqueCode;
                             questions13.answer = vigorousIntensityRecreational();
                             questions13.date = currentDate;
                             questions13.master_id = memberMyself.id;
@@ -4400,7 +4401,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions14 = new Questions();
                             questions14.type = "behavioral";
                             questions14.question = "Q45b";
-                            questions14.member_id = memberMyself.MemberId;
+                            questions14.member_id = memberMyself.UniqueCode;
                             questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
                             questions14.date = currentDate;
                             questions14.master_id = memberMyself.id;
@@ -4409,7 +4410,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions15 = new Questions();
                             questions15.type = "behavioral";
                             questions15.question = "Q45c";
-                            questions15.member_id = memberMyself.MemberId;
+                            questions15.member_id = memberMyself.UniqueCode;
                             questions15.answer = edit_typical_day_recreational.getText().toString();
                             questions15.date = currentDate;
                             questions15.master_id = memberMyself.id;
@@ -4421,7 +4422,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q46";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "2";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4430,7 +4431,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q46";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "1";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4439,7 +4440,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions13 = new Questions();
                             questions13.type = "behavioral";
                             questions13.question = "Q46a";
-                            questions13.member_id = memberMyself.MemberId;
+                            questions13.member_id = memberMyself.UniqueCode;
                             questions13.answer = moderateIntensityRecreational();
                             questions13.date = currentDate;
                             questions13.master_id = memberMyself.id;
@@ -4448,7 +4449,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions14 = new Questions();
                             questions14.type = "behavioral";
                             questions14.question = "Q46b";
-                            questions14.member_id = memberMyself.MemberId;
+                            questions14.member_id = memberMyself.UniqueCode;
                             questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
                             questions14.date = currentDate;
                             questions14.master_id = memberMyself.id;
@@ -4457,7 +4458,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions15 = new Questions();
                             questions15.type = "behavioral";
                             questions15.question = "Q46c";
-                            questions15.member_id = memberMyself.MemberId;
+                            questions15.member_id = memberMyself.UniqueCode;
                             questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
                             questions15.date = currentDate;
                             questions15.master_id = memberMyself.id;
@@ -4469,7 +4470,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q48";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "2";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4478,7 +4479,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q48";
-                            questions12.member_id = memberMyself.MemberId;
+                            questions12.member_id = memberMyself.UniqueCode;
                             questions12.answer = "1";
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
@@ -4488,7 +4489,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions15 = new Questions();
                             questions15.type = "behavioral";
                             questions15.question = "Q48a";
-                            questions15.member_id = memberMyself.MemberId;
+                            questions15.member_id = memberMyself.UniqueCode;
                             questions15.answer = edit_yes_reclining.getText().toString();
                             questions15.date = currentDate;
                             questions15.master_id = memberMyself.id;
@@ -4497,7 +4498,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                         Common.memberHabitRepository.insertToMemberHabit(memberHabit);
 
-                        showInfoDialog(mActivity, memberMyself.MemberId);
+                        showInfoDialog(mActivity, memberMyself.UniqueCode);
 
                     } else {
                         memberHabit.id = memberHabits.id;
@@ -4509,7 +4510,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 questions.type = "behavioral";
                                 questions.id = questions1.id;
                                 questions.question = "Q32";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -4521,7 +4522,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q32";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -4541,7 +4542,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q32";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "1";
 
                                 questions.date = currentDate;
@@ -4551,7 +4552,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q32";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "1";
 
                                 questions.date = currentDate;
@@ -4568,7 +4569,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions1 = new Questions();
                                 questions1.type = "behavioral";
                                 questions1.question = "Q32a";
-                                questions1.member_id = memberHabits.MemberId;
+                                questions1.member_id = memberHabits.member_unique_code;
                                 questions1.answer = edit_smoke_years.getText().toString();
                                 questions1.date = currentDate;
                                 questions1.master_id = memberHabits.id;
@@ -4577,7 +4578,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions1 = new Questions();
                                 questions1.type = "behavioral";
                                 questions1.question = "Q32a";
-                                questions1.member_id = memberHabits.MemberId;
+                                questions1.member_id = memberHabits.member_unique_code;
                                 questions1.answer = edit_smoke_years.getText().toString();
                                 questions1.date = currentDate;
                                 questions1.master_id = memberHabits.id;
@@ -4589,7 +4590,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions2 = new Questions();
                                 questions2.type = "behavioral";
                                 questions2.question = "Q32b";
-                                questions2.member_id = memberMyself.MemberId;
+                                questions2.member_id = memberHabits.member_unique_code;
                                 questions2.answer = edit_smoke_stick.getText().toString();
                                 questions2.date = currentDate;
                                 questions2.master_id = memberMyself.id;
@@ -4598,7 +4599,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions2 = new Questions();
                                 questions2.type = "behavioral";
                                 questions2.question = "Q32b";
-                                questions2.member_id = memberMyself.MemberId;
+                                questions2.member_id = memberHabits.member_unique_code;
                                 questions2.answer = edit_smoke_stick.getText().toString();
                                 questions2.date = currentDate;
                                 questions2.master_id = memberMyself.id;
@@ -4613,7 +4614,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q33";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id =memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -4625,7 +4626,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q33";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -4646,7 +4647,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q33";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "1";
 
                                 questions.date = currentDate;
@@ -4656,7 +4657,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q33";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "1";
                                 questions.date = currentDate;
                                 questions.master_id = memberHabits.id;
@@ -4671,7 +4672,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions1 = new Questions();
                                 questions1.type = "behavioral";
                                 questions1.question = "Q33a";
-                                questions1.member_id = memberHabits.MemberId;
+                                questions1.member_id = memberHabits.member_unique_code;
                                 questions1.answer = edit_jorda.getText().toString();
                                 questions1.date = currentDate;
                                 questions1.master_id = memberHabits.id;
@@ -4680,7 +4681,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions1 = new Questions();
                                 questions1.type = "behavioral";
                                 questions1.question = "Q33a";
-                                questions1.member_id = memberHabits.MemberId;
+                                questions1.member_id = memberHabits.member_unique_code;
                                 questions1.answer = edit_jorda.getText().toString();
                                 questions1.date = currentDate;
                                 questions1.master_id = memberHabits.id;
@@ -4696,7 +4697,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q34";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -4708,7 +4709,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q34";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -4729,7 +4730,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q34";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "1";
 
                                 questions.date = currentDate;
@@ -4739,7 +4740,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q34";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "1";
 
                                 questions.date = currentDate;
@@ -4755,7 +4756,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions1 = new Questions();
                                 questions1.type = "behavioral";
                                 questions1.question = "Q34a";
-                                questions1.member_id = memberHabits.MemberId;
+                                questions1.member_id = memberHabits.member_unique_code;
                                 questions1.answer = edit_workplace.getText().toString();
                                 questions1.date = currentDate;
                                 questions1.master_id = memberHabits.id;
@@ -4764,7 +4765,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions1 = new Questions();
                                 questions1.type = "behavioral";
                                 questions1.question = "Q34a";
-                                questions1.member_id = memberHabits.MemberId;
+                                questions1.member_id = memberHabits.member_unique_code;
                                 questions1.answer = edit_workplace.getText().toString();
                                 questions1.date = currentDate;
                                 questions1.master_id = memberHabits.id;
@@ -4779,7 +4780,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q35";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -4792,7 +4793,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q35";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -4813,7 +4814,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q35";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "1";
 
                                 questions.date = currentDate;
@@ -4824,7 +4825,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q35";
-                                questions.member_id = memberHabits.MemberId;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "1";
 
                                 questions.date = currentDate;
@@ -4840,7 +4841,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions1 = new Questions();
                                 questions1.type = "behavioral";
                                 questions1.question = "Q35a";
-                                questions1.member_id = memberHabits.MemberId;
+                                questions1.member_id = memberHabits.member_unique_code;
                                 questions1.answer = edit_alcohol.getText().toString();
                                 questions1.date = currentDate;
                                 questions1.master_id = memberHabits.id;
@@ -4849,7 +4850,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions1 = new Questions();
                                 questions1.type = "behavioral";
                                 questions1.question = "Q35a";
-                                questions1.member_id = memberHabits.MemberId;
+                                questions1.member_id = memberHabits.member_unique_code;
                                 questions1.answer = edit_alcohol.getText().toString();
                                 questions1.date = currentDate;
                                 questions1.master_id = memberHabits.id;
@@ -4868,7 +4869,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions5 = new Questions();
                             questions5.type = "behavioral";
                             questions5.question = "Q36";
-                            questions5.member_id = memberHabits.MemberId;
+                            questions5.member_id = memberHabits.member_unique_code;
                             questions5.answer = String.valueOf(typicalFruits);
 
                             questions5.date = currentDate;
@@ -4878,7 +4879,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions5 = new Questions();
                             questions5.type = "behavioral";
                             questions5.question = "Q36";
-                            questions5.member_id = memberHabits.MemberId;
+                            questions5.member_id = memberHabits.member_unique_code;
                             questions5.answer = String.valueOf(typicalFruits);
 
                             questions5.date = currentDate;
@@ -4894,7 +4895,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions6 = new Questions();
                             questions6.type = "behavioral";
                             questions6.question = "Q37";
-                            questions6.member_id = memberHabits.MemberId;
+                            questions6.member_id = memberHabits.member_unique_code;
                             questions6.answer = String.valueOf(fruitsShowCard);
                             questions6.date = currentDate;
                             questions6.master_id = memberHabits.id;
@@ -4903,7 +4904,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions6 = new Questions();
                             questions6.type = "behavioral";
                             questions6.question = "Q37";
-                            questions6.member_id = memberHabits.MemberId;
+                            questions6.member_id = memberHabits.member_unique_code;
                             questions6.answer = String.valueOf(fruitsShowCard);
                             questions6.date = currentDate;
                             questions6.master_id = memberHabits.id;
@@ -4919,7 +4920,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions7 = new Questions();
                             questions7.type = "behavioral";
                             questions7.question = "Q38";
-                            questions7.member_id = memberHabits.MemberId;
+                            questions7.member_id = memberHabits.member_unique_code;
                             questions7.answer = String.valueOf(typicalVegetables);
                             questions7.date = currentDate;
                             questions7.master_id = memberHabits.id;
@@ -4928,7 +4929,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions7 = new Questions();
                             questions7.type = "behavioral";
                             questions7.question = "Q38";
-                            questions7.member_id = memberHabits.MemberId;
+                            questions7.member_id = memberHabits.member_unique_code;
                             questions7.answer = String.valueOf(typicalVegetables);
                             questions7.date = currentDate;
                             questions7.master_id = memberHabits.id;
@@ -4944,7 +4945,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions8 = new Questions();
                             questions8.type = "behavioral";
                             questions8.question = "Q39";
-                            questions8.member_id = memberHabits.MemberId;
+                            questions8.member_id = memberHabits.member_unique_code;
                             questions8.answer = String.valueOf(vegetablesShowCard);
                             questions8.date = currentDate;
                             questions8.master_id = memberHabits.id;
@@ -4953,7 +4954,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions8 = new Questions();
                             questions8.type = "behavioral";
                             questions8.question = "Q39";
-                            questions8.member_id = memberHabits.MemberId;
+                            questions8.member_id = memberHabits.member_unique_code;
                             questions8.answer = String.valueOf(vegetablesShowCard);
                             questions8.date = currentDate;
                             questions8.master_id = memberHabits.id;
@@ -4969,7 +4970,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions9 = new Questions();
                             questions9.type = "behavioral";
                             questions9.question = "Q39";
-                            questions9.member_id = memberHabits.MemberId;
+                            questions9.member_id = memberHabits.member_unique_code;
                             questions9.answer = String.valueOf(vegetablesShowCard);
                             questions9.date = currentDate;
                             questions9.master_id = memberHabits.id;
@@ -4978,7 +4979,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions9 = new Questions();
                             questions9.type = "behavioral";
                             questions9.question = "Q39";
-                            questions9.member_id = memberHabits.MemberId;
+                            questions9.member_id = memberHabits.member_unique_code;
                             questions9.answer = String.valueOf(vegetablesShowCard);
                             questions9.date = currentDate;
                             questions9.master_id = memberHabits.id;
@@ -4994,7 +4995,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions10 = new Questions();
                             questions10.type = "behavioral";
                             questions10.question = "Q41";
-                            questions10.member_id = memberHabits.MemberId;
+                            questions10.member_id = memberHabits.member_unique_code;
                             questions10.answer = String.valueOf(saltyBuy);
                             questions10.date = currentDate;
                             questions10.master_id = memberHabits.id;
@@ -5003,7 +5004,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions10 = new Questions();
                             questions10.type = "behavioral";
                             questions10.question = "Q41";
-                            questions10.member_id = memberHabits.MemberId;
+                            questions10.member_id = memberHabits.member_unique_code;
                             questions10.answer = String.valueOf(saltyBuy);
                             questions10.date = currentDate;
                             questions10.master_id = memberHabits.id;
@@ -5018,7 +5019,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions11 = new Questions();
                             questions11.type = "behavioral";
                             questions11.question = "Q42";
-                            questions11.member_id = memberHabits.MemberId;
+                            questions11.member_id = memberHabits.member_unique_code;
                             questions11.answer = String.valueOf(takingSalt);
                             questions11.date = currentDate;
                             questions11.master_id = memberHabits.id;
@@ -5027,7 +5028,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions11 = new Questions();
                             questions11.type = "behavioral";
                             questions11.question = "Q42";
-                            questions11.member_id = memberHabits.MemberId;
+                            questions11.member_id = memberHabits.member_unique_code;
                             questions11.answer = String.valueOf(takingSalt);
                             questions11.date = currentDate;
                             questions11.master_id = memberHabits.id;
@@ -5040,7 +5041,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions11 = new Questions();
                             questions11.type = "behavioral";
                             questions11.question = "Q42a";
-                            questions11.member_id = memberHabitsFor.MemberId;
+                            questions11.member_id = memberHabitsFor.member_unique_code;
                             questions11.answer = edit_yes_extra_salt.getText().toString();
                             questions11.date = currentDate;
                             questions11.master_id = memberHabitsFor.id;
@@ -5049,7 +5050,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             Questions questions11 = new Questions();
                             questions11.type = "behavioral";
                             questions11.question = "Q42";
-                            questions11.member_id = memberHabitsFor.MemberId;
+                            questions11.member_id = memberHabitsFor.member_unique_code;
                             questions11.answer = edit_yes_extra_salt.getText().toString();
                             questions11.date = currentDate;
                             questions11.master_id = memberHabitsFor.id;
@@ -5064,7 +5065,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q43";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "2";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5073,7 +5074,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q43";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "2";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5087,7 +5088,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q43";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5096,7 +5097,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q43";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5109,7 +5110,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions13 = new Questions();
                                 questions13.type = "behavioral";
                                 questions13.question = "Q43a";
-                                questions13.member_id = memberHabits.MemberId;
+                                questions13.member_id = memberHabits.member_unique_code;
                                 questions13.answer = vigiriousIntensity();
                                 questions13.date = currentDate;
                                 questions13.master_id = memberHabits.id;
@@ -5118,7 +5119,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions13 = new Questions();
                                 questions13.type = "behavioral";
                                 questions13.question = "Q43a";
-                                questions13.member_id = memberHabits.MemberId;
+                                questions13.member_id = memberHabits.member_unique_code;
                                 questions13.answer = vigiriousIntensity();
                                 questions13.date = currentDate;
                                 questions13.master_id = memberHabits.id;
@@ -5132,7 +5133,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions14 = new Questions();
                                 questions14.type = "behavioral";
                                 questions14.question = "Q43b";
-                                questions14.member_id = memberHabits.MemberId;
+                                questions14.member_id = memberHabits.member_unique_code;
                                 questions14.answer = String.valueOf(vigorousIntensityTypical);
                                 questions14.date = currentDate;
                                 questions14.master_id = memberHabits.id;
@@ -5141,7 +5142,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions14 = new Questions();
                                 questions14.type = "behavioral";
                                 questions14.question = "Q43b";
-                                questions14.member_id = memberHabits.MemberId;
+                                questions14.member_id = memberHabits.member_unique_code;
                                 questions14.answer = String.valueOf(vigorousIntensityTypical);
                                 questions14.date = currentDate;
                                 questions14.master_id = memberHabits.id;
@@ -5154,7 +5155,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q43c";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_typical_day.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5163,7 +5164,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q43c";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_typical_day.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5180,7 +5181,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q44";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "2";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5189,7 +5190,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q44";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "2";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5203,7 +5204,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q44";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5212,7 +5213,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q44";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5225,7 +5226,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions13 = new Questions();
                                 questions13.type = "behavioral";
                                 questions13.question = "Q44a";
-                                questions13.member_id = memberHabits.MemberId;
+                                questions13.member_id = memberHabits.member_unique_code;
                                 questions13.answer = moderateIntensity();
                                 questions13.date = currentDate;
                                 questions13.master_id = memberHabits.id;
@@ -5234,7 +5235,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions13 = new Questions();
                                 questions13.type = "behavioral";
                                 questions13.question = "Q44a";
-                                questions13.member_id = memberHabits.MemberId;
+                                questions13.member_id = memberHabits.member_unique_code;
                                 questions13.answer = moderateIntensity();
                                 questions13.date = currentDate;
                                 questions13.master_id = memberHabits.id;
@@ -5247,7 +5248,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions14 = new Questions();
                                 questions14.type = "behavioral";
                                 questions14.question = "Q44b";
-                                questions14.member_id = memberHabits.MemberId;
+                                questions14.member_id = memberHabits.member_unique_code;
                                 questions14.answer = String.valueOf(moderateIntensityTypical);
                                 questions14.date = currentDate;
                                 questions14.master_id = memberHabits.id;
@@ -5256,7 +5257,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions14 = new Questions();
                                 questions14.type = "behavioral";
                                 questions14.question = "Q44b";
-                                questions14.member_id = memberHabits.MemberId;
+                                questions14.member_id = memberHabits.member_unique_code;
                                 questions14.answer = String.valueOf(moderateIntensityTypical);
                                 questions14.date = currentDate;
                                 questions14.master_id = memberHabits.id;
@@ -5269,7 +5270,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q44c";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_typical_day_moderate.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5278,7 +5279,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q44c";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_typical_day_moderate.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5296,7 +5297,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q45";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "2";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5305,7 +5306,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q45";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "2";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5319,7 +5320,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q45";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5328,7 +5329,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q45";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5342,7 +5343,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions13 = new Questions();
                                 questions13.type = "behavioral";
                                 questions13.question = "Q45a";
-                                questions13.member_id = memberHabits.MemberId;
+                                questions13.member_id = memberHabits.member_unique_code;
                                 questions13.answer = vigorousIntensityRecreational();
                                 questions13.date = currentDate;
                                 questions13.master_id = memberHabits.id;
@@ -5351,7 +5352,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions13 = new Questions();
                                 questions13.type = "behavioral";
                                 questions13.question = "Q45a";
-                                questions13.member_id = memberHabits.MemberId;
+                                questions13.member_id = memberHabits.member_unique_code;
                                 questions13.answer = vigorousIntensityRecreational();
                                 questions13.date = currentDate;
                                 questions13.master_id = memberHabits.id;
@@ -5365,7 +5366,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions14 = new Questions();
                                 questions14.type = "behavioral";
                                 questions14.question = "Q45b";
-                                questions14.member_id = memberHabits.MemberId;
+                                questions14.member_id = memberHabits.member_unique_code;
                                 questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
                                 questions14.date = currentDate;
                                 questions14.master_id = memberHabits.id;
@@ -5374,7 +5375,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions14 = new Questions();
                                 questions14.type = "behavioral";
                                 questions14.question = "Q45b";
-                                questions14.member_id = memberHabits.MemberId;
+                                questions14.member_id = memberHabits.member_unique_code;
                                 questions14.answer = String.valueOf(vigorousIntensityRecreationalTypical);
                                 questions14.date = currentDate;
                                 questions14.master_id = memberHabits.id;
@@ -5387,7 +5388,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q45c";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_typical_day_recreational.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5396,7 +5397,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q45c";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_typical_day_recreational.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5413,7 +5414,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q46";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "2";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5422,7 +5423,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q46";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.id = questionsFor31.id;
                                 questions12.answer = "2";
                                 questions12.date = currentDate;
@@ -5436,7 +5437,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q46";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5445,7 +5446,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q46";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.id = questionsFor21.id;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
@@ -5458,7 +5459,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions13 = new Questions();
                                 questions13.type = "behavioral";
                                 questions13.question = "Q46a";
-                                questions13.member_id = memberHabits.MemberId;
+                                questions13.member_id = memberHabits.member_unique_code;
                                 questions13.answer = moderateIntensityRecreational();
                                 questions13.date = currentDate;
                                 questions13.master_id = memberHabits.id;
@@ -5467,7 +5468,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions13 = new Questions();
                                 questions13.type = "behavioral";
                                 questions13.question = "Q46a";
-                                questions13.member_id = memberHabits.MemberId;
+                                questions13.member_id = memberHabits.member_unique_code;
                                 questions13.id = questionsFor178.id;
                                 questions13.answer = moderateIntensityRecreational();
                                 questions13.date = currentDate;
@@ -5480,7 +5481,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions14 = new Questions();
                                 questions14.type = "behavioral";
                                 questions14.question = "Q46b";
-                                questions14.member_id = memberHabits.MemberId;
+                                questions14.member_id = memberHabits.member_unique_code;
                                 questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
                                 questions14.date = currentDate;
                                 questions14.master_id = memberHabits.id;
@@ -5489,7 +5490,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions14 = new Questions();
                                 questions14.type = "behavioral";
                                 questions14.question = "Q46b";
-                                questions14.member_id = memberHabits.MemberId;
+                                questions14.member_id = memberHabits.member_unique_code;
                                 questions14.id = questionsFor17.id;
                                 questions14.answer = String.valueOf(moderateIntensityRecreationalTypical);
                                 questions14.date = currentDate;
@@ -5502,7 +5503,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q46c";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5511,7 +5512,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q46c";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.id = questionsFor199.id;
                                 questions15.answer = edit_typical_day_moderate_recreational.getText().toString();
                                 questions15.date = currentDate;
@@ -5528,7 +5529,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q48";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5537,7 +5538,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q48";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.id = questionsFor19.id;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
@@ -5551,7 +5552,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions12 = new Questions();
                                 questions12.type = "behavioral";
                                 questions12.question = "Q48";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5561,7 +5562,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 questions12.id = questionsFor12.id;
                                 questions12.type = "behavioral";
                                 questions12.question = "Q48";
-                                questions12.member_id = memberHabits.MemberId;
+                                questions12.member_id = memberHabits.member_unique_code;
                                 questions12.answer = "1";
                                 questions12.date = currentDate;
                                 questions12.master_id = memberHabits.id;
@@ -5574,7 +5575,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions15 = new Questions();
                                 questions15.type = "behavioral";
                                 questions15.question = "Q48a";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_yes_reclining.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5584,7 +5585,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 questions15.id = questionsFor15.id;
                                 questions15.type = "behavioral";
                                 questions15.question = "Q48a";
-                                questions15.member_id = memberHabits.MemberId;
+                                questions15.member_id = memberHabits.member_unique_code;
                                 questions15.answer = edit_yes_reclining.getText().toString();
                                 questions15.date = currentDate;
                                 questions15.master_id = memberHabits.id;
@@ -5593,7 +5594,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
                         }
                         memberHabit.household_uniqe_id = memberHabits.household_uniqe_id;
-                        memberHabit.member_unique_code = "";
+                        memberHabit.member_unique_code = memberHabits.member_unique_code;
                         memberHabit.member_national_id = String.valueOf(memberHabits.member_national_id);
                         Common.memberHabitRepository.updateMemberHabit(memberHabit);
                         if (frag.equals("frag")) {

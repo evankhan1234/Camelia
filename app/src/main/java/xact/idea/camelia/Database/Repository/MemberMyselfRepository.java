@@ -190,4 +190,9 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     public void deleteMemberMyself(MemberMyself... MemberMyself) {
         IMemberMyselfDatasources.deleteMemberMyself(MemberMyself);
     }
+
+    @Override
+    public int count(String uniqueId) {
+        return IMemberMyselfDatasources.count(uniqueId);
+    }
 }

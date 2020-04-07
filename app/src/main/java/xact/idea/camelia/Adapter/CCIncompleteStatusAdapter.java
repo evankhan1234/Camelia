@@ -195,20 +195,20 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             holder.img_next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    uccMemberClickListener.postion(memberMyself.get(position).id, memberMyself.get(position).MemberId);
+                    uccMemberClickListener.postion(memberMyself.get(position).id, memberMyself.get(position).UniqueCode);
                     //Toast.makeText(mActivity, messageEntities.get(position).FullName, Toast.LENGTH_SHORT).show();
                 }
             });
             holder.text_follow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogFollow(mActivity, memberMyself.get(position).MemberId, memberMyself.get(position).UniqueId);
+                    showInfoDialogFollow(mActivity, memberMyself.get(position).UniqueCode);
                 }
             });
             holder.text_referral.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogRefer(mActivity, memberMyself.get(position).MemberId, memberMyself.get(position).UniqueId);
+                    showInfoDialogRefer(mActivity, memberMyself.get(position).UniqueCode);
                 }
             });
             holder.text_visits.setOnClickListener(new View.OnClickListener() {
@@ -281,20 +281,20 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             holder.img_next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    uccMemberClickListener.postion(memberMyselfs.get(position).id, memberMyselfs.get(position).MemberId);
+                    uccMemberClickListener.postion(memberMyselfs.get(position).id, memberMyselfs.get(position).UniqueCode);
                     //Toast.makeText(mActivity, messageEntities.get(position).FullName, Toast.LENGTH_SHORT).show();
                 }
             });
             holder.text_follow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogFollow(mActivity, memberMyselfs.get(position).MemberId, memberMyselfs.get(position).UniqueId);
+                    showInfoDialogFollow(mActivity, memberMyself.get(position).UniqueCode);
                 }
             });
             holder.text_referral.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogRefer(mActivity, memberMyselfs.get(position).MemberId, memberMyselfs.get(position).UniqueId);
+                    showInfoDialogRefer(mActivity, memberMyself.get(position).UniqueCode);
                 }
             });
             holder.text_visits.setOnClickListener(new View.OnClickListener() {
@@ -428,7 +428,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         infoDialog.show();
     }
 
-    public void showInfoDialogFollow(final Activity mContext, final String member, final String uniqueId) {
+    public void showInfoDialogFollow(final Activity mContext,final String uniqueId) {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         ArrayAdapter<ClinicModel> divisionArrayAdapter;
 //        List<CCModel> clinicModelArrayList = new ArrayList<>();
@@ -518,18 +518,18 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                ReferHistory history = Common.referRepository.getReferHistoryFrom(uniqueId + member);
+                ReferHistory history = Common.referRepository.getReferHistoryFrom(uniqueId );
                 if (history != null) {
-                    Common.referRepository.updateReferHistoryFrom(uniqueId + member);
+                    Common.referRepository.updateReferHistoryFrom(uniqueId );
                 }
-                Common.memberMyselfRepository.updateReciverAgain("CC", refer[0], edit_date.getText().toString(), member);
+                Common.memberMyselfRepository.updateReciverAgain("CC", refer[0], edit_date.getText().toString(), uniqueId);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = "CC";
                 //referHistory.UpdateNo ="1";
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = visitDate;
-                referHistory.MemberUniqueCode = uniqueId + member;
+                referHistory.MemberUniqueCode = uniqueId ;
                 referHistory.UniqueId = uniqueId;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());
@@ -575,7 +575,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     static EditText edit_dateq;
     static EditText edit_dates;
 
-    public void showInfoDialogRefer(final Context mContext, final String member, final String uniqueId) {
+    public void showInfoDialogRefer(final Context mContext,  final String uniqueId) {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         showLoadingProgress(mActivity);
 
@@ -733,18 +733,18 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View view) {
-                ReferHistory history = Common.referRepository.getReferHistoryFrom(uniqueId + member);
+                ReferHistory history = Common.referRepository.getReferHistoryFrom(uniqueId );
                 if (history != null) {
-                    Common.referRepository.updateReferHistoryFrom(uniqueId + member);
+                    Common.referRepository.updateReferHistoryFrom(uniqueId );
                 }
-                Common.memberMyselfRepository.updateReciverAgain("UHC", refer[0], edit_dates.getText().toString(), member);
+                Common.memberMyselfRepository.updateReciverAgain("UHC", refer[0], edit_dates.getText().toString(), uniqueId);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "CC";
                 referHistory.To = "UHC";
 //                referHistory.UpdateNo ="1";
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = visitDate;
-                referHistory.MemberUniqueCode = uniqueId + member;
+                referHistory.MemberUniqueCode = uniqueId ;
                 referHistory.UniqueId = uniqueId;
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());

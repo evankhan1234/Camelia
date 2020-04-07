@@ -314,7 +314,7 @@ public class CCUserActivity extends AppCompatActivity {
                     mdata.type = measurements.Type;
                     mdata.result = String.valueOf(measurements.Result);
                     mdata.status = "1";
-                    mdata.update_no = "0";
+                    mdata.update_no = "1";
                     mdata.created_at = currentDate;
                     mdata.datetime = currentDate;
                     mdata.attr_values = memberMyselvesdetails;
@@ -362,7 +362,7 @@ public class CCUserActivity extends AppCompatActivity {
             mdata.name= String.valueOf(questions.Name);
             mdata.value= String.valueOf(questions.Result);
             mdata.status= "1";
-            mdata.update_no= "0";
+            mdata.update_no= "1";
 
             memberMyselves.add(mdata);
             dismissLoadingProgress();
@@ -760,8 +760,8 @@ public class CCUserActivity extends AppCompatActivity {
                         memberMyself.DateOfBirth = birthDate;
 
                         memberMyself.CreatedDate = date2;
-                        downMedicalHistory(member.medical_history_details,member.member_id,member.household_uniqe_id,member.national_id);
-                        downBehaviorialHistory(member.behavioral_info_details,member.member_id,member.household_uniqe_id,member.national_id);
+                        downMedicalHistory(member.medical_history_details,member.unique_code,member.household_uniqe_id,member.national_id);
+                        downBehaviorialHistory(member.behavioral_info_details,member.unique_code,member.household_uniqe_id,member.national_id);
                         memberMyself.GenderId = Integer.parseInt(member.sex);
                         memberMyself.BloodGroupId =  Integer.parseInt(member.blood_group);
                         memberMyself.ReligionId =  Integer.parseInt(member.religion);
@@ -811,8 +811,8 @@ public class CCUserActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        downMedicalHistory(member.medical_history_details,member.member_id,member.household_uniqe_id,member.national_id);
-                        downBehaviorialHistory(member.behavioral_info_details,member.member_id,member.household_uniqe_id,member.national_id);
+                        downMedicalHistory(member.medical_history_details,member.unique_code,member.household_uniqe_id,member.national_id);
+                        downBehaviorialHistory(member.behavioral_info_details,member.unique_code,member.household_uniqe_id,member.national_id);
                         String birthDate = formatter.format(date1);
 
                         memberMyself.DateOfBirth = birthDate;
@@ -859,14 +859,14 @@ public class CCUserActivity extends AppCompatActivity {
                         memberMedicine.id=memberMed.id;
                         memberMedicine.MemberId = memberMed.MemberId;
                         memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
-                        memberMedicine.member_unique_code = "";
+                        memberMedicine.member_unique_code = memberMed.member_unique_code;
                         memberMedicine.member_national_id = String.valueOf(memberMed.member_national_id);
                         Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
                     }
                     else{
                         memberMedicine.MemberId = MemberId;
                         memberMedicine.household_uniqe_id = HouseholdId;
-                        memberMedicine.member_unique_code = "";
+                        memberMedicine.member_unique_code = MemberId;
                         memberMedicine.member_national_id = NationalId;
                         Common.memberMedicineRepository.insertToMemberMedicine(memberMedicine);
                     }
@@ -2293,14 +2293,14 @@ public class CCUserActivity extends AppCompatActivity {
                         memberMedicine.id=memberMed.id;
                         memberMedicine.MemberId = memberMed.MemberId;
                         memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
-                        memberMedicine.member_unique_code = "";
+                        memberMedicine.member_unique_code = memberMed.member_unique_code;
                         memberMedicine.member_national_id = String.valueOf(memberMed.member_national_id);
                         Common.memberHabitRepository.updateMemberHabit(memberMedicine);
                     }
                     else{
                         memberMedicine.MemberId = MemberId;
                         memberMedicine.household_uniqe_id = HouseholdId;
-                        memberMedicine.member_unique_code = "";
+                        memberMedicine.member_unique_code = MemberId;
                         memberMedicine.member_national_id = NationalId;
                         Common.memberHabitRepository.insertToMemberHabit(memberMedicine);
                     }
@@ -3661,8 +3661,8 @@ public class CCUserActivity extends AppCompatActivity {
                     mdata.household_uniqe_id = memberMedicine.household_uniqe_id;
                     mdata.member_id = memberMedicine.MemberId;
                     mdata.member_national_id = memberMedicine.member_national_id;
-                    memberMyselvesdetails = getMedicalHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
-                    mdata.member_unique_code = memberMedicine.household_uniqe_id+memberMedicine.MemberId;
+                    memberMyselvesdetails = getMedicalHistoryDetailsData(memberMedicine.member_unique_code, currentDate, memberMedicine.id);
+                    mdata.member_unique_code = memberMedicine.member_unique_code;
                     mdata.status = "1";
                     mdata.update_no = "0";
                     mdata.created_at = currentDate;
@@ -3712,8 +3712,8 @@ public class CCUserActivity extends AppCompatActivity {
                     mdata.household_uniqe_id = memberMedicine.household_uniqe_id;
                     mdata.member_id = memberMedicine.MemberId;
                     mdata.member_national_id = memberMedicine.member_national_id;
-                    memberMyselvesdetails = getBeahviorialHistoryDetailsData(memberMedicine.MemberId, currentDate, memberMedicine.id);
-                    mdata.member_unique_code = memberMedicine.household_uniqe_id+memberMedicine.MemberId;
+                    memberMyselvesdetails = getBeahviorialHistoryDetailsData(memberMedicine.member_unique_code, currentDate, memberMedicine.id);
+                    mdata.member_unique_code = memberMedicine.member_unique_code;
                     mdata.status = "1";
                     mdata.update_no = "0";
                     mdata.created_at = currentDate;
@@ -4850,6 +4850,7 @@ public class CCUserActivity extends AppCompatActivity {
             public void onClick(View view) {
                 downloadHousehold();
                 loadMemberId();
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
