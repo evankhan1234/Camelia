@@ -142,6 +142,7 @@ import xact.idea.camelia.NetworkModel.MemberBehaviorialUploadModel;
 import xact.idea.camelia.NetworkModel.MemberGetResponseModel;
 import xact.idea.camelia.NetworkModel.MemberPrescriptionResponseModel;
 import xact.idea.camelia.NetworkModel.MemberResponseModel;
+import xact.idea.camelia.NetworkModel.MemberUniquePostModel;
 import xact.idea.camelia.NetworkModel.MemberUploadModel;
 import xact.idea.camelia.NetworkModel.MesaurementUploadModel;
 import xact.idea.camelia.NetworkModel.OccupationResponses;
@@ -446,8 +447,8 @@ public class CCUserActivity extends AppCompatActivity {
         }));
     }
     private void downloadMeasurements(String uniueId){
-        ReferallPostModel referallPostModel = new ReferallPostModel();
-        referallPostModel.household_uniqe_id=uniueId;
+        MemberUniquePostModel referallPostModel = new MemberUniquePostModel();
+        referallPostModel.member_unique_code=uniueId;
         showLoadingProgress(CCUserActivity.this);
         compositeDisposable.add(mService.getMeasurementsGetResponse(referallPostModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MeasurementsGetResponseModel>() {
             @Override
@@ -649,7 +650,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.HH = Integer.parseInt(house.hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                            // downloadMember(house.household_uniqe_id);
-                            downloadMeasurements(house.household_uniqe_id);
+
                             houseHold.VillageName = house.village;
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
@@ -679,7 +680,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.UniqueId = house.household_uniqe_id;
                             houseHold.VillageName = house.village;
                            //downloadMember(house.household_uniqe_id);
-                            downloadMeasurements(house.household_uniqe_id);
+
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
                             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -729,7 +730,7 @@ public class CCUserActivity extends AppCompatActivity {
                         memberMyself.MobileNumber = member.mobile_number;
                         memberMyself.FullName = member.name;
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
+                        downloadMeasurements(member.unique_code);
                         Date date1 = null;
 
                         try {
@@ -787,7 +788,7 @@ public class CCUserActivity extends AppCompatActivity {
                         memberMyself.MobileNumber = member.mobile_number;
                         memberMyself.FullName =member.name;
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
+                        downloadMeasurements(member.unique_code);
                         Date date1 = null;
 
                         try {

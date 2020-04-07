@@ -90,9 +90,12 @@ public class CCMesaurementDetailsAdapter extends RecyclerView.Adapter<CCMesaurem
         String currentDate = formatter.format(measurements.get(position).DateTime);
 
         holder.text_date.setText(currentDate);
-        if (measurements.get(position).Refer.equals("")){
+        if (measurements.get(position).Refer==null){
             holder.text_weight_number.setBackground(null);
 
+        }
+        else if (measurements.get(position).Refer.equals("") ){
+            holder.text_weight_number.setBackground(null);
         }
         else {
             holder.text_weight_number.setText(measurements.get(position).Refer);
