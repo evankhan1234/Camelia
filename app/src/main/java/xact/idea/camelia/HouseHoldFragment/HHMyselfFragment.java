@@ -781,7 +781,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 memberMyself.DateOfDeath = edit_date_of_death.getText().toString();
 
                                 int  count=Common.memberMyselfRepository.count(uniqueId);
-                                String countSize=String.valueOf(count);
+                                String countSize=String.valueOf(count+1);
                                 String memberValue="";
                                 if (countSize.length()<9){
                                     memberValue="00"+countSize;
@@ -800,7 +800,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
 
                                 //Common.memberIdRepository.emptyMemberId(memberId);
-                                showInfoDialog(mActivity, memberId);
+                                showInfoDialog(mActivity, uniqueId+memberValue);
 
                             }
                             else {
@@ -933,7 +933,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 memberMyself.VisitDate = "";
 
                                 int  count=Common.memberMyselfRepository.count(uniqueId);
-                                String countSize=String.valueOf(count);
+                                String countSize=String.valueOf(count+1);
                                 String memberValue="";
                                 if (countSize.length()<9){
                                     memberValue="00"+countSize;
