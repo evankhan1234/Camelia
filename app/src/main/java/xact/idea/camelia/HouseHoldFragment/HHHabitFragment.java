@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -220,6 +221,67 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     ArrayList<TypicalVigorousModel> yesNoArrayListForTypicalVigorous = new ArrayList<>();
     ArrayList<TypicalVigorousRecreationModel> yesNoArrayListForTypicalVigorousRecreation = new ArrayList<>();
 
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_1 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_2 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_3 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_4 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_5 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_6 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_7 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_8 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_9 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_10 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_11 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_12 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_13 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_14 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_15 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor43_b_16 = new ArrayList<>();
+
+
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_1 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_2 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_3 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_4 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_5 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_6 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_7 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_8 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_9 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_10 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_11 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_12 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_13 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_14 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_15 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_16 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_17 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_18 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_19 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_20 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor44_b_21 = new ArrayList<>();
+
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_1 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_2 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_3 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_4 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_5 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_6 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_7 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_8 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor45_b_9 = new ArrayList<>();
+
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_1 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_2 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_3 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_4 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_5 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_6 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_7 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_8 = new ArrayList<>();
+    ArrayList<TypicalVigorousRecreationModel> yesNoArrayListFor46_b_9 = new ArrayList<>();
+
+
     int smokeYesNo;
     int jordaYesNo;
     int workplaceYesNo;
@@ -239,6 +301,69 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     int moderateIntensity;
     int moderateIntensityTypical;
     int recliningActivities;
+
+
+    ////////VB1/////
+    int vigirousIntensityb1;
+    int vigirousIntensityb2;
+    int vigirousIntensityb3;
+    int vigirousIntensityb4;
+    int vigirousIntensityb5;
+    int vigirousIntensityb6;
+    int vigirousIntensityb7;
+    int vigirousIntensityb8;
+    int vigirousIntensityb9;
+    int vigirousIntensityb10;
+    int vigirousIntensityb11;
+    int vigirousIntensityb12;
+    int vigirousIntensityb13;
+    int vigirousIntensityb14;
+    int vigirousIntensityb15;
+    int vigirousIntensityb16;
+
+    //////MB1/////
+    int moderateIntensityb1;
+    int moderateIntensityb2;
+    int moderateIntensityb3;
+    int moderateIntensityb4;
+    int moderateIntensityb5;
+    int moderateIntensityb6;
+    int moderateIntensityb7;
+    int moderateIntensityb8;
+    int moderateIntensityb9;
+    int moderateIntensityb10;
+    int moderateIntensityb11;
+    int moderateIntensityb12;
+    int moderateIntensityb13;
+    int moderateIntensityb14;
+    int moderateIntensityb15;
+    int moderateIntensityb16;
+    int moderateIntensityb17;
+    int moderateIntensityb18;
+    int moderateIntensityb19;
+    int moderateIntensityb20;
+    int moderateIntensityb21;
+    ////////VRB1/////////
+    int vigiriousRecreationIntensityb1;
+    int vigiriousRecreationIntensityb2;
+    int vigiriousRecreationIntensityb3;
+    int vigiriousRecreationIntensityb4;
+    int vigiriousRecreationIntensityb5;
+    int vigiriousRecreationIntensityb6;
+    int vigiriousRecreationIntensityb7;
+    int vigiriousRecreationIntensityb8;
+    int vigiriousRecreationIntensityb9;
+
+    //////////MRB1////////
+    int moderateRecreationIntensityb1;
+    int moderateRecreationIntensityb2;
+    int moderateRecreationIntensityb3;
+    int moderateRecreationIntensityb4;
+    int moderateRecreationIntensityb5;
+    int moderateRecreationIntensityb6;
+    int moderateRecreationIntensityb7;
+    int moderateRecreationIntensityb8;
+    int moderateRecreationIntensityb9;
     RelativeLayout relativeLayout;
     String frag;
     String update;
@@ -277,6 +402,361 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     TextView tv_typical_day_4;
     TextView tv_reclining;
     TextView tv_typical_day_5;
+
+
+    LinearLayout linear_heart_show_card_typical_week_43_a1;
+    LinearLayout linear_heart_show_card_typical_week_43_a2;
+    LinearLayout linear_heart_show_card_typical_week_43_a3;
+    LinearLayout linear_heart_show_card_typical_week_43_a4;
+    LinearLayout linear_heart_show_card_typical_week_43_a5;
+    LinearLayout linear_heart_show_card_typical_week_43_a6;
+    LinearLayout linear_heart_show_card_typical_week_43_a7;
+    LinearLayout linear_heart_show_card_typical_week_43_a8;
+    LinearLayout linear_heart_show_card_typical_week_43_a9;
+    LinearLayout linear_heart_show_card_typical_week_43_a10;
+    LinearLayout linear_heart_show_card_typical_week_43_a11;
+    LinearLayout linear_heart_show_card_typical_week_43_a12;
+    LinearLayout linear_heart_show_card_typical_week_43_a13;
+    LinearLayout linear_heart_show_card_typical_week_43_a14;
+    LinearLayout linear_heart_show_card_typical_week_43_a15;
+    LinearLayout linear_heart_show_card_typical_week_43_a16;
+    TextView tv_typcal_week_43_a1;
+    TextView tv_typcal_week_43_a2;
+    TextView tv_typcal_week_43_a3;
+    TextView tv_typcal_week_43_a4;
+    TextView tv_typcal_week_43_a5;
+    TextView tv_typcal_week_43_a6;
+    TextView tv_typcal_week_43_a7;
+    TextView tv_typcal_week_43_a8;
+    TextView tv_typcal_week_43_a9;
+    TextView tv_typcal_week_43_a10;
+    TextView tv_typcal_week_43_a11;
+    TextView tv_typcal_week_43_a12;
+    TextView tv_typcal_week_43_a13;
+    TextView tv_typcal_week_43_a14;
+    TextView tv_typcal_week_43_a15;
+    TextView tv_typcal_week_43_a16;
+    Spinner spinner_typical_week_43_a1;
+    Spinner spinner_typical_week_43_a2;
+    Spinner spinner_typical_week_43_a3;
+    Spinner spinner_typical_week_43_a4;
+    Spinner spinner_typical_week_43_a5;
+    Spinner spinner_typical_week_43_a6;
+    Spinner spinner_typical_week_43_a7;
+    Spinner spinner_typical_week_43_a8;
+    Spinner spinner_typical_week_43_a9;
+    Spinner spinner_typical_week_43_a10;
+    Spinner spinner_typical_week_43_a11;
+    Spinner spinner_typical_week_43_a12;
+    Spinner spinner_typical_week_43_a13;
+    Spinner spinner_typical_week_43_a14;
+    Spinner spinner_typical_week_43_a15;
+    Spinner spinner_typical_week_43_a16;
+    LinearLayout linear_heart_show_card_activities_43_a1;
+    LinearLayout linear_heart_show_card_activities_43_a2;
+    LinearLayout linear_heart_show_card_activities_43_a3;
+    LinearLayout linear_heart_show_card_activities_43_a4;
+    LinearLayout linear_heart_show_card_activities_43_a5;
+    LinearLayout linear_heart_show_card_activities_43_a6;
+    LinearLayout linear_heart_show_card_activities_43_a7;
+    LinearLayout linear_heart_show_card_activities_43_a8;
+    LinearLayout linear_heart_show_card_activities_43_a9;
+    LinearLayout linear_heart_show_card_activities_43_a10;
+    LinearLayout linear_heart_show_card_activities_43_a11;
+    LinearLayout linear_heart_show_card_activities_43_a12;
+    LinearLayout linear_heart_show_card_activities_43_a13;
+    LinearLayout linear_heart_show_card_activities_43_a14;
+    LinearLayout linear_heart_show_card_activities_43_a15;
+    LinearLayout linear_heart_show_card_activities_43_a16;
+    TextView tv_typical_day_43_a1;
+    TextView tv_typical_day_43_a2;
+    TextView tv_typical_day_43_a3;
+    TextView tv_typical_day_43_a4;
+    TextView tv_typical_day_43_a5;
+    TextView tv_typical_day_43_a6;
+    TextView tv_typical_day_43_a7;
+    TextView tv_typical_day_43_a8;
+    TextView tv_typical_day_43_a9;
+    TextView tv_typical_day_43_a10;
+    TextView tv_typical_day_43_a11;
+    TextView tv_typical_day_43_a12;
+    TextView tv_typical_day_43_a13;
+    TextView tv_typical_day_43_a14;
+    TextView tv_typical_day_43_a15;
+    TextView tv_typical_day_43_a16;
+    EditText edit_typical_day_43_a1;
+    EditText edit_typical_day_43_a2;
+    EditText edit_typical_day_43_a3;
+    EditText edit_typical_day_43_a4;
+    EditText edit_typical_day_43_a5;
+    EditText edit_typical_day_43_a6;
+    EditText edit_typical_day_43_a7;
+    EditText edit_typical_day_43_a8;
+    EditText edit_typical_day_43_a9;
+    EditText edit_typical_day_43_a10;
+    EditText edit_typical_day_43_a11;
+    EditText edit_typical_day_43_a12;
+    EditText edit_typical_day_43_a13;
+    EditText edit_typical_day_43_a14;
+    EditText edit_typical_day_43_a15;
+    EditText edit_typical_day_43_a16;
+
+
+    LinearLayout linear_heart_show_moderate_card_typical_44_a1;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a2;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a3;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a4;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a5;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a6;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a7;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a8;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a9;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a10;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a11;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a12;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a13;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a14;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a15;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a16;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a17;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a18;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a19;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a20;
+    LinearLayout linear_heart_show_moderate_card_typical_44_a21;
+
+    TextView tv_typcal_week_44_a1;
+    TextView tv_typcal_week_44_a2;
+    TextView tv_typcal_week_44_a3;
+    TextView tv_typcal_week_44_a4;
+    TextView tv_typcal_week_44_a5;
+    TextView tv_typcal_week_44_a6;
+    TextView tv_typcal_week_44_a7;
+    TextView tv_typcal_week_44_a8;
+    TextView tv_typcal_week_44_a9;
+    TextView tv_typcal_week_44_a10;
+    TextView tv_typcal_week_44_a11;
+    TextView tv_typcal_week_44_a12;
+    TextView tv_typcal_week_44_a13;
+    TextView tv_typcal_week_44_a14;
+    TextView tv_typcal_week_44_a15;
+    TextView tv_typcal_week_44_a16;
+    TextView tv_typcal_week_44_a17;
+    TextView tv_typcal_week_44_a18;
+    TextView tv_typcal_week_44_a19;
+    TextView tv_typcal_week_44_a20;
+    TextView tv_typcal_week_44_a21;
+
+    Spinner spinner_typical_week_moderate_44_a1;
+    Spinner spinner_typical_week_moderate_44_a2;
+    Spinner spinner_typical_week_moderate_44_a3;
+    Spinner spinner_typical_week_moderate_44_a4;
+    Spinner spinner_typical_week_moderate_44_a5;
+    Spinner spinner_typical_week_moderate_44_a6;
+    Spinner spinner_typical_week_moderate_44_a7;
+    Spinner spinner_typical_week_moderate_44_a8;
+    Spinner spinner_typical_week_moderate_44_a9;
+    Spinner spinner_typical_week_moderate_44_a10;
+    Spinner spinner_typical_week_moderate_44_a11;
+    Spinner spinner_typical_week_moderate_44_a12;
+    Spinner spinner_typical_week_moderate_44_a13;
+    Spinner spinner_typical_week_moderate_44_a14;
+    Spinner spinner_typical_week_moderate_44_a15;
+    Spinner spinner_typical_week_moderate_44_a16;
+    Spinner spinner_typical_week_moderate_44_a17;
+    Spinner spinner_typical_week_moderate_44_a18;
+    Spinner spinner_typical_week_moderate_44_a19;
+    Spinner spinner_typical_week_moderate_44_a20;
+    Spinner spinner_typical_week_moderate_44_a21;
+
+    LinearLayout linear_heart_show_card_day_44_a1;
+    LinearLayout linear_heart_show_card_day_44_a2;
+    LinearLayout linear_heart_show_card_day_44_a3;
+    LinearLayout linear_heart_show_card_day_44_a4;
+    LinearLayout linear_heart_show_card_day_44_a5;
+    LinearLayout linear_heart_show_card_day_44_a6;
+    LinearLayout linear_heart_show_card_day_44_a7;
+    LinearLayout linear_heart_show_card_day_44_a8;
+    LinearLayout linear_heart_show_card_day_44_a9;
+    LinearLayout linear_heart_show_card_day_44_a10;
+    LinearLayout linear_heart_show_card_day_44_a11;
+    LinearLayout linear_heart_show_card_day_44_a12;
+    LinearLayout linear_heart_show_card_day_44_a13;
+    LinearLayout linear_heart_show_card_day_44_a14;
+    LinearLayout linear_heart_show_card_day_44_a15;
+    LinearLayout linear_heart_show_card_day_44_a16;
+    LinearLayout linear_heart_show_card_day_44_a17;
+    LinearLayout linear_heart_show_card_day_44_a18;
+    LinearLayout linear_heart_show_card_day_44_a19;
+    LinearLayout linear_heart_show_card_day_44_a20;
+    LinearLayout linear_heart_show_card_day_44_a21;
+
+    TextView tv_typical_day_44_a1;
+    TextView tv_typical_day_44_a2;
+    TextView tv_typical_day_44_a3;
+    TextView tv_typical_day_44_a4;
+    TextView tv_typical_day_44_a5;
+    TextView tv_typical_day_44_a6;
+    TextView tv_typical_day_44_a7;
+    TextView tv_typical_day_44_a8;
+    TextView tv_typical_day_44_a9;
+    TextView tv_typical_day_44_a10;
+    TextView tv_typical_day_44_a11;
+    TextView tv_typical_day_44_a12;
+    TextView tv_typical_day_44_a13;
+    TextView tv_typical_day_44_a14;
+    TextView tv_typical_day_44_a15;
+    TextView tv_typical_day_44_a16;
+    TextView tv_typical_day_44_a17;
+    TextView tv_typical_day_44_a18;
+    TextView tv_typical_day_44_a19;
+    TextView tv_typical_day_44_a20;
+    TextView tv_typical_day_44_a21;
+
+    EditText edit_typical_day_moderate_44_a1;
+    EditText edit_typical_day_moderate_44_a2;
+    EditText edit_typical_day_moderate_44_a3;
+    EditText edit_typical_day_moderate_44_a4;
+    EditText edit_typical_day_moderate_44_a5;
+    EditText edit_typical_day_moderate_44_a6;
+    EditText edit_typical_day_moderate_44_a7;
+    EditText edit_typical_day_moderate_44_a8;
+    EditText edit_typical_day_moderate_44_a9;
+    EditText edit_typical_day_moderate_44_a10;
+    EditText edit_typical_day_moderate_44_a11;
+    EditText edit_typical_day_moderate_44_a12;
+    EditText edit_typical_day_moderate_44_a13;
+    EditText edit_typical_day_moderate_44_a14;
+    EditText edit_typical_day_moderate_44_a15;
+    EditText edit_typical_day_moderate_44_a16;
+    EditText edit_typical_day_moderate_44_a17;
+    EditText edit_typical_day_moderate_44_a18;
+    EditText edit_typical_day_moderate_44_a19;
+    EditText edit_typical_day_moderate_44_a20;
+    EditText edit_typical_day_moderate_44_a21;
+
+
+    LinearLayout linear_recreational_activities_typical_45_a1;
+    LinearLayout linear_recreational_activities_typical_45_a2;
+    LinearLayout linear_recreational_activities_typical_45_a3;
+    LinearLayout linear_recreational_activities_typical_45_a4;
+    LinearLayout linear_recreational_activities_typical_45_a5;
+    LinearLayout linear_recreational_activities_typical_45_a6;
+    LinearLayout linear_recreational_activities_typical_45_a7;
+    LinearLayout linear_recreational_activities_typical_45_a8;
+    LinearLayout linear_recreational_activities_typical_45_a9;
+
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a1;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a2;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a3;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a4;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a5;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a6;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a7;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a8;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_46_a9;
+
+    TextView tv_typcal_week_45_a1;
+    TextView tv_typcal_week_45_a2;
+    TextView tv_typcal_week_45_a3;
+    TextView tv_typcal_week_45_a4;
+    TextView tv_typcal_week_45_a5;
+    TextView tv_typcal_week_45_a6;
+    TextView tv_typcal_week_45_a7;
+    TextView tv_typcal_week_45_a8;
+    TextView tv_typcal_week_45_a9;
+
+    TextView tv_typcal_week_46_a1;
+    TextView tv_typcal_week_46_a2;
+    TextView tv_typcal_week_46_a3;
+    TextView tv_typcal_week_46_a4;
+    TextView tv_typcal_week_46_a5;
+    TextView tv_typcal_week_46_a6;
+    TextView tv_typcal_week_46_a7;
+    TextView tv_typcal_week_46_a8;
+    TextView tv_typcal_week_46_a9;
+
+    Spinner spinner_typical_week_recreational_45_a1;
+    Spinner spinner_typical_week_recreational_45_a2;
+    Spinner spinner_typical_week_recreational_45_a3;
+    Spinner spinner_typical_week_recreational_45_a4;
+    Spinner spinner_typical_week_recreational_45_a5;
+    Spinner spinner_typical_week_recreational_45_a6;
+    Spinner spinner_typical_week_recreational_45_a7;
+    Spinner spinner_typical_week_recreational_45_a8;
+    Spinner spinner_typical_week_recreational_45_a9;
+
+    Spinner spinner_typical_week_moderate_recreational_46_a1;
+    Spinner spinner_typical_week_moderate_recreational_46_a2;
+    Spinner spinner_typical_week_moderate_recreational_46_a3;
+    Spinner spinner_typical_week_moderate_recreational_46_a4;
+    Spinner spinner_typical_week_moderate_recreational_46_a5;
+    Spinner spinner_typical_week_moderate_recreational_46_a6;
+    Spinner spinner_typical_week_moderate_recreational_46_a7;
+    Spinner spinner_typical_week_moderate_recreational_46_a8;
+    Spinner spinner_typical_week_moderate_recreational_46_a9;
+
+
+    LinearLayout linear_recreational_activities_typical_day_45_a1;
+    LinearLayout linear_recreational_activities_typical_day_45_a2;
+    LinearLayout linear_recreational_activities_typical_day_45_a3;
+    LinearLayout linear_recreational_activities_typical_day_45_a4;
+    LinearLayout linear_recreational_activities_typical_day_45_a5;
+    LinearLayout linear_recreational_activities_typical_day_45_a6;
+    LinearLayout linear_recreational_activities_typical_day_45_a7;
+    LinearLayout linear_recreational_activities_typical_day_45_a8;
+    LinearLayout linear_recreational_activities_typical_day_45_a9;
+
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a1;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a2;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a3;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a4;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a5;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a6;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a7;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a8;
+    LinearLayout linear_moderate_intensity_recreational_activities_typical_day_46_a9;
+
+    TextView tv_typical_day_45_a1;
+    TextView tv_typical_day_45_a2;
+    TextView tv_typical_day_45_a3;
+    TextView tv_typical_day_45_a4;
+    TextView tv_typical_day_45_a5;
+    TextView tv_typical_day_45_a6;
+    TextView tv_typical_day_45_a7;
+    TextView tv_typical_day_45_a8;
+    TextView tv_typical_day_45_a9;
+
+    TextView tv_typical_day_46_a1;
+    TextView tv_typical_day_46_a2;
+    TextView tv_typical_day_46_a3;
+    TextView tv_typical_day_46_a4;
+    TextView tv_typical_day_46_a5;
+    TextView tv_typical_day_46_a6;
+    TextView tv_typical_day_46_a7;
+    TextView tv_typical_day_46_a8;
+    TextView tv_typical_day_46_a9;
+
+    EditText edit_typical_day_recreational_45_a1;
+    EditText edit_typical_day_recreational_45_a2;
+    EditText edit_typical_day_recreational_45_a3;
+    EditText edit_typical_day_recreational_45_a4;
+    EditText edit_typical_day_recreational_45_a5;
+    EditText edit_typical_day_recreational_45_a6;
+    EditText edit_typical_day_recreational_45_a7;
+    EditText edit_typical_day_recreational_45_a8;
+    EditText edit_typical_day_recreational_45_a9;
+
+    EditText edit_typical_day_moderate_recreational_46_a1;
+    EditText edit_typical_day_moderate_recreational_46_a2;
+    EditText edit_typical_day_moderate_recreational_46_a3;
+    EditText edit_typical_day_moderate_recreational_46_a4;
+    EditText edit_typical_day_moderate_recreational_46_a5;
+    EditText edit_typical_day_moderate_recreational_46_a6;
+    EditText edit_typical_day_moderate_recreational_46_a7;
+    EditText edit_typical_day_moderate_recreational_46_a8;
+    EditText edit_typical_day_moderate_recreational_46_a9;
+
+
     public HHHabitFragment(String frags, String updates) {
         frag = frags;
         update = updates;
@@ -314,7 +794,375 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         return view;
     }
 
+    private void initView1() {
+
+        linear_heart_show_card_typical_week_43_a1 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a1);
+        linear_heart_show_card_typical_week_43_a2 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a2);
+        linear_heart_show_card_typical_week_43_a3 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a3);
+        linear_heart_show_card_typical_week_43_a4 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a4);
+        linear_heart_show_card_typical_week_43_a5 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a5);
+        linear_heart_show_card_typical_week_43_a6 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a6);
+        linear_heart_show_card_typical_week_43_a7 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a7);
+        linear_heart_show_card_typical_week_43_a8 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a8);
+        linear_heart_show_card_typical_week_43_a9 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a9);
+        linear_heart_show_card_typical_week_43_a10 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a10);
+        linear_heart_show_card_typical_week_43_a11 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a11);
+        linear_heart_show_card_typical_week_43_a12 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a12);
+        linear_heart_show_card_typical_week_43_a13 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a13);
+        linear_heart_show_card_typical_week_43_a14 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a14);
+        linear_heart_show_card_typical_week_43_a15 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a15);
+        linear_heart_show_card_typical_week_43_a16 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a16);
+        tv_typcal_week_43_a1 = view.findViewById(R.id.tv_typcal_week_43_a1);
+        tv_typcal_week_43_a2 = view.findViewById(R.id.tv_typcal_week_43_a2);
+        tv_typcal_week_43_a3 = view.findViewById(R.id.tv_typcal_week_43_a3);
+        tv_typcal_week_43_a4 = view.findViewById(R.id.tv_typcal_week_43_a4);
+        tv_typcal_week_43_a5 = view.findViewById(R.id.tv_typcal_week_43_a5);
+        tv_typcal_week_43_a6 = view.findViewById(R.id.tv_typcal_week_43_a6);
+        tv_typcal_week_43_a7 = view.findViewById(R.id.tv_typcal_week_43_a7);
+        tv_typcal_week_43_a8 = view.findViewById(R.id.tv_typcal_week_43_a8);
+        tv_typcal_week_43_a9 = view.findViewById(R.id.tv_typcal_week_43_a9);
+        tv_typcal_week_43_a10 = view.findViewById(R.id.tv_typcal_week_43_a10);
+        tv_typcal_week_43_a11 = view.findViewById(R.id.tv_typcal_week_43_a11);
+        tv_typcal_week_43_a12 = view.findViewById(R.id.tv_typcal_week_43_a12);
+        tv_typcal_week_43_a13 = view.findViewById(R.id.tv_typcal_week_43_a13);
+        tv_typcal_week_43_a14 = view.findViewById(R.id.tv_typcal_week_43_a14);
+        tv_typcal_week_43_a15 = view.findViewById(R.id.tv_typcal_week_43_a15);
+        tv_typcal_week_43_a16 = view.findViewById(R.id.tv_typcal_week_43_a16);
+        spinner_typical_week_43_a1 = view.findViewById(R.id.spinner_typical_week_43_a1);
+        spinner_typical_week_43_a2 = view.findViewById(R.id.spinner_typical_week_43_a2);
+        spinner_typical_week_43_a3 = view.findViewById(R.id.spinner_typical_week_43_a3);
+        spinner_typical_week_43_a4 = view.findViewById(R.id.spinner_typical_week_43_a4);
+        spinner_typical_week_43_a5 = view.findViewById(R.id.spinner_typical_week_43_a5);
+        spinner_typical_week_43_a6 = view.findViewById(R.id.spinner_typical_week_43_a6);
+        spinner_typical_week_43_a7 = view.findViewById(R.id.spinner_typical_week_43_a7);
+        spinner_typical_week_43_a8 = view.findViewById(R.id.spinner_typical_week_43_a8);
+        spinner_typical_week_43_a9 = view.findViewById(R.id.spinner_typical_week_43_a9);
+        spinner_typical_week_43_a10 = view.findViewById(R.id.spinner_typical_week_43_a10);
+        spinner_typical_week_43_a11 = view.findViewById(R.id.spinner_typical_week_43_a11);
+        spinner_typical_week_43_a12 = view.findViewById(R.id.spinner_typical_week_43_a12);
+        spinner_typical_week_43_a13 = view.findViewById(R.id.spinner_typical_week_43_a13);
+        spinner_typical_week_43_a14 = view.findViewById(R.id.spinner_typical_week_43_a14);
+        spinner_typical_week_43_a15 = view.findViewById(R.id.spinner_typical_week_43_a15);
+        spinner_typical_week_43_a16 = view.findViewById(R.id.spinner_typical_week_43_a16);
+        linear_heart_show_card_activities_43_a1 = view.findViewById(R.id.linear_heart_show_card_activities_43_a1);
+        linear_heart_show_card_activities_43_a2 = view.findViewById(R.id.linear_heart_show_card_activities_43_a2);
+        linear_heart_show_card_activities_43_a3 = view.findViewById(R.id.linear_heart_show_card_activities_43_a3);
+        linear_heart_show_card_activities_43_a4 = view.findViewById(R.id.linear_heart_show_card_activities_43_a4);
+        linear_heart_show_card_activities_43_a5 = view.findViewById(R.id.linear_heart_show_card_activities_43_a5);
+        linear_heart_show_card_activities_43_a6 = view.findViewById(R.id.linear_heart_show_card_activities_43_a6);
+        linear_heart_show_card_activities_43_a7 = view.findViewById(R.id.linear_heart_show_card_activities_43_a7);
+        linear_heart_show_card_activities_43_a8 = view.findViewById(R.id.linear_heart_show_card_activities_43_a8);
+        linear_heart_show_card_activities_43_a9 = view.findViewById(R.id.linear_heart_show_card_activities_43_a9);
+        linear_heart_show_card_activities_43_a10 = view.findViewById(R.id.linear_heart_show_card_activities_43_a10);
+        linear_heart_show_card_activities_43_a11 = view.findViewById(R.id.linear_heart_show_card_activities_43_a11);
+        linear_heart_show_card_activities_43_a12 = view.findViewById(R.id.linear_heart_show_card_activities_43_a12);
+        linear_heart_show_card_activities_43_a13 = view.findViewById(R.id.linear_heart_show_card_activities_43_a13);
+        linear_heart_show_card_activities_43_a14 = view.findViewById(R.id.linear_heart_show_card_activities_43_a14);
+        linear_heart_show_card_activities_43_a15 = view.findViewById(R.id.linear_heart_show_card_activities_43_a15);
+        linear_heart_show_card_activities_43_a16 = view.findViewById(R.id.linear_heart_show_card_activities_43_a16);
+        tv_typical_day_43_a1 = view.findViewById(R.id.tv_typical_day_43_a1);
+        tv_typical_day_43_a2 = view.findViewById(R.id.tv_typical_day_43_a2);
+        tv_typical_day_43_a3 = view.findViewById(R.id.tv_typical_day_43_a3);
+        tv_typical_day_43_a4 = view.findViewById(R.id.tv_typical_day_43_a4);
+        tv_typical_day_43_a5 = view.findViewById(R.id.tv_typical_day_43_a5);
+        tv_typical_day_43_a6 = view.findViewById(R.id.tv_typical_day_43_a6);
+        tv_typical_day_43_a7 = view.findViewById(R.id.tv_typical_day_43_a7);
+        tv_typical_day_43_a8 = view.findViewById(R.id.tv_typical_day_43_a8);
+        tv_typical_day_43_a9 = view.findViewById(R.id.tv_typical_day_43_a9);
+        tv_typical_day_43_a10 = view.findViewById(R.id.tv_typical_day_43_a10);
+        tv_typical_day_43_a11 = view.findViewById(R.id.tv_typical_day_43_a11);
+        tv_typical_day_43_a12 = view.findViewById(R.id.tv_typical_day_43_a12);
+        tv_typical_day_43_a13 = view.findViewById(R.id.tv_typical_day_43_a13);
+        tv_typical_day_43_a14 = view.findViewById(R.id.tv_typical_day_43_a14);
+        tv_typical_day_43_a15 = view.findViewById(R.id.tv_typical_day_43_a15);
+        tv_typical_day_43_a16 = view.findViewById(R.id.tv_typical_day_43_a16);
+        edit_typical_day_43_a1 = view.findViewById(R.id.edit_typical_day_43_a1);
+        edit_typical_day_43_a2 = view.findViewById(R.id.edit_typical_day_43_a2);
+        edit_typical_day_43_a3 = view.findViewById(R.id.edit_typical_day_43_a3);
+        edit_typical_day_43_a4 = view.findViewById(R.id.edit_typical_day_43_a4);
+        edit_typical_day_43_a5 = view.findViewById(R.id.edit_typical_day_43_a5);
+        edit_typical_day_43_a6 = view.findViewById(R.id.edit_typical_day_43_a6);
+        edit_typical_day_43_a7 = view.findViewById(R.id.edit_typical_day_43_a7);
+        edit_typical_day_43_a8 = view.findViewById(R.id.edit_typical_day_43_a8);
+        edit_typical_day_43_a9 = view.findViewById(R.id.edit_typical_day_43_a9);
+        edit_typical_day_43_a10 = view.findViewById(R.id.edit_typical_day_43_a10);
+        edit_typical_day_43_a11 = view.findViewById(R.id.edit_typical_day_43_a11);
+        edit_typical_day_43_a12 = view.findViewById(R.id.edit_typical_day_43_a12);
+        edit_typical_day_43_a13 = view.findViewById(R.id.edit_typical_day_43_a13);
+        edit_typical_day_43_a14 = view.findViewById(R.id.edit_typical_day_43_a14);
+        edit_typical_day_43_a15 = view.findViewById(R.id.edit_typical_day_43_a15);
+        edit_typical_day_43_a16 = view.findViewById(R.id.edit_typical_day_43_a16);
+
+    }
+
+    private void initView2() {
+
+        linear_heart_show_moderate_card_typical_44_a1 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a1);
+        linear_heart_show_moderate_card_typical_44_a2 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a2);
+        linear_heart_show_moderate_card_typical_44_a3 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a3);
+        linear_heart_show_moderate_card_typical_44_a4 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a4);
+        linear_heart_show_moderate_card_typical_44_a5 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a5);
+        linear_heart_show_moderate_card_typical_44_a6 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a6);
+        linear_heart_show_moderate_card_typical_44_a7 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a7);
+        linear_heart_show_moderate_card_typical_44_a8 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a8);
+        linear_heart_show_moderate_card_typical_44_a9 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a9);
+        linear_heart_show_moderate_card_typical_44_a10 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a10);
+        linear_heart_show_moderate_card_typical_44_a11 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a11);
+        linear_heart_show_moderate_card_typical_44_a12 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a12);
+        linear_heart_show_moderate_card_typical_44_a13 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a13);
+        linear_heart_show_moderate_card_typical_44_a14 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a14);
+        linear_heart_show_moderate_card_typical_44_a15 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a15);
+        linear_heart_show_moderate_card_typical_44_a16 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a16);
+        linear_heart_show_moderate_card_typical_44_a17 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a17);
+        linear_heart_show_moderate_card_typical_44_a18 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a18);
+        linear_heart_show_moderate_card_typical_44_a19 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a19);
+        linear_heart_show_moderate_card_typical_44_a20 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a20);
+        linear_heart_show_moderate_card_typical_44_a21 = view.findViewById(R.id.linear_heart_show_moderate_card_typical_44_a21);
+
+        tv_typcal_week_44_a1 = view.findViewById(R.id.tv_typcal_week_44_a1);
+        tv_typcal_week_44_a2 = view.findViewById(R.id.tv_typcal_week_44_a2);
+        tv_typcal_week_44_a3 = view.findViewById(R.id.tv_typcal_week_44_a3);
+        tv_typcal_week_44_a4 = view.findViewById(R.id.tv_typcal_week_44_a4);
+        tv_typcal_week_44_a5 = view.findViewById(R.id.tv_typcal_week_44_a5);
+        tv_typcal_week_44_a6 = view.findViewById(R.id.tv_typcal_week_44_a6);
+        tv_typcal_week_44_a7 = view.findViewById(R.id.tv_typcal_week_44_a7);
+        tv_typcal_week_44_a8 = view.findViewById(R.id.tv_typcal_week_44_a8);
+        tv_typcal_week_44_a9 = view.findViewById(R.id.tv_typcal_week_44_a9);
+        tv_typcal_week_44_a10 = view.findViewById(R.id.tv_typcal_week_44_a10);
+        tv_typcal_week_44_a11 = view.findViewById(R.id.tv_typcal_week_44_a11);
+        tv_typcal_week_44_a12 = view.findViewById(R.id.tv_typcal_week_44_a12);
+        tv_typcal_week_44_a13 = view.findViewById(R.id.tv_typcal_week_44_a13);
+        tv_typcal_week_44_a14 = view.findViewById(R.id.tv_typcal_week_44_a14);
+        tv_typcal_week_44_a15 = view.findViewById(R.id.tv_typcal_week_44_a15);
+        tv_typcal_week_44_a16 = view.findViewById(R.id.tv_typcal_week_44_a16);
+        tv_typcal_week_44_a17 = view.findViewById(R.id.tv_typcal_week_44_a17);
+        tv_typcal_week_44_a18 = view.findViewById(R.id.tv_typcal_week_44_a18);
+        tv_typcal_week_44_a19 = view.findViewById(R.id.tv_typcal_week_44_a19);
+        tv_typcal_week_44_a20 = view.findViewById(R.id.tv_typcal_week_44_a20);
+        tv_typcal_week_44_a21 = view.findViewById(R.id.tv_typcal_week_44_a21);
+
+
+        spinner_typical_week_moderate_44_a1 = view.findViewById(R.id.spinner_typical_week_moderate_44_a1);
+        spinner_typical_week_moderate_44_a2 = view.findViewById(R.id.spinner_typical_week_moderate_44_a2);
+        spinner_typical_week_moderate_44_a3 = view.findViewById(R.id.spinner_typical_week_moderate_44_a3);
+        spinner_typical_week_moderate_44_a4 = view.findViewById(R.id.spinner_typical_week_moderate_44_a4);
+        spinner_typical_week_moderate_44_a5 = view.findViewById(R.id.spinner_typical_week_moderate_44_a5);
+        spinner_typical_week_moderate_44_a6 = view.findViewById(R.id.spinner_typical_week_moderate_44_a6);
+        spinner_typical_week_moderate_44_a7 = view.findViewById(R.id.spinner_typical_week_moderate_44_a7);
+        spinner_typical_week_moderate_44_a8 = view.findViewById(R.id.spinner_typical_week_moderate_44_a8);
+        spinner_typical_week_moderate_44_a9 = view.findViewById(R.id.spinner_typical_week_moderate_44_a9);
+        spinner_typical_week_moderate_44_a10 = view.findViewById(R.id.spinner_typical_week_moderate_44_a10);
+        spinner_typical_week_moderate_44_a11 = view.findViewById(R.id.spinner_typical_week_moderate_44_a11);
+        spinner_typical_week_moderate_44_a12 = view.findViewById(R.id.spinner_typical_week_moderate_44_a12);
+        spinner_typical_week_moderate_44_a13 = view.findViewById(R.id.spinner_typical_week_moderate_44_a13);
+        spinner_typical_week_moderate_44_a14 = view.findViewById(R.id.spinner_typical_week_moderate_44_a14);
+        spinner_typical_week_moderate_44_a15 = view.findViewById(R.id.spinner_typical_week_moderate_44_a15);
+        spinner_typical_week_moderate_44_a16 = view.findViewById(R.id.spinner_typical_week_moderate_44_a16);
+        spinner_typical_week_moderate_44_a17 = view.findViewById(R.id.spinner_typical_week_moderate_44_a17);
+        spinner_typical_week_moderate_44_a18 = view.findViewById(R.id.spinner_typical_week_moderate_44_a18);
+        spinner_typical_week_moderate_44_a19 = view.findViewById(R.id.spinner_typical_week_moderate_44_a19);
+        spinner_typical_week_moderate_44_a20 = view.findViewById(R.id.spinner_typical_week_moderate_44_a20);
+        spinner_typical_week_moderate_44_a21 = view.findViewById(R.id.spinner_typical_week_moderate_44_a21);
+
+        linear_heart_show_card_day_44_a1 = view.findViewById(R.id.linear_heart_show_card_day_44_a1);
+        linear_heart_show_card_day_44_a2 = view.findViewById(R.id.linear_heart_show_card_day_44_a2);
+        linear_heart_show_card_day_44_a3 = view.findViewById(R.id.linear_heart_show_card_day_44_a3);
+        linear_heart_show_card_day_44_a4 = view.findViewById(R.id.linear_heart_show_card_day_44_a4);
+        linear_heart_show_card_day_44_a5 = view.findViewById(R.id.linear_heart_show_card_day_44_a5);
+        linear_heart_show_card_day_44_a6 = view.findViewById(R.id.linear_heart_show_card_day_44_a6);
+        linear_heart_show_card_day_44_a7 = view.findViewById(R.id.linear_heart_show_card_day_44_a7);
+        linear_heart_show_card_day_44_a8 = view.findViewById(R.id.linear_heart_show_card_day_44_a8);
+        linear_heart_show_card_day_44_a9 = view.findViewById(R.id.linear_heart_show_card_day_44_a9);
+        linear_heart_show_card_day_44_a10 = view.findViewById(R.id.linear_heart_show_card_day_44_a10);
+        linear_heart_show_card_day_44_a11 = view.findViewById(R.id.linear_heart_show_card_day_44_a11);
+        linear_heart_show_card_day_44_a12 = view.findViewById(R.id.linear_heart_show_card_day_44_a12);
+        linear_heart_show_card_day_44_a13 = view.findViewById(R.id.linear_heart_show_card_day_44_a13);
+        linear_heart_show_card_day_44_a14 = view.findViewById(R.id.linear_heart_show_card_day_44_a14);
+        linear_heart_show_card_day_44_a15 = view.findViewById(R.id.linear_heart_show_card_day_44_a15);
+        linear_heart_show_card_day_44_a16 = view.findViewById(R.id.linear_heart_show_card_day_44_a16);
+        linear_heart_show_card_day_44_a17 = view.findViewById(R.id.linear_heart_show_card_day_44_a17);
+        linear_heart_show_card_day_44_a18 = view.findViewById(R.id.linear_heart_show_card_day_44_a18);
+        linear_heart_show_card_day_44_a19 = view.findViewById(R.id.linear_heart_show_card_day_44_a19);
+        linear_heart_show_card_day_44_a20 = view.findViewById(R.id.linear_heart_show_card_day_44_a20);
+        linear_heart_show_card_day_44_a21 = view.findViewById(R.id.linear_heart_show_card_day_44_a21);
+
+
+        tv_typical_day_44_a1 = view.findViewById(R.id.tv_typical_day_44_a1);
+        tv_typical_day_44_a2 = view.findViewById(R.id.tv_typical_day_44_a2);
+        tv_typical_day_44_a3 = view.findViewById(R.id.tv_typical_day_44_a3);
+        tv_typical_day_44_a4 = view.findViewById(R.id.tv_typical_day_44_a4);
+        tv_typical_day_44_a5 = view.findViewById(R.id.tv_typical_day_44_a5);
+        tv_typical_day_44_a6 = view.findViewById(R.id.tv_typical_day_44_a6);
+        tv_typical_day_44_a7 = view.findViewById(R.id.tv_typical_day_44_a7);
+        tv_typical_day_44_a8 = view.findViewById(R.id.tv_typical_day_44_a8);
+        tv_typical_day_44_a9 = view.findViewById(R.id.tv_typical_day_44_a9);
+        tv_typical_day_44_a10 = view.findViewById(R.id.tv_typical_day_44_a10);
+        tv_typical_day_44_a11 = view.findViewById(R.id.tv_typical_day_44_a11);
+        tv_typical_day_44_a12 = view.findViewById(R.id.tv_typical_day_44_a12);
+        tv_typical_day_44_a13 = view.findViewById(R.id.tv_typical_day_44_a13);
+        tv_typical_day_44_a14 = view.findViewById(R.id.tv_typical_day_44_a14);
+        tv_typical_day_44_a15 = view.findViewById(R.id.tv_typical_day_44_a15);
+        tv_typical_day_44_a16 = view.findViewById(R.id.tv_typical_day_44_a16);
+        tv_typical_day_44_a17 = view.findViewById(R.id.tv_typical_day_44_a17);
+        tv_typical_day_44_a18 = view.findViewById(R.id.tv_typical_day_44_a18);
+        tv_typical_day_44_a19 = view.findViewById(R.id.tv_typical_day_44_a19);
+        tv_typical_day_44_a20 = view.findViewById(R.id.tv_typical_day_44_a20);
+        tv_typical_day_44_a21 = view.findViewById(R.id.tv_typical_day_44_a21);
+
+
+        edit_typical_day_moderate_44_a1 = view.findViewById(R.id.edit_typical_day_moderate_44_a1);
+        edit_typical_day_moderate_44_a2 = view.findViewById(R.id.edit_typical_day_moderate_44_a2);
+        edit_typical_day_moderate_44_a3 = view.findViewById(R.id.edit_typical_day_moderate_44_a3);
+        edit_typical_day_moderate_44_a4 = view.findViewById(R.id.edit_typical_day_moderate_44_a4);
+        edit_typical_day_moderate_44_a5 = view.findViewById(R.id.edit_typical_day_moderate_44_a5);
+        edit_typical_day_moderate_44_a6 = view.findViewById(R.id.edit_typical_day_moderate_44_a6);
+        edit_typical_day_moderate_44_a7 = view.findViewById(R.id.edit_typical_day_moderate_44_a7);
+        edit_typical_day_moderate_44_a8 = view.findViewById(R.id.edit_typical_day_moderate_44_a8);
+        edit_typical_day_moderate_44_a9 = view.findViewById(R.id.edit_typical_day_moderate_44_a9);
+        edit_typical_day_moderate_44_a10 = view.findViewById(R.id.edit_typical_day_moderate_44_a10);
+        edit_typical_day_moderate_44_a11 = view.findViewById(R.id.edit_typical_day_moderate_44_a11);
+        edit_typical_day_moderate_44_a12 = view.findViewById(R.id.edit_typical_day_moderate_44_a12);
+        edit_typical_day_moderate_44_a13 = view.findViewById(R.id.edit_typical_day_moderate_44_a13);
+        edit_typical_day_moderate_44_a14 = view.findViewById(R.id.edit_typical_day_moderate_44_a14);
+        edit_typical_day_moderate_44_a15 = view.findViewById(R.id.edit_typical_day_moderate_44_a15);
+        edit_typical_day_moderate_44_a16 = view.findViewById(R.id.edit_typical_day_moderate_44_a16);
+        edit_typical_day_moderate_44_a17 = view.findViewById(R.id.edit_typical_day_moderate_44_a17);
+        edit_typical_day_moderate_44_a18 = view.findViewById(R.id.edit_typical_day_moderate_44_a18);
+        edit_typical_day_moderate_44_a19 = view.findViewById(R.id.edit_typical_day_moderate_44_a19);
+        edit_typical_day_moderate_44_a20 = view.findViewById(R.id.edit_typical_day_moderate_44_a20);
+        edit_typical_day_moderate_44_a21 = view.findViewById(R.id.edit_typical_day_moderate_44_a21);
+
+
+    }
+
+    private void initView3() {
+        linear_recreational_activities_typical_45_a1 = view.findViewById(R.id.linear_recreational_activities_typical_45_a1);
+        linear_recreational_activities_typical_45_a2 = view.findViewById(R.id.linear_recreational_activities_typical_45_a2);
+        linear_recreational_activities_typical_45_a3 = view.findViewById(R.id.linear_recreational_activities_typical_45_a3);
+        linear_recreational_activities_typical_45_a4 = view.findViewById(R.id.linear_recreational_activities_typical_45_a4);
+        linear_recreational_activities_typical_45_a5 = view.findViewById(R.id.linear_recreational_activities_typical_45_a5);
+        linear_recreational_activities_typical_45_a6 = view.findViewById(R.id.linear_recreational_activities_typical_45_a6);
+        linear_recreational_activities_typical_45_a7 = view.findViewById(R.id.linear_recreational_activities_typical_45_a7);
+        linear_recreational_activities_typical_45_a8 = view.findViewById(R.id.linear_recreational_activities_typical_45_a8);
+        linear_recreational_activities_typical_45_a9 = view.findViewById(R.id.linear_recreational_activities_typical_45_a9);
+
+        linear_moderate_intensity_recreational_activities_typical_46_a1 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a1);
+        linear_moderate_intensity_recreational_activities_typical_46_a2 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a2);
+        linear_moderate_intensity_recreational_activities_typical_46_a3 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a3);
+        linear_moderate_intensity_recreational_activities_typical_46_a4 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a4);
+        linear_moderate_intensity_recreational_activities_typical_46_a5 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a5);
+        linear_moderate_intensity_recreational_activities_typical_46_a6 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a6);
+        linear_moderate_intensity_recreational_activities_typical_46_a7 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a7);
+        linear_moderate_intensity_recreational_activities_typical_46_a8 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a8);
+        linear_moderate_intensity_recreational_activities_typical_46_a9 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_46_a9);
+
+        tv_typcal_week_45_a1 = view.findViewById(R.id.tv_typcal_week_45_a1);
+        tv_typcal_week_45_a2 = view.findViewById(R.id.tv_typcal_week_45_a2);
+        tv_typcal_week_45_a3 = view.findViewById(R.id.tv_typcal_week_45_a3);
+        tv_typcal_week_45_a4 = view.findViewById(R.id.tv_typcal_week_45_a4);
+        tv_typcal_week_45_a5 = view.findViewById(R.id.tv_typcal_week_45_a5);
+        tv_typcal_week_45_a6 = view.findViewById(R.id.tv_typcal_week_45_a6);
+        tv_typcal_week_45_a7 = view.findViewById(R.id.tv_typcal_week_45_a7);
+        tv_typcal_week_45_a8 = view.findViewById(R.id.tv_typcal_week_45_a8);
+        tv_typcal_week_45_a9 = view.findViewById(R.id.tv_typcal_week_45_a9);
+
+        tv_typcal_week_46_a1 = view.findViewById(R.id.tv_typcal_week_46_a1);
+        tv_typcal_week_46_a2 = view.findViewById(R.id.tv_typcal_week_46_a2);
+        tv_typcal_week_46_a3 = view.findViewById(R.id.tv_typcal_week_46_a3);
+        tv_typcal_week_46_a4 = view.findViewById(R.id.tv_typcal_week_46_a4);
+        tv_typcal_week_46_a5 = view.findViewById(R.id.tv_typcal_week_46_a5);
+        tv_typcal_week_46_a6 = view.findViewById(R.id.tv_typcal_week_46_a6);
+        tv_typcal_week_46_a7 = view.findViewById(R.id.tv_typcal_week_46_a7);
+        tv_typcal_week_46_a8 = view.findViewById(R.id.tv_typcal_week_46_a8);
+        tv_typcal_week_46_a9 = view.findViewById(R.id.tv_typcal_week_46_a9);
+
+        spinner_typical_week_recreational_45_a1 = view.findViewById(R.id.spinner_typical_week_recreational_45_a1);
+        spinner_typical_week_recreational_45_a2 = view.findViewById(R.id.spinner_typical_week_recreational_45_a2);
+        spinner_typical_week_recreational_45_a3 = view.findViewById(R.id.spinner_typical_week_recreational_45_a3);
+        spinner_typical_week_recreational_45_a4 = view.findViewById(R.id.spinner_typical_week_recreational_45_a4);
+        spinner_typical_week_recreational_45_a5 = view.findViewById(R.id.spinner_typical_week_recreational_45_a5);
+        spinner_typical_week_recreational_45_a6 = view.findViewById(R.id.spinner_typical_week_recreational_45_a6);
+        spinner_typical_week_recreational_45_a7 = view.findViewById(R.id.spinner_typical_week_recreational_45_a7);
+        spinner_typical_week_recreational_45_a8 = view.findViewById(R.id.spinner_typical_week_recreational_45_a8);
+        spinner_typical_week_recreational_45_a9 = view.findViewById(R.id.spinner_typical_week_recreational_45_a9);
+
+        spinner_typical_week_moderate_recreational_46_a1 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a1);
+        spinner_typical_week_moderate_recreational_46_a2 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a2);
+        spinner_typical_week_moderate_recreational_46_a3 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a3);
+        spinner_typical_week_moderate_recreational_46_a4 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a4);
+        spinner_typical_week_moderate_recreational_46_a5 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a5);
+        spinner_typical_week_moderate_recreational_46_a6 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a6);
+        spinner_typical_week_moderate_recreational_46_a7 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a7);
+        spinner_typical_week_moderate_recreational_46_a8 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a8);
+        spinner_typical_week_moderate_recreational_46_a9 = view.findViewById(R.id.spinner_typical_week_moderate_recreational_46_a9);
+
+
+        linear_recreational_activities_typical_day_45_a1 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a1);
+        linear_recreational_activities_typical_day_45_a2 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a2);
+        linear_recreational_activities_typical_day_45_a3 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a3);
+        linear_recreational_activities_typical_day_45_a4 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a4);
+        linear_recreational_activities_typical_day_45_a5 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a5);
+        linear_recreational_activities_typical_day_45_a6 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a6);
+        linear_recreational_activities_typical_day_45_a7 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a7);
+        linear_recreational_activities_typical_day_45_a8 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a8);
+        linear_recreational_activities_typical_day_45_a9 = view.findViewById(R.id.linear_recreational_activities_typical_day_45_a9);
+
+        linear_moderate_intensity_recreational_activities_typical_day_46_a1 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a1);
+        linear_moderate_intensity_recreational_activities_typical_day_46_a2 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a2);
+        linear_moderate_intensity_recreational_activities_typical_day_46_a3 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a3);
+        linear_moderate_intensity_recreational_activities_typical_day_46_a4 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a4);
+        linear_moderate_intensity_recreational_activities_typical_day_46_a5 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a5);
+        linear_moderate_intensity_recreational_activities_typical_day_46_a6 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a6);
+        linear_moderate_intensity_recreational_activities_typical_day_46_a7 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a7);
+        linear_moderate_intensity_recreational_activities_typical_day_46_a8 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a8);
+        linear_moderate_intensity_recreational_activities_typical_day_46_a9 = view.findViewById(R.id.linear_moderate_intensity_recreational_activities_typical_day_46_a9);
+
+        tv_typical_day_45_a1 = view.findViewById(R.id.tv_typical_day_45_a1);
+        tv_typical_day_45_a2 = view.findViewById(R.id.tv_typical_day_45_a2);
+        tv_typical_day_45_a3 = view.findViewById(R.id.tv_typical_day_45_a3);
+        tv_typical_day_45_a4 = view.findViewById(R.id.tv_typical_day_45_a4);
+        tv_typical_day_45_a5 = view.findViewById(R.id.tv_typical_day_45_a5);
+        tv_typical_day_45_a6 = view.findViewById(R.id.tv_typical_day_45_a6);
+        tv_typical_day_45_a7 = view.findViewById(R.id.tv_typical_day_45_a7);
+        tv_typical_day_45_a8 = view.findViewById(R.id.tv_typical_day_45_a8);
+        tv_typical_day_45_a9 = view.findViewById(R.id.tv_typical_day_45_a9);
+
+        tv_typical_day_46_a1 = view.findViewById(R.id.tv_typical_day_46_a1);
+        tv_typical_day_46_a2 = view.findViewById(R.id.tv_typical_day_46_a2);
+        tv_typical_day_46_a3 = view.findViewById(R.id.tv_typical_day_46_a3);
+        tv_typical_day_46_a4 = view.findViewById(R.id.tv_typical_day_46_a4);
+        tv_typical_day_46_a5 = view.findViewById(R.id.tv_typical_day_46_a5);
+        tv_typical_day_46_a6 = view.findViewById(R.id.tv_typical_day_46_a6);
+        tv_typical_day_46_a7 = view.findViewById(R.id.tv_typical_day_46_a7);
+        tv_typical_day_46_a8 = view.findViewById(R.id.tv_typical_day_46_a8);
+        tv_typical_day_46_a9 = view.findViewById(R.id.tv_typical_day_46_a9);
+
+        edit_typical_day_recreational_45_a1 = view.findViewById(R.id.edit_typical_day_recreational_45_a1);
+        edit_typical_day_recreational_45_a2 = view.findViewById(R.id.edit_typical_day_recreational_45_a2);
+        edit_typical_day_recreational_45_a3 = view.findViewById(R.id.edit_typical_day_recreational_45_a3);
+        edit_typical_day_recreational_45_a4 = view.findViewById(R.id.edit_typical_day_recreational_45_a4);
+        edit_typical_day_recreational_45_a5 = view.findViewById(R.id.edit_typical_day_recreational_45_a5);
+        edit_typical_day_recreational_45_a6 = view.findViewById(R.id.edit_typical_day_recreational_45_a6);
+        edit_typical_day_recreational_45_a7 = view.findViewById(R.id.edit_typical_day_recreational_45_a7);
+        edit_typical_day_recreational_45_a8 = view.findViewById(R.id.edit_typical_day_recreational_45_a8);
+        edit_typical_day_recreational_45_a9 = view.findViewById(R.id.edit_typical_day_recreational_45_a9);
+
+        edit_typical_day_moderate_recreational_46_a1 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a1);
+        edit_typical_day_moderate_recreational_46_a2 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a2);
+        edit_typical_day_moderate_recreational_46_a3 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a3);
+        edit_typical_day_moderate_recreational_46_a4 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a4);
+        edit_typical_day_moderate_recreational_46_a5 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a5);
+        edit_typical_day_moderate_recreational_46_a6 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a6);
+        edit_typical_day_moderate_recreational_46_a7 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a7);
+        edit_typical_day_moderate_recreational_46_a8 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a8);
+        edit_typical_day_moderate_recreational_46_a9 = view.findViewById(R.id.edit_typical_day_moderate_recreational_46_a9);
+    }
+
     private void initView() {
+        initView1();
+        initView2();
+        initView3();
+
         tv_smoke = view.findViewById(R.id.tv_smoke);
         tv_smoke_day = view.findViewById(R.id.tv_smoke_day);
         tv_jorda = view.findViewById(R.id.tv_jorda);
@@ -457,9 +1305,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         tv_smoke_stick_day = view.findViewById(R.id.tv_smoke_stick_day);
 
         Paper.init(mActivity);
-        String language= SharedPreferenceUtil.getLanguage(mActivity);
-        Paper.book().write("language",language);
-        updateView((String)Paper.book().read("language"));
+        String language = SharedPreferenceUtil.getLanguage(mActivity);
+        Paper.book().write("language", language);
+        updateView((String) Paper.book().read("language"));
         yesNoArrayListForSmoke = Utils.getyesNoList(mActivity);
         yesNoArrayListForWorkplace = Utils.getyesNoList(mActivity);
         yesNoArrayListForAlcohol = Utils.getyesNoList(mActivity);
@@ -479,6 +1327,71 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         yesNoArrayListForModerateRecreational = Utils.getModerateRecreationalModelList(mActivity);
         yesNoArrayListForTypicalVigorous = Utils.getTypicalVigorousModelList(mActivity);
         yesNoArrayListForTypicalVigorousRecreation = Utils.getTypicalVigorousRecreationModelList(mActivity);
+
+
+        yesNoArrayListFor43_b_1 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_2 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_3 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_4 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_5 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_6 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_7 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_8 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_9 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_10 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_11 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_12 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_13 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_14 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_15 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor43_b_16 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+
+        ///
+
+        yesNoArrayListFor44_b_1 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_2 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_3 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_4 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_5 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_6 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_7 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_8 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_9 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_10 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_11 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_12 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_13 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_14 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_15 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_16 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_17 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_18 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_19 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_20 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor44_b_21 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+
+        ///
+        yesNoArrayListFor45_b_1 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor45_b_2 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor45_b_3 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor45_b_4 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor45_b_5 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor45_b_6 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor45_b_7 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor45_b_8 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor45_b_9 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        ////
+        yesNoArrayListFor46_b_1 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor46_b_2 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor46_b_3 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor46_b_4 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor46_b_5 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor46_b_6 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor46_b_7 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor46_b_8 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+        yesNoArrayListFor46_b_9 = Utils.getTypicalVigorousRecreationModelList(mActivity);
+
+
         initDiabetisSpinner();
         initJordaSpinner();
         initWorkstationSpinner();
@@ -502,6 +1415,16 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         initModerateIntensityClickListener();
         initVigiorosIntensityRecreationClickListener();
         initModerateIntensityRecreationClickListener();
+        initVigirousIntensityTypicalSpinner();
+        initModerateIntensityTypicalSpinner();
+        initVigiriousIntensityRecreationalSpinner();
+        initModerateIntensityRecreationSpinner();
+
+        initFirst();
+        initSecond();
+        initThird();
+        initFourth();
+
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -546,9 +1469,850 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 //        });
         show();
     }
+
+    private void initFirst(){
+        checkBoxHeaveyLoad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHeaveyLoad.isChecked()){
+                    linear_heart_show_card_typical_week_43_a1.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a1.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a1.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a1.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //Happen/////
+
+
+        //
+        checkBoxDigging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxDigging.isChecked()){
+                    linear_heart_show_card_typical_week_43_a2.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a2.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a2.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a2.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //
+        checkBoxFurniture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFurniture.isChecked()){
+                    linear_heart_show_card_typical_week_43_a3.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a3.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a3.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a3.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxPickingCrops.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxPickingCrops.isChecked()){
+                    linear_heart_show_card_typical_week_43_a4.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a4.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a4.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a4.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxCuttingTrees.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCuttingTrees.isChecked()){
+                    linear_heart_show_card_typical_week_43_a5.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a5.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a5.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a5.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxBreakUpPaddy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxBreakUpPaddy.isChecked()){
+                    linear_heart_show_card_typical_week_43_a6.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a6.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a6.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a6.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxDrivingRickshaw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxDrivingRickshaw.isChecked()){
+                    linear_heart_show_card_typical_week_43_a7.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a7.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a7.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a7.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxFishing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFishing.isChecked()){
+                    linear_heart_show_card_typical_week_43_a8.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a8.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a8.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a8.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxPlouging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxPlouging.isChecked()){
+                    linear_heart_show_card_typical_week_43_a9.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a9.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a9.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a9.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxHeaveyConstructionWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHeaveyConstructionWork.isChecked()){
+                    linear_heart_show_card_typical_week_43_a10.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a10.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a10.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a10.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxHeaveyGoods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHeaveyGoods.isChecked()){
+                    linear_heart_show_card_typical_week_43_a11.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a11.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a11.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a11.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxHeaveyGoodsHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHeaveyGoodsHead.isChecked()){
+                    linear_heart_show_card_typical_week_43_a12.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a12.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a12.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a12.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxSoldDigging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxSoldDigging.isChecked()){
+                    linear_heart_show_card_typical_week_43_a13.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a13.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a13.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a13.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxWashing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWashing.isChecked()){
+                    linear_heart_show_card_typical_week_43_a14.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a14.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a14.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a14.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxStepping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxStepping.isChecked()){
+                    linear_heart_show_card_typical_week_43_a15.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a15.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a15.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a15.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxOthers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthers.isChecked()){
+                    linear_heart_show_card_typical_week_43_a16.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_activities_43_a16.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_card_typical_week_43_a16.setVisibility(View.GONE);
+                    linear_heart_show_card_activities_43_a16.setVisibility(View.GONE);
+                }
+            }
+        });
+
+    }
+    private void initSecond(){
+        checkBoxHouseHoldWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHouseHoldWork.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a1.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a1.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a1.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a1.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //
+
+        checkBoxGardening.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxGardening.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a2.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a2.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a2.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a2.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //
+        checkBoxMilkingCows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxMilkingCows.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a3.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a3.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a3.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a3.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxCultivatingLand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCultivatingLand.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a4.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a4.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a4.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a4.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxPlantingHarvest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxPlantingHarvest.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a5.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a5.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a5.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a5.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxWeavingCloth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWeavingCloth.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a6.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a6.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a6.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a6.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxWashingCloths.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWashingCloths.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a7.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a7.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a7.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a7.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxRearing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxRearing.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a8.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a8.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a8.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a8.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxMixingCement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxMixingCement.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a9.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a9.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a9.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a9.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxWoodWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWoodWork.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a10.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a10.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a10.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a10.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxDrawingWater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxDrawingWater.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a11.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a11.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a11.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a11.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxCarryingLightWeight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCarryingLightWeight.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a12.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a12.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a12.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a12.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxWashingCloths1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxWashingCloths1.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a13.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a13.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a13.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a13.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxGardening1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxGardening1.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a14.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a14.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a14.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a14.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxMilkingCows1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxMilkingCows1.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a15.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a15.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a15.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a15.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxRoping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHouseHoldWork.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a16.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a16.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a16.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a16.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxFarming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFarming.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a17.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a17.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a17.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a17.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxParlour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxParlour.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a18.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a18.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a18.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a18.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxCloth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCloth.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a19.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a19.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a19.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a19.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxHouseHoldWork1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHouseHoldWork1.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a20.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a20.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a20.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a20.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxOthers1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthers1.isChecked()){
+                    linear_heart_show_moderate_card_typical_44_a21.setVisibility(View.VISIBLE);
+                    linear_heart_show_card_day_44_a21.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_heart_show_moderate_card_typical_44_a21.setVisibility(View.GONE);
+                    linear_heart_show_card_day_44_a21.setVisibility(View.GONE);
+                }
+            }
+        });
+
+    }
+    private void initThird(){
+        checkBoxRunning.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxRunning.isChecked()){
+                    linear_recreational_activities_typical_45_a1.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a1.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a1.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a1.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //
+        checkBoxBadminton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxBadminton.isChecked()){
+                    linear_recreational_activities_typical_45_a2.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a2.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a2.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a2.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxSwimming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxSwimming.isChecked()){
+                    linear_recreational_activities_typical_45_a3.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a3.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a3.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a3.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxHockey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHockey.isChecked()){
+                    linear_recreational_activities_typical_45_a4.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a4.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a4.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a4.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxHadudu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxHadudu.isChecked()){
+                    linear_recreational_activities_typical_45_a5.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a5.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a5.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a5.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxFootbal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxRunning.isChecked()){
+                    linear_recreational_activities_typical_45_a6.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a6.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a6.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a6.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxVolleyball.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxVolleyball.isChecked()){
+                    linear_recreational_activities_typical_45_a7.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a7.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a7.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a7.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxTenis.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxTenis.isChecked()){
+                    linear_recreational_activities_typical_45_a8.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a8.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a8.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a8.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxOthers_recreational.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthers_recreational.isChecked()){
+                    linear_recreational_activities_typical_45_a9.setVisibility(View.VISIBLE);
+                    linear_recreational_activities_typical_day_45_a9.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_recreational_activities_typical_45_a9.setVisibility(View.GONE);
+                    linear_recreational_activities_typical_day_45_a9.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+    private void initFourth(){
+        checkBoxFastWalking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxFastWalking.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a1.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a1.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a1.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a1.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxJogging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxJogging.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a2.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a2.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a2.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a2.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxCycling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCycling.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a3.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a3.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a3.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a3.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxCricket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxCricket.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a4.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a4.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a4.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a4.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxYoga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxYoga.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a5.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a5.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a5.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a5.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxAerobics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxAerobics.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a6.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a6.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a6.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a6.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxExercise.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a7.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a7.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a7.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a7.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxOthersDancing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthersDancing.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a8.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a8.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a8.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a8.setVisibility(View.GONE);
+                }
+            }
+        });
+        //
+        checkBoxOthers_moderate_recreational_others.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBoxOthers_moderate_recreational_others.isChecked()){
+                    linear_moderate_intensity_recreational_activities_typical_46_a9.setVisibility(View.VISIBLE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a9.setVisibility(View.VISIBLE);
+
+                }
+                else{
+                    linear_moderate_intensity_recreational_activities_typical_46_a9.setVisibility(View.GONE);
+                    linear_moderate_intensity_recreational_activities_typical_day_46_a9.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
     private void updateView(String language) {
-        Context context= LocaleHelper.setLocale(mActivity,language);
-        Resources resources= context.getResources();
+        Context context = LocaleHelper.setLocale(mActivity, language);
+        Resources resources = context.getResources();
         tv_smoke_stick_day.setText(resources.getString(R.string.stick));
         tv_smoke.setText(resources.getString(R.string.smoke));
         tv_smoke_day.setText(resources.getString(R.string.smoke_years));
@@ -557,98 +2321,99 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         tv_workplace.setText(resources.getString(R.string.workplace));
         tv_workplace_day.setText(resources.getString(R.string.workplace_years));
         tv_alcohol.setText(resources.getString(R.string.alcohol));
-        tv_alcohol_day .setText(resources.getString(R.string.alcohol_years));
+        tv_alcohol_day.setText(resources.getString(R.string.alcohol_years));
         tv_fruits.setText(resources.getString(R.string.fruits));
-        tv_fruits_card .setText(resources.getString(R.string.fruits_show_card));
-        tv_vegetables .setText(resources.getString(R.string.vegetables));
-        tv_vegetables_card .setText(resources.getString(R.string.vegetables_show_card));
+        tv_fruits_card.setText(resources.getString(R.string.fruits_show_card));
+        tv_vegetables.setText(resources.getString(R.string.vegetables));
+        tv_vegetables_card.setText(resources.getString(R.string.vegetables_show_card));
         tv_salt_month.setText(resources.getString(R.string.buy_salt));
-        tv_salt_meal .setText(resources.getString(R.string.talking_meal));
-        tv_extra_salt .setText(resources.getString(R.string.talking_salt));
+        tv_salt_meal.setText(resources.getString(R.string.talking_meal));
+        tv_extra_salt.setText(resources.getString(R.string.talking_salt));
         tv_vigirous_intensity_card.setText(resources.getString(R.string.vigorous_intensity));
-        tv_vigirous_intensity_card_checkbox .setText(resources.getString(R.string.yes_activities));
-        tv_typcal_week_1 .setText(resources.getString(R.string.week));
-        tv_typical_day_1 .setText(resources.getString(R.string.day));
-        tv_moderate_intensity_card .setText(resources.getString(R.string.moderate_intensit));
-        tv_moderate_intensity_card_checkbox .setText(resources.getString(R.string.yes_activities));
+        tv_vigirous_intensity_card_checkbox.setText(resources.getString(R.string.yes_activities));
+        tv_typcal_week_1.setText(resources.getString(R.string.week));
+        tv_typical_day_1.setText(resources.getString(R.string.day));
+        tv_moderate_intensity_card.setText(resources.getString(R.string.moderate_intensit));
+        tv_moderate_intensity_card_checkbox.setText(resources.getString(R.string.yes_activities));
         tv_typcal_week_2.setText(resources.getString(R.string.week));
-        tv_typical_day_2 .setText(resources.getString(R.string.day));
+        tv_typical_day_2.setText(resources.getString(R.string.day));
         tv_vigorous_intensity_recreational.setText(resources.getString(R.string.vigorous_intensity_recreational));
-        tv_vigorous_intensity_recreational_checkbox .setText(resources.getString(R.string.yes_activities));
+        tv_vigorous_intensity_recreational_checkbox.setText(resources.getString(R.string.yes_activities));
         tv_typcal_week_3.setText(resources.getString(R.string.week));
         tv_typical_day_3.setText(resources.getString(R.string.day));
-        tv_moderate_intensity_recreational_card .setText(resources.getString(R.string.moderate_intensity_recreational));
+        tv_moderate_intensity_recreational_card.setText(resources.getString(R.string.moderate_intensity_recreational));
         tv_moderate_intensity_recreational_card_checkbox.setText(resources.getString(R.string.yes_activities));
         tv_typcal_week_4.setText(resources.getString(R.string.week));
         tv_typical_day_4.setText(resources.getString(R.string.day));
-        tv_reclining .setText(resources.getString(R.string.reclining));
-        tv_typical_day_5 .setText(resources.getString(R.string.day));
+        tv_reclining.setText(resources.getString(R.string.reclining));
+        tv_typical_day_5.setText(resources.getString(R.string.day));
         checkBoxHeaveyLoad.setText(resources.getString(R.string.carrying_lifting));
-        checkBoxDigging .setText(resources.getString(R.string.digging));
-        checkBoxFurniture .setText(resources.getString(R.string.furniture));
-        checkBoxPickingCrops .setText(resources.getString(R.string.crops));
-        checkBoxCuttingTrees .setText(resources.getString(R.string.cutt_tree));
-        checkBoxBreakUpPaddy .setText(resources.getString(R.string.paddy));
-        checkBoxDrivingRickshaw .setText(resources.getString(R.string.rickshaw));
-        checkBoxFishing .setText(resources.getString(R.string.fishing));
-        checkBoxPlouging .setText(resources.getString(R.string.plouging));
-        checkBoxHeaveyConstructionWork .setText(resources.getString(R.string.construction));
-        checkBoxHeaveyGoods .setText(resources.getString(R.string.heavy));
+        checkBoxDigging.setText(resources.getString(R.string.digging));
+        checkBoxFurniture.setText(resources.getString(R.string.furniture));
+        checkBoxPickingCrops.setText(resources.getString(R.string.crops));
+        checkBoxCuttingTrees.setText(resources.getString(R.string.cutt_tree));
+        checkBoxBreakUpPaddy.setText(resources.getString(R.string.paddy));
+        checkBoxDrivingRickshaw.setText(resources.getString(R.string.rickshaw));
+        checkBoxFishing.setText(resources.getString(R.string.fishing));
+        checkBoxPlouging.setText(resources.getString(R.string.plouging));
+        checkBoxHeaveyConstructionWork.setText(resources.getString(R.string.construction));
+        checkBoxHeaveyGoods.setText(resources.getString(R.string.heavy));
         checkBoxHeaveyGoodsHead.setText(resources.getString(R.string.heavy_head));
-        checkBoxSoldDigging .setText(resources.getString(R.string.soil_digging));
-        checkBoxWashing .setText(resources.getString(R.string.washing_heavy_clothes));
-        checkBoxStepping .setText(resources.getString(R.string.stepping));
-        checkBoxOthers .setText(resources.getString(R.string.others));
-        edit_typical_day .setHint(resources.getString(R.string.hour));
-        checkBoxHouseHoldWork .setText(resources.getString(R.string.household_work));
-        checkBoxGardening  .setText(resources.getString(R.string.gardening));
-        checkBoxMilkingCows  .setText(resources.getString(R.string.milking));
-        checkBoxCultivatingLand  .setText(resources.getString(R.string.cultivate));
-        checkBoxPlantingHarvest  .setText(resources.getString(R.string.planting_harvesting));
-        checkBoxWeavingCloth  .setText(resources.getString(R.string.weaving_cloth));
-        checkBoxWashingCloths .setText(resources.getString(R.string.washing_cloth_carpet));
-        checkBoxRearing  .setText(resources.getString(R.string.rearing_tending));
-        checkBoxMixingCement  .setText(resources.getString(R.string.masonary));
-        checkBoxWoodWork .setText(resources.getString(R.string.woodwork));
-        checkBoxDrawingWater .setText(resources.getString(R.string.drawing_water));
-        checkBoxCarryingLightWeight .setText(resources.getString(R.string.carrying_light_weight));
-        checkBoxWashingCloths1  .setText(resources.getString(R.string.washing_clothes));
-        checkBoxGardening1  .setText(resources.getString(R.string.gardening));
-        checkBoxMilkingCows1  .setText(resources.getString(R.string.milking));
-        checkBoxRoping  .setText(resources.getString(R.string.roping));
-        checkBoxFarming  .setText(resources.getString(R.string.farming));
-        checkBoxParlour  .setText(resources.getString(R.string.parlour));
-        checkBoxCloth  .setText(resources.getString(R.string.weaving_cloth));
-        checkBoxHouseHoldWork1  .setText(resources.getString(R.string.household_work));
-        checkBoxOthers1  .setText(resources.getString(R.string.others));
-        edit_typical_day_moderate  .setHint(resources.getString(R.string.hour));
-        checkBoxVolleyball .setText(resources.getString(R.string.volleyball));
-        checkBoxFootbal  .setText(resources.getString(R.string.football));
-        checkBoxHadudu  .setText(resources.getString(R.string.hadudu));
-        checkBoxHockey  .setText(resources.getString(R.string.hockey));
-        checkBoxSwimming  .setText(resources.getString(R.string.fast_swimming));
-        checkBoxBadminton  .setText(resources.getString(R.string.badminton));
-        checkBoxRunning  .setText(resources.getString(R.string.running));
-        checkBoxTenis  .setText(resources.getString(R.string.tennis));
-        checkBoxOthers_recreational  .setText(resources.getString(R.string.others));
-        edit_typical_day_recreational  .setHint(resources.getString(R.string.hour));
-        checkBoxFastWalking .setText(resources.getString(R.string.fast_walking));
-        checkBoxJogging .setText(resources.getString(R.string.jogging));
-        checkBoxCycling .setText(resources.getString(R.string.cycling));
-        checkBoxCricket .setText(resources.getString(R.string.yoga));
-        checkBoxAerobics .setText(resources.getString(R.string.aerobics));
-        checkBoxExercise .setText(resources.getString(R.string.exercise));
-        checkBoxOthersDancing .setText(resources.getString(R.string.dancing));
-        checkBoxOthers_moderate_recreational_others .setText(resources.getString(R.string.others));
-        edit_typical_day_moderate_recreational .setHint(resources.getString(R.string.hour));
-        edit_yes_reclining .setHint(resources.getString(R.string.hour));
-        edit_smoke_years .setHint(resources.getString(R.string.year));
-        edit_jorda .setHint(resources.getString(R.string.year));
-        edit_alcohol .setHint(resources.getString(R.string.year));
-        edit_workplace .setHint(resources.getString(R.string.year));
-        edit_smoke_stick .setHint(resources.getString(R.string.pcs));
-        tv_extra_salt .setHint(resources.getString(R.string.day_1));
+        checkBoxSoldDigging.setText(resources.getString(R.string.soil_digging));
+        checkBoxWashing.setText(resources.getString(R.string.washing_heavy_clothes));
+        checkBoxStepping.setText(resources.getString(R.string.stepping));
+        checkBoxOthers.setText(resources.getString(R.string.others));
+        edit_typical_day.setHint(resources.getString(R.string.hour));
+        checkBoxHouseHoldWork.setText(resources.getString(R.string.household_work));
+        checkBoxGardening.setText(resources.getString(R.string.gardening));
+        checkBoxMilkingCows.setText(resources.getString(R.string.milking));
+        checkBoxCultivatingLand.setText(resources.getString(R.string.cultivate));
+        checkBoxPlantingHarvest.setText(resources.getString(R.string.planting_harvesting));
+        checkBoxWeavingCloth.setText(resources.getString(R.string.weaving_cloth));
+        checkBoxWashingCloths.setText(resources.getString(R.string.washing_cloth_carpet));
+        checkBoxRearing.setText(resources.getString(R.string.rearing_tending));
+        checkBoxMixingCement.setText(resources.getString(R.string.masonary));
+        checkBoxWoodWork.setText(resources.getString(R.string.woodwork));
+        checkBoxDrawingWater.setText(resources.getString(R.string.drawing_water));
+        checkBoxCarryingLightWeight.setText(resources.getString(R.string.carrying_light_weight));
+        checkBoxWashingCloths1.setText(resources.getString(R.string.washing_clothes));
+        checkBoxGardening1.setText(resources.getString(R.string.gardening));
+        checkBoxMilkingCows1.setText(resources.getString(R.string.milking));
+        checkBoxRoping.setText(resources.getString(R.string.roping));
+        checkBoxFarming.setText(resources.getString(R.string.farming));
+        checkBoxParlour.setText(resources.getString(R.string.parlour));
+        checkBoxCloth.setText(resources.getString(R.string.weaving_cloth));
+        checkBoxHouseHoldWork1.setText(resources.getString(R.string.household_work));
+        checkBoxOthers1.setText(resources.getString(R.string.others));
+        edit_typical_day_moderate.setHint(resources.getString(R.string.hour));
+        checkBoxVolleyball.setText(resources.getString(R.string.volleyball));
+        checkBoxFootbal.setText(resources.getString(R.string.football));
+        checkBoxHadudu.setText(resources.getString(R.string.hadudu));
+        checkBoxHockey.setText(resources.getString(R.string.hockey));
+        checkBoxSwimming.setText(resources.getString(R.string.fast_swimming));
+        checkBoxBadminton.setText(resources.getString(R.string.badminton));
+        checkBoxRunning.setText(resources.getString(R.string.running));
+        checkBoxTenis.setText(resources.getString(R.string.tennis));
+        checkBoxOthers_recreational.setText(resources.getString(R.string.others));
+        edit_typical_day_recreational.setHint(resources.getString(R.string.hour));
+        checkBoxFastWalking.setText(resources.getString(R.string.fast_walking));
+        checkBoxJogging.setText(resources.getString(R.string.jogging));
+        checkBoxCycling.setText(resources.getString(R.string.cycling));
+        checkBoxCricket.setText(resources.getString(R.string.yoga));
+        checkBoxAerobics.setText(resources.getString(R.string.aerobics));
+        checkBoxExercise.setText(resources.getString(R.string.exercise));
+        checkBoxOthersDancing.setText(resources.getString(R.string.dancing));
+        checkBoxOthers_moderate_recreational_others.setText(resources.getString(R.string.others));
+        edit_typical_day_moderate_recreational.setHint(resources.getString(R.string.hour));
+        edit_yes_reclining.setHint(resources.getString(R.string.hour));
+        edit_smoke_years.setHint(resources.getString(R.string.year));
+        edit_jorda.setHint(resources.getString(R.string.year));
+        edit_alcohol.setHint(resources.getString(R.string.year));
+        edit_workplace.setHint(resources.getString(R.string.year));
+        edit_smoke_stick.setHint(resources.getString(R.string.pcs));
+        tv_extra_salt.setHint(resources.getString(R.string.day_1));
     }
+
     public static class TypicalDayTimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 
@@ -2835,7 +4600,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         return false;
     }
 
-    private boolean isModerateIntensityChecked(int pos) {
+    private boolean
+    isModerateIntensityChecked(int pos) {
 
 
         if (pos == 1 && checkBoxHouseHoldWork.isChecked())
@@ -4614,7 +6380,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 Questions questions = new Questions();
                                 questions.type = "behavioral";
                                 questions.question = "Q33";
-                                questions.member_id =memberHabits.member_unique_code;
+                                questions.member_id = memberHabits.member_unique_code;
                                 questions.answer = "2";
                                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                                 Date date = new Date(System.currentTimeMillis());
@@ -5617,12 +7383,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         if (message.what == 2) {
             saveData();
         } else {
-            String language= SharedPreferenceUtil.getLanguage(mActivity);
-            if (language.equals("en")){
-                HHCreateMemberFragment.prevPage(1,"en");
-            }
-            else if(language.equals("bn")){
-                HHCreateMemberFragment.prevPage(1,"bn");
+            String language = SharedPreferenceUtil.getLanguage(mActivity);
+            if (language.equals("en")) {
+                HHCreateMemberFragment.prevPage(1, "en");
+            } else if (language.equals("bn")) {
+                HHCreateMemberFragment.prevPage(1, "bn");
             }
 
         }
@@ -5666,4 +7431,1002 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         infoDialog.show();
     }
 
+    private void initVigirousIntensityTypicalSpinner() {
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_1);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a1.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_1.get(position).getId());
+                vigirousIntensityb1 = yesNoArrayListFor43_b_1.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_2);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a2.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_2.get(position).getId());
+                vigirousIntensityb2 = yesNoArrayListFor43_b_2.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_3);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a3.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_3.get(position).getId());
+                vigirousIntensityb3 = yesNoArrayListFor43_b_3.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_4);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a4.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_4.get(position).getId());
+                vigirousIntensityb4 = yesNoArrayListFor43_b_4.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_5);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a5.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_5.get(position).getId());
+                vigirousIntensityb5 = yesNoArrayListFor43_b_5.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_6);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a6.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a6.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_6.get(position).getId());
+                vigirousIntensityb6 = yesNoArrayListFor43_b_6.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_7);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a7.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_7.get(position).getId());
+                vigirousIntensityb7 = yesNoArrayListFor43_b_7.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_8);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a8.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a8.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_8.get(position).getId());
+                vigirousIntensityb8 = yesNoArrayListFor43_b_8.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_9);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a9.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a9.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_9.get(position).getId());
+                vigirousIntensityb9 = yesNoArrayListFor43_b_9.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_10);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a10.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a10.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_10.get(position).getId());
+                vigirousIntensityb10 = yesNoArrayListFor43_b_10.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_11);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a11.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a11.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_11.get(position).getId());
+                vigirousIntensityb11 = yesNoArrayListFor43_b_11.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_12);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a12.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a12.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_12.get(position).getId());
+                vigirousIntensityb12 = yesNoArrayListFor43_b_12.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_13);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a13.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a13.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_13.get(position).getId());
+                vigirousIntensityb13 = yesNoArrayListFor43_b_13.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_14);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a14.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a14.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_14.get(position).getId());
+                vigirousIntensityb14 = yesNoArrayListFor43_b_14.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_15);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a15.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a15.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_15.get(position).getId());
+                vigirousIntensityb15 = yesNoArrayListFor43_b_15.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor43_b_16);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_43_a16.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_43_a16.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor43_b_16.get(position).getId());
+                vigirousIntensityb16 = yesNoArrayListFor43_b_16.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void initModerateIntensityTypicalSpinner() {
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_1);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a1.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_1.get(position).getId());
+                moderateIntensityb1 = yesNoArrayListFor44_b_1.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_2);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a2.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_2.get(position).getId());
+                moderateIntensityb2 = yesNoArrayListFor44_b_2.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_3);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a3.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_3.get(position).getId());
+                moderateIntensityb4 = yesNoArrayListFor44_b_3.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_4);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a4.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_4.get(position).getId());
+                moderateIntensityb4 = yesNoArrayListFor44_b_4.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_5);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a5.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_5.get(position).getId());
+                moderateIntensityb5 = yesNoArrayListFor44_b_5.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_6);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a6.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a6.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_6.get(position).getId());
+                moderateIntensityb6 = yesNoArrayListFor44_b_6.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_7);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a7.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_7.get(position).getId());
+                moderateIntensityb7 = yesNoArrayListFor44_b_7.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_8);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a8.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a8.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_8.get(position).getId());
+                moderateIntensityb8 = yesNoArrayListFor44_b_8.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_9);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a9.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a9.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_9.get(position).getId());
+                moderateIntensityb9 = yesNoArrayListFor44_b_9.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_10);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a10.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a10.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_10.get(position).getId());
+                moderateIntensityb10 = yesNoArrayListFor44_b_10.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_11);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a11.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a11.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_11.get(position).getId());
+                moderateIntensityb11 = yesNoArrayListFor44_b_11.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_12);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a12.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a12.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_12.get(position).getId());
+                moderateIntensityb12 = yesNoArrayListFor44_b_12.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_13);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a13.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a13.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_13.get(position).getId());
+                moderateIntensityb13 = yesNoArrayListFor44_b_13.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_14);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a14.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a14.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_14.get(position).getId());
+                moderateIntensityb14 = yesNoArrayListFor44_b_14.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_15);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a15.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a15.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_15.get(position).getId());
+                moderateIntensityb15 = yesNoArrayListFor44_b_15.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_16);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a16.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a16.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_16.get(position).getId());
+                moderateIntensityb16 = yesNoArrayListFor44_b_16.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_17);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a17.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a17.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_17.get(position).getId());
+                moderateIntensityb17 = yesNoArrayListFor44_b_17.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_18);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a18.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a18.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_18.get(position).getId());
+                moderateIntensityb18 = yesNoArrayListFor44_b_18.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_19);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a19.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a19.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_19.get(position).getId());
+                moderateIntensityb19 = yesNoArrayListFor44_b_19.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_20);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a20.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a20.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_20.get(position).getId());
+                moderateIntensityb20 = yesNoArrayListFor44_b_20.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor44_b_21);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_44_a21.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_44_a21.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor44_b_21.get(position).getId());
+                moderateIntensityb21 = yesNoArrayListFor44_b_21.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void initVigiriousIntensityRecreationalSpinner() {
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_1);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a1.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_1.get(position).getId());
+                vigiriousRecreationIntensityb1 = yesNoArrayListFor45_b_1.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_2);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a2.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_2.get(position).getId());
+                vigiriousRecreationIntensityb2 = yesNoArrayListFor45_b_2.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_3);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a3.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_3.get(position).getId());
+                vigiriousRecreationIntensityb3 = yesNoArrayListFor45_b_3.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_4);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a4.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_4.get(position).getId());
+                vigiriousRecreationIntensityb4 = yesNoArrayListFor45_b_4.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_5);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a5.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_5.get(position).getId());
+                vigiriousRecreationIntensityb5 = yesNoArrayListFor45_b_5.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_6);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a6.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a6.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_6.get(position).getId());
+                vigiriousRecreationIntensityb6 = yesNoArrayListFor45_b_6.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_7);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a7.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_7.get(position).getId());
+                vigiriousRecreationIntensityb7 = yesNoArrayListFor45_b_7.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_8);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a8.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a8.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_8.get(position).getId());
+                vigiriousRecreationIntensityb8 = yesNoArrayListFor45_b_8.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor45_b_9);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_recreational_45_a9.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_recreational_45_a9.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor45_b_9.get(position).getId());
+                vigiriousRecreationIntensityb9 = yesNoArrayListFor45_b_9.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void initModerateIntensityRecreationSpinner() {
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_1);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a1.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_1.get(position).getId());
+                moderateRecreationIntensityb1 = yesNoArrayListFor46_b_1.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_2);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a2.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_2.get(position).getId());
+                moderateRecreationIntensityb2 = yesNoArrayListFor46_b_2.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_3);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a3.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_3.get(position).getId());
+                moderateRecreationIntensityb3 = yesNoArrayListFor46_b_3.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_4);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a4.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_4.get(position).getId());
+                moderateRecreationIntensityb4 = yesNoArrayListFor46_b_4.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_5);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a5.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_5.get(position).getId());
+                moderateRecreationIntensityb5 = yesNoArrayListFor46_b_5.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_6);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a6.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a6.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_6.get(position).getId());
+                moderateRecreationIntensityb6 = yesNoArrayListFor46_b_6.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_7);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a7.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_7.get(position).getId());
+                moderateRecreationIntensityb7 = yesNoArrayListFor46_b_7.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_8);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a8.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a8.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_8.get(position).getId());
+                moderateRecreationIntensityb8 = yesNoArrayListFor46_b_8.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //
+        yesNoArrayAdapterTypicalVigorousRecreation = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, yesNoArrayListFor46_b_9);
+        yesNoArrayAdapterTypicalVigorousRecreation.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_typical_week_moderate_recreational_46_a9.setAdapter(yesNoArrayAdapterTypicalVigorousRecreation);
+
+        spinner_typical_week_moderate_recreational_46_a9.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("sp_water", "" + yesNoArrayListFor46_b_9.get(position).getId());
+                moderateRecreationIntensityb9 = yesNoArrayListFor46_b_9.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 }
