@@ -1470,16 +1470,15 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         show();
     }
 
-    private void initFirst(){
+    private void initFirst() {
         checkBoxHeaveyLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHeaveyLoad.isChecked()){
+                if (checkBoxHeaveyLoad.isChecked()) {
                     linear_heart_show_card_typical_week_43_a1.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a1.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a1.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a1.setVisibility(View.GONE);
                 }
@@ -1493,12 +1492,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxDigging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxDigging.isChecked()){
+                if (checkBoxDigging.isChecked()) {
                     linear_heart_show_card_typical_week_43_a2.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a2.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a2.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a2.setVisibility(View.GONE);
                 }
@@ -1509,12 +1507,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFurniture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxFurniture.isChecked()){
+                if (checkBoxFurniture.isChecked()) {
                     linear_heart_show_card_typical_week_43_a3.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a3.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a3.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a3.setVisibility(View.GONE);
                 }
@@ -1524,12 +1521,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxPickingCrops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxPickingCrops.isChecked()){
+                if (checkBoxPickingCrops.isChecked()) {
                     linear_heart_show_card_typical_week_43_a4.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a4.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a4.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a4.setVisibility(View.GONE);
                 }
@@ -1539,12 +1535,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCuttingTrees.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxCuttingTrees.isChecked()){
+                if (checkBoxCuttingTrees.isChecked()) {
                     linear_heart_show_card_typical_week_43_a5.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a5.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a5.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a5.setVisibility(View.GONE);
                 }
@@ -1554,12 +1549,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxBreakUpPaddy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxBreakUpPaddy.isChecked()){
+                if (checkBoxBreakUpPaddy.isChecked()) {
                     linear_heart_show_card_typical_week_43_a6.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a6.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a6.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a6.setVisibility(View.GONE);
                 }
@@ -1569,12 +1563,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxDrivingRickshaw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxDrivingRickshaw.isChecked()){
+                if (checkBoxDrivingRickshaw.isChecked()) {
                     linear_heart_show_card_typical_week_43_a7.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a7.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a7.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a7.setVisibility(View.GONE);
                 }
@@ -1584,12 +1577,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFishing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxFishing.isChecked()){
+                if (checkBoxFishing.isChecked()) {
                     linear_heart_show_card_typical_week_43_a8.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a8.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a8.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a8.setVisibility(View.GONE);
                 }
@@ -1599,12 +1591,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxPlouging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxPlouging.isChecked()){
+                if (checkBoxPlouging.isChecked()) {
                     linear_heart_show_card_typical_week_43_a9.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a9.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a9.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a9.setVisibility(View.GONE);
                 }
@@ -1614,12 +1605,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHeaveyConstructionWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHeaveyConstructionWork.isChecked()){
+                if (checkBoxHeaveyConstructionWork.isChecked()) {
                     linear_heart_show_card_typical_week_43_a10.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a10.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a10.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a10.setVisibility(View.GONE);
                 }
@@ -1629,12 +1619,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHeaveyGoods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHeaveyGoods.isChecked()){
+                if (checkBoxHeaveyGoods.isChecked()) {
                     linear_heart_show_card_typical_week_43_a11.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a11.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a11.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a11.setVisibility(View.GONE);
                 }
@@ -1644,12 +1633,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHeaveyGoodsHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHeaveyGoodsHead.isChecked()){
+                if (checkBoxHeaveyGoodsHead.isChecked()) {
                     linear_heart_show_card_typical_week_43_a12.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a12.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a12.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a12.setVisibility(View.GONE);
                 }
@@ -1659,12 +1647,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxSoldDigging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxSoldDigging.isChecked()){
+                if (checkBoxSoldDigging.isChecked()) {
                     linear_heart_show_card_typical_week_43_a13.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a13.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a13.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a13.setVisibility(View.GONE);
                 }
@@ -1674,12 +1661,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWashing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxWashing.isChecked()){
+                if (checkBoxWashing.isChecked()) {
                     linear_heart_show_card_typical_week_43_a14.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a14.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a14.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a14.setVisibility(View.GONE);
                 }
@@ -1689,12 +1675,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxStepping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxStepping.isChecked()){
+                if (checkBoxStepping.isChecked()) {
                     linear_heart_show_card_typical_week_43_a15.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a15.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a15.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a15.setVisibility(View.GONE);
                 }
@@ -1704,12 +1689,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxOthers.isChecked()){
+                if (checkBoxOthers.isChecked()) {
                     linear_heart_show_card_typical_week_43_a16.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a16.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_card_typical_week_43_a16.setVisibility(View.GONE);
                     linear_heart_show_card_activities_43_a16.setVisibility(View.GONE);
                 }
@@ -1717,16 +1701,16 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         });
 
     }
-    private void initSecond(){
+
+    private void initSecond() {
         checkBoxHouseHoldWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHouseHoldWork.isChecked()){
+                if (checkBoxHouseHoldWork.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a1.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a1.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a1.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a1.setVisibility(View.GONE);
                 }
@@ -1738,12 +1722,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxGardening.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxGardening.isChecked()){
+                if (checkBoxGardening.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a2.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a2.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a2.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a2.setVisibility(View.GONE);
                 }
@@ -1754,12 +1737,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxMilkingCows.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxMilkingCows.isChecked()){
+                if (checkBoxMilkingCows.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a3.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a3.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a3.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a3.setVisibility(View.GONE);
                 }
@@ -1769,12 +1751,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCultivatingLand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxCultivatingLand.isChecked()){
+                if (checkBoxCultivatingLand.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a4.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a4.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a4.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a4.setVisibility(View.GONE);
                 }
@@ -1784,12 +1765,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxPlantingHarvest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxPlantingHarvest.isChecked()){
+                if (checkBoxPlantingHarvest.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a5.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a5.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a5.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a5.setVisibility(View.GONE);
                 }
@@ -1799,12 +1779,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWeavingCloth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxWeavingCloth.isChecked()){
+                if (checkBoxWeavingCloth.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a6.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a6.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a6.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a6.setVisibility(View.GONE);
                 }
@@ -1814,12 +1793,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWashingCloths.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxWashingCloths.isChecked()){
+                if (checkBoxWashingCloths.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a7.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a7.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a7.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a7.setVisibility(View.GONE);
                 }
@@ -1829,12 +1807,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxRearing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxRearing.isChecked()){
+                if (checkBoxRearing.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a8.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a8.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a8.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a8.setVisibility(View.GONE);
                 }
@@ -1844,12 +1821,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxMixingCement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxMixingCement.isChecked()){
+                if (checkBoxMixingCement.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a9.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a9.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a9.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a9.setVisibility(View.GONE);
                 }
@@ -1859,12 +1835,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWoodWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxWoodWork.isChecked()){
+                if (checkBoxWoodWork.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a10.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a10.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a10.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a10.setVisibility(View.GONE);
                 }
@@ -1874,12 +1849,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxDrawingWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxDrawingWater.isChecked()){
+                if (checkBoxDrawingWater.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a11.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a11.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a11.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a11.setVisibility(View.GONE);
                 }
@@ -1889,12 +1863,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCarryingLightWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxCarryingLightWeight.isChecked()){
+                if (checkBoxCarryingLightWeight.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a12.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a12.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a12.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a12.setVisibility(View.GONE);
                 }
@@ -1904,12 +1877,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWashingCloths1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxWashingCloths1.isChecked()){
+                if (checkBoxWashingCloths1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a13.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a13.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a13.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a13.setVisibility(View.GONE);
                 }
@@ -1919,12 +1891,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxGardening1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxGardening1.isChecked()){
+                if (checkBoxGardening1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a14.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a14.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a14.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a14.setVisibility(View.GONE);
                 }
@@ -1934,12 +1905,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxMilkingCows1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxMilkingCows1.isChecked()){
+                if (checkBoxMilkingCows1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a15.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a15.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a15.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a15.setVisibility(View.GONE);
                 }
@@ -1949,12 +1919,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxRoping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHouseHoldWork.isChecked()){
+                if (checkBoxHouseHoldWork.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a16.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a16.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a16.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a16.setVisibility(View.GONE);
                 }
@@ -1964,12 +1933,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFarming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxFarming.isChecked()){
+                if (checkBoxFarming.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a17.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a17.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a17.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a17.setVisibility(View.GONE);
                 }
@@ -1979,12 +1947,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxParlour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxParlour.isChecked()){
+                if (checkBoxParlour.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a18.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a18.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a18.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a18.setVisibility(View.GONE);
                 }
@@ -1994,12 +1961,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCloth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxCloth.isChecked()){
+                if (checkBoxCloth.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a19.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a19.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a19.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a19.setVisibility(View.GONE);
                 }
@@ -2009,12 +1975,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHouseHoldWork1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHouseHoldWork1.isChecked()){
+                if (checkBoxHouseHoldWork1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a20.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a20.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a20.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a20.setVisibility(View.GONE);
                 }
@@ -2024,12 +1989,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthers1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxOthers1.isChecked()){
+                if (checkBoxOthers1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a21.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a21.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_heart_show_moderate_card_typical_44_a21.setVisibility(View.GONE);
                     linear_heart_show_card_day_44_a21.setVisibility(View.GONE);
                 }
@@ -2037,16 +2001,16 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         });
 
     }
-    private void initThird(){
+
+    private void initThird() {
         checkBoxRunning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxRunning.isChecked()){
+                if (checkBoxRunning.isChecked()) {
                     linear_recreational_activities_typical_45_a1.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a1.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a1.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a1.setVisibility(View.GONE);
                 }
@@ -2057,12 +2021,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxBadminton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxBadminton.isChecked()){
+                if (checkBoxBadminton.isChecked()) {
                     linear_recreational_activities_typical_45_a2.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a2.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a2.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a2.setVisibility(View.GONE);
                 }
@@ -2072,12 +2035,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxSwimming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxSwimming.isChecked()){
+                if (checkBoxSwimming.isChecked()) {
                     linear_recreational_activities_typical_45_a3.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a3.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a3.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a3.setVisibility(View.GONE);
                 }
@@ -2087,12 +2049,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHockey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHockey.isChecked()){
+                if (checkBoxHockey.isChecked()) {
                     linear_recreational_activities_typical_45_a4.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a4.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a4.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a4.setVisibility(View.GONE);
                 }
@@ -2102,12 +2063,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHadudu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxHadudu.isChecked()){
+                if (checkBoxHadudu.isChecked()) {
                     linear_recreational_activities_typical_45_a5.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a5.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a5.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a5.setVisibility(View.GONE);
                 }
@@ -2117,12 +2077,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFootbal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxRunning.isChecked()){
+                if (checkBoxRunning.isChecked()) {
                     linear_recreational_activities_typical_45_a6.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a6.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a6.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a6.setVisibility(View.GONE);
                 }
@@ -2132,12 +2091,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxVolleyball.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxVolleyball.isChecked()){
+                if (checkBoxVolleyball.isChecked()) {
                     linear_recreational_activities_typical_45_a7.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a7.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a7.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a7.setVisibility(View.GONE);
                 }
@@ -2147,12 +2105,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxTenis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxTenis.isChecked()){
+                if (checkBoxTenis.isChecked()) {
                     linear_recreational_activities_typical_45_a8.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a8.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a8.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a8.setVisibility(View.GONE);
                 }
@@ -2162,28 +2119,27 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthers_recreational.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxOthers_recreational.isChecked()){
+                if (checkBoxOthers_recreational.isChecked()) {
                     linear_recreational_activities_typical_45_a9.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a9.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_recreational_activities_typical_45_a9.setVisibility(View.GONE);
                     linear_recreational_activities_typical_day_45_a9.setVisibility(View.GONE);
                 }
             }
         });
     }
-    private void initFourth(){
+
+    private void initFourth() {
         checkBoxFastWalking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxFastWalking.isChecked()){
+                if (checkBoxFastWalking.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a1.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a1.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a1.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a1.setVisibility(View.GONE);
                 }
@@ -2193,12 +2149,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxJogging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxJogging.isChecked()){
+                if (checkBoxJogging.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a2.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a2.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a2.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a2.setVisibility(View.GONE);
                 }
@@ -2208,12 +2163,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCycling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxCycling.isChecked()){
+                if (checkBoxCycling.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a3.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a3.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a3.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a3.setVisibility(View.GONE);
                 }
@@ -2223,12 +2177,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCricket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxCricket.isChecked()){
+                if (checkBoxCricket.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a4.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a4.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a4.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a4.setVisibility(View.GONE);
                 }
@@ -2238,12 +2191,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxYoga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxYoga.isChecked()){
+                if (checkBoxYoga.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a5.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a5.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a5.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a5.setVisibility(View.GONE);
                 }
@@ -2253,12 +2205,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxAerobics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxAerobics.isChecked()){
+                if (checkBoxAerobics.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a6.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a6.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a6.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a6.setVisibility(View.GONE);
                 }
@@ -2268,12 +2219,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxExercise.isChecked()){
+                if (checkBoxExercise.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a7.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a7.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a7.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a7.setVisibility(View.GONE);
                 }
@@ -2283,12 +2233,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthersDancing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxOthersDancing.isChecked()){
+                if (checkBoxOthersDancing.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a8.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a8.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a8.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a8.setVisibility(View.GONE);
                 }
@@ -2298,18 +2247,18 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthers_moderate_recreational_others.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkBoxOthers_moderate_recreational_others.isChecked()){
+                if (checkBoxOthers_moderate_recreational_others.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a9.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a9.setVisibility(View.VISIBLE);
 
-                }
-                else{
+                } else {
                     linear_moderate_intensity_recreational_activities_typical_46_a9.setVisibility(View.GONE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a9.setVisibility(View.GONE);
                 }
             }
         });
     }
+
     private void updateView(String language) {
         Context context = LocaleHelper.setLocale(mActivity, language);
         Resources resources = context.getResources();
@@ -4726,7 +4675,1223 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
                     }
 
+///////////////////////////Khan//////////
 
+                    if (checkBoxHeaveyLoad.isChecked()){
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a1", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a1";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "1";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a1";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "1";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b1", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b1";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb1);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b1";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb1);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c1", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c1";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a1.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c1";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a1.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+
+                    if (checkBoxDigging.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a2", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a2";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "2";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a2";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "2";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b2", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b2";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb2);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b2";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb2);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c2", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c2";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a2.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c2";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a2.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+
+                    if (checkBoxFurniture.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a3", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a3";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "3";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a3";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "3";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b3", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b3";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb3);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b3";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb3);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c3", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c3";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a3.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c3";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a3.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+
+                    if (checkBoxPickingCrops.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a4", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a4";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "4";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a4";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "4";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b4", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b4";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb4);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b4";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb4);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c4", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c4";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a4.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c4";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a4.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+
+                    if (checkBoxCuttingTrees.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a5", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a5";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "5";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a5";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "5";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b5", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b5";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb5);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b5";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb5);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c5", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c5";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a5.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c5";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a5.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+
+                    if (checkBoxBreakUpPaddy.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a6", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a6";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "6";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a6";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "6";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b6", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b6";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb6);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b6";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb6);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c6", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c6";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a6.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c6";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a6.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxDrivingRickshaw.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a7", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a7";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "7";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a7";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "7";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b7", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b7";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb7);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b7";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb7);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c7", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c7";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a7.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c7";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a7.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxFishing.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a8", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a8";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "8";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a8";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "8";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b8", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b8";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb8);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b8";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb8);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c8", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c8";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a8.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c8";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a8.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+
+                    if (checkBoxPlouging.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a9", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a9";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "9";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a9";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "9";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b9", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b9";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb9);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b9";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb9);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c9", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c9";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a9.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c9";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a9.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxHeaveyConstructionWork.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a10", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a10";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "10";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a10";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "10";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b10", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b10";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb10);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b10";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb10);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c10", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c10";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a10.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c10";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a10.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxHeaveyGoods.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a11", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a11";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "11";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a11";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "11";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b11", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b11";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb11);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b11";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb11);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c11", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c11";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a11.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c11";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a11.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxHeaveyGoodsHead.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a12", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a12";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "12";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a12";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "12";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b12", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b12";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb12);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b12";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb12);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c12", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c12";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a12.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c12";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a12.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxSoldDigging.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a13", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a13";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "13";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a13";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "13";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b13", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b13";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb13);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b13";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb13);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c13", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c13";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a13.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c13";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a13.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxWashing.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a14", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a14";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "14";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a14";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "14";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b14", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b14";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb14);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b14";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb14);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c14", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c14";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a14.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c14";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a14.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxStepping.isChecked()) {
+                        Questions questionsForLoad= Common.qustionsRepository.getQuestions("Q43a15", update);
+                        if (questionsForLoad == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a15";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "15";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a15";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "15";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b15", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b15";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb1);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b15";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb15);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c15", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c15";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a15.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c15";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a15.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
+                    if (checkBoxOthers.isChecked()) {
+                        Questions questionsForLoad1= Common.qustionsRepository.getQuestions("Q43a16", update);
+                        if (questionsForLoad1 == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a16";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "16";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43a1";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = "16";
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                        //
+                        Questions questionsForLoadq= Common.qustionsRepository.getQuestions("Q43b16", update);
+                        if (questionsForLoadq == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b16";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb16);
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43b16";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = String.valueOf(vigirousIntensityb16);
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+
+
+                        //
+                        Questions questionsForLoadc= Common.qustionsRepository.getQuestions("Q43c16", update);
+                        if (questionsForLoadc == null) {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c16";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer = edit_typical_day_43_a16.getText().toString();
+
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = "behavioral";
+                            questions.question = "Q43c16";
+                            questions.member_id = memberHabitsFor.member_unique_code;
+                            questions.answer =edit_typical_day_43_a16.getText().toString();
+                            questions.date = currentDate;
+                            questions.master_id = memberHabitsFor.id;
+                            questions.id = questionsFor711.id;
+                            Common.qustionsRepository.updateQuestions(questions);
+
+                        }
+                    }
                     ////
                     Questions questionsFor451 = Common.qustionsRepository.getQuestions("Q32a", update);
                     if (questionsFor451 == null) {
@@ -5767,6 +6932,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 } else {
                     ((HouseholdHomeActivity) getActivity()).backForDetails();
                 }
+                //////////////////////FIRST/////////////////
             } else {
                 int id = Common.memberMyselfRepository.maxValue();
 
@@ -6040,7 +7206,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                         questions11.date = currentDate;
                         questions11.master_id = memberMyself.id;
                         Common.qustionsRepository.insertToQuestions(questions11);
-
+////////////////////////////////Q43E
 
                         if (vigorousIntensity == 2) {
                             Questions questions12 = new Questions();
@@ -6051,7 +7217,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
                             Common.qustionsRepository.insertToQuestions(questions12);
-                        } else {
+                        } else
+                            {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
                             questions12.question = "Q43";
@@ -6060,6 +7227,462 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             questions12.date = currentDate;
                             questions12.master_id = memberMyself.id;
                             Common.qustionsRepository.insertToQuestions(questions12);
+
+                            if (checkBoxHeaveyLoad.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a1";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "1";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b1";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb1);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c1";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a1.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+
+                            if (checkBoxDigging.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a2";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "2";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b2";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb2);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c2";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a2.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+
+                            if (checkBoxFurniture.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a3";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "3";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b3";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb3);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c3";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a3.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+
+                            if (checkBoxPickingCrops.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a4";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "4";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b4";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb4);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c4";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a4.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+
+                            if (checkBoxCuttingTrees.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a5";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "5";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b5";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb5);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c5";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a5.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+
+                            if (checkBoxBreakUpPaddy.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a6";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "6";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b6";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb6);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c6";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a6.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxDrivingRickshaw.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a7";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "7";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b7";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb7);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c7";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a7.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxFishing.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a8";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "8";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b8";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb8);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c8";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a8.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+
+                            if (checkBoxPlouging.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a9";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "9";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b9";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb9);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c9";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a9.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxHeaveyConstructionWork.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a10";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "10";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b10";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb10);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c10";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a10.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxHeaveyGoods.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a11";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "11";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b11";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb11);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c11";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a11.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxHeaveyGoodsHead.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a12";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "1";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b12";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb12);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c12";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a12.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxSoldDigging.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a13";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "13";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b13";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb13);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c13";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a13.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxWashing.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a14";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "14";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b14";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb14);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c14";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a14.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxStepping.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a1";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "15";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b15";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb15);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c15";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a15.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+                            if (checkBoxOthers.isChecked()) {
+                                Questions questionsLoad = new Questions();
+                                questionsLoad.type = "behavioral";
+                                questionsLoad.question = "Q43a16";
+                                questionsLoad.member_id = memberMyself.UniqueCode;
+                                questionsLoad.answer = "16";
+                                questionsLoad.date = currentDate;
+                                questionsLoad.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad);
+
+                                Questions questionsLoad1 = new Questions();
+                                questionsLoad1.type = "behavioral";
+                                questionsLoad1.question = "Q43b16";
+                                questionsLoad1.member_id = memberMyself.UniqueCode;
+                                questionsLoad1.answer = String.valueOf(vigirousIntensityb16);
+                                questionsLoad1.date = currentDate;
+                                questionsLoad1.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad1);
+
+                                Questions questionsLoad2 = new Questions();
+                                questionsLoad2.type = "behavioral";
+                                questionsLoad2.question = "Q43c16";
+                                questionsLoad2.member_id = memberMyself.UniqueCode;
+                                questionsLoad2.answer = edit_typical_day_43_a16.getText().toString();
+                                questionsLoad2.date = currentDate;
+                                questionsLoad2.master_id = memberMyself.id;
+                                Common.qustionsRepository.insertToQuestions(questionsLoad2);
+                            }
+
 
                             Questions questions13 = new Questions();
                             questions13.type = "behavioral";
@@ -6324,7 +7947,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                                 questions.date = currentDate;
                                 questions.master_id = memberHabits.id;
                                 questions.id = questionsFor711.id;
-                                Common.qustionsRepository.insertToQuestions(questions);
+                                Common.qustionsRepository.updateQuestions(questions);
 
                             }
 
