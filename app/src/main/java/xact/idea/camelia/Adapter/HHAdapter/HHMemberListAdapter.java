@@ -154,18 +154,21 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
 
         }
 
-        MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).MemberId);
-        try {
-            if (SharedPreferenceUtil.getUserRole(mActivity).equals("HH")) {
-                if (myself.From.equals("CC")){
-                    holder.text_cc.setVisibility(View.VISIBLE);
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-          //  holder.text_cc.setVisibility(View.VISIBLE);
+        MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).UniqueCode);
+        if (myself.VisitDate!=null){
+            holder.text_cc.setVisibility(View.INVISIBLE);
         }
+//        try {
+//            if (SharedPreferenceUtil.getUserRole(mActivity).equals("HH")) {
+//                if (myself.From.equals("CC")){
+//                    holder.text_cc.setVisibility(View.GONE);
+//                }
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//          //  holder.text_cc.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Override

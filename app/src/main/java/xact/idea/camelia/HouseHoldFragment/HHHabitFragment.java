@@ -22,6 +22,7 @@ import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -757,6 +758,10 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     EditText edit_typical_day_moderate_recreational_46_a9;
 
 
+    CheckBox checkbox_mat;
+    LinearLayout linear_mat;
+    EditText edit_mat;
+    TextView tv_mat;
     public HHHabitFragment(String frags, String updates) {
         frag = frags;
         update = updates;
@@ -1163,6 +1168,10 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         initView2();
         initView3();
 
+        checkbox_mat = view.findViewById(R.id.checkbox_mat);
+        linear_mat = view.findViewById(R.id.linear_mat);
+        edit_mat = view.findViewById(R.id.edit_mat);
+        tv_mat = view.findViewById(R.id.tv_mat);
         tv_smoke = view.findViewById(R.id.tv_smoke);
         tv_smoke_day = view.findViewById(R.id.tv_smoke_day);
         tv_jorda = view.findViewById(R.id.tv_jorda);
@@ -1468,12 +1477,664 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 //            }
 //        });
         show();
-    }
+        initMat();
+        initTouch46();
+        initTouch45();
+        initTouch44();
+        initTouch43();
 
+    }
+    private void initTouch43(){
+        edit_typical_day_43_a1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a4.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a5.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a6.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a7.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a8.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a9.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a10.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a11.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a12.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a13.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a14.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a15.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_43_a16.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+
+    }
+    private void initTouch44(){
+        edit_typical_day_moderate_44_a1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a4.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a5.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a6.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a7.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a8.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a9.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a10.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a11.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a12.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a13.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a14.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a15.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a16.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a17.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a18.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+
+        edit_typical_day_moderate_44_a19.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a20.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_44_a21.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+    }
+    private void initTouch45(){
+        edit_typical_day_recreational_45_a1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_recreational_45_a2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_recreational_45_a3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_recreational_45_a4.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_recreational_45_a5.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_recreational_45_a6.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_recreational_45_a7.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_recreational_45_a8.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_recreational_45_a9.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+
+    }
+    private void initTouch46(){
+        edit_typical_day_moderate_recreational_46_a1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_recreational_46_a2.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_recreational_46_a3.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_recreational_46_a4.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_recreational_46_a5.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_recreational_46_a6.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_recreational_46_a7.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_recreational_46_a8.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+        edit_typical_day_moderate_recreational_46_a9.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
+                return false;
+            }
+        });
+
+    }
+    private void initMat(){
+
+        checkbox_mat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkbox_mat.isChecked()) {
+                    linear_mat.setVisibility(View.VISIBLE);
+                    int vi1= Integer.parseInt(edit_typical_day_43_a1.getText().toString());
+                    int vi1Sum=vigirousIntensityb1*vi1*8;
+
+                    int vi2= Integer.parseInt(edit_typical_day_43_a2.getText().toString());
+                    int vi2Sum=vigirousIntensityb2*vi2*8;
+
+                    int vi3= Integer.parseInt(edit_typical_day_43_a3.getText().toString());
+                    int vi3Sum=vigirousIntensityb3*vi3*8;
+
+                    int vi4= Integer.parseInt(edit_typical_day_43_a4.getText().toString());
+                    int vi4Sum=vigirousIntensityb4*vi4*8;
+
+                    int vi5= Integer.parseInt(edit_typical_day_43_a5.getText().toString());
+                    int vi5Sum=vigirousIntensityb5*vi5*8;
+
+                    int vi6= Integer.parseInt(edit_typical_day_43_a6.getText().toString());
+                    int vi6Sum=vigirousIntensityb6*vi6*8;
+
+                    int vi7= Integer.parseInt(edit_typical_day_43_a7.getText().toString());
+                    int vi7Sum=vigirousIntensityb7*vi7*8;
+
+                    int vi8= Integer.parseInt(edit_typical_day_43_a8.getText().toString());
+                    int vi8Sum=vigirousIntensityb8*vi8*8;
+
+                    int vi9= Integer.parseInt(edit_typical_day_43_a9.getText().toString());
+                    int vi9Sum=vigirousIntensityb9*vi9*8;
+
+                    int vi10= Integer.parseInt(edit_typical_day_43_a10.getText().toString());
+                    int vi10Sum=vigirousIntensityb10*vi10*8;
+
+                    int vi11= Integer.parseInt(edit_typical_day_43_a11.getText().toString());
+                    int vi11Sum=vigirousIntensityb11*vi11*8;
+
+                    int vi12= Integer.parseInt(edit_typical_day_43_a12.getText().toString());
+                    int vi12Sum=vigirousIntensityb12*vi12*8;
+
+                    int vi13= Integer.parseInt(edit_typical_day_43_a13.getText().toString());
+                    int vi13Sum=vigirousIntensityb13*vi13*8;
+
+                    int vi14= Integer.parseInt(edit_typical_day_43_a14.getText().toString());
+                    int vi14Sum=vigirousIntensityb14*vi14*8;
+
+                    int vi15= Integer.parseInt(edit_typical_day_43_a15.getText().toString());
+                    int vi15Sum=vigirousIntensityb15*vi15*8;
+
+                    int vi16= Integer.parseInt(edit_typical_day_43_a16.getText().toString());
+                    int vi16Sum=vigirousIntensityb16*vi16*8;
+
+                    int sum=vi1Sum+vi2Sum+vi3Sum+vi4Sum+vi5Sum+vi6Sum+vi7Sum+vi8Sum+vi9Sum+vi10Sum+vi11Sum+vi12Sum+vi13Sum+vi14Sum+vi15Sum+vi16Sum;
+
+
+                    int mi1= Integer.parseInt(edit_typical_day_moderate_44_a1.getText().toString());
+                    int mi1Sum=moderateIntensityb1*mi1*4;
+
+                    int mi2= Integer.parseInt(edit_typical_day_moderate_44_a2.getText().toString());
+                    int mi2Sum=moderateIntensityb2*mi2*4;
+
+                    int mi3= Integer.parseInt(edit_typical_day_moderate_44_a3.getText().toString());
+                    int mi3Sum=moderateIntensityb3*mi3*4;
+
+                    int mi4= Integer.parseInt(edit_typical_day_moderate_44_a4.getText().toString());
+                    int mi4Sum=moderateIntensityb4*mi4*4;
+
+                    int mi5= Integer.parseInt(edit_typical_day_moderate_44_a5.getText().toString());
+                    int mi5Sum=moderateIntensityb5*mi5*4;
+
+                    int mi6= Integer.parseInt(edit_typical_day_moderate_44_a6.getText().toString());
+                    int mi6Sum=moderateIntensityb6*mi6*4;
+
+                    int mi7= Integer.parseInt(edit_typical_day_moderate_44_a7.getText().toString());
+                    int mi7Sum=moderateIntensityb7*mi7*4;
+
+                    int mi8= Integer.parseInt(edit_typical_day_moderate_44_a8.getText().toString());
+                    int mi8Sum=moderateIntensityb8*mi8*4;
+
+                    int mi9= Integer.parseInt(edit_typical_day_moderate_44_a9.getText().toString());
+                    int mi9Sum=moderateIntensityb9*mi9*4;
+
+                    int mi10= Integer.parseInt(edit_typical_day_moderate_44_a10.getText().toString());
+                    int mi10Sum=vigirousIntensityb10*mi10*4;
+
+                    int mi11= Integer.parseInt(edit_typical_day_moderate_44_a11.getText().toString());
+                    int mi11Sum=moderateIntensityb11*mi11*4;
+
+                    int mi12= Integer.parseInt(edit_typical_day_moderate_44_a12.getText().toString());
+                    int mi12Sum=moderateIntensityb12*mi12*4;
+
+                    int mi13= Integer.parseInt(edit_typical_day_moderate_44_a13.getText().toString());
+                    int mi13Sum=moderateIntensityb13*mi13*4;
+
+                    int mi14= Integer.parseInt(edit_typical_day_moderate_44_a14.getText().toString());
+                    int mi14Sum=moderateIntensityb14*mi14*4;
+
+                    int mi15= Integer.parseInt(edit_typical_day_moderate_44_a15.getText().toString());
+                    int mi15Sum=moderateIntensityb15*mi15*4;
+
+                    int mi16= Integer.parseInt(edit_typical_day_moderate_44_a16.getText().toString());
+                    int mi16Sum=moderateIntensityb16*mi16*4;
+
+                    int mi17= Integer.parseInt(edit_typical_day_moderate_44_a17.getText().toString());
+                    int mi17Sum=moderateIntensityb17*mi17*4;
+
+                    int mi18= Integer.parseInt(edit_typical_day_moderate_44_a18.getText().toString());
+                    int mi18Sum=moderateIntensityb18*mi18*4;
+
+                    int mi19= Integer.parseInt(edit_typical_day_moderate_44_a19.getText().toString());
+                    int mi19Sum=moderateIntensityb19*mi19*4;
+
+                    int mi20= Integer.parseInt(edit_typical_day_moderate_44_a20.getText().toString());
+                    int mi20Sum=moderateIntensityb20*mi20*4;
+
+                    int mi21= Integer.parseInt(edit_typical_day_moderate_44_a21.getText().toString());
+                    int mi21Sum=moderateIntensityb21*mi21*4;
+
+                    int sum2=mi1Sum+mi2Sum+mi3Sum+mi4Sum+mi5Sum+mi6Sum+mi7Sum+mi8Sum+mi9Sum+mi10Sum+mi11Sum+mi12Sum+mi13Sum+mi14Sum+mi15Sum+mi16Sum+mi17Sum+mi18Sum+mi19Sum+mi20Sum+mi21Sum;
+
+                    int vri1= Integer.parseInt(edit_typical_day_recreational_45_a1.getText().toString());
+                    int vri1Sum=vigiriousRecreationIntensityb1*vri1*4;
+
+                    int vri2= Integer.parseInt(edit_typical_day_recreational_45_a2.getText().toString());
+                    int vri2Sum=vigiriousRecreationIntensityb2*vri2*4;
+
+                    int vri3= Integer.parseInt(edit_typical_day_recreational_45_a3.getText().toString());
+                    int vri3Sum=vigiriousRecreationIntensityb3*vri3*4;
+
+                    int vri4= Integer.parseInt(edit_typical_day_recreational_45_a4.getText().toString());
+                    int vri4Sum=vigiriousRecreationIntensityb4*vri4*4;
+
+                    int vri5= Integer.parseInt(edit_typical_day_recreational_45_a5.getText().toString());
+                    int vri5Sum=vigiriousRecreationIntensityb5*vri5*4;
+
+                    int vri6= Integer.parseInt(edit_typical_day_recreational_45_a6.getText().toString());
+                    int vri6Sum=vigiriousRecreationIntensityb6*vri6*4;
+
+                    int vri7= Integer.parseInt(edit_typical_day_recreational_45_a7.getText().toString());
+                    int vri7Sum=vigiriousRecreationIntensityb7*vri7*4;
+
+                    int vri8= Integer.parseInt(edit_typical_day_recreational_45_a8.getText().toString());
+                    int vri8Sum=vigiriousRecreationIntensityb8*vri8*4;
+
+                    int vri9= Integer.parseInt(edit_typical_day_recreational_45_a9.getText().toString());
+                    int vri9Sum=vigiriousRecreationIntensityb9*vri9*4;
+
+
+
+                    int sum3=vri1Sum+vri2Sum+vri3Sum+vri4Sum+vri5Sum+vri6Sum+vri7Sum+vri8Sum+vri9Sum;
+
+
+                    int mri1= Integer.parseInt(edit_typical_day_moderate_recreational_46_a1.getText().toString());
+                    int mri1Sum=moderateRecreationIntensityb1*vri1*mri1;
+
+                    int mri2= Integer.parseInt(edit_typical_day_moderate_recreational_46_a2.getText().toString());
+                    int mri2Sum=moderateRecreationIntensityb2*mri2*4;
+
+                    int mri3= Integer.parseInt(edit_typical_day_moderate_recreational_46_a3.getText().toString());
+                    int mri3Sum=moderateRecreationIntensityb3*mri3*4;
+
+                    int mri4= Integer.parseInt(edit_typical_day_moderate_recreational_46_a4.getText().toString());
+                    int mri4Sum=moderateRecreationIntensityb4*mri4*4;
+
+                    int mri5= Integer.parseInt(edit_typical_day_moderate_recreational_46_a5.getText().toString());
+                    int mri5Sum=moderateRecreationIntensityb5*mri5*4;
+
+                    int mri6= Integer.parseInt(edit_typical_day_moderate_recreational_46_a6.getText().toString());
+                    int mri6Sum=moderateRecreationIntensityb6*mri6*4;
+
+                    int mri7= Integer.parseInt(edit_typical_day_moderate_recreational_46_a7.getText().toString());
+                    int mri7Sum=moderateRecreationIntensityb7*mri7*4;
+
+                    int mri8= Integer.parseInt(edit_typical_day_moderate_recreational_46_a8.getText().toString());
+                    int mri8Sum=moderateRecreationIntensityb8*mri8*4;
+
+                    int mri9= Integer.parseInt(edit_typical_day_moderate_recreational_46_a9.getText().toString());
+                    int mri9Sum=moderateRecreationIntensityb9*mri9*4;
+
+
+
+                    int sum4=mri1Sum+mri2Sum+mri3Sum+mri4Sum+mri5Sum+mri6Sum+mri7Sum+mri8Sum+mri9Sum;
+                    edit_mat.setText(String.valueOf(sum+sum2+sum3+sum4));
+                } else {
+                    linear_mat.setVisibility(View.GONE);
+
+                }
+            }
+        });
+    }
     private void initFirst() {
         checkBoxHeaveyLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHeaveyLoad.isChecked()) {
                     linear_heart_show_card_typical_week_43_a1.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a1.setVisibility(View.VISIBLE);
@@ -1492,6 +2153,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxDigging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxDigging.isChecked()) {
                     linear_heart_show_card_typical_week_43_a2.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a2.setVisibility(View.VISIBLE);
@@ -1507,6 +2170,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFurniture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxFurniture.isChecked()) {
                     linear_heart_show_card_typical_week_43_a3.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a3.setVisibility(View.VISIBLE);
@@ -1521,6 +2186,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxPickingCrops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxPickingCrops.isChecked()) {
                     linear_heart_show_card_typical_week_43_a4.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a4.setVisibility(View.VISIBLE);
@@ -1535,6 +2202,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCuttingTrees.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxCuttingTrees.isChecked()) {
                     linear_heart_show_card_typical_week_43_a5.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a5.setVisibility(View.VISIBLE);
@@ -1549,6 +2218,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxBreakUpPaddy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxBreakUpPaddy.isChecked()) {
                     linear_heart_show_card_typical_week_43_a6.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a6.setVisibility(View.VISIBLE);
@@ -1563,6 +2234,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxDrivingRickshaw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxDrivingRickshaw.isChecked()) {
                     linear_heart_show_card_typical_week_43_a7.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a7.setVisibility(View.VISIBLE);
@@ -1577,6 +2250,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFishing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxFishing.isChecked()) {
                     linear_heart_show_card_typical_week_43_a8.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a8.setVisibility(View.VISIBLE);
@@ -1591,6 +2266,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxPlouging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxPlouging.isChecked()) {
                     linear_heart_show_card_typical_week_43_a9.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a9.setVisibility(View.VISIBLE);
@@ -1605,6 +2282,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHeaveyConstructionWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHeaveyConstructionWork.isChecked()) {
                     linear_heart_show_card_typical_week_43_a10.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a10.setVisibility(View.VISIBLE);
@@ -1619,6 +2298,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHeaveyGoods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHeaveyGoods.isChecked()) {
                     linear_heart_show_card_typical_week_43_a11.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a11.setVisibility(View.VISIBLE);
@@ -1633,6 +2314,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHeaveyGoodsHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHeaveyGoodsHead.isChecked()) {
                     linear_heart_show_card_typical_week_43_a12.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a12.setVisibility(View.VISIBLE);
@@ -1647,6 +2330,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxSoldDigging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
+
                 if (checkBoxSoldDigging.isChecked()) {
                     linear_heart_show_card_typical_week_43_a13.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a13.setVisibility(View.VISIBLE);
@@ -1661,6 +2347,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWashing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxWashing.isChecked()) {
                     linear_heart_show_card_typical_week_43_a14.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a14.setVisibility(View.VISIBLE);
@@ -1675,6 +2363,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxStepping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxStepping.isChecked()) {
                     linear_heart_show_card_typical_week_43_a15.setVisibility(View.VISIBLE);
                     linear_heart_show_card_activities_43_a15.setVisibility(View.VISIBLE);
@@ -1706,6 +2396,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHouseHoldWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHouseHoldWork.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a1.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a1.setVisibility(View.VISIBLE);
@@ -1722,6 +2414,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxGardening.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxGardening.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a2.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a2.setVisibility(View.VISIBLE);
@@ -1737,6 +2431,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxMilkingCows.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxMilkingCows.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a3.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a3.setVisibility(View.VISIBLE);
@@ -1765,6 +2461,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxPlantingHarvest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxPlantingHarvest.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a5.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a5.setVisibility(View.VISIBLE);
@@ -1779,6 +2477,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWeavingCloth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxWeavingCloth.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a6.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a6.setVisibility(View.VISIBLE);
@@ -1793,6 +2493,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWashingCloths.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxWashingCloths.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a7.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a7.setVisibility(View.VISIBLE);
@@ -1807,6 +2509,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxRearing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxRearing.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a8.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a8.setVisibility(View.VISIBLE);
@@ -1821,6 +2525,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxMixingCement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxMixingCement.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a9.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a9.setVisibility(View.VISIBLE);
@@ -1835,6 +2541,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWoodWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxWoodWork.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a10.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a10.setVisibility(View.VISIBLE);
@@ -1849,6 +2557,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxDrawingWater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxDrawingWater.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a11.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a11.setVisibility(View.VISIBLE);
@@ -1863,6 +2573,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCarryingLightWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxCarryingLightWeight.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a12.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a12.setVisibility(View.VISIBLE);
@@ -1877,6 +2589,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWashingCloths1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxWashingCloths1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a13.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a13.setVisibility(View.VISIBLE);
@@ -1891,6 +2605,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxGardening1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxGardening1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a14.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a14.setVisibility(View.VISIBLE);
@@ -1905,6 +2621,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxMilkingCows1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxMilkingCows1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a15.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a15.setVisibility(View.VISIBLE);
@@ -1919,6 +2637,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxRoping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHouseHoldWork.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a16.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a16.setVisibility(View.VISIBLE);
@@ -1933,6 +2653,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFarming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxFarming.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a17.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a17.setVisibility(View.VISIBLE);
@@ -1947,6 +2669,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxParlour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxParlour.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a18.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a18.setVisibility(View.VISIBLE);
@@ -1961,6 +2685,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCloth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxCloth.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a19.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a19.setVisibility(View.VISIBLE);
@@ -1975,6 +2701,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHouseHoldWork1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHouseHoldWork1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a20.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a20.setVisibility(View.VISIBLE);
@@ -1989,6 +2717,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthers1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxOthers1.isChecked()) {
                     linear_heart_show_moderate_card_typical_44_a21.setVisibility(View.VISIBLE);
                     linear_heart_show_card_day_44_a21.setVisibility(View.VISIBLE);
@@ -2006,6 +2736,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxRunning.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxRunning.isChecked()) {
                     linear_recreational_activities_typical_45_a1.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a1.setVisibility(View.VISIBLE);
@@ -2021,6 +2753,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxBadminton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxBadminton.isChecked()) {
                     linear_recreational_activities_typical_45_a2.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a2.setVisibility(View.VISIBLE);
@@ -2035,6 +2769,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxSwimming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxSwimming.isChecked()) {
                     linear_recreational_activities_typical_45_a3.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a3.setVisibility(View.VISIBLE);
@@ -2049,6 +2785,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHockey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHockey.isChecked()) {
                     linear_recreational_activities_typical_45_a4.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a4.setVisibility(View.VISIBLE);
@@ -2063,6 +2801,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxHadudu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxHadudu.isChecked()) {
                     linear_recreational_activities_typical_45_a5.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a5.setVisibility(View.VISIBLE);
@@ -2077,6 +2817,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFootbal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxRunning.isChecked()) {
                     linear_recreational_activities_typical_45_a6.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a6.setVisibility(View.VISIBLE);
@@ -2091,6 +2833,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxVolleyball.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxVolleyball.isChecked()) {
                     linear_recreational_activities_typical_45_a7.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a7.setVisibility(View.VISIBLE);
@@ -2105,6 +2849,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxTenis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxTenis.isChecked()) {
                     linear_recreational_activities_typical_45_a8.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a8.setVisibility(View.VISIBLE);
@@ -2119,6 +2865,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthers_recreational.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxOthers_recreational.isChecked()) {
                     linear_recreational_activities_typical_45_a9.setVisibility(View.VISIBLE);
                     linear_recreational_activities_typical_day_45_a9.setVisibility(View.VISIBLE);
@@ -2135,6 +2883,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxFastWalking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxFastWalking.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a1.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a1.setVisibility(View.VISIBLE);
@@ -2149,6 +2899,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxJogging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxJogging.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a2.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a2.setVisibility(View.VISIBLE);
@@ -2163,6 +2915,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCycling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxCycling.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a3.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a3.setVisibility(View.VISIBLE);
@@ -2177,6 +2931,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCricket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxCricket.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a4.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a4.setVisibility(View.VISIBLE);
@@ -2191,6 +2947,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxYoga.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxYoga.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a5.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a5.setVisibility(View.VISIBLE);
@@ -2205,6 +2963,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxAerobics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxAerobics.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a6.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a6.setVisibility(View.VISIBLE);
@@ -2219,6 +2979,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxExercise.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a7.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a7.setVisibility(View.VISIBLE);
@@ -2233,6 +2995,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthersDancing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxOthersDancing.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a8.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a8.setVisibility(View.VISIBLE);
@@ -2247,6 +3011,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxOthers_moderate_recreational_others.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkbox_mat.setChecked(false);
+                linear_mat.setVisibility(View.GONE);
                 if (checkBoxOthers_moderate_recreational_others.isChecked()) {
                     linear_moderate_intensity_recreational_activities_typical_46_a9.setVisibility(View.VISIBLE);
                     linear_moderate_intensity_recreational_activities_typical_day_46_a9.setVisibility(View.VISIBLE);
@@ -11492,7 +12258,27 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 //                    }
 
                 }
-
+                Questions questionsFor47 = Common.qustionsRepository.getQuestions("Q47", update);
+                if (questionsFor47 == null) {
+                    Questions questions12 = new Questions();
+                    questions12.type = "behavioral";
+                    questions12.question = "Q47";
+                    questions12.member_id = memberHabitsFor.member_unique_code;
+                    questions12.answer = edit_mat.getText().toString();
+                    questions12.date = currentDate;
+                    questions12.master_id = memberHabitsFor.id;
+                    Common.qustionsRepository.insertToQuestions(questions12);
+                } else {
+                    Questions questions12 = new Questions();
+                    questions12.type = "behavioral";
+                    questions12.question = "Q47";
+                    questions12.member_id = memberHabitsFor.member_unique_code;
+                    questions12.id = questionsFor47.id;
+                    questions12.answer = edit_mat.getText().toString();
+                    questions12.date = currentDate;
+                    questions12.master_id = memberHabitsFor.id;
+                    Common.qustionsRepository.updateQuestions(questions12);
+                }
 
                 if (recliningActivities == 2) {
                     Questions questionsFor19 = Common.qustionsRepository.getQuestions("Q48", update);
@@ -13620,7 +14406,14 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 //                            Common.qustionsRepository.insertToQuestions(questions15);
                         }
 
-
+                        Questions questions47 = new Questions();
+                        questions47.type = "behavioral";
+                        questions47.question = "Q47";
+                        questions47.member_id = memberMyself.UniqueCode;
+                        questions47.answer = edit_mat.getText().toString();
+                        questions47.date = currentDate;
+                        questions47.master_id = memberMyself.id;
+                        Common.qustionsRepository.insertToQuestions(questions47);
                         if (recliningActivities == 2) {
                             Questions questions12 = new Questions();
                             questions12.type = "behavioral";
@@ -14833,6 +15626,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_1.get(position).getId());
                 vigirousIntensityb1 = yesNoArrayListFor43_b_1.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14851,6 +15646,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_2.get(position).getId());
                 vigirousIntensityb2 = yesNoArrayListFor43_b_2.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14869,6 +15666,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_3.get(position).getId());
                 vigirousIntensityb3 = yesNoArrayListFor43_b_3.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14887,6 +15686,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_4.get(position).getId());
                 vigirousIntensityb4 = yesNoArrayListFor43_b_4.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14905,6 +15706,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_5.get(position).getId());
                 vigirousIntensityb5 = yesNoArrayListFor43_b_5.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14924,6 +15727,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_6.get(position).getId());
                 vigirousIntensityb6 = yesNoArrayListFor43_b_6.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14942,6 +15747,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_7.get(position).getId());
                 vigirousIntensityb7 = yesNoArrayListFor43_b_7.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14960,6 +15767,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_8.get(position).getId());
                 vigirousIntensityb8 = yesNoArrayListFor43_b_8.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14978,6 +15787,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_9.get(position).getId());
                 vigirousIntensityb9 = yesNoArrayListFor43_b_9.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -14996,6 +15807,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_10.get(position).getId());
                 vigirousIntensityb10 = yesNoArrayListFor43_b_10.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15015,6 +15828,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_11.get(position).getId());
                 vigirousIntensityb11 = yesNoArrayListFor43_b_11.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15033,6 +15848,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_12.get(position).getId());
                 vigirousIntensityb12 = yesNoArrayListFor43_b_12.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15051,6 +15868,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_13.get(position).getId());
                 vigirousIntensityb13 = yesNoArrayListFor43_b_13.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15069,6 +15888,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_14.get(position).getId());
                 vigirousIntensityb14 = yesNoArrayListFor43_b_14.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15087,6 +15908,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_15.get(position).getId());
                 vigirousIntensityb15 = yesNoArrayListFor43_b_15.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15105,6 +15928,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor43_b_16.get(position).getId());
                 vigirousIntensityb16 = yesNoArrayListFor43_b_16.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15124,6 +15949,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_1.get(position).getId());
                 moderateIntensityb1 = yesNoArrayListFor44_b_1.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15142,6 +15969,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_2.get(position).getId());
                 moderateIntensityb2 = yesNoArrayListFor44_b_2.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15160,6 +15989,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_3.get(position).getId());
                 moderateIntensityb3 = yesNoArrayListFor44_b_3.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15178,6 +16009,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_4.get(position).getId());
                 moderateIntensityb4 = yesNoArrayListFor44_b_4.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15196,6 +16029,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_5.get(position).getId());
                 moderateIntensityb5 = yesNoArrayListFor44_b_5.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15215,6 +16050,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_6.get(position).getId());
                 moderateIntensityb6 = yesNoArrayListFor44_b_6.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15233,6 +16070,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_7.get(position).getId());
                 moderateIntensityb7 = yesNoArrayListFor44_b_7.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15251,6 +16090,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_8.get(position).getId());
                 moderateIntensityb8 = yesNoArrayListFor44_b_8.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15269,6 +16110,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_9.get(position).getId());
                 moderateIntensityb9 = yesNoArrayListFor44_b_9.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15287,6 +16130,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_10.get(position).getId());
                 moderateIntensityb10 = yesNoArrayListFor44_b_10.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15306,6 +16151,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_11.get(position).getId());
                 moderateIntensityb11 = yesNoArrayListFor44_b_11.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15324,6 +16171,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_12.get(position).getId());
                 moderateIntensityb12 = yesNoArrayListFor44_b_12.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15342,6 +16191,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_13.get(position).getId());
                 moderateIntensityb13 = yesNoArrayListFor44_b_13.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15360,6 +16211,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_14.get(position).getId());
                 moderateIntensityb14 = yesNoArrayListFor44_b_14.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15378,6 +16231,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_15.get(position).getId());
                 moderateIntensityb15 = yesNoArrayListFor44_b_15.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15396,6 +16251,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_16.get(position).getId());
                 moderateIntensityb16 = yesNoArrayListFor44_b_16.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15414,6 +16271,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_17.get(position).getId());
                 moderateIntensityb17 = yesNoArrayListFor44_b_17.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15432,6 +16291,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_18.get(position).getId());
                 moderateIntensityb18 = yesNoArrayListFor44_b_18.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15450,6 +16311,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_19.get(position).getId());
                 moderateIntensityb19 = yesNoArrayListFor44_b_19.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15468,6 +16331,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_20.get(position).getId());
                 moderateIntensityb20 = yesNoArrayListFor44_b_20.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15486,6 +16351,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor44_b_21.get(position).getId());
                 moderateIntensityb21 = yesNoArrayListFor44_b_21.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15505,6 +16372,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_1.get(position).getId());
                 vigiriousRecreationIntensityb1 = yesNoArrayListFor45_b_1.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15523,6 +16392,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_2.get(position).getId());
                 vigiriousRecreationIntensityb2 = yesNoArrayListFor45_b_2.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15541,6 +16412,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_3.get(position).getId());
                 vigiriousRecreationIntensityb3 = yesNoArrayListFor45_b_3.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15559,6 +16432,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_4.get(position).getId());
                 vigiriousRecreationIntensityb4 = yesNoArrayListFor45_b_4.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15577,6 +16452,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_5.get(position).getId());
                 vigiriousRecreationIntensityb5 = yesNoArrayListFor45_b_5.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15595,6 +16472,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_6.get(position).getId());
                 vigiriousRecreationIntensityb6 = yesNoArrayListFor45_b_6.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15613,6 +16492,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_7.get(position).getId());
                 vigiriousRecreationIntensityb7 = yesNoArrayListFor45_b_7.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15631,6 +16512,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_8.get(position).getId());
                 vigiriousRecreationIntensityb8 = yesNoArrayListFor45_b_8.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15649,6 +16532,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor45_b_9.get(position).getId());
                 vigiriousRecreationIntensityb9 = yesNoArrayListFor45_b_9.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15669,6 +16554,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_1.get(position).getId());
                 moderateRecreationIntensityb1 = yesNoArrayListFor46_b_1.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15687,6 +16574,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_2.get(position).getId());
                 moderateRecreationIntensityb2 = yesNoArrayListFor46_b_2.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15705,6 +16594,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_3.get(position).getId());
                 moderateRecreationIntensityb3 = yesNoArrayListFor46_b_3.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15723,6 +16614,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_4.get(position).getId());
                 moderateRecreationIntensityb4 = yesNoArrayListFor46_b_4.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15741,6 +16634,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_5.get(position).getId());
                 moderateRecreationIntensityb5 = yesNoArrayListFor46_b_5.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15759,6 +16654,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_6.get(position).getId());
                 moderateRecreationIntensityb6 = yesNoArrayListFor46_b_6.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15777,6 +16674,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_7.get(position).getId());
                 moderateRecreationIntensityb7 = yesNoArrayListFor46_b_7.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15795,6 +16694,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_8.get(position).getId());
                 moderateRecreationIntensityb8 = yesNoArrayListFor46_b_8.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override
@@ -15813,6 +16714,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListFor46_b_9.get(position).getId());
                 moderateRecreationIntensityb9 = yesNoArrayListFor46_b_9.get(position).getId();
+                linear_mat.setVisibility(View.GONE);
+                checkbox_mat.setChecked(false);
             }
 
             @Override

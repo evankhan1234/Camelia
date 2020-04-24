@@ -756,4 +756,79 @@ public class Utils {
         return fruitsCardModelArrayList;
 
     }
+    public static String getValue(String value)
+    {
+        char[] chBookTotalPrice = new char[(String.valueOf(value).length())];
+//
+        // Copy character by character into array
+        for (int i = 0; i < (String.valueOf(value).length()); i++) {
+            chBookTotalPrice[i] = (String.valueOf(value).charAt(i));
+        }
+
+        StringBuilder stringBuilderBookTotalPrice = new StringBuilder();
+        // Printing content of array
+        for (char c2 : chBookTotalPrice) {
+            if (c2 == '১') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('১', '1');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '২') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('২', '2');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '৩') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('৩', '3');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '৪') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('৪', '4');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '৫') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('৫', '5');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '৬') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('৬', '6');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '৭') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('৭', '7');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '৮') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('৮', '8');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '৯') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('৯', '9');
+                stringBuilderBookTotalPrice.append(replaceString);
+            } else if (c2 == '০') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('০','0');
+                stringBuilderBookTotalPrice.append(replaceString);
+            }
+            else if (c2 == '-') {
+                String s = String.valueOf(c2);
+                String replaceString;
+                replaceString = s.replace('.', '.');
+                stringBuilderBookTotalPrice.append(replaceString);
+            }
+
+
+        }
+        String prices = stringBuilderBookTotalPrice.toString();
+        return prices;
+    }
 }
