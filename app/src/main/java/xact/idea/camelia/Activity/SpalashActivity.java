@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
+import okhttp3.internal.Util;
 import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
+import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
 
@@ -21,6 +24,8 @@ public class SpalashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_spalash);
         CorrectSizeUtil.getInstance(this).correctSize();
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.rlt_root));
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

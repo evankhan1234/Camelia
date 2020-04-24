@@ -43,6 +43,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Activity.LoginActivity;
@@ -60,6 +61,7 @@ import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
 import xact.idea.camelia.Utils.SharedPreferenceUtil;
+import xact.idea.camelia.Utils.Utils;
 
 import static xact.idea.camelia.Utils.Utils.dismissLoadingProgress;
 import static xact.idea.camelia.Utils.Utils.isNullOrEmpty;
@@ -243,7 +245,14 @@ public class HHCreateHouseholdFragment extends Fragment {
                         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
-                        houseHold.DateValue = currentDate;
+                        String language=SharedPreferenceUtil.getLanguage(mActivity);
+                        if (language.equals("en")){
+                            houseHold.DateValue = currentDate;
+                        }
+                        else{
+                            houseHold.DateValue = Utils.getValue(formatter.format(date));
+                        }
+
                         houseHold.Date = date;
                         //  houseHold.Birthdate=ed;
                         SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
