@@ -10228,6 +10228,44 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     }
+                    else if (visit.question.equals("Q47")) {
+
+                        Questions questions49 = Common.qustionsRepository.getQuestions("Q47", visit.member_id);
+                        if (questions49 != null) {
+                            Questions questions = new Questions();
+                            questions.id = questions49.id;
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.updateQuestions(questions);
+                        } else {
+                            Questions questions = new Questions();
+                            questions.type = visit.question_type;
+                            questions.question = visit.question;
+                            questions.member_id = visit.member_id;
+                            questions.answer = visit.answer;
+                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            String currentDate = formatter.format(date1);
+                            questions.date = currentDate;
+                            Common.qustionsRepository.insertToQuestions(questions);
+                        }
+                    }
                     ////////////////////////////////////END ERA/////////////////////////////////
 
                     else if (visit.question.equals("Q43a")) {
