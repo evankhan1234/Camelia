@@ -100,9 +100,13 @@ public class HHCreateHouseholdFragment extends Fragment {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     int DivisionId;
+    int DivisionCode;
     int DistrictId;
+    int DistrictCode;
     int UnionId = 0;
+    int UnionCode = 0;
     int UpazilaId;
+    int UpazilaCode;
     int WardId;
     int BlockId;
     String frag;
@@ -294,33 +298,33 @@ public class HHCreateHouseholdFragment extends Fragment {
                 values2 = edit_sub_household.getText().toString();
 
                 //  int value2;
-
-                if (values1.length()==1) {
-                    values1 = "000" + values1;
-                } else if (values1.length()==2) {
-                    values1 = "00" + values1;
-
-                } else if (values1.length()==3) {
-                    values1 = "0" + values1;
-                } else if (values1.length()==4) {
-                    values1 = ""+values1;
-                } else {
-                    values1 = "";
-                }
-                if (values2.length() == 1) {
-                    values2 = "0" + values2;
-                } else if (values2.length() == 2) {
-                    values2 = "" + values2;
-                }  else {
-                    values2 = "";
-                }
+//
+//                if (values1.length()==1) {
+//                    values1 = "000" + values1;
+//                } else if (values1.length()==2) {
+//                    values1 = "00" + values1;
+//
+//                } else if (values1.length()==3) {
+//                    values1 = "0" + values1;
+//                } else if (values1.length()==4) {
+//                    values1 = ""+values1;
+//                } else {
+//                    values1 = "";
+//                }
+//                if (values2.length() == 1) {
+//                    values2 = "0" + values2;
+//                } else if (values2.length() == 2) {
+//                    values2 = "" + values2;
+//                }  else {
+//                    values2 = "";
+//                }
 
                 String union="";
                 if(UnionId==0){
                     union="00";
                 }
                 else{
-                    union= String.valueOf(UnionId);
+                    union= String.valueOf(UnionCode);
                 }
                 if (WardId==-1 ){
                     Toast.makeText(mActivity, "Please Select Ward ", Toast.LENGTH_SHORT).show();
@@ -329,12 +333,12 @@ public class HHCreateHouseholdFragment extends Fragment {
                     Toast.makeText(mActivity, "Please Select Block", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if (DistrictId<10){
-                        String val = DivisionId + "0" + DistrictId + UpazilaId  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1;
+                    if (DistrictCode<10){
+                        String val = DivisionCode + "0" + DistrictCode + UpazilaCode  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1;
                         edit_unique_id.setText(val);
                     }
                     else{
-                        String val = DivisionId + "" + DistrictId + UpazilaId  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1;
+                        String val = DivisionCode + "" + DistrictCode + UpazilaCode  +"" + "" + union + "" + "" + WardId + "" + BlockId + "" + values1;
 
                         edit_unique_id.setText(val);
                     }
@@ -428,6 +432,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + districtyList.get(position).DistrictId);
                 DistrictId = Integer.parseInt(districtyList.get(position).district_code);
+                DistrictCode = Integer.parseInt(districtyList.get(position).code);
                 Log.e("wwwww2", "wwwww" + DistrictId);
                 compositeDisposable.add(Common.upazilaRepository.getUpazilaItemById(DistrictId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Upazila>>() {
                     @Override
@@ -467,6 +472,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 UpazilaId = Integer.parseInt(upazilaList.get(position).upazila_code);
+                UpazilaCode = Integer.parseInt(upazilaList.get(position).code);
                 Log.e("wwwww3", "wwwww" + upazilaList.get(position).UpazilaId);
                 compositeDisposable.add(Common.unionRepository.getUnionItemById(UpazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Unions>>() {
                     @Override
@@ -501,6 +507,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("unionss", "" + unionList.get(position).UnionId);
                 UnionId = Integer.parseInt(unionList.get(position).union_code);
+                UnionCode = Integer.parseInt(unionList.get(position).code);
 
             }
 
@@ -650,6 +657,7 @@ public class HHCreateHouseholdFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 DivisionId = Integer.parseInt(divisionList.get(position).division_code);
+                DivisionCode = Integer.parseInt(divisionList.get(position).code);
                 Log.e("wwwww1", "wwwww" + DivisionId);
                 compositeDisposable.add(Common.districtRepository.getDistrictItemById(DivisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<District>>() {
                     @Override

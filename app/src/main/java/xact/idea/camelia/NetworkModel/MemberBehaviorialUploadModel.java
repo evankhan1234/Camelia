@@ -57,8 +57,8 @@ public class MemberBehaviorialUploadModel {
 //            public String created_by;
 //            @SerializedName("updated_at")
 //            public String updated_at;
-//            @SerializedName("update_no")
-//            public String update_no;
+            @SerializedName("update_no")
+            public String update_no;
 
         }
     }

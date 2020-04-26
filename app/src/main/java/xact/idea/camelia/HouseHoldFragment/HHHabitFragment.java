@@ -1943,147 +1943,377 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onClick(View v) {
                 if (checkbox_mat.isChecked()) {
                     linear_mat.setVisibility(View.VISIBLE);
-                    int vi1= Integer.parseInt(edit_typical_day_43_a1.getText().toString());
+                    int vi1= 0;
+                    try {
+                        vi1 = Integer.parseInt(edit_typical_day_43_a1.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi1Sum=vigirousIntensityb1*vi1*8;
 
-                    int vi2= Integer.parseInt(edit_typical_day_43_a2.getText().toString());
+                    int vi2= 0;
+                    try {
+                        vi2 = Integer.parseInt(edit_typical_day_43_a2.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi2Sum=vigirousIntensityb2*vi2*8;
 
-                    int vi3= Integer.parseInt(edit_typical_day_43_a3.getText().toString());
+                    int vi3= 0;
+                    try {
+                        vi3 = Integer.parseInt(edit_typical_day_43_a3.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi3Sum=vigirousIntensityb3*vi3*8;
 
-                    int vi4= Integer.parseInt(edit_typical_day_43_a4.getText().toString());
+                    int vi4= 0;
+                    try {
+                        vi4 = Integer.parseInt(edit_typical_day_43_a4.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi4Sum=vigirousIntensityb4*vi4*8;
 
-                    int vi5= Integer.parseInt(edit_typical_day_43_a5.getText().toString());
+                    int vi5= 0;
+                    try {
+                        vi5 = Integer.parseInt(edit_typical_day_43_a5.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi5Sum=vigirousIntensityb5*vi5*8;
 
-                    int vi6= Integer.parseInt(edit_typical_day_43_a6.getText().toString());
+                    int vi6= 0;
+                    try {
+                        vi6 = Integer.parseInt(edit_typical_day_43_a6.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi6Sum=vigirousIntensityb6*vi6*8;
 
-                    int vi7= Integer.parseInt(edit_typical_day_43_a7.getText().toString());
+                    int vi7= 0;
+                    try {
+                        vi7 = Integer.parseInt(edit_typical_day_43_a7.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi7Sum=vigirousIntensityb7*vi7*8;
 
-                    int vi8= Integer.parseInt(edit_typical_day_43_a8.getText().toString());
+                    int vi8= 0;
+                    try {
+                        vi8 = Integer.parseInt(edit_typical_day_43_a8.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi8Sum=vigirousIntensityb8*vi8*8;
 
-                    int vi9= Integer.parseInt(edit_typical_day_43_a9.getText().toString());
+                    int vi9= 0;
+                    try {
+                        vi9 = Integer.parseInt(edit_typical_day_43_a9.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi9Sum=vigirousIntensityb9*vi9*8;
 
-                    int vi10= Integer.parseInt(edit_typical_day_43_a10.getText().toString());
+                    int vi10= 0;
+                    try {
+                        vi10 = Integer.parseInt(edit_typical_day_43_a10.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi10Sum=vigirousIntensityb10*vi10*8;
 
-                    int vi11= Integer.parseInt(edit_typical_day_43_a11.getText().toString());
+                    int vi11= 0;
+                    try {
+                        vi11 = Integer.parseInt(edit_typical_day_43_a11.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi11Sum=vigirousIntensityb11*vi11*8;
 
-                    int vi12= Integer.parseInt(edit_typical_day_43_a12.getText().toString());
+                    int vi12= 0;
+                    try {
+                        vi12 = Integer.parseInt(edit_typical_day_43_a12.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi12Sum=vigirousIntensityb12*vi12*8;
 
-                    int vi13= Integer.parseInt(edit_typical_day_43_a13.getText().toString());
+                    int vi13= 0;
+                    try {
+                        vi13 = Integer.parseInt(edit_typical_day_43_a13.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi13Sum=vigirousIntensityb13*vi13*8;
 
-                    int vi14= Integer.parseInt(edit_typical_day_43_a14.getText().toString());
+                    int vi14= 0;
+                    try {
+                        vi14 = Integer.parseInt(edit_typical_day_43_a14.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi14Sum=vigirousIntensityb14*vi14*8;
 
-                    int vi15= Integer.parseInt(edit_typical_day_43_a15.getText().toString());
+                    int vi15= 0;
+                    try {
+                        vi15 = Integer.parseInt(edit_typical_day_43_a15.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi15Sum=vigirousIntensityb15*vi15*8;
 
-                    int vi16= Integer.parseInt(edit_typical_day_43_a16.getText().toString());
+                    int vi16= 0;
+                    try {
+                        vi16 = Integer.parseInt(edit_typical_day_43_a16.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vi16Sum=vigirousIntensityb16*vi16*8;
 
                     int sum=vi1Sum+vi2Sum+vi3Sum+vi4Sum+vi5Sum+vi6Sum+vi7Sum+vi8Sum+vi9Sum+vi10Sum+vi11Sum+vi12Sum+vi13Sum+vi14Sum+vi15Sum+vi16Sum;
 
 
-                    int mi1= Integer.parseInt(edit_typical_day_moderate_44_a1.getText().toString());
+                    int mi1= 0;
+                    try {
+                        mi1 = Integer.parseInt(edit_typical_day_moderate_44_a1.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi1Sum=moderateIntensityb1*mi1*4;
 
-                    int mi2= Integer.parseInt(edit_typical_day_moderate_44_a2.getText().toString());
+                    int mi2= 0;
+                    try {
+                        mi2 = Integer.parseInt(edit_typical_day_moderate_44_a2.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi2Sum=moderateIntensityb2*mi2*4;
 
-                    int mi3= Integer.parseInt(edit_typical_day_moderate_44_a3.getText().toString());
+                    int mi3= 0;
+                    try {
+                        mi3 = Integer.parseInt(edit_typical_day_moderate_44_a3.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi3Sum=moderateIntensityb3*mi3*4;
 
-                    int mi4= Integer.parseInt(edit_typical_day_moderate_44_a4.getText().toString());
+                    int mi4= 0;
+                    try {
+                        mi4 = Integer.parseInt(edit_typical_day_moderate_44_a4.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi4Sum=moderateIntensityb4*mi4*4;
 
-                    int mi5= Integer.parseInt(edit_typical_day_moderate_44_a5.getText().toString());
+                    int mi5= 0;
+                    try {
+                        mi5 = Integer.parseInt(edit_typical_day_moderate_44_a5.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi5Sum=moderateIntensityb5*mi5*4;
 
-                    int mi6= Integer.parseInt(edit_typical_day_moderate_44_a6.getText().toString());
+                    int mi6= 0;
+                    try {
+                        mi6 = Integer.parseInt(edit_typical_day_moderate_44_a6.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi6Sum=moderateIntensityb6*mi6*4;
 
-                    int mi7= Integer.parseInt(edit_typical_day_moderate_44_a7.getText().toString());
+                    int mi7= 0;
+                    try {
+                        mi7 = Integer.parseInt(edit_typical_day_moderate_44_a7.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi7Sum=moderateIntensityb7*mi7*4;
 
-                    int mi8= Integer.parseInt(edit_typical_day_moderate_44_a8.getText().toString());
+                    int mi8= 0;
+                    try {
+                        mi8 = Integer.parseInt(edit_typical_day_moderate_44_a8.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi8Sum=moderateIntensityb8*mi8*4;
 
-                    int mi9= Integer.parseInt(edit_typical_day_moderate_44_a9.getText().toString());
+                    int mi9= 0;
+                    try {
+                        mi9 = Integer.parseInt(edit_typical_day_moderate_44_a9.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi9Sum=moderateIntensityb9*mi9*4;
 
-                    int mi10= Integer.parseInt(edit_typical_day_moderate_44_a10.getText().toString());
+                    int mi10= 0;
+                    try {
+                        mi10 = Integer.parseInt(edit_typical_day_moderate_44_a10.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi10Sum=vigirousIntensityb10*mi10*4;
 
-                    int mi11= Integer.parseInt(edit_typical_day_moderate_44_a11.getText().toString());
+                    int mi11= 0;
+                    try {
+                        mi11 = Integer.parseInt(edit_typical_day_moderate_44_a11.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi11Sum=moderateIntensityb11*mi11*4;
 
-                    int mi12= Integer.parseInt(edit_typical_day_moderate_44_a12.getText().toString());
+                    int mi12= 0;
+                    try {
+                        mi12 = Integer.parseInt(edit_typical_day_moderate_44_a12.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi12Sum=moderateIntensityb12*mi12*4;
 
-                    int mi13= Integer.parseInt(edit_typical_day_moderate_44_a13.getText().toString());
+                    int mi13= 0;
+                    try {
+                        mi13 = Integer.parseInt(edit_typical_day_moderate_44_a13.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi13Sum=moderateIntensityb13*mi13*4;
 
-                    int mi14= Integer.parseInt(edit_typical_day_moderate_44_a14.getText().toString());
+                    int mi14= 0;
+                    try {
+                        mi14 = Integer.parseInt(edit_typical_day_moderate_44_a14.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi14Sum=moderateIntensityb14*mi14*4;
 
-                    int mi15= Integer.parseInt(edit_typical_day_moderate_44_a15.getText().toString());
+                    int mi15= 0;
+                    try {
+                        mi15 = Integer.parseInt(edit_typical_day_moderate_44_a15.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi15Sum=moderateIntensityb15*mi15*4;
 
-                    int mi16= Integer.parseInt(edit_typical_day_moderate_44_a16.getText().toString());
+                    int mi16= 0;
+                    try {
+                        mi16 = Integer.parseInt(edit_typical_day_moderate_44_a16.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi16Sum=moderateIntensityb16*mi16*4;
 
-                    int mi17= Integer.parseInt(edit_typical_day_moderate_44_a17.getText().toString());
+                    int mi17= 0;
+                    try {
+                        mi17 = Integer.parseInt(edit_typical_day_moderate_44_a17.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi17Sum=moderateIntensityb17*mi17*4;
 
-                    int mi18= Integer.parseInt(edit_typical_day_moderate_44_a18.getText().toString());
+                    int mi18= 0;
+                    try {
+                        mi18 = Integer.parseInt(edit_typical_day_moderate_44_a18.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi18Sum=moderateIntensityb18*mi18*4;
 
-                    int mi19= Integer.parseInt(edit_typical_day_moderate_44_a19.getText().toString());
+                    int mi19= 0;
+                    try {
+                        mi19 = Integer.parseInt(edit_typical_day_moderate_44_a19.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi19Sum=moderateIntensityb19*mi19*4;
 
-                    int mi20= Integer.parseInt(edit_typical_day_moderate_44_a20.getText().toString());
+                    int mi20= 0;
+                    try {
+                        mi20 = Integer.parseInt(edit_typical_day_moderate_44_a20.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi20Sum=moderateIntensityb20*mi20*4;
 
-                    int mi21= Integer.parseInt(edit_typical_day_moderate_44_a21.getText().toString());
+                    int mi21= 0;
+                    try {
+                        mi21 = Integer.parseInt(edit_typical_day_moderate_44_a21.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mi21Sum=moderateIntensityb21*mi21*4;
 
                     int sum2=mi1Sum+mi2Sum+mi3Sum+mi4Sum+mi5Sum+mi6Sum+mi7Sum+mi8Sum+mi9Sum+mi10Sum+mi11Sum+mi12Sum+mi13Sum+mi14Sum+mi15Sum+mi16Sum+mi17Sum+mi18Sum+mi19Sum+mi20Sum+mi21Sum;
 
-                    int vri1= Integer.parseInt(edit_typical_day_recreational_45_a1.getText().toString());
+                    int vri1= 0;
+                    try {
+                        vri1 = Integer.parseInt(edit_typical_day_recreational_45_a1.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri1Sum=vigiriousRecreationIntensityb1*vri1*4;
 
-                    int vri2= Integer.parseInt(edit_typical_day_recreational_45_a2.getText().toString());
+                    int vri2= 0;
+                    try {
+                        vri2 = Integer.parseInt(edit_typical_day_recreational_45_a2.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri2Sum=vigiriousRecreationIntensityb2*vri2*4;
 
-                    int vri3= Integer.parseInt(edit_typical_day_recreational_45_a3.getText().toString());
+                    int vri3= 0;
+                    try {
+                        vri3 = Integer.parseInt(edit_typical_day_recreational_45_a3.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri3Sum=vigiriousRecreationIntensityb3*vri3*4;
 
-                    int vri4= Integer.parseInt(edit_typical_day_recreational_45_a4.getText().toString());
+                    int vri4= 0;
+                    try {
+                        vri4 = Integer.parseInt(edit_typical_day_recreational_45_a4.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri4Sum=vigiriousRecreationIntensityb4*vri4*4;
 
-                    int vri5= Integer.parseInt(edit_typical_day_recreational_45_a5.getText().toString());
+                    int vri5= 0;
+                    try {
+                        vri5 = Integer.parseInt(edit_typical_day_recreational_45_a5.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri5Sum=vigiriousRecreationIntensityb5*vri5*4;
 
-                    int vri6= Integer.parseInt(edit_typical_day_recreational_45_a6.getText().toString());
+                    int vri6= 0;
+                    try {
+                        vri6 = Integer.parseInt(edit_typical_day_recreational_45_a6.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri6Sum=vigiriousRecreationIntensityb6*vri6*4;
 
-                    int vri7= Integer.parseInt(edit_typical_day_recreational_45_a7.getText().toString());
+                    int vri7= 0;
+                    try {
+                        vri7 = Integer.parseInt(edit_typical_day_recreational_45_a7.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri7Sum=vigiriousRecreationIntensityb7*vri7*4;
 
-                    int vri8= Integer.parseInt(edit_typical_day_recreational_45_a8.getText().toString());
+                    int vri8= 0;
+                    try {
+                        vri8 = Integer.parseInt(edit_typical_day_recreational_45_a8.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri8Sum=vigiriousRecreationIntensityb8*vri8*4;
 
-                    int vri9= Integer.parseInt(edit_typical_day_recreational_45_a9.getText().toString());
+                    int vri9= 0;
+                    try {
+                        vri9 = Integer.parseInt(edit_typical_day_recreational_45_a9.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int vri9Sum=vigiriousRecreationIntensityb9*vri9*4;
 
 
@@ -2091,31 +2321,76 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                     int sum3=vri1Sum+vri2Sum+vri3Sum+vri4Sum+vri5Sum+vri6Sum+vri7Sum+vri8Sum+vri9Sum;
 
 
-                    int mri1= Integer.parseInt(edit_typical_day_moderate_recreational_46_a1.getText().toString());
-                    int mri1Sum=moderateRecreationIntensityb1*vri1*mri1;
+                    int mri1= 0;
+                    try {
+                        mri1 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a1.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                    int mri1Sum=moderateRecreationIntensityb1*mri1*4;
 
-                    int mri2= Integer.parseInt(edit_typical_day_moderate_recreational_46_a2.getText().toString());
+                    int mri2= 0;
+                    try {
+                        mri2 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a2.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mri2Sum=moderateRecreationIntensityb2*mri2*4;
 
-                    int mri3= Integer.parseInt(edit_typical_day_moderate_recreational_46_a3.getText().toString());
+                    int mri3= 0;
+                    try {
+                        mri3 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a3.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mri3Sum=moderateRecreationIntensityb3*mri3*4;
 
-                    int mri4= Integer.parseInt(edit_typical_day_moderate_recreational_46_a4.getText().toString());
+                    int mri4= 0;
+                    try {
+                        mri4 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a4.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mri4Sum=moderateRecreationIntensityb4*mri4*4;
 
-                    int mri5= Integer.parseInt(edit_typical_day_moderate_recreational_46_a5.getText().toString());
+                    int mri5= 0;
+                    try {
+                        mri5 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a5.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mri5Sum=moderateRecreationIntensityb5*mri5*4;
 
-                    int mri6= Integer.parseInt(edit_typical_day_moderate_recreational_46_a6.getText().toString());
+                    int mri6= 0;
+                    try {
+                        mri6 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a6.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mri6Sum=moderateRecreationIntensityb6*mri6*4;
 
-                    int mri7= Integer.parseInt(edit_typical_day_moderate_recreational_46_a7.getText().toString());
+                    int mri7= 0;
+                    try {
+                        mri7 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a7.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mri7Sum=moderateRecreationIntensityb7*mri7*4;
 
-                    int mri8= Integer.parseInt(edit_typical_day_moderate_recreational_46_a8.getText().toString());
+                    int mri8= 0;
+                    try {
+                        mri8 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a8.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mri8Sum=moderateRecreationIntensityb8*mri8*4;
 
-                    int mri9= Integer.parseInt(edit_typical_day_moderate_recreational_46_a9.getText().toString());
+                    int mri9= 0;
+                    try {
+                        mri9 = Integer.parseInt(edit_typical_day_moderate_recreational_46_a9.getText().toString());
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                     int mri9Sum=moderateRecreationIntensityb9*mri9*4;
 
 
