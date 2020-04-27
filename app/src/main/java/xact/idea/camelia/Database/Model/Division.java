@@ -27,6 +27,8 @@ public class Division {
     public String note_en;
     @ColumnInfo(name = "note_bn")
     public String note_bn;
+    @ColumnInfo(name = "code")
+    public String code;
     @ColumnInfo(name = "status")
     public String status;
     @ColumnInfo(name = "ln")

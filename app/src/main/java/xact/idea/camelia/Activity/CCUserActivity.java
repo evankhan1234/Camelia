@@ -10889,6 +10889,7 @@ public class CCUserActivity extends AppCompatActivity {
                 for (UnionResponses.Data unions : unionResponses.data) {
                     Unions unions1 = new Unions();
                     unions1.UnionId = unions.id;
+                    unions1.code = unions.union_code;
                     unions1.upazila_id = unions.upazila_id;
                     unions1.union_name_en = unions.union_name_en;
                     unions1.union_name_bn = unions.union_name_bn;
@@ -10922,6 +10923,7 @@ public class CCUserActivity extends AppCompatActivity {
                 for (DivisionResponses.Data divisions : divisionResponses.data) {
                     Division division = new Division();
                     division.DivisionId = divisions.id;
+                    division.code = divisions.division_code;
                     division.division_name_en = divisions.division_name_en;
                     division.division_name_bn = divisions.division_name_bn;
                     division.division_shortname_en = divisions.division_shortname_en;
@@ -10954,6 +10956,7 @@ public class CCUserActivity extends AppCompatActivity {
                 for (DistrictResponses.Data districts : districtResponses.data) {
                     District district = new District();
                     district.DistrictId = districts.id;
+                    district.code = districts.district_code;
                     district.DivisionId = districts.division_id;
                     district.district_name_en = districts.district_name_en;
                     district.district_name_bn = districts.district_name_bn;
@@ -10987,6 +10990,7 @@ public class CCUserActivity extends AppCompatActivity {
                 for (UpazilaResponses.Data upazilas : upazilaResponses.data) {
                     Upazila upazila = new Upazila();
                     upazila.UpazilaId = upazilas.id;
+                    upazila.code = upazilas.upazila_code;
                     upazila.upazila_code = String.valueOf(upazilas.id);
                     upazila.district_id = upazilas.district_id;
                     upazila.upazila_name_en = upazilas.upazila_name_en;

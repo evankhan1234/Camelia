@@ -27,6 +27,8 @@ public class District {
     public String district_code;
     @ColumnInfo(name = "note_en")
     public String note_en;
+    @ColumnInfo(name = "code")
+    public String code;
     @ColumnInfo(name = "note_bn")
     public String note_bn;
     @ColumnInfo(name = "status")

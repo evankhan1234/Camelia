@@ -25,6 +25,8 @@ public class Upazila {
     public String upazila_shortname_bn;
     @ColumnInfo(name = "upazila_code")
     public String upazila_code;
+    @ColumnInfo(name = "code")
+    public String code;
     @ColumnInfo(name = "note_en")
     public String note_en;
     @ColumnInfo(name = "note_bn")

@@ -599,6 +599,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("behavioral", memberId);
         for (Questions questions : questionsList.blockingFirst()) {
             MemberBehaviorialUploadModel.Data.Details mdata = new MemberBehaviorialUploadModel.Data.Details();
+           // mdata.update_no = "2";
             mdata.parent_question = "";
             mdata.member_id = memberId;
             mdata.answer = questions.answer;
@@ -1320,6 +1321,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     unions1.union_shortname_en = unions.union_shortname_en;
                     unions1.union_shortname_bn = unions.union_shortname_bn;
                     unions1.union_code = String.valueOf(unions.id);
+                    unions1.code = unions.union_code;
                     unions1.note_en = unions.note_en;
                     unions1.note_bn = unions.note_bn;
                     unions1.status = unions.status;
@@ -1347,6 +1349,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 for (DivisionResponses.Data divisions : divisionResponses.data) {
                     Division division = new Division();
                     division.DivisionId = divisions.id;
+                    division.code = divisions.division_code;
                     division.division_name_en = divisions.division_name_en;
                     division.division_name_bn = divisions.division_name_bn;
                     division.division_shortname_en = divisions.division_shortname_en;
@@ -1379,6 +1382,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 for (DistrictResponses.Data districts : districtResponses.data) {
                     District district = new District();
                     district.DistrictId = districts.id;
+                    district.code = districts.district_code;
                     district.DivisionId = districts.division_id;
                     district.district_name_en = districts.district_name_en;
                     district.district_name_bn = districts.district_name_bn;
@@ -1412,6 +1416,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 for (UpazilaResponses.Data upazilas : upazilaResponses.data) {
                     Upazila upazila = new Upazila();
                     upazila.UpazilaId = upazilas.id;
+                    upazila.code = upazilas.upazila_code;
                     upazila.upazila_code = String.valueOf(upazilas.id);
                     upazila.district_id = upazilas.district_id;
                     upazila.upazila_name_en = upazilas.upazila_name_en;
@@ -1976,7 +1981,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 
                 for (MemberGetResponseModel.Data member : memberGetResponseModel.member) {
                     Log.e("evan", "asd" + new Gson().toJson(memberGetResponseModel));
-                    MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(member.member_id);
+                    MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(member.unique_code);
                     if (memberMyself1 != null) {
                         MemberMyself memberMyself = new MemberMyself();
                         memberMyself.id = memberMyself1.id;
