@@ -62,8 +62,8 @@ public class MemberUploadModel {
         public String created_by;
         @SerializedName("updated_at")
         public String updated_at;
-        @SerializedName("updated_by")
-        public String updated_by;
+        @SerializedName("updated_no")
+        public String updated_no;
 
     }
 }
