@@ -524,6 +524,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     currentDate = formatter.format(memberMyself.CreatedDate);
                 }
             }
+            mData.updated_no = "1";
             mData.created_at = currentDate;
             mData.visit_date = memberMyself.VisitDate;
             mData.living_status = String.valueOf(memberMyself.LivingId);

@@ -141,23 +141,28 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             }
         });
         if (SharedPreferenceUtil.getUserRole(mActivity).equals("hh")) {
-            holder.text_cc.setVisibility(View.VISIBLE);
+
+
             holder.text_cc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showInfoDialog(mActivity, memberMyselfes.get(position).UniqueCode);
                 }
             });
+            MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).UniqueCode);
+            if (!myself.VisitDate.equals("")){
+                holder.text_cc.setVisibility(View.INVISIBLE);
+            }
+            else {
+                holder.text_cc.setVisibility(View.VISIBLE);
+            }
         } else {
 
             holder.text_cc.setVisibility(View.INVISIBLE);
 
         }
 
-        MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).UniqueCode);
-        if (myself.VisitDate!=null){
-            holder.text_cc.setVisibility(View.INVISIBLE);
-        }
+
 //        try {
 //            if (SharedPreferenceUtil.getUserRole(mActivity).equals("HH")) {
 //                if (myself.From.equals("CC")){
