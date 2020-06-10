@@ -60,7 +60,11 @@ public class HHSurveysAdapter extends RecyclerView.Adapter<HHSurveysAdapter.CCDa
         Context context= LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
         Resources resources= context.getResources();
         SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM,yyyy");
-        holder.text_date.setText(formatter.format(survey.get(position).CreatedDate));
+        try {
+            holder.text_date.setText(formatter.format(survey.get(position).CreatedDate));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String safe="";
         String sanitary="";
         String bondhoChula="";

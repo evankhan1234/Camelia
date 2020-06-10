@@ -163,16 +163,16 @@ public class CCUserDashBoardFragment extends Fragment {
             }
         });
         pieChart = view.findViewById(R.id.pie);
-        pieChart.setDrawHoleEnabled(true);
+
         Context context=LocaleHelper.setLocale(mActivity,(String)Paper.book().read("language"));
         Resources resources= context.getResources();
+        pieChart.setDrawHoleEnabled(true);
         pieChart.setDescription(resources.getString(R.string.dashboard));
         pieChart.setDescriptionTextSize(13);
         pieChart.setRotationEnabled(true);
         pieChart.setHoleRadius(25f);
         pieChart.setCenterText(resources.getString(R.string.dashboard));
         pieChart.setCenterTextSize(10);
-
         pieChart.setTransparentCircleRadius(50f);
         Legend l = pieChart.getLegend();
         l.setXEntrySpace(7);
