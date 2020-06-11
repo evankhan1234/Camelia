@@ -73,6 +73,7 @@ public class CCWHRFragment extends Fragment {
     TextView tv_date;
     TextView  text_1;
     TextView  text_2;
+    TextView  text_message;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,6 +106,7 @@ public class CCWHRFragment extends Fragment {
 
     }
     private void initView() {
+        text_message = view.findViewById(R.id.text_message);
         tv_time = view.findViewById(R.id.tv_time);
         tv_date = view.findViewById(R.id.tv_date);
         text_1 = view.findViewById(R.id.text_1);
@@ -242,6 +244,7 @@ public class CCWHRFragment extends Fragment {
                     linear.setVisibility(View.VISIBLE);
 
                 try {
+                    text_message.setText("");
                     double waist=Double.parseDouble(editable.toString());
                     double hp=Double.parseDouble(edit_hp.getText().toString());
                      total=waist/hp;
@@ -252,6 +255,7 @@ public class CCWHRFragment extends Fragment {
                     text_text.startAnimation(animBlink);
                     text_text.setText("Normal");
                     message="Normal";
+                    text_message.setText(getActivity().getResources().getString(R.string.whr_1));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     message="";
@@ -279,6 +283,7 @@ public class CCWHRFragment extends Fragment {
                     linear.setVisibility(View.VISIBLE);
 
                 try {
+                    text_message.setText("");
                     double hp=Double.parseDouble(editable.toString());
                     double waist=Double.parseDouble(edit_hp.getText().toString());
                     total=waist/hp;
@@ -289,6 +294,7 @@ public class CCWHRFragment extends Fragment {
                     text_text.startAnimation(animBlink);
                     text_text.setText("Normal");
                     message="Normal";
+                    text_message.setText(getActivity().getResources().getString(R.string.whr_1));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     message="";

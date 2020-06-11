@@ -76,6 +76,7 @@ public class CCBMIFragment extends Fragment {
     TextView tv_date;
     TextView text_1;
     TextView text_2;
+    TextView text_message;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -113,6 +114,7 @@ private void updateView(String language) {
 }
     private void initView() {
         text_1 = view.findViewById(R.id.text_1);
+        text_message = view.findViewById(R.id.text_message);
         text_2 = view.findViewById(R.id.text_2);
         linear = view.findViewById(R.id.linear);
         text_bmi_number = view.findViewById(R.id.text_bmi_number);
@@ -248,6 +250,7 @@ private void updateView(String language) {
             public void afterTextChanged(Editable s) {
 
                 try {
+                    text_message.setText("");
                     if (!edit_weight.getText().toString().equals(""))
                         linear.setVisibility(View.VISIBLE);
                     double weight=Double.parseDouble(edit_weight.getText().toString());
@@ -262,6 +265,7 @@ private void updateView(String language) {
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("UnderWeight");
                         message="UnderWeight";
+                        text_message.setText(getActivity().getResources().getString(R.string.underweight_message));
                     }
                     else if(bmi>=18.5 && bmi<=24.99){
                         linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
@@ -271,6 +275,7 @@ private void updateView(String language) {
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Normal");
                         message="Normal";
+                        text_message.setText(getActivity().getResources().getString(R.string.normal_message));
                     }
                     else if(bmi>=25 && bmi<=29.99){
                         linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_yellow));
@@ -280,6 +285,7 @@ private void updateView(String language) {
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("OverWeight");
                         message="OverWeight";
+                        text_message.setText(getActivity().getResources().getString(R.string.overweight_message));
                     }
                     else if(bmi>=30){
                         linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
@@ -289,6 +295,7 @@ private void updateView(String language) {
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Obese");
                         message="Obese";
+                        text_message.setText(getActivity().getResources().getString(R.string.obese_message));
                     }
 
                 } catch (NumberFormatException e) {
@@ -317,7 +324,7 @@ private void updateView(String language) {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void afterTextChanged(Editable s) {
-
+                text_message.setText("");
                 try {
                     double height=Double.parseDouble(edit_height.getText().toString());
                     double weight=Double.parseDouble(s.toString());
@@ -331,6 +338,7 @@ private void updateView(String language) {
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("UnderWeight");
                         message="UnderWeight";
+                        text_message.setText(getActivity().getResources().getString(R.string.underweight_message));
                     }
                     else if(bmi>18.5 && bmi<=24.99){
                         linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
@@ -339,7 +347,8 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Normal");
-                        message="UnderWeight";
+                        message="Normal";
+                        text_message.setText(getActivity().getResources().getString(R.string.normal_message));
                     }
                     else if(bmi>25 && bmi<=29.99){
                         linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_yellow));
@@ -349,6 +358,7 @@ private void updateView(String language) {
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("OverWeight");
                         message="OverWeight";
+                        text_message.setText(getActivity().getResources().getString(R.string.overweight_message));
                     }
                     else if(bmi>24.99){
                         linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
@@ -358,6 +368,7 @@ private void updateView(String language) {
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Obese");
                         message="Obese";
+                        text_message.setText(getActivity().getResources().getString(R.string.obese_message));
                     }
 
                 } catch (NumberFormatException e) {
