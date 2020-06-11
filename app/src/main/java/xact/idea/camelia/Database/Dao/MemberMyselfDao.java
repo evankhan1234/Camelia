@@ -41,6 +41,8 @@ public interface MemberMyselfDao {
     MemberMyself getMemberMyselfForHousehold(String MemberMyselfItem);
     @Query("UPDATE  MemberMyself SET VisitDate=:date where UniqueCode=:member")
     void updateReciver(String date,String member);
+    @Query("UPDATE  MemberMyself SET Status=:status where Status=:s")
+    void updateStatus(String status,String s);
     @Query("Select Count(id)  FROM MemberMyself")
     int value();
     @Query("Select Count(id)  FROM MemberMyself where UniqueId=:uniqueId")

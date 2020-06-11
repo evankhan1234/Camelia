@@ -6,9 +6,9 @@ public class VegetablesCardModel {
     @SerializedName("Name")
     private String Name;
     @SerializedName("Id")
-    private int Id;
+    private double Id;
 
-    public VegetablesCardModel(String name, int id) {
+    public VegetablesCardModel(String name, double id) {
         Name = name;
         Id = id;
     }
@@ -24,7 +24,7 @@ public class VegetablesCardModel {
     public void setName(String name) {
         Name = name;
     }
-    public int getId() {
+    public double getId() {
         return Id;
     }
 

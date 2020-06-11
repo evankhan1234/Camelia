@@ -749,7 +749,7 @@ public class CCUserActivity extends AppCompatActivity {
 
                 for (MemberGetResponseModel.Data member: memberGetResponseModel.member){
                     Log.e("evan", "asd" + new Gson().toJson(memberGetResponseModel));
-                    MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(member.member_id);
+                    MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(member.unique_code);
                     if (memberMyself1 != null) {
                         MemberMyself memberMyself = new MemberMyself();
                         memberMyself.id = memberMyself1.id;

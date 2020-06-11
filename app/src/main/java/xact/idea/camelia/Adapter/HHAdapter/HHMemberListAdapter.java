@@ -150,11 +150,12 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 }
             });
             MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).UniqueCode);
-            if (!myself.VisitDate.equals("")){
-                holder.text_cc.setVisibility(View.INVISIBLE);
-            }
-            else {
+            if (myself.VisitDate==null || myself.VisitDate.equals("")) {
                 holder.text_cc.setVisibility(View.VISIBLE);
+            }
+
+            else {
+                holder.text_cc.setVisibility(View.INVISIBLE);
             }
         } else {
 

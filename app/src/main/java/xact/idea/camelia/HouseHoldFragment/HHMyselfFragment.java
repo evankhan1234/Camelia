@@ -288,12 +288,12 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
         Context context = LocaleHelper.setLocale(mActivity, language);
         Resources resources = context.getResources();
         radioAge.setText(resources.getString(R.string.age));
-        edit_mobile_number.setHint(resources.getString(R.string.mobile_number));
+        edit_mobile_number.setHint(resources.getString(R.string.mobile_number_));
         edit_birthday_date.setHint(resources.getString(R.string.birthday_date));
         edit_birthday_date_again.setHint(resources.getString(R.string.birthday_date));
-        edit_name.setHint(resources.getString(R.string.full_name));
+        edit_name.setHint(resources.getString(R.string.full_name_));
         edit_age.setHint(resources.getString(R.string.age));
-        edit_national_id.setHint(resources.getString(R.string.national_id));
+        edit_national_id.setHint(resources.getString(R.string.national_id_));
         edit_date_of_death.setHint(resources.getString(R.string.date_of_death));
         radioBirthdate.setText(resources.getString(R.string.birthday_date));
         tv_full_name.setText(resources.getString(R.string.full_name));

@@ -332,6 +332,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         Log.e("Execute", "----1" + new Gson().toJson(memberResponseModel));
                         dismissLoadingProgress();
 
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -346,6 +347,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     @Override
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("Execute", "------2" + new Gson().toJson(memberResponseModel));
+                        Common.memberMyselfRepository.updateStatus("1","0");
                         dismissLoadingProgress();
 
 
@@ -720,11 +722,11 @@ public class HouseHoldActivity extends AppCompatActivity {
         initDB();
         if (Common.householdRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
-                downloadHousehold();
+              downloadHousehold();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        downloadWorkingArea();
+                      downloadWorkingArea();
 
                     }
                 }, 500);

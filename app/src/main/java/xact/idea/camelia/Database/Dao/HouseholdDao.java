@@ -15,7 +15,7 @@ import xact.idea.camelia.Database.Model.HouseHold;
 
 @Dao
 public interface HouseholdDao {
-    @Query("SELECT * FROM HouseHold")
+    @Query("SELECT * FROM HouseHold Order by Date desc")
     Flowable<List<HouseHold>> getHouseholdItems();
     @Query("SELECT * FROM HouseHold WHERE id=:HouseholdId")
     Flowable<List<HouseHold>> getHouseholdItemById(int HouseholdId);
@@ -23,13 +23,13 @@ public interface HouseholdDao {
     HouseHold getHousehold(String HouseholdItem);
     @Query("SELECT * FROM HouseHold WHERE id=:HouseholdItem")
     HouseHold getHouseholdNo(String HouseholdItem);
-    @Query("SELECT * FROM HouseHold WHERE DivisionId=:DivisionId AND DistrictId=:DistrictId AND UpazilaId=:Upazila AND UnionId=:Union")
+    @Query("SELECT * FROM HouseHold WHERE DivisionId=:DivisionId AND DistrictId=:DistrictId AND UpazilaId=:Upazila AND UnionId=:Union Order by Date desc")
     Flowable<List<HouseHold>> getHouseHoldItemByFour(String DivisionId, String DistrictId, String Upazila, String Union);
-    @Query("SELECT * FROM HouseHold WHERE DivisionId=:DivisionId AND DistrictId=:DistrictId AND UpazilaId=:Upazila")
+    @Query("SELECT * FROM HouseHold WHERE DivisionId=:DivisionId AND DistrictId=:DistrictId AND UpazilaId=:Upazila Order by Date desc")
     Flowable<List<HouseHold>> getHouseHoldItemByThree(String DivisionId,String DistrictId,String Upazila);
-    @Query("SELECT * FROM HouseHold WHERE DivisionId=:DivisionId AND DistrictId=:DistrictId ")
+    @Query("SELECT * FROM HouseHold WHERE DivisionId=:DivisionId AND DistrictId=:DistrictId Order by Date desc")
     Flowable<List<HouseHold>> getHouseHoldItemByTwo(String DivisionId,String DistrictId);
-    @Query("SELECT * FROM HouseHold WHERE DivisionId=:DivisionId ")
+    @Query("SELECT * FROM HouseHold WHERE DivisionId=:DivisionId Order by Date desc")
     Flowable<List<HouseHold>> getHouseHoldItemByOne(String DivisionId);
     @Query("SELECT HS.UniqueId,HS.VillageName,MM.MobileNumber,MM.FullName FROM HouseHold as HS inner join MemberMyself as MM on HS.UniqueId=MM.UniqueId WHERE HouseHeadId=1")
     Flowable<List<HouseHead>> getHouseHead();

@@ -27,6 +27,7 @@ public interface IMemberMyselfDatasources {
     int size();
     int notSync(Date from,Date to);
     int Sync(Date from,Date to);
+    void updateStatus(String status,String s);
     Flowable<List<VisitMyself>> getMemberListForRefer();
     Flowable<List<VisitMyself>> getMemberListForFollowUp();
     Flowable<List<MemberMyself>> getReferMembersForCC();

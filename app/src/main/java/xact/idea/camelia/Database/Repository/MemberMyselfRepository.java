@@ -87,6 +87,11 @@ public class MemberMyselfRepository implements IMemberMyselfDatasources {
     }
 
     @Override
+    public void updateStatus(String status, String s) {
+        IMemberMyselfDatasources.updateStatus(status,s);
+    }
+
+    @Override
     public Flowable<List<VisitMyself>> getMemberListForRefer() {
         return IMemberMyselfDatasources.getMemberListForRefer();
     }

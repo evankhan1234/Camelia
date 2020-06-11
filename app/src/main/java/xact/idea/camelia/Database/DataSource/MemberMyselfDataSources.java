@@ -88,6 +88,11 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     }
 
     @Override
+    public void updateStatus(String status, String s) {
+        MemberMyselfDao.updateStatus(status, s);
+    }
+
+    @Override
     public Flowable<List<VisitMyself>> getMemberListForRefer() {
         return MemberMyselfDao.getMemberListForRefer();
     }

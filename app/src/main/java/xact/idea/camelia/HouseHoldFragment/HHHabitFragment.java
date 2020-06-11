@@ -288,9 +288,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     int workplaceYesNo;
     int alcoholYesNo;
     int typicalFruits;
-    int fruitsShowCard;
+    double fruitsShowCard;
     int typicalVegetables;
-    int vegetablesShowCard;
+    double vegetablesShowCard;
     int saltyBuy;
     int takingSalt;
     int vigorousIntensity;
@@ -759,8 +759,11 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
 
     CheckBox checkbox_mat;
+    CheckBox checkbox_plus;
     LinearLayout linear_mat;
+    LinearLayout linear_plus;
     EditText edit_mat;
+    EditText edit_plus;
     TextView tv_mat;
     public HHHabitFragment(String frags, String updates) {
         frag = frags;
@@ -801,6 +804,9 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
     private void initView1() {
 
+        checkbox_plus = view.findViewById(R.id.checkbox_plus);
+        linear_plus = view.findViewById(R.id.linear_plus);
+        edit_plus = view.findViewById(R.id.edit_plus);
         linear_heart_show_card_typical_week_43_a1 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a1);
         linear_heart_show_card_typical_week_43_a2 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a2);
         linear_heart_show_card_typical_week_43_a3 = view.findViewById(R.id.linear_heart_show_card_typical_week_43_a3);
@@ -897,7 +903,15 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         edit_typical_day_43_a14 = view.findViewById(R.id.edit_typical_day_43_a14);
         edit_typical_day_43_a15 = view.findViewById(R.id.edit_typical_day_43_a15);
         edit_typical_day_43_a16 = view.findViewById(R.id.edit_typical_day_43_a16);
+        checkbox_plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linear_plus.setVisibility(View.VISIBLE);
 
+                double sum=fruitsShowCard+vegetablesShowCard;
+                edit_plus.setText(String.valueOf(sum));
+            }
+        });
     }
 
     private void initView2() {
@@ -3471,7 +3485,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxWashing.setText(resources.getString(R.string.washing_heavy_clothes));
         checkBoxStepping.setText(resources.getString(R.string.stepping));
         checkBoxOthers.setText(resources.getString(R.string.others));
-        edit_typical_day.setHint(resources.getString(R.string.hour));
+        edit_typical_day.setHint(resources.getString(R.string.day_1));
         checkBoxHouseHoldWork.setText(resources.getString(R.string.household_work));
         checkBoxGardening.setText(resources.getString(R.string.gardening));
         checkBoxMilkingCows.setText(resources.getString(R.string.milking));
@@ -3493,7 +3507,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
         checkBoxCloth.setText(resources.getString(R.string.weaving_cloth));
         checkBoxHouseHoldWork1.setText(resources.getString(R.string.household_work));
         checkBoxOthers1.setText(resources.getString(R.string.others));
-        edit_typical_day_moderate.setHint(resources.getString(R.string.hour));
+        edit_typical_day_moderate.setHint(resources.getString(R.string.day_1));
         checkBoxVolleyball.setText(resources.getString(R.string.volleyball));
         checkBoxFootbal.setText(resources.getString(R.string.football));
         checkBoxHadudu.setText(resources.getString(R.string.hadudu));
@@ -5592,8 +5606,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     }
 
     private void initModerateIntensityRecreational() {
-        int YesNo = 0;
-        int YesNob = 0;
+
         Questions questions1 = Common.qustionsRepository.getQuestions("Q46", update);
         Questions Q46a1 = Common.qustionsRepository.getQuestions("Q46a1", update);
         Questions Q46a2 = Common.qustionsRepository.getQuestions("Q46a2", update);
@@ -5872,12 +5885,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 //            e.printStackTrace();
 //            YesNob = -1;
 //        }
-        try {
-            YesNo = Integer.parseInt(questions1.answer);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            YesNo = -1;
-        }
+
 
 //        if (questions2 != null) {
 //            String diac = questions2.answer;
@@ -5915,24 +5923,24 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 //                }
 //            }
 //        }
-        if (YesNo != 0) {
-            int div = YesNo;
-
-//            if (div == 1) {
-//                try {
-//                    Questions questions1a = Common.qustionsRepository.getQuestions("Q46c", update);
-//                    edit_typical_day_moderate_recreational.setText(questions1a.answer);
-//                } catch (Exception e) {
-//                    edit_typical_day_moderate_recreational.setText("");
+//        if (YesNo != 0) {
+//            int div = YesNo;
+//
+////            if (div == 1) {
+////                try {
+////                    Questions questions1a = Common.qustionsRepository.getQuestions("Q46c", update);
+////                    edit_typical_day_moderate_recreational.setText(questions1a.answer);
+////                } catch (Exception e) {
+////                    edit_typical_day_moderate_recreational.setText("");
+////                }
+////            }
+//
+//            for (int i = 0; i < yesNoArrayListForModerateRecreationalHeartt.size(); i++) {
+//                if (yesNoArrayListForModerateRecreationalHeartt.get(i).getId() == div) {
+//                    spinner_moderate_intensity_recreational_activities.setSelection(i);
 //                }
 //            }
-
-            for (int i = 0; i < yesNoArrayListForModerateRecreationalHeartt.size(); i++) {
-                if (yesNoArrayListForModerateRecreationalHeartt.get(i).getId() == div) {
-                    spinner_moderate_intensity_recreational_activities.setSelection(i);
-                }
-            }
-        }
+//        }
     }
 
     private void initRecllining() {
@@ -6782,7 +6790,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForFruitsCard.get(position).getId());
                 fruitsShowCard = yesNoArrayListForFruitsCard.get(position).getId();
-
+                linear_plus.setVisibility(View.GONE);
+                checkbox_plus.setChecked(false);
             }
 
             @Override
@@ -6822,6 +6831,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVegetablesCard.get(position).getId());
                 vegetablesShowCard = yesNoArrayListForVegetablesCard.get(position).getId();
+                linear_plus.setVisibility(View.GONE);
+                checkbox_plus.setChecked(false);
 
             }
 
