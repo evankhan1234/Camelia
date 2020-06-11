@@ -982,24 +982,24 @@ public class HouseHoldActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
-        if (Common.memberIdRepository.size() < 1) {
-            if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
-                loadMemberId();
-            } else {
-                Snackbar snackbar = Snackbar
-                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
-        } else {
-
-            int maxId = Common.memberIdRepository.maxValue();
-            MemberId memberId = Common.memberIdRepository.getMemberIdNo(String.valueOf(maxId));
-            if (!SharedPreferenceUtil.getUserRole(HouseHoldActivity.this).equals(memberId.From)) {
-                Common.memberIdRepository.emptyMember();
-                loadMemberId();
-            }
-
-        }
+//        if (Common.memberIdRepository.size() < 1) {
+//            if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
+//                loadMemberId();
+//            } else {
+//                Snackbar snackbar = Snackbar
+//                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+//                snackbar.show();
+//            }
+//        } else {
+//
+//            int maxId = Common.memberIdRepository.maxValue();
+//            MemberId memberId = Common.memberIdRepository.getMemberIdNo(String.valueOf(maxId));
+//            if (!SharedPreferenceUtil.getUserRole(HouseHoldActivity.this).equals(memberId.From)) {
+//                Common.memberIdRepository.emptyMember();
+//                loadMemberId();
+//            }
+//
+//        }
         if (Common.uhcRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
                 loadUHC();
@@ -1656,31 +1656,33 @@ public class HouseHoldActivity extends AppCompatActivity {
         Date date11 = null;
 
 
-        for (HouseholdGetResponseModel.Details.Khana khan : khanas) {
+        for (HouseholdGetResponseModel.Details.Khana khan : khanas)
+        {
             val = khan.master_id;
-            if (khan.question.equals("Q12")) {
+            if (khan.question.equals("Q28")) {
                 survey.SafeDrinkingYesNo = Integer.parseInt(khan.answer);
                 try {
                     date11 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            } else if (khan.question.equals("Q12a")) {
+            } else if (khan.question.equals("Q28a")) {
                 survey.SafeDrinkingDetails = Integer.parseInt(khan.answer);
-            } else if (khan.question.equals("Q13")) {
+            } else if (khan.question.equals("Q29")) {
                 survey.SanitaryYesNo = Integer.parseInt(khan.answer);
-            } else if (khan.question.equals("Q14")) {
+            } else if (khan.question.equals("Q30")) {
                 survey.BondhoChulaYesNo = Integer.parseInt(khan.answer);
-            } else if (khan.question.equals("Q15")) {
+            } else if (khan.question.equals("Q34")) {
                 survey.BiomasFuelYesNo = Integer.parseInt(khan.answer);
-            } else if (khan.question.equals("Q15a")) {
+            } else if (khan.question.equals("Q31a")) {
                 survey.BiomasFuelDetails = Integer.parseInt(khan.answer);
             }
 
 
-            if (khan.question.equals("Q12")) {
+            if (khan.question.equals("Q28"))
+            {
 
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q12", khan.master_id);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q28", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
@@ -1715,8 +1717,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            } else if (khan.question.equals("Q12a")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q12a", khan.master_id);
+            } else if (khan.question.equals("Q28a")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q28a", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
@@ -1751,8 +1753,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            } else if (khan.question.equals("Q13")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q13", khan.master_id);
+            } else if (khan.question.equals("Q29")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q29", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
@@ -1787,8 +1789,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            } else if (khan.question.equals("Q14")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q14", khan.master_id);
+            } else if (khan.question.equals("Q30")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q30", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
@@ -1823,8 +1825,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            } else if (khan.question.equals("Q15")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q15", khan.master_id);
+            } else if (khan.question.equals("Q31")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q31", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
@@ -1859,8 +1861,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            } else if (khan.question.equals("Q15a")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q15a", khan.master_id);
+            } else if (khan.question.equals("Q31a")) {
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q31a", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
