@@ -71,6 +71,7 @@ public class CCFastingGlucosreFragment extends Fragment {
     TextView tv_time;
     TextView tv_date;
     TextView textView49;
+    TextView text_message;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,6 +101,7 @@ public class CCFastingGlucosreFragment extends Fragment {
         create.setText(resources.getString(R.string.done));
     }
     private void initView() {
+        text_message = view.findViewById(R.id.text_message);
         textView49 = view.findViewById(R.id.textView49);
         edit_date = view.findViewById(R.id.edit_date);
         edit_time = view.findViewById(R.id.edit_time);
@@ -228,6 +230,7 @@ public class CCFastingGlucosreFragment extends Fragment {
                 if (!editable.toString().equals(""))
                     linear.setVisibility(View.VISIBLE);
                 try {
+                    text_message.setText("");
                      total=Double.parseDouble(editable.toString());
                     linear.setBackground(mActivity.getResources().getDrawable(R.drawable.backgound_blue_light));
                     text_number.setText(rounded(total,2)+"(beat/min)");
@@ -236,6 +239,7 @@ public class CCFastingGlucosreFragment extends Fragment {
                     text_text.startAnimation(animBlink);
                     text_text.setText("Normal");
                     message="Normal";
+                    text_message.setText(getActivity().getResources().getString(R.string.pulse_1));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                     message="";

@@ -80,6 +80,7 @@ public class CCBloodPressureFragment extends Fragment {
     TextView tv_date;
     TextView textView9;
     TextView textView49;
+    TextView text_message;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -111,6 +112,7 @@ public class CCBloodPressureFragment extends Fragment {
 
     }
     private void initView() {
+        text_message = view.findViewById(R.id.text_message);
         textView49 = view.findViewById(R.id.textView49);
         textView9 = view.findViewById(R.id.textView9);
         edit_date = view.findViewById(R.id.edit_date);
@@ -246,6 +248,7 @@ public class CCBloodPressureFragment extends Fragment {
                 if (!editable.toString().equals(""))
                     linear.setVisibility(View.VISIBLE);
                 try {
+                    text_message.setText("");
                     double e1=Double.parseDouble(editable.toString());
                     double e2=Double.parseDouble(edit_reading2.getText().toString());
                      total=(e1+e2)/2;
@@ -270,21 +273,25 @@ public class CCBloodPressureFragment extends Fragment {
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 1) && (total < 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else if ( (DiabetisYesNo == 2) && (total >= 140)  ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 2) &&  (total < 140) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else {
                             message="";
                             refer="UHC";
@@ -298,25 +305,30 @@ public class CCBloodPressureFragment extends Fragment {
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 1) && (total < 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else if ( (DiabetisYesNo == 2) && (total >= 140)  ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 2) &&  (total < 140) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else {
                             message="";
                             refer="UHC";
                             text_text.setText("");
+                            text_message.setText("");
                         }
                     }
 
@@ -372,21 +384,25 @@ public class CCBloodPressureFragment extends Fragment {
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 1) && (total < 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else if ( (DiabetisYesNo == 2) && (total >= 140)  ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 2) &&  (total < 140) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else {
                             message="";
                             refer="UHC";
@@ -400,25 +416,30 @@ public class CCBloodPressureFragment extends Fragment {
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 1) && (total < 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else if ( (DiabetisYesNo == 2) && (total >= 140)  ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
                             message="Hypertension = Refer to UHC!";
                             refer="UHC";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 2) &&  (total < 140) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
                             message="Normal = Follow up 6 months.";
                             refer="Follow";
+                            text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else {
                             message="";
                             refer="UHC";
                             text_text.setText("");
+                            text_message.setText("");
                         }
                     }
 
