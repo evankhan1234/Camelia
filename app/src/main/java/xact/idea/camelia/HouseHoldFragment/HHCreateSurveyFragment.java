@@ -138,12 +138,12 @@ public class HHCreateSurveyFragment extends Fragment {
         if (surveys == null) {
             text_date_current.setText(formatter.format(date));
         } else {
-            Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q12", String.valueOf(id));
-            Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q12a", String.valueOf(id));
-            Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q13", String.valueOf(id));
-            Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q14", String.valueOf(id));
-            Questions questionsFor5 = Common.qustionsRepository.getQuestions("Q15", String.valueOf(id));
-            Questions questionsFor6 = Common.qustionsRepository.getQuestions("Q15a", String.valueOf(id));
+            Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q28", String.valueOf(id));
+            Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q28a", String.valueOf(id));
+            Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q29", String.valueOf(id));
+            Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q30", String.valueOf(id));
+            Questions questionsFor5 = Common.qustionsRepository.getQuestions("Q31", String.valueOf(id));
+            Questions questionsFor6 = Common.qustionsRepository.getQuestions("Q31a", String.valueOf(id));
 
             if (questionsFor1 != null) {
 
@@ -319,7 +319,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         String currentDate = formatter.format(date12);
                         Questions questions1 = new Questions();
                         questions1.type = "survey";
-                        questions1.question = "Q12";
+                        questions1.question = "Q28";
                         questions1.member_id = String.valueOf(memberId);
                         questions1.answer = safeWater;
                         questions1.date = currentDate;
@@ -327,14 +327,14 @@ public class HHCreateSurveyFragment extends Fragment {
 
                         Questions questions2 = new Questions();
                         questions2.type = "survey";
-                        questions2.question = "Q12a";
+                        questions2.question = "Q28a";
                         questions2.member_id = String.valueOf(memberId);
                         questions2.answer = String.valueOf(tubeWellId);
                         questions2.date = currentDate;
                         Common.qustionsRepository.insertToQuestions(questions2);
                         Questions questions3 = new Questions();
                         questions3.type = "survey";
-                        questions3.question = "Q13";
+                        questions3.question = "Q29";
                         questions3.member_id = String.valueOf(memberId);
                         questions3.answer = sanitary;
                         questions3.date = currentDate;
@@ -342,14 +342,14 @@ public class HHCreateSurveyFragment extends Fragment {
 
                         Questions questions4 = new Questions();
                         questions4.type = "survey";
-                        questions4.question = "Q14";
+                        questions4.question = "Q30";
                         questions4.member_id = String.valueOf(memberId);
                         questions4.answer = chula;
                         questions4.date = currentDate;
                         Common.qustionsRepository.insertToQuestions(questions4);
                         Questions questions5 = new Questions();
                         questions5.type = "survey";
-                        questions5.question = "Q15";
+                        questions5.question = "Q31";
                         questions5.member_id = String.valueOf(memberId);
                         questions5.answer = biomas;
                         questions5.date = currentDate;
@@ -357,7 +357,7 @@ public class HHCreateSurveyFragment extends Fragment {
 
                         Questions questions6 = new Questions();
                         questions6.type = "survey";
-                        questions6.question = "Q15a";
+                        questions6.question = "Q31a";
                         questions6.member_id = String.valueOf(memberId);
                         questions6.answer = String.valueOf(biomasFuelId);
                         questions6.date = currentDate;
@@ -440,17 +440,17 @@ public class HHCreateSurveyFragment extends Fragment {
                         Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
 
                     } else {
-                        Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q12", String.valueOf(id));
-                        Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q12a", String.valueOf(id));
-                        Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q13", String.valueOf(id));
-                        Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q14", String.valueOf(id));
-                        Questions questionsFor5 = Common.qustionsRepository.getQuestions("Q15", String.valueOf(id));
-                        Questions questionsFor6 = Common.qustionsRepository.getQuestions("Q15a", String.valueOf(id));
+                        Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q28", String.valueOf(id));
+                        Questions questionsFor2 = Common.qustionsRepository.getQuestions("Q28a", String.valueOf(id));
+                        Questions questionsFor3 = Common.qustionsRepository.getQuestions("Q29", String.valueOf(id));
+                        Questions questionsFor4 = Common.qustionsRepository.getQuestions("Q30", String.valueOf(id));
+                        Questions questionsFor5 = Common.qustionsRepository.getQuestions("Q31", String.valueOf(id));
+                        Questions questionsFor6 = Common.qustionsRepository.getQuestions("Q31a", String.valueOf(id));
 
                         if (questionsFor1 != null) {
                             Questions questions1 = new Questions();
                             questions1.type = "survey";
-                            questions1.question = "Q12";
+                            questions1.question = "Q28";
                             questions1.member_id = questionsFor1.member_id;
                             questions1.answer = safeWater;
                             questions1.date = currentDate;
@@ -462,7 +462,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         if (questionsFor2 != null) {
                             Questions questions2 = new Questions();
                             questions2.type = "survey";
-                            questions2.question = "Q12a";
+                            questions2.question = "Q28a";
                             questions2.member_id = questionsFor2.member_id;
                             questions2.answer = String.valueOf(tubeWellId);
                             questions2.date = currentDate;
@@ -473,7 +473,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         if (questionsFor3 != null) {
                             Questions questions3 = new Questions();
                             questions3.type = "survey";
-                            questions3.question = "Q13";
+                            questions3.question = "Q29";
                             questions3.member_id = questionsFor3.member_id;
                             questions3.answer = sanitary;
                             questions3.date = currentDate;
@@ -484,7 +484,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         if (questionsFor4 != null) {
                             Questions questions4 = new Questions();
                             questions4.type = "survey";
-                            questions4.question = "Q14";
+                            questions4.question = "Q30";
                             questions4.member_id = questionsFor4.member_id;
                             questions4.answer = chula;
                             questions4.date = currentDate;
@@ -494,7 +494,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         if (questionsFor5 != null) {
                             Questions questions5 = new Questions();
                             questions5.type = "survey";
-                            questions5.question = "Q15";
+                            questions5.question = "Q31";
                             questions5.member_id = questionsFor5.member_id;
                             questions5.answer = biomas;
                             questions5.date = currentDate;
@@ -505,7 +505,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         if (questionsFor6 != null) {
                             Questions questions6 = new Questions();
                             questions6.type = "survey";
-                            questions6.question = "Q15a";
+                            questions6.question = "Q31a";
                             questions6.member_id = questionsFor6.member_id;
                             questions6.answer = String.valueOf(biomasFuelId);
                             questions6.date = currentDate;
@@ -514,7 +514,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         } else {
                             Questions questions6 = new Questions();
                             questions6.type = "survey";
-                            questions6.question = "Q15a";
+                            questions6.question = "Q31a";
                             questions6.member_id = questionsFor6.member_id;
                             questions6.answer = String.valueOf(biomasFuelId);
                             questions6.date = currentDate;
