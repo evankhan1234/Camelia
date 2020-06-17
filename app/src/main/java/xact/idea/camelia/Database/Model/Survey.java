@@ -13,6 +13,8 @@ public class Survey {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
+    @ColumnInfo(name = "Date")
+    public String Date;
     @ColumnInfo(name = "CreatedDate")
     public Date CreatedDate;
     @ColumnInfo(name = "SafeDrinkingYesNo")

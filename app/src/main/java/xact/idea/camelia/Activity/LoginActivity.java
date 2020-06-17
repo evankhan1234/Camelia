@@ -175,12 +175,12 @@ public class LoginActivity extends AppCompatActivity {
                                     if (loginEntity.status_code==200)
                                     {
 
-                                        SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.TYPE_USER_ID, loginEntity.data.user_id + "");
+                                        SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.TYPE_USER_ID, loginEntity.data.profile.user_id + "");
                                         SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.USER_ROLE, loginEntity.data.role_code + "");
 
 
                                         Auth login = new Auth();
-                                        login.user_id = loginEntity.data.user_id;
+                                        login.user_id = loginEntity.data.profile.user_id;
                                         login.role_code = loginEntity.data.role_code;
                                         login.user_role = Integer.parseInt(loginEntity.data.user_role);
                                         login.role_name = loginEntity.data.role_name;
