@@ -27,6 +27,8 @@ public class MemberMyself {
     public String DateOfBirth;
     @ColumnInfo(name = "CreatedDate")
     public Date CreatedDate;
+    @ColumnInfo(name = "created_at")
+    public String created_at;
     @ColumnInfo(name = "GenderId")
     public int GenderId;
     @ColumnInfo(name = "ReligionId")

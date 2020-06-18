@@ -518,8 +518,8 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<LivingStatusModel> livingStatusModelArrayList = new ArrayList<>();
         LivingStatusModel livingStatusModelAlive1 = new LivingStatusModel(resources.getString(R.string.select), -1);
-        LivingStatusModel livingStatusModelAlive = new LivingStatusModel(resources.getString(R.string.alive), 2);
-        LivingStatusModel livingStatusModelDead = new LivingStatusModel(resources.getString(R.string.dead), 1);
+        LivingStatusModel livingStatusModelAlive = new LivingStatusModel(resources.getString(R.string.alive), 1);
+        LivingStatusModel livingStatusModelDead = new LivingStatusModel(resources.getString(R.string.dead), 2);
 
         livingStatusModelArrayList.add(livingStatusModelAlive1);
         livingStatusModelArrayList.add(livingStatusModelAlive);
