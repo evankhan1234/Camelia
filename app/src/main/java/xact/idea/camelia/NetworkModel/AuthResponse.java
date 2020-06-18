@@ -18,8 +18,6 @@ public class AuthResponse extends ApiResponses {
         public String role_name;
         @SerializedName("user_role")
         public String user_role;
-        @SerializedName("user_id")
-        public String  user_id;
         @SerializedName("user_email")
         public String  user_email;
         @SerializedName("role_code")
@@ -31,6 +29,8 @@ public class AuthResponse extends ApiResponses {
         public class Profile{
             @SerializedName("id")
             public String  id;
+            @SerializedName("user_id")
+            public String  user_id;
             @SerializedName("address")
             public String  address;
             @SerializedName("gender")

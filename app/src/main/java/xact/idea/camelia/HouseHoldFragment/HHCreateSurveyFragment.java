@@ -126,8 +126,8 @@ public class HHCreateSurveyFragment extends Fragment {
         String language= SharedPreferenceUtil.getLanguage(mActivity);
         Paper.book().write("language",language);
         updateView((String)Paper.book().read("language"));
-        SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM,yyyy");
-        Date date = new Date(System.currentTimeMillis());
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM,yyyy");
+        final Date date = new Date(System.currentTimeMillis());
         surveys = Common.surveyRepository.getSurvey(String.valueOf(id));
         biomasArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, biomasArrayLit);
         biomasArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -244,7 +244,9 @@ public class HHCreateSurveyFragment extends Fragment {
             }
         }
 
-
+        SimpleDateFormat formatters = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final Date dates = new Date(System.currentTimeMillis());
+        final String currentDateFor = formatters.format(dates);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -260,8 +262,9 @@ public class HHCreateSurveyFragment extends Fragment {
                     int b = 0;
                     Survey survey = new Survey();
                     survey.UniqueId = uniquKey;
-                    Date date = new Date(System.currentTimeMillis());
+
                     survey.CreatedDate = date;
+                    survey.Date = currentDateFor;
                     if (radioDrinkingYes.isChecked()) {
                         survey.SafeDrinkingYesNo = 1;
                         survey.SafeDrinkingDetails = tubeWellId;
@@ -314,7 +317,7 @@ public class HHCreateSurveyFragment extends Fragment {
                     } else {
                         Common.surveyRepository.insertToSurvey(survey);
                         int memberId = Common.surveyRepository.maxValue();
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date12 = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date12);
                         Questions questions1 = new Questions();
@@ -374,7 +377,7 @@ public class HHCreateSurveyFragment extends Fragment {
                 } else {
                     int a = 0;
                     int b = 0;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date12 = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date12);
                     String safeWater = "";
@@ -384,8 +387,8 @@ public class HHCreateSurveyFragment extends Fragment {
                     Survey survey = new Survey();
                     survey.id = surveys.id;
                     survey.UniqueId = uniquKey;
-                    Date date = new Date(System.currentTimeMillis());
                     survey.CreatedDate = date;
+                    survey.Date = currentDateFor;
                     if (radioDrinkingYes.isChecked()) {
                         survey.SafeDrinkingYesNo = 1;
                         survey.SafeDrinkingDetails = tubeWellId;

@@ -39,6 +39,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserActivity;
 import xact.idea.camelia.Activity.LoginActivity;
+import xact.idea.camelia.Activity.SpalashActivity;
 import xact.idea.camelia.Adapter.HHAdapter.HHListAdapter;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
@@ -626,7 +627,9 @@ public class HouseHoldActivity extends AppCompatActivity {
             public void accept(List<Survey> memberMedicineList) throws Exception {
                 KhanaServeyUploadModel data = new KhanaServeyUploadModel();
                 ArrayList<KhanaServeyUploadModel.Data> medicalHistoryUploadList = new ArrayList<>();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
+
+                Date date1 = new Date(System.currentTimeMillis());
+
                 Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
 
                 ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselvesdetails = new ArrayList<>();
@@ -640,14 +643,14 @@ public class HouseHoldActivity extends AppCompatActivity {
 
                         String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                         if (language.equals("en")) {
-                            currentDate = formatter.format(measurements.CreatedDate);
+                            currentDate = measurements.Date;
                             if (currentDate.equals("--")) {
-                                currentDate = Utils.getValue(formatter.format(measurements.CreatedDate));
+                                currentDate = Utils.getValue(measurements.Date);
                             }
                         } else {
-                            currentDate = Utils.getValue(formatter.format(measurements.CreatedDate));
+                            currentDate = Utils.getValue(measurements.Date);
                             if (currentDate.equals("--")) {
-                                currentDate = formatter.format(measurements.CreatedDate);
+                                currentDate =measurements.Date;
                             }
                         }
                     } catch (Exception e) {
@@ -656,16 +659,16 @@ public class HouseHoldActivity extends AppCompatActivity {
 
                         String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                         if (language.equals("en")) {
-                            currentDate = formatter.format(date);
+                            currentDate = "2020-06-17 12:01:36";
                         } else {
-                            currentDate = Utils.getValue(formatter.format(date));
+                            currentDate = "2020-06-17 12:01:36";
                         }
 
                     }
                     memberMyselvesdetails = getKhanaDetailsData(String.valueOf(measurements.id), currentDate);
                     mdata.status = "1";
                     mdata.update_no = "0";
-                    mdata.created_by = "0";
+                    mdata.created_by  =SharedPreferenceUtil.getUserID(HouseHoldActivity.this);;
                     mdata.created_at = currentDate;
                     mdata.household_uniqe_id = measurements.UniqueId;
                     mdata.khana_details = memberMyselvesdetails;
@@ -690,7 +693,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     }
                 }));
                 Log.e("sync2", "sync2" + new Gson().toJson(data));
-                Log.e("sync2", "sync2" + new Gson().toJson(data));
+                Log.e("KhanaServey", "sync2KhanaServey" + new Gson().toJson(data));
             }
         }));
 
@@ -708,6 +711,17 @@ public class HouseHoldActivity extends AppCompatActivity {
             mdata.question = questions.question;
             mdata.answer = questions.answer;
             mdata.created_at = Date;
+            if(questions.question.equals("Q28a")){
+                mdata.parent_question = "Q28";
+            }
+            else if(questions.question.equals("Q31a")){
+                mdata.parent_question = "Q31";
+            }
+            else{
+                mdata.parent_question = "";
+            }
+
+            mdata.created_by =SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
             mdata.question_type = questions.type;
             mdata.update_no = "0";
             memberMyselves.add(mdata);
@@ -1658,11 +1672,13 @@ public class HouseHoldActivity extends AppCompatActivity {
 
         for (HouseholdGetResponseModel.Details.Khana khan : khanas)
         {
+            survey.CreatedDate = date11;;
+            survey.Date=khan.created_at;
             val = khan.master_id;
             if (khan.question.equals("Q28")) {
                 survey.SafeDrinkingYesNo = Integer.parseInt(khan.answer);
                 try {
-                    date11 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    date11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -1686,14 +1702,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1702,14 +1718,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1722,11 +1738,11 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
                         date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
@@ -1738,14 +1754,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1758,14 +1774,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1774,14 +1790,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1794,14 +1810,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1810,14 +1826,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1830,11 +1846,11 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
                         date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
@@ -1846,14 +1862,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1866,14 +1882,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1882,14 +1898,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -1901,7 +1917,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 
 
         }
-        survey.CreatedDate = date11;
+
         Survey surveys = Common.surveyRepository.getSurveyNo(val);
         if (surveys != null) {
             survey.id = surveys.id;
@@ -11039,7 +11055,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadHousehold();
+               loadHousehold();
                 loadSurvey();
                 medicineList();
                 getBehaviorialList();

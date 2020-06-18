@@ -10233,7 +10233,8 @@ public class CCUserActivity extends AppCompatActivity {
             public void accept(List<Survey> memberMedicineList) throws Exception {
                 KhanaServeyUploadModel data = new KhanaServeyUploadModel();
                 ArrayList<KhanaServeyUploadModel.Data> medicalHistoryUploadList = new ArrayList<>();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
+
+                Date date1 = new Date(System.currentTimeMillis());
 
                 Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
 
@@ -10243,20 +10244,19 @@ public class CCUserActivity extends AppCompatActivity {
                     mdata.id = measurements.id;
 
 
-
                     String currentDate = "";
                     try {
 
                         String language = SharedPreferenceUtil.getLanguage(CCUserActivity.this);
                         if (language.equals("en")) {
-                            currentDate = formatter.format(measurements.CreatedDate);
+                            currentDate = measurements.Date;
                             if (currentDate.equals("--")) {
-                                currentDate = Utils.getValue(formatter.format(measurements.CreatedDate));
+                                currentDate = Utils.getValue(measurements.Date);
                             }
                         } else {
-                            currentDate = Utils.getValue(formatter.format(measurements.CreatedDate));
+                            currentDate = Utils.getValue(measurements.Date);
                             if (currentDate.equals("--")) {
-                                currentDate = formatter.format(measurements.CreatedDate);
+                                currentDate =measurements.Date;
                             }
                         }
                     } catch (Exception e) {
@@ -10265,16 +10265,16 @@ public class CCUserActivity extends AppCompatActivity {
 
                         String language = SharedPreferenceUtil.getLanguage(CCUserActivity.this);
                         if (language.equals("en")) {
-                            currentDate = formatter.format(date);
+                            currentDate = "2020-06-17 12:01:36";
                         } else {
-                            currentDate = Utils.getValue(formatter.format(date));
+                            currentDate = "2020-06-17 12:01:36";
                         }
 
                     }
-                    memberMyselvesdetails = getKhanaDetailsData(String.valueOf(measurements.id),currentDate);
+                    memberMyselvesdetails = getKhanaDetailsData(String.valueOf(measurements.id), currentDate);
                     mdata.status = "1";
                     mdata.update_no = "0";
-                    mdata.created_by = "0";
+                    mdata.created_by  =SharedPreferenceUtil.getUserID(CCUserActivity.this);;
                     mdata.created_at = currentDate;
                     mdata.household_uniqe_id = measurements.UniqueId;
                     mdata.khana_details = memberMyselvesdetails;
@@ -10283,7 +10283,7 @@ public class CCUserActivity extends AppCompatActivity {
                 }
                 data.data = medicalHistoryUploadList;
                 data.user_credential = auth.email;
-                //   medicalHistoryUploadList.clear();
+                //medicalHistoryUploadList.clear();
 
                 compositeDisposable.add(mService.postKhanaServeyUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<KhanaServeyResponseModel>() {
                     @Override
@@ -10299,25 +10299,37 @@ public class CCUserActivity extends AppCompatActivity {
                     }
                 }));
                 Log.e("sync2", "sync2" + new Gson().toJson(data));
-                Log.e("sync2", "sync2" + new Gson().toJson(data));
+                Log.e("KhanaServey", "sync2KhanaServey" + new Gson().toJson(data));
             }
         }));
 
     }
-    private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id,String Date) {
-        final ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselves = new ArrayList<>();
-        showLoadingProgress(CCUserActivity.this);
 
-        Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("survey",id);
+    private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id, String Date) {
+        final ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselves = new ArrayList<>();
+        showLoadingProgress(HouseHoldActivity.this);
+
+        Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("survey", id);
 
         for (Questions questions : questionsList.blockingFirst()) {
             KhanaServeyUploadModel.Data.KhanaDetails mdata = new KhanaServeyUploadModel.Data.KhanaDetails();
-            mdata.id= Integer.parseInt(questions.member_id);
-            mdata.question= questions.question;
-            mdata.answer= questions.answer;
-            mdata.created_at=Date;
-            mdata.question_type=questions.type;
-            mdata.update_no= "0";
+            mdata.id = Integer.parseInt(questions.member_id);
+            mdata.question = questions.question;
+            mdata.answer = questions.answer;
+            mdata.created_at = Date;
+            if(questions.question.equals("Q28a")){
+                mdata.parent_question = "Q28";
+            }
+            else if(questions.question.equals("Q31a")){
+                mdata.parent_question = "Q31";
+            }
+            else{
+                mdata.parent_question = "";
+            }
+
+            mdata.created_by =SharedPreferenceUtil.getUserID(CCUserActivity.this);
+            mdata.question_type = questions.type;
+            mdata.update_no = "0";
             memberMyselves.add(mdata);
             dismissLoadingProgress();
         }
@@ -11440,54 +11452,52 @@ public class CCUserActivity extends AppCompatActivity {
     }
 
     String val="";
-    private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas,String houseHoldId){
+    private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas, String houseHoldId) {
         Survey survey = new Survey();
-        survey.UniqueId=houseHoldId;
+        survey.UniqueId = houseHoldId;
         Date date11 = null;
 
 
-
-        for (HouseholdGetResponseModel.Details.Khana khan: khanas){
-            val=khan.master_id;
-            if (khan.question.equals("Q28")){
-                survey.SafeDrinkingYesNo= Integer.parseInt(khan.answer);
+        for (HouseholdGetResponseModel.Details.Khana khan : khanas)
+        {
+            survey.CreatedDate = date11;;
+            survey.Date=khan.created_at;
+            val = khan.master_id;
+            if (khan.question.equals("Q28")) {
+                survey.SafeDrinkingYesNo = Integer.parseInt(khan.answer);
                 try {
-                    date11 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                    date11 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-            }
-            else if (khan.question.equals("Q28a")){
-                survey.SafeDrinkingDetails= Integer.parseInt(khan.answer);
-            }
-            else if (khan.question.equals("Q29")){
-                survey.SanitaryYesNo= Integer.parseInt(khan.answer);
-            }
-            else if (khan.question.equals("Q30")){
-                survey.BondhoChulaYesNo= Integer.parseInt(khan.answer);
-            }
-            else if (khan.question.equals("Q31")){
-                survey.BiomasFuelYesNo= Integer.parseInt(khan.answer);
-            }
-            else if (khan.question.equals("Q31a")){
-                survey.BiomasFuelDetails= Integer.parseInt(khan.answer);
+            } else if (khan.question.equals("Q28a")) {
+                survey.SafeDrinkingDetails = Integer.parseInt(khan.answer);
+            } else if (khan.question.equals("Q29")) {
+                survey.SanitaryYesNo = Integer.parseInt(khan.answer);
+            } else if (khan.question.equals("Q30")) {
+                survey.BondhoChulaYesNo = Integer.parseInt(khan.answer);
+            } else if (khan.question.equals("Q34")) {
+                survey.BiomasFuelYesNo = Integer.parseInt(khan.answer);
+            } else if (khan.question.equals("Q31a")) {
+                survey.BiomasFuelDetails = Integer.parseInt(khan.answer);
             }
 
 
-            if (khan.question.equals("Q28")) {
+            if (khan.question.equals("Q28"))
+            {
 
                 Questions questions49 = Common.qustionsRepository.getQuestions("Q28", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11496,14 +11506,14 @@ public class CCUserActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11511,17 +11521,16 @@ public class CCUserActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            }
-            else if (khan.question.equals("Q28a")) {
+            } else if (khan.question.equals("Q28a")) {
                 Questions questions49 = Common.qustionsRepository.getQuestions("Q28a", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
                         date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
@@ -11533,14 +11542,14 @@ public class CCUserActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11548,20 +11557,19 @@ public class CCUserActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            }
-            else if (khan.question.equals("Q29")) {
+            } else if (khan.question.equals("Q29")) {
                 Questions questions49 = Common.qustionsRepository.getQuestions("Q29", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11570,14 +11578,14 @@ public class CCUserActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11585,20 +11593,19 @@ public class CCUserActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            }
-            else if (khan.question.equals("Q30")) {
+            } else if (khan.question.equals("Q30")) {
                 Questions questions49 = Common.qustionsRepository.getQuestions("Q30", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11607,14 +11614,14 @@ public class CCUserActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11622,17 +11629,16 @@ public class CCUserActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            }
-            else if (khan.question.equals("Q31")) {
+            } else if (khan.question.equals("Q31")) {
                 Questions questions49 = Common.qustionsRepository.getQuestions("Q31", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
                         date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
@@ -11644,14 +11650,14 @@ public class CCUserActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11659,20 +11665,19 @@ public class CCUserActivity extends AppCompatActivity {
                     questions.date = currentDate;
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
-            }
-            else if (khan.question.equals("Q31a")) {
+            } else if (khan.question.equals("Q31a")) {
                 Questions questions49 = Common.qustionsRepository.getQuestions("Q31a", khan.master_id);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11681,14 +11686,14 @@ public class CCUserActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type = khan.question_type;
+                    questions.type =  "survey";
                     questions.question = khan.question;
                     questions.member_id = khan.master_id;
                     questions.answer = khan.answer;
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
                     try {
-                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(khan.created_at);
+                        date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(khan.created_at);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -11700,13 +11705,12 @@ public class CCUserActivity extends AppCompatActivity {
 
 
         }
-        survey.CreatedDate=date11;
-        Survey surveys=Common.surveyRepository.getSurveyNo(val);
-        if (surveys!=null){
-            survey.id=surveys.id;
+
+        Survey surveys = Common.surveyRepository.getSurveyNo(val);
+        if (surveys != null) {
+            survey.id = surveys.id;
             Common.surveyRepository.updateSurvey(survey);
-        }
-        else{
+        } else {
             Common.surveyRepository.insertToSurvey(survey);
         }
 
