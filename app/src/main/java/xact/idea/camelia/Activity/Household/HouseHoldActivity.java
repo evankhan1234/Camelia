@@ -325,41 +325,41 @@ public class HouseHoldActivity extends AppCompatActivity {
                 model.user_credential = auth.email;
                 model.data = syncMember;
                 Log.e("sync", "sync" + new Gson().toJson(householdUpload));
-                Log.e("sync1", "sync1" + new Gson().toJson(model));
-                showLoadingProgress(HouseHoldActivity.this);
-                compositeDisposable.add(mService.postHouseholdUpload(householdUpload).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdResponseModel>() {
-                    @Override
-                    public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
-                        Log.e("Execute", "----1" + new Gson().toJson(memberResponseModel));
-                        dismissLoadingProgress();
-
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("Execute", "----12" + throwable.getMessage());
-                        dismissLoadingProgress();
-                    }
-                }));
-
-                showLoadingProgress(HouseHoldActivity.this);
-                compositeDisposable.add(mService.postMemberUpload(model).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberResponseModel>() {
-                    @Override
-                    public void accept(MemberResponseModel memberResponseModel) throws Exception {
-                        Log.e("Execute", "------2" + new Gson().toJson(memberResponseModel));
-                        Common.memberMyselfRepository.updateStatus("1","0");
-                        dismissLoadingProgress();
-
-
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Log.e("Execute", "------21" + throwable.getMessage());
-                        dismissLoadingProgress();
-                    }
-                }));
+                Log.e("MemberData", "MemberData" + new Gson().toJson(model));
+//                showLoadingProgress(HouseHoldActivity.this);
+//                compositeDisposable.add(mService.postHouseholdUpload(householdUpload).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdResponseModel>() {
+//                    @Override
+//                    public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
+//                        Log.e("Execute", "----1" + new Gson().toJson(memberResponseModel));
+//                        dismissLoadingProgress();
+//
+//
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        Log.e("Execute", "----12" + throwable.getMessage());
+//                        dismissLoadingProgress();
+//                    }
+//                }));
+//
+//                showLoadingProgress(HouseHoldActivity.this);
+//                compositeDisposable.add(mService.postMemberUpload(model).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberResponseModel>() {
+//                    @Override
+//                    public void accept(MemberResponseModel memberResponseModel) throws Exception {
+//                        Log.e("Execute", "------2" + new Gson().toJson(memberResponseModel));
+//                        Common.memberMyselfRepository.updateStatus("1","0");
+//                        dismissLoadingProgress();
+//
+//
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        Log.e("Execute", "------21" + throwable.getMessage());
+//                        dismissLoadingProgress();
+//                    }
+//                }));
 
 
             }
@@ -512,19 +512,19 @@ public class HouseHoldActivity extends AppCompatActivity {
             mData.name = memberMyself.FullName;
             mData.death_date = memberMyself.DateOfDeath;
             mData.member_id = memberMyself.MemberId;
-            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String currentDate = "";
 
             String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
             if (language.equals("en")) {
-                currentDate = formatter.format(memberMyself.CreatedDate);
+                currentDate = memberMyself.created_at;
                 if (currentDate.equals("--")) {
-                    currentDate = Utils.getValue(formatter.format(memberMyself.CreatedDate));
+                    currentDate = Utils.getValue(memberMyself.created_at);
                 }
             } else {
-                currentDate = Utils.getValue(formatter.format(memberMyself.CreatedDate));
+                currentDate = Utils.getValue(memberMyself.created_at);
                 if (currentDate.equals("--")) {
-                    currentDate = formatter.format(memberMyself.CreatedDate);
+                    currentDate = memberMyself.created_at;
                 }
             }
             mData.updated_no = "1";
@@ -1647,7 +1647,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Log.e("HouseholdSurvey", "Household" + new Gson().toJson(memberResponseModel));
 
                 for (HouseholdGetResponseModel.Details khanas : memberResponseModel.khanaSurveys) {
-                    DownSurveyList(khanas.details, houseHoldId);
+                    int value=Common.surveyRepository.size();
+                    value=value+1;
+                    DownSurveyList(khanas.details, houseHoldId,String.valueOf(value));
                 }
                 dismissLoadingProgress();
 
@@ -1664,7 +1666,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     String val = "";
 
-    private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas, String houseHoldId) {
+    private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas, String houseHoldId,String value) {
         Survey survey = new Survey();
         survey.UniqueId = houseHoldId;
         Date date11 = null;
@@ -1672,9 +1674,10 @@ public class HouseHoldActivity extends AppCompatActivity {
 
         for (HouseholdGetResponseModel.Details.Khana khan : khanas)
         {
+
             survey.CreatedDate = date11;;
             survey.Date=khan.created_at;
-            val = khan.master_id;
+            val = value;
             if (khan.question.equals("Q28")) {
                 survey.SafeDrinkingYesNo = Integer.parseInt(khan.answer);
                 try {
@@ -1688,7 +1691,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 survey.SanitaryYesNo = Integer.parseInt(khan.answer);
             } else if (khan.question.equals("Q30")) {
                 survey.BondhoChulaYesNo = Integer.parseInt(khan.answer);
-            } else if (khan.question.equals("Q34")) {
+            } else if (khan.question.equals("Q31")) {
                 survey.BiomasFuelYesNo = Integer.parseInt(khan.answer);
             } else if (khan.question.equals("Q31a")) {
                 survey.BiomasFuelDetails = Integer.parseInt(khan.answer);
@@ -1698,13 +1701,13 @@ public class HouseHoldActivity extends AppCompatActivity {
             if (khan.question.equals("Q28"))
             {
 
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q28", khan.master_id);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q28",value);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
                     questions.type = "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1720,7 +1723,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Questions questions = new Questions();
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = String.valueOf(value);
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1734,13 +1737,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
             } else if (khan.question.equals("Q28a")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q28a", khan.master_id);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q28a", value);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
                     questions.type = "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id =value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1756,7 +1759,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Questions questions = new Questions();
                     questions.type = "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1770,13 +1773,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
             } else if (khan.question.equals("Q29")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q29", khan.master_id);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q29", value);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1792,7 +1795,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Questions questions = new Questions();
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1806,13 +1809,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
             } else if (khan.question.equals("Q30")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q30", khan.master_id);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q30", value);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1828,7 +1831,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Questions questions = new Questions();
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1842,13 +1845,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
             } else if (khan.question.equals("Q31")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q31", khan.master_id);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q31", value);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1864,7 +1867,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Questions questions = new Questions();
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1878,13 +1881,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
             } else if (khan.question.equals("Q31a")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q31a", khan.master_id);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q31a",value);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1900,7 +1903,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Questions questions = new Questions();
                     questions.type =  "survey";
                     questions.question = khan.question;
-                    questions.member_id = khan.master_id;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -2001,7 +2004,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             public void accept(MemberGetResponseModel memberGetResponseModel) throws Exception {
 
                 for (MemberGetResponseModel.Data member : memberGetResponseModel.member) {
-                    Log.e("evan", "asd" + new Gson().toJson(memberGetResponseModel));
+                    Log.e("downloadMember", "downloadMember" + new Gson().toJson(memberGetResponseModel));
                     MemberMyself memberMyself1 = Common.memberMyselfRepository.getMemberId(member.unique_code);
                     if (memberMyself1 != null) {
                         MemberMyself memberMyself = new MemberMyself();
@@ -2009,7 +2012,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                         memberMyself.NationalId = member.national_id;
                         memberMyself.MobileNumber = member.mobile_number;
                         memberMyself.FullName = member.name;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                         Date date1 = null;
 
@@ -2037,8 +2041,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                             }
                         }
                         String birthDate = formatter.format(date1);
-
+                        String created_at = member.created_at;
                         memberMyself.DateOfBirth = birthDate;
+                        memberMyself.created_at = created_at;
                         memberMyself.From = member.referred_to;
                         memberMyself.To = member.refer_to_id;
                         memberMyself.CreatedDate = date2;
@@ -2064,8 +2069,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                         memberMyself.NationalId = member.national_id;
                         memberMyself.MobileNumber = member.mobile_number;
                         memberMyself.FullName = member.name;
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date1 = null;
 
 
@@ -2097,6 +2102,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         downBehaviorialHistory(member.behavioral_info_details, member.unique_code, member.household_uniqe_id, member.national_id);
                         String birthDate = formatter.format(date1);
                         memberMyself.DateOfBirth = birthDate;
+                        memberMyself.created_at = member.created_at;
                         memberMyself.CreatedDate = date2;
                         memberMyself.GenderId = Integer.parseInt(member.sex);
                         memberMyself.BloodGroupId = Integer.parseInt(member.blood_group);
@@ -2157,35 +2163,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q49a")) {
@@ -2193,35 +2183,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49a != null) {
                             Questions questions = new Questions();
                             questions.id = questions49a.id;
-                            questions.type = visit.question_type;
+                            questions.type ="medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q49b")) {
@@ -2229,35 +2203,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49b != null) {
                             Questions questions = new Questions();
                             questions.id = questions49b.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q49c")) {
@@ -2265,35 +2223,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type ="medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q50")) {
@@ -2302,35 +2244,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q50a")) {
@@ -2339,35 +2265,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q50b")) {
@@ -2376,35 +2286,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type ="medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q50c")) {
@@ -2412,35 +2306,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2449,35 +2327,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2486,35 +2348,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2524,35 +2370,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type ="medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type ="medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q51c")) {
@@ -2560,35 +2390,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2597,35 +2411,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2634,35 +2432,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2671,35 +2453,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2708,35 +2474,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2746,35 +2496,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q53a")) {
@@ -2783,35 +2517,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q53b")) {
@@ -2820,35 +2538,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q53c")) {
@@ -2856,7 +2558,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2872,19 +2574,11 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2894,35 +2588,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q54a")) {
@@ -2930,35 +2608,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -2968,35 +2630,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q54c")) {
@@ -3005,35 +2651,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q55")) {
@@ -3041,35 +2671,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3079,35 +2693,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q55b")) {
@@ -3116,35 +2714,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q55c")) {
@@ -3153,35 +2735,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type ="medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q56")) {
@@ -3190,35 +2756,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q56a")) {
@@ -3227,35 +2777,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q56b")) {
@@ -3264,35 +2798,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q56c")) {
@@ -3301,35 +2819,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q57")) {
@@ -3337,35 +2839,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type ="medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3374,35 +2860,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3412,35 +2882,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type ="medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q57c")) {
@@ -3448,35 +2902,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3517,35 +2955,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q32a")) {
@@ -3553,35 +2975,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3590,35 +2996,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3627,35 +3017,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3664,35 +3038,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3702,35 +3060,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q34a")) {
@@ -3739,35 +3081,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q35")) {
@@ -3775,35 +3101,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3812,35 +3122,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3850,35 +3144,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q37")) {
@@ -3886,35 +3164,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -3924,35 +3186,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q39")) {
@@ -3961,35 +3207,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q41")) {
@@ -3997,35 +3227,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -4035,35 +3249,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q42a")) {
@@ -4071,35 +3269,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -4109,35 +3291,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     }
@@ -4148,35 +3314,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a2")) {
@@ -4185,35 +3335,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a3")) {
@@ -4222,35 +3356,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a4")) {
@@ -4259,35 +3377,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a5")) {
@@ -4296,35 +3398,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a6")) {
@@ -4333,35 +3419,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a7")) {
@@ -4370,35 +3440,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a8")) {
@@ -4407,35 +3461,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a9")) {
@@ -4444,35 +3482,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a10")) {
@@ -4481,35 +3503,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a11")) {
@@ -4518,35 +3524,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a12")) {
@@ -4555,35 +3545,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a13")) {
@@ -4592,35 +3566,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a14")) {
@@ -4629,35 +3587,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a15")) {
@@ -4666,35 +3608,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43a16")) {
@@ -4703,35 +3629,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b1")) {
@@ -4740,35 +3650,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b2")) {
@@ -4777,35 +3671,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b3")) {
@@ -4814,35 +3692,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b4")) {
@@ -4851,35 +3713,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b5")) {
@@ -4888,35 +3734,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b6")) {
@@ -4925,35 +3755,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b7")) {
@@ -4962,35 +3776,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b8")) {
@@ -4999,35 +3797,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b9")) {
@@ -5036,35 +3818,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b10")) {
@@ -5073,35 +3839,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b11")) {
@@ -5110,35 +3860,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b12")) {
@@ -5147,35 +3881,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b13")) {
@@ -5184,35 +3902,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b14")) {
@@ -5221,35 +3923,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b15")) {
@@ -5258,35 +3944,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b16")) {
@@ -5295,35 +3965,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c1")) {
@@ -5332,35 +3986,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c2")) {
@@ -5369,35 +4007,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c3")) {
@@ -5406,35 +4028,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c4")) {
@@ -5443,35 +4049,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c5")) {
@@ -5480,35 +4070,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";;
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c6")) {
@@ -5517,35 +4091,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c7")) {
@@ -5554,35 +4112,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c8")) {
@@ -5591,35 +4133,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c9")) {
@@ -5628,35 +4154,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c10")) {
@@ -5665,35 +4175,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c11")) {
@@ -5702,35 +4196,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c12")) {
@@ -5739,35 +4217,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c13")) {
@@ -5776,35 +4238,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c14")) {
@@ -5813,35 +4259,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c15")) {
@@ -5850,35 +4280,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c16")) {
@@ -5887,35 +4301,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     }
@@ -5927,35 +4325,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a2")) {
@@ -5964,35 +4346,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a3")) {
@@ -6001,35 +4367,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a4")) {
@@ -6038,35 +4388,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a5")) {
@@ -6075,35 +4409,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a6")) {
@@ -6112,35 +4430,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a7")) {
@@ -6149,35 +4451,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a8")) {
@@ -6186,35 +4472,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a9")) {
@@ -6223,35 +4493,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a10")) {
@@ -6260,35 +4514,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a11")) {
@@ -6297,35 +4535,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a12")) {
@@ -6334,35 +4556,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a13")) {
@@ -6371,35 +4577,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a14")) {
@@ -6408,35 +4598,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a15")) {
@@ -6445,35 +4619,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a16")) {
@@ -6482,35 +4640,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a17")) {
@@ -6519,35 +4661,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a18")) {
@@ -6556,35 +4682,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a19")) {
@@ -6593,35 +4703,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a20")) {
@@ -6630,35 +4724,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a21")) {
@@ -6667,35 +4745,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b1")) {
@@ -6704,35 +4766,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b2")) {
@@ -6741,35 +4787,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b3")) {
@@ -6778,35 +4808,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b4")) {
@@ -6815,35 +4829,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b5")) {
@@ -6852,35 +4850,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b6")) {
@@ -6889,35 +4871,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b7")) {
@@ -6926,35 +4892,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b8")) {
@@ -6963,35 +4913,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b9")) {
@@ -7000,35 +4934,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b10")) {
@@ -7037,35 +4955,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b11")) {
@@ -7074,35 +4976,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b12")) {
@@ -7111,35 +4997,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b13")) {
@@ -7148,35 +5018,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b14")) {
@@ -7185,35 +5039,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";;
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b15")) {
@@ -7222,35 +5060,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b16")) {
@@ -7259,35 +5081,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b17")) {
@@ -7296,35 +5102,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";;
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b18")) {
@@ -7333,35 +5123,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b19")) {
@@ -7370,35 +5144,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b20")) {
@@ -7407,35 +5165,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b21")) {
@@ -7444,35 +5186,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c1")) {
@@ -7481,35 +5207,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c2")) {
@@ -7518,35 +5228,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c3")) {
@@ -7555,35 +5249,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c4")) {
@@ -7592,35 +5270,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c5")) {
@@ -7629,35 +5291,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c6")) {
@@ -7666,35 +5312,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c7")) {
@@ -7703,35 +5333,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c8")) {
@@ -7740,35 +5354,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c9")) {
@@ -7777,35 +5375,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c10")) {
@@ -7814,35 +5396,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c11")) {
@@ -7851,35 +5417,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c12")) {
@@ -7888,35 +5438,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c13")) {
@@ -7925,35 +5459,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c14")) {
@@ -7962,35 +5480,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c15")) {
@@ -7999,35 +5501,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c16")) {
@@ -8036,35 +5522,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c17")) {
@@ -8073,35 +5543,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c18")) {
@@ -8110,35 +5564,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c19")) {
@@ -8147,35 +5585,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c20")) {
@@ -8184,35 +5606,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c21")) {
@@ -8221,35 +5627,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     }
@@ -8261,35 +5651,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a2")) {
@@ -8298,35 +5672,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a3")) {
@@ -8335,35 +5693,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a4")) {
@@ -8372,35 +5714,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a5")) {
@@ -8409,35 +5735,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a6")) {
@@ -8446,35 +5756,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a7")) {
@@ -8483,35 +5777,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a8")) {
@@ -8520,35 +5798,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a9")) {
@@ -8557,35 +5819,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b1")) {
@@ -8594,35 +5840,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b2")) {
@@ -8631,35 +5861,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b3")) {
@@ -8668,35 +5882,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b4")) {
@@ -8705,35 +5903,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b5")) {
@@ -8742,35 +5924,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b6")) {
@@ -8779,35 +5945,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b7")) {
@@ -8816,35 +5966,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b8")) {
@@ -8853,35 +5987,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b9")) {
@@ -8890,35 +6008,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c1")) {
@@ -8927,7 +6029,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -8943,7 +6045,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -8964,7 +6066,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -8980,19 +6082,11 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c3")) {
@@ -9001,35 +6095,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c4")) {
@@ -9038,35 +6116,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c5")) {
@@ -9075,35 +6137,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c6")) {
@@ -9112,35 +6158,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c7")) {
@@ -9149,35 +6179,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c8")) {
@@ -9186,35 +6200,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c9")) {
@@ -9223,35 +6221,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a1")) {
@@ -9260,35 +6242,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a2")) {
@@ -9297,35 +6263,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a3")) {
@@ -9334,35 +6284,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a4")) {
@@ -9371,35 +6305,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a5")) {
@@ -9408,35 +6326,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a6")) {
@@ -9445,35 +6347,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a7")) {
@@ -9482,35 +6368,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a8")) {
@@ -9519,35 +6389,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a9")) {
@@ -9556,35 +6410,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b1")) {
@@ -9593,35 +6431,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b2")) {
@@ -9630,35 +6452,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b3")) {
@@ -9667,35 +6473,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b4")) {
@@ -9704,35 +6494,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b5")) {
@@ -9741,35 +6515,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b6")) {
@@ -9778,35 +6536,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b7")) {
@@ -9815,35 +6557,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b8")) {
@@ -9852,35 +6578,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b9")) {
@@ -9889,35 +6599,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c1")) {
@@ -9926,35 +6620,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";;
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c2")) {
@@ -9963,35 +6641,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c3")) {
@@ -10000,35 +6662,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c4")) {
@@ -10037,35 +6683,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c5")) {
@@ -10074,35 +6704,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c6")) {
@@ -10111,35 +6725,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c7")) {
@@ -10148,35 +6746,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c8")) {
@@ -10185,35 +6767,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c9")) {
@@ -10222,35 +6788,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     }
@@ -10260,35 +6810,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     }
@@ -10300,35 +6834,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43b")) {
@@ -10337,35 +6855,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q43c")) {
@@ -10373,35 +6875,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
 
@@ -10411,35 +6897,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44a")) {
@@ -10448,35 +6918,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44b")) {
@@ -10485,35 +6939,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q44c")) {
@@ -10522,35 +6960,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45")) {
@@ -10559,35 +6981,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45a")) {
@@ -10596,35 +7002,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45b")) {
@@ -10633,35 +7023,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q45c")) {
@@ -10670,35 +7044,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46")) {
@@ -10707,35 +7065,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46a")) {
@@ -10744,35 +7086,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46b")) {
@@ -10781,35 +7107,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q46c")) {
@@ -10818,35 +7128,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q48")) {
@@ -10855,35 +7149,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     } else if (visit.question.equals("Q48a")) {
@@ -10892,35 +7170,19 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = visit.question_type;
+                            questions.type = "behavioral";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-                            Date date1 = null;
-                            try {
-                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(visit.created_at);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            String currentDate = formatter.format(date1);
-                            questions.date = currentDate;
+                            questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
                     }

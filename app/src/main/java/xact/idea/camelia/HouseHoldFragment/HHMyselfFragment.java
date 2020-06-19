@@ -477,7 +477,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + livingGroupArrayList.get(position).getId());
                 livingId = livingGroupArrayList.get(position).getId();
-                if (livingGroupArrayList.get(position).getId() == 1) {
+                if (livingGroupArrayList.get(position).getId() == 2) {
                     linear_edit_death.setVisibility(View.VISIBLE);
                     String language = SharedPreferenceUtil.getLanguage(mActivity);
                     HHCreateMemberFragment.nextPagesAlive(language);
@@ -638,9 +638,10 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                     }
                 }
             }
-            if (memberId.LivingId == 1) {
+            if (memberId.LivingId == 2) {
                 linear_edit_death.setVisibility(View.VISIBLE);
                 edit_date_of_death.setText(memberId.DateOfDeath);
+                linear_edit_death.setVisibility(View.VISIBLE);
             } else {
                 linear_edit_death.setVisibility(View.GONE);
 
@@ -692,8 +693,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
         if (isChecked()) {
 
             try {
-
-                if (livingId==1)
+                SimpleDateFormat formatterfor = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                if (livingId==2)
                 {
                     MemberMyself memberIds = Common.memberMyselfRepository.getMemberId(update);
                     if (memberIds != null) {
@@ -706,18 +707,22 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                         } else {
                             memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                         }
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                         Date date = new Date(System.currentTimeMillis());
                         Date date1 = null;
                         String currentDate = formatter.format(date);
+
                         try {
-                            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
                             // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                         memberMyself.CreatedDate = date1;
+                        String created_at = formatterfor.format(date);
+                        memberMyself.created_at = created_at;
                         memberMyself.id = memberIds.id;
+                        memberMyself.VisitDate = memberIds.VisitDate;
                         memberMyself.GenderId = genderId;
                         memberMyself.BloodGroupId = bloodGroupId;
                         memberMyself.ReligionId = religionId;
@@ -755,18 +760,19 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 } else {
                                     memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                                 }
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                 Date date = new Date(System.currentTimeMillis());
                                 Date date1 = null;
                                 String currentDate = formatter.format(date);
                                 try {
-                                    date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                                    date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
                                     // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                                 memberMyself.CreatedDate = date1;
-
+                                String created_at = formatterfor.format(date);
+                                memberMyself.created_at = created_at;
                                 memberMyself.GenderId = genderId;
                                 memberMyself.BloodGroupId = bloodGroupId;
                                 memberMyself.ReligionId = religionId;
@@ -813,18 +819,21 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 } else {
                                     memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                                 }
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                 Date date = new Date(System.currentTimeMillis());
                                 Date date1 = null;
                                 String currentDate = formatter.format(date);
                                 try {
-                                    date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                                    date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
                                     // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
+                                String created_at = formatterfor.format(date);
+                                memberMyself.created_at = created_at;
                                 memberMyself.CreatedDate = date1;
                                 memberMyself.id = myself.id;
+                                memberMyself.VisitDate = myself.VisitDate;
                                 memberMyself.Status = myself.Status;
                                 memberMyself.GenderId = genderId;
                                 memberMyself.BloodGroupId = bloodGroupId;
@@ -863,18 +872,21 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                         } else {
                             memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                         }
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                         Date date = new Date(System.currentTimeMillis());
                         Date date1 = null;
                         String currentDate = formatter.format(date);
                         try {
-                            date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                            date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
                             // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
+                        String created_at = formatterfor.format(date);
+                        memberMyself.created_at = created_at;
                         memberMyself.CreatedDate = date1;
                         memberMyself.id = memberIds.id;
+                        memberMyself.VisitDate = memberIds.VisitDate;
                         memberMyself.GenderId = genderId;
                         memberMyself.BloodGroupId = bloodGroupId;
                         memberMyself.ReligionId = religionId;
@@ -909,18 +921,19 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 } else {
                                     memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                                 }
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                 Date date = new Date(System.currentTimeMillis());
                                 Date date1 = null;
                                 String currentDate = formatter.format(date);
                                 try {
-                                    date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                                    date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
                                     // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                                 memberMyself.CreatedDate = date1;
-
+                                String created_at = formatterfor.format(date);
+                                memberMyself.created_at = created_at;
                                 memberMyself.GenderId = genderId;
                                 memberMyself.BloodGroupId = bloodGroupId;
                                 memberMyself.ReligionId = religionId;
@@ -962,18 +975,21 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 } else {
                                     memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
                                 }
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                 Date date = new Date(System.currentTimeMillis());
                                 Date date1 = null;
                                 String currentDate = formatter.format(date);
                                 try {
-                                    date1 = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
+                                    date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
                                     // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
+                                String created_at = formatterfor.format(date);
+                                memberMyself.created_at = created_at;
                                 memberMyself.CreatedDate = date1;
                                 memberMyself.id = myself.id;
+                                memberMyself.VisitDate = myself.VisitDate;
                                 memberMyself.Status = myself.Status;
                                 memberMyself.GenderId = genderId;
                                 memberMyself.BloodGroupId = bloodGroupId;
@@ -1019,7 +1035,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
             final Calendar calendar = Calendar.getInstance();
 
             MemberMyself memberId = Common.memberMyselfRepository.getMemberId(update);
-            DateFormat df = new SimpleDateFormat("dd-MM-yyyy",Locale.US);
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd",Locale.US);
             SimpleDateFormat df1 = new SimpleDateFormat("yyyy",Locale.US);
             SimpleDateFormat df2 = new SimpleDateFormat("MM",Locale.US);
             SimpleDateFormat df3 = new SimpleDateFormat("dd",Locale.US);
@@ -1037,7 +1053,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                 }
             }
 
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             try {
                 calendar.setTime(sdf.parse(edit_birthday_date.getText().toString()));
             } catch (ParseException e) {
@@ -1057,7 +1073,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
             cal.setTimeInMillis(0);
             cal.set(year, month, day, 0, 0, 0);
             Date chosenDate = cal.getTime();
-            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = formatter.format(chosenDate);
             edit_birthday_date_again.setText(formattedDate);
         }
@@ -1068,7 +1084,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             try {
                 calendar.setTime(sdf.parse(edit_birthday_date.getText().toString()));
             } catch (ParseException e) {
@@ -1088,7 +1104,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
             cal.setTimeInMillis(0);
             cal.set(year, month, day, 0, 0, 0);
             Date chosenDate = cal.getTime();
-            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = formatter.format(chosenDate);
             edit_date_of_death.setText(formattedDate);
         }

@@ -2772,7 +2772,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q49";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -2785,7 +2785,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questions1.id;
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -2794,7 +2794,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
                 } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q49", update);
@@ -2907,7 +2907,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q50";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -2920,7 +2920,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.id = questionsFor1.id;
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -2930,7 +2930,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                 } else {
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q50", update);
@@ -3043,7 +3043,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q51";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3056,7 +3056,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q51";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3065,7 +3065,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
                 } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q51", update);
@@ -3171,7 +3171,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q52";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3184,7 +3184,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q52";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3193,7 +3193,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
                 } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q52", update);
@@ -3298,7 +3298,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q53";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3311,7 +3311,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q53";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3320,7 +3320,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
                 } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q53", update);
@@ -3425,7 +3425,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q54";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3438,7 +3438,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q54";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3447,7 +3447,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
                 } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q54", update);
@@ -3552,7 +3552,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q55";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3565,7 +3565,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q55";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3574,7 +3574,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
                 } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q55", update);
@@ -3681,7 +3681,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q56";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3694,7 +3694,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q56";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3704,7 +3704,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                 } else {
 
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q56", update);
@@ -3809,7 +3809,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q57";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3822,7 +3822,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q57";
                         questions.member_id = memberMed.member_unique_code;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3831,7 +3831,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     }
 
                 } else {
-                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date(System.currentTimeMillis());
                     String currentDate = formatter.format(date);
                     Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q57", update);
@@ -3984,7 +3984,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q49";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -3997,7 +3997,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q49";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4040,7 +4040,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q50";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4054,7 +4054,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q50";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4096,7 +4096,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q51";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4109,7 +4109,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q51";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4152,7 +4152,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q52";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4166,7 +4166,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q52";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4208,7 +4208,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q53";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4222,7 +4222,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q53";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4264,7 +4264,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q54";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4277,7 +4277,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q54";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4319,7 +4319,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q55";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4333,7 +4333,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q55";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4375,7 +4375,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q56";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4390,7 +4390,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.member_id = memberMyself.UniqueCode;
                         questions.master_id = memberMyself.id;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4432,7 +4432,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q57";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "2";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4445,7 +4445,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         questions.question = "Q57";
                         questions.member_id = memberMyself.UniqueCode;
                         questions.answer = "1";
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         questions.date = currentDate;
@@ -4517,7 +4517,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q49";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -4530,7 +4530,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questions1.id;
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -4539,7 +4539,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         }
 
                     } else {
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q49", update);
@@ -4652,7 +4652,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q50";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -4665,7 +4665,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.id = questionsFor1.id;
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -4675,7 +4675,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     } else {
 
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q50", update);
@@ -4787,7 +4787,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q51";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -4800,7 +4800,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q51";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -4809,7 +4809,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         }
 
                     } else {
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q51", update);
@@ -4915,7 +4915,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q52";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -4928,7 +4928,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q52";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -4937,7 +4937,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         }
 
                     } else {
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q52", update);
@@ -5042,7 +5042,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q53";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5055,7 +5055,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q53";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5064,7 +5064,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         }
 
                     } else {
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q53", update);
@@ -5169,7 +5169,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q54";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5182,7 +5182,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q54";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5191,7 +5191,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         }
 
                     } else {
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q54", update);
@@ -5296,7 +5296,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q55";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5309,7 +5309,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q55";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5318,7 +5318,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         }
 
                     } else {
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q55", update);
@@ -5425,7 +5425,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q56";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5438,7 +5438,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q56";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5448,7 +5448,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                     } else {
 
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q56", update);
@@ -5553,7 +5553,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q57";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5566,7 +5566,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                             questions.question = "Q57";
                             questions.member_id = memberMed.member_unique_code;
                             questions.answer = "2";
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             Date date = new Date(System.currentTimeMillis());
                             String currentDate = formatter.format(date);
                             questions.date = currentDate;
@@ -5575,7 +5575,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                         }
 
                     } else {
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         Questions questionsFor1 = Common.qustionsRepository.getQuestions("Q57", update);

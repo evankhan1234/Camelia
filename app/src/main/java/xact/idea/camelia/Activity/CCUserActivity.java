@@ -10307,7 +10307,7 @@ public class CCUserActivity extends AppCompatActivity {
 
     private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id, String Date) {
         final ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselves = new ArrayList<>();
-        showLoadingProgress(HouseHoldActivity.this);
+        showLoadingProgress(CCUserActivity.this);
 
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("survey", id);
 
