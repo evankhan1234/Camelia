@@ -49,11 +49,11 @@ public interface MemberMyselfDao {
     int count(String uniqueId);
     @Query("UPDATE  MemberMyself SET `From`=:from,`To`=:to,VisitDate=:date where UniqueCode=:memberId")
     void updateReciverAgain(String from,String to,String date,String memberId);
-    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='1' AND refer.Reason='1' group by member.UniqueCode")
+    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='1'  group by member.UniqueCode")
     Flowable<List<VisitMyself>> getMemberListForRefer();
-    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='0' AND refer.Reason='1'group by member.UniqueCode")
+    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='0' group by member.UniqueCode")
     Flowable<List<VisitMyself>> getMemberListForFollowUp();
-    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='2' AND refer.Reason='1'group by member.UniqueCode")
+    @Query("SELECT * FROM MemberMyself as member inner join ReferHistory as refer on member.UniqueCode=refer.MemberUniqueCode WHERE refer.Type='2' group by member.UniqueCode")
     Flowable<List<VisitMyself>> getReferMembersFor();
     @Query("Select Count(id)  FROM MemberMyself  where Status='0' and CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
     int notSync(Date from,Date to);

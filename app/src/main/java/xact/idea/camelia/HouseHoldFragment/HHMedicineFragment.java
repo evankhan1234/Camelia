@@ -3931,6 +3931,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
 
                 Log.e("fullstring", "data" + new Gson().toJson(memberMedicine));
                 memberMedicine.MemberId = memberMed.MemberId;
+                memberMedicine.CurrentDate = memberMed.CurrentDate;
                 memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
                 memberMedicine.member_unique_code = memberMed.member_unique_code;
                 memberMedicine.member_national_id = String.valueOf(memberMed.member_national_id);
@@ -3973,6 +3974,8 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                 Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
             } else {
                 if (memberMedicine1 == null) {
+
+                    memberMedicine.CurrentDate = memberMyself.created_at;
                     memberMedicine.MemberId = memberMyself.MemberId;
                     memberMedicine.household_uniqe_id = memberMyself.UniqueId;
                     memberMedicine.member_unique_code = memberMyself.UniqueCode;
@@ -4504,6 +4507,7 @@ public class HHMedicineFragment extends Fragment implements Handler.Callback {
                     ////Evan
                 } else {
                     memberMedicine.MemberId = memberMedicine1.MemberId;
+                    memberMedicine.CurrentDate = memberMedicine1.CurrentDate;
                     memberMedicine.household_uniqe_id = memberMedicine1.household_uniqe_id;
                     memberMedicine.member_unique_code = memberMedicine1.member_unique_code;
                     memberMedicine.member_national_id = String.valueOf(memberMedicine1.member_national_id);

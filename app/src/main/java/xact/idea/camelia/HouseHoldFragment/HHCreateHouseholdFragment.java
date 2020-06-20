@@ -228,8 +228,11 @@ public class HHCreateHouseholdFragment extends Fragment {
 
                 } else {
 
-                    if(BlockId==-1 || DistrictId==-1 ||DivisionId==-1 ||UpazilaId==-1 ||UnionId==-1 ||WardId==-1){
+                    if(BlockId==-1 || DistrictId==-1 ||DivisionId==-1 ||UpazilaId==-1 ||UnionId==-1 ||WardId==-1  ){
                         Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (edit_household.getText().toString().length()<4){
+                        Toast.makeText(mActivity, "Household Number Length must be 4 digit", Toast.LENGTH_SHORT).show();
                     }
                     else{
                         HouseHold houseHold = new HouseHold();
@@ -246,7 +249,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                         houseHold.VillageName = edit_village.getText().toString();
                         houseHold.FamilyIncome = Double.parseDouble(edit_household_income.getText().toString());
                         houseHold.FamilyMember = Integer.parseInt(edit_family_memeber.getText().toString());
-                        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         Date date = new Date(System.currentTimeMillis());
                         String currentDate = formatter.format(date);
                         String language=SharedPreferenceUtil.getLanguage(mActivity);
@@ -692,6 +695,28 @@ public class HHCreateHouseholdFragment extends Fragment {
         listener();
 
 
+        data();
+    }
+
+    private void data() {
+        if (auth.ward != null) {
+            int div = Integer.parseInt(auth.ward);
+
+            for (int i = 0; i < wardList.size(); i++) {
+                if (wardList.get(i).WardId == div) {
+                    spinner_ward.setSelection(i);
+                }
+            }
+        }
+        if (auth.block != null) {
+            int div = Integer.parseInt(auth.block);
+
+            for (int i = 0; i < blockList.size(); i++) {
+                if (blockList.get(i).BlockId == div) {
+                    spinner_block.setSelection(i);
+                }
+            }
+        }
     }
 
     private void load() {

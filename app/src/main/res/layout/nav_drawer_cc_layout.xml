@@ -146,6 +146,7 @@
                     android:src="@drawable/about_us" />
 
                 <TextView
+                    android:id="@+id/tv_language"
                     android:tag="40"
                     android:textSize="40px"
                     android:layout_marginTop="-5px"
@@ -188,6 +189,7 @@
                     android:src="@drawable/about_us" />
 
                 <TextView
+                    android:id="@+id/tv_log_out"
                     android:tag="40"
                     android:textSize="40px"
                     android:layout_marginTop="-5px"

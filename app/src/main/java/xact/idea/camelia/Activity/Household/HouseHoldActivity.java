@@ -294,7 +294,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     householdUploadModel.upazila_id = String.valueOf(houseHold.UpazilaId);
                     householdUploadModel.ward_id = String.valueOf(houseHold.WordId);
                     householdUploadModel.family_member = String.valueOf(houseHold.FamilyMember);
-                    householdUploadModel.income_per_month = String.valueOf(houseHold.FamilyIncome);
+                    householdUploadModel.income_per_month = String.format("%.2f", houseHold.FamilyIncome);
                     householdUploadModel.hh_number = String.valueOf(houseHold.HH);
                     householdUploadModel.village = houseHold.VillageName;
                     householdUploadModel.sub_hh_number = String.valueOf(houseHold.SHH);
@@ -317,7 +317,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     }
                     ///
                     householdUploadModel.created_at = value;
-                    householdUploadModel.created_at = houseHold.DateValue;
+                    householdUploadModel.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
+                    ;
                     householdUploadModel.status = "1";
                     sync.add(householdUploadModel);
                 }
@@ -326,40 +327,40 @@ public class HouseHoldActivity extends AppCompatActivity {
                 model.data = syncMember;
                 Log.e("sync", "sync" + new Gson().toJson(householdUpload));
                 Log.e("MemberData", "MemberData" + new Gson().toJson(model));
-//                showLoadingProgress(HouseHoldActivity.this);
-//                compositeDisposable.add(mService.postHouseholdUpload(householdUpload).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdResponseModel>() {
-//                    @Override
-//                    public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
-//                        Log.e("Execute", "----1" + new Gson().toJson(memberResponseModel));
-//                        dismissLoadingProgress();
-//
-//
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        Log.e("Execute", "----12" + throwable.getMessage());
-//                        dismissLoadingProgress();
-//                    }
-//                }));
-//
-//                showLoadingProgress(HouseHoldActivity.this);
-//                compositeDisposable.add(mService.postMemberUpload(model).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberResponseModel>() {
-//                    @Override
-//                    public void accept(MemberResponseModel memberResponseModel) throws Exception {
-//                        Log.e("Execute", "------2" + new Gson().toJson(memberResponseModel));
-//                        Common.memberMyselfRepository.updateStatus("1","0");
-//                        dismissLoadingProgress();
-//
-//
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        Log.e("Execute", "------21" + throwable.getMessage());
-//                        dismissLoadingProgress();
-//                    }
-//                }));
+                showLoadingProgress(HouseHoldActivity.this);
+                compositeDisposable.add(mService.postHouseholdUpload(householdUpload).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdResponseModel>() {
+                    @Override
+                    public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
+                        Log.e("Express", "e1" + new Gson().toJson(memberResponseModel));
+                        dismissLoadingProgress();
+
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("Express", "e11" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
+
+                showLoadingProgress(HouseHoldActivity.this);
+                compositeDisposable.add(mService.postMemberUpload(model).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberResponseModel>() {
+                    @Override
+                    public void accept(MemberResponseModel memberResponseModel) throws Exception {
+                        Log.e("Express", "e2" + new Gson().toJson(memberResponseModel));
+                        Common.memberMyselfRepository.updateStatus("1", "0");
+                        dismissLoadingProgress();
+
+
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.e("Express", "e12" + throwable.getMessage());
+                        dismissLoadingProgress();
+                    }
+                }));
 
 
             }
@@ -375,24 +376,25 @@ public class HouseHoldActivity extends AppCompatActivity {
             public void accept(List<MemberMedicine> memberMedicineList) throws Exception {
                 MedicalHistoryUpload data = new MedicalHistoryUpload();
                 ArrayList<MedicalHistoryUpload.Data> medicalHistoryUploadList = new ArrayList<>();
-                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date(System.currentTimeMillis());
                 Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
-                String currentDate = "";
-                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                if (language.equals("en")) {
-                    currentDate = formatter.format(date);
-                    if (currentDate.equals("--")) {
-                        currentDate = Utils.getValue(formatter.format(date));
-                    }
-                } else {
-                    currentDate = Utils.getValue(formatter.format(date));
-                    if (currentDate.equals("--")) {
-                        currentDate = formatter.format(date);
-                    }
-                }
+
                 ArrayList<MedicalHistoryUpload.Data.Details> memberMyselvesdetails = new ArrayList<>();
                 for (MemberMedicine memberMedicine : memberMedicineList) {
+                    String currentDate = "";
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    if (language.equals("en")) {
+                        currentDate = memberMedicine.CurrentDate;
+                        if (currentDate.equals("--")) {
+                            currentDate = Utils.getValue(memberMedicine.CurrentDate);
+                        }
+                    } else {
+                        currentDate = Utils.getValue(memberMedicine.CurrentDate);
+                        if (currentDate.equals("--")) {
+                            currentDate = memberMedicine.CurrentDate;
+                        }
+                    }
                     MedicalHistoryUpload.Data mdata = new MedicalHistoryUpload.Data();
                     mdata.household_uniqe_id = memberMedicine.household_uniqe_id;
                     mdata.member_id = memberMedicine.MemberId;
@@ -402,6 +404,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     mdata.status = "1";
                     mdata.update_no = "1";
                     mdata.created_at = currentDate;
+                    mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
                     mdata.details = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
                     dismissLoadingProgress();
@@ -411,13 +414,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                 compositeDisposable.add(mService.postMedicalHistoryUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MedicalHistoryResponseModel>() {
                     @Override
                     public void accept(MedicalHistoryResponseModel memberResponseModel) throws Exception {
-                        Log.e("Execute", "------3" + new Gson().toJson(memberResponseModel));
+                        Log.e("Express", "e3" + new Gson().toJson(memberResponseModel));
                         dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("Execute", "-------31" + throwable.getMessage());
+                        Log.e("Express", "e13" + throwable.getMessage());
                         dismissLoadingProgress();
 //                        if (medicine=false){
 //                            medicineList();
@@ -448,22 +451,22 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Date date = new Date(System.currentTimeMillis());
                 Date date1 = null;
                 Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
-                String currentDate = "";
-                String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
-                if (language.equals("en")) {
-                    currentDate = formatter.format(date);
-                    if (currentDate.equals("--")) {
-                        currentDate = Utils.getValue(formatter.format(date));
-                    }
 
-                } else {
-                    currentDate = Utils.getValue(formatter.format(date));
-                    if (currentDate.equals("--")) {
-                        currentDate = formatter.format(date);
-                    }
-                }
                 ArrayList<MemberBehaviorialUploadModel.Data.Details> memberMyselvesdetails = new ArrayList<>();
                 for (MemberHabit memberMedicine : memberMedicineList) {
+                    String currentDate = "";
+                    String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
+                    if (language.equals("en")) {
+                        currentDate = memberMedicine.CurrentDate;
+                        if (currentDate.equals("--")) {
+                            currentDate = Utils.getValue(memberMedicine.CurrentDate);
+                        }
+                    } else {
+                        currentDate = Utils.getValue(memberMedicine.CurrentDate);
+                        if (currentDate.equals("--")) {
+                            currentDate = memberMedicine.CurrentDate;
+                        }
+                    }
                     MemberBehaviorialUploadModel.Data mdata = new MemberBehaviorialUploadModel.Data();
                     mdata.household_uniqe_id = memberMedicine.household_uniqe_id;
                     mdata.member_id = memberMedicine.MemberId;
@@ -472,6 +475,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     mdata.member_unique_code = memberMedicine.member_unique_code;
                     mdata.status = "1";
                     mdata.update_no = "1";
+                    mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
                     mdata.created_at = currentDate;
                     mdata.details = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
@@ -483,13 +487,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                 compositeDisposable.add(mService.postMemberBehaviorialUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberBehaviorialResponseModel>() {
                     @Override
                     public void accept(MemberBehaviorialResponseModel memberResponseModel) throws Exception {
-                        Log.e("Execute", "e1" + new Gson().toJson(memberResponseModel));
+                        Log.e("Express", "e4" + new Gson().toJson(memberResponseModel));
                         dismissLoadingProgress();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.e("Execute", "e12" + throwable.getMessage());
+                        Log.e("Express", "e14" + throwable.getMessage());
 //                        if (beahve=false){
 //                            getBehaviorialList();
 //                            beahve=true;
@@ -529,7 +533,16 @@ public class HouseHoldActivity extends AppCompatActivity {
             }
             mData.updated_no = "1";
             mData.created_at = currentDate;
-            mData.visit_date = memberMyself.VisitDate;
+            try {
+                if (memberMyself.VisitDate.equals("1970-01-01")) {
+                    mData.visit_date = "";
+                } else {
+                    mData.visit_date = memberMyself.VisitDate;
+                }
+            } catch (Exception e) {
+                mData.visit_date = "";
+            }
+
             mData.living_status = String.valueOf(memberMyself.LivingId);
             mData.blood_group = String.valueOf(memberMyself.BloodGroupId);
             mData.date_of_data_collection = currentDate;
@@ -537,6 +550,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             mData.mobile_number = memberMyself.MobileNumber;
             mData.referred_to = memberMyself.From;
             mData.id = memberMyself.id;
+            mData.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
             mData.refer_to_id = memberMyself.To;
             mData.national_id = memberMyself.NationalId;
             mData.marital_status = String.valueOf(memberMyself.MaritialId);
@@ -580,15 +594,86 @@ public class HouseHoldActivity extends AppCompatActivity {
         for (Questions questions : questionsList.blockingFirst()) {
             MedicalHistoryUpload.Data.Details mdata = new MedicalHistoryUpload.Data.Details();
 
-            if (questions.question.equals("Q55a")) {
-                Log.e("answer__", "answer__" + questions.answer);
+            if (questions.question.contains("Q49")) {
+                if (questions.question.equals("Q49")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q49";
+                }
+            } else if (questions.question.contains("Q50")) {
+                if (questions.question.equals("Q50")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q50";
+                }
+            } else if (questions.question.contains("Q51")) {
+                if (questions.question.equals("Q51")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q51";
+                }
+            } else if (questions.question.contains("Q52")) {
+                if (questions.question.equals("Q52")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q52";
+                }
+            } else if (questions.question.contains("Q53")) {
+                if (questions.question.equals("Q53")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q53";
+                }
+            } else if (questions.question.contains("Q54")) {
+                if (questions.question.equals("Q54")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q54";
+                }
+            } else if (questions.question.contains("Q55")) {
+                if (questions.question.equals("Q55")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q55";
+                }
+            } else if (questions.question.contains("Q56")) {
+                if (questions.question.equals("Q56")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q56";
+                }
+            } else if (questions.question.contains("Q57")) {
+                if (questions.question.equals("Q57")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q57";
+                }
+            } else if (questions.question.contains("Q58")) {
+                if (questions.question.equals("Q58")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q58";
+                }
+            } else {
+                mdata.parent_question = "";
             }
-            mdata.parent_question = "";
+
             mdata.member_id = memberId;
-            mdata.answer = questions.answer;
+            try {
+                if (questions.answer.equals("")) {
+                    mdata.answer = "2";
+                } else {
+                    mdata.answer = questions.answer;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                mdata.answer = "2";
+            }
+            mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
+         //   mdata.answer = questions.answer;
             mdata.question = questions.question;
             mdata.question_type = questions.type;
-            mdata.created_at = date;
+            mdata.created_at = questions.date;
             mdata.id = questions.id;
             mdata.master_id = id;
             memberMyselves.add(mdata);
@@ -603,12 +688,127 @@ public class HouseHoldActivity extends AppCompatActivity {
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("behavioral", memberId);
         for (Questions questions : questionsList.blockingFirst()) {
             MemberBehaviorialUploadModel.Data.Details mdata = new MemberBehaviorialUploadModel.Data.Details();
-           // mdata.update_no = "2";
-            mdata.parent_question = "";
+            // mdata.update_no = "2";
+            if (questions.question.contains("Q32")) {
+                if (questions.question.equals("Q32")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q32";
+                }
+
+            } else if (questions.question.contains("Q33")) {
+                if (questions.question.equals("Q33")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q33";
+                }
+            } else if (questions.question.contains("Q34")) {
+                if (questions.question.equals("Q34")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q34";
+                }
+            } else if (questions.question.contains("Q35")) {
+                if (questions.question.equals("Q35")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q35";
+                }
+            } else if (questions.question.contains("Q36")) {
+                if (questions.question.equals("Q36")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q36";
+                }
+            } else if (questions.question.contains("Q37")) {
+                if (questions.question.equals("Q37")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q37";
+                }
+            } else if (questions.question.contains("Q38")) {
+                if (questions.question.equals("Q38")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q38";
+                }
+            } else if (questions.question.contains("Q39")) {
+                if (questions.question.equals("Q39")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q39";
+                }
+            } else if (questions.question.contains("Q40")) {
+                if (questions.question.equals("Q40")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q40";
+                }
+            } else if (questions.question.contains("Q41")) {
+                if (questions.question.equals("Q41")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q41";
+                }
+            } else if (questions.question.contains("Q42")) {
+                if (questions.question.equals("Q42")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q42";
+                }
+            } else if (questions.question.contains("Q43")) {
+                if (questions.question.equals("Q43")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q43";
+                }
+            } else if (questions.question.contains("Q44")) {
+                if (questions.question.equals("Q44")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q44";
+                }
+            } else if (questions.question.contains("Q45")) {
+                if (questions.question.equals("Q45")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q45";
+                }
+            } else if (questions.question.contains("Q46")) {
+                if (questions.question.equals("Q46")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q46";
+                }
+            } else if (questions.question.contains("Q47")) {
+                if (questions.question.equals("Q47")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q47";
+                }
+            } else if (questions.question.contains("Q48")) {
+                if (questions.question.equals("Q48")) {
+                    mdata.parent_question = "";
+                } else {
+                    mdata.parent_question = "Q48";
+                }
+            } else {
+                mdata.parent_question = "";
+            }
+
             mdata.member_id = memberId;
-            mdata.answer = questions.answer;
+            try {
+                if (questions.answer.equals("")) {
+                    mdata.answer = "2";
+                } else {
+                    mdata.answer = questions.answer;
+                }
+            } catch (Exception e) {
+                mdata.answer = "2";
+            }
+            mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
             mdata.question = questions.question;
-            mdata.created_at = date;
+            mdata.created_at = questions.date;
             mdata.id = questions.id;
             mdata.question_type = questions.type;
             mdata.master_id = id;
@@ -650,7 +850,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         } else {
                             currentDate = Utils.getValue(measurements.Date);
                             if (currentDate.equals("--")) {
-                                currentDate =measurements.Date;
+                                currentDate = measurements.Date;
                             }
                         }
                     } catch (Exception e) {
@@ -668,7 +868,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                     memberMyselvesdetails = getKhanaDetailsData(String.valueOf(measurements.id), currentDate);
                     mdata.status = "1";
                     mdata.update_no = "0";
-                    mdata.created_by  =SharedPreferenceUtil.getUserID(HouseHoldActivity.this);;
+                    mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
+                    ;
                     mdata.created_at = currentDate;
                     mdata.household_uniqe_id = measurements.UniqueId;
                     mdata.khana_details = memberMyselvesdetails;
@@ -711,17 +912,15 @@ public class HouseHoldActivity extends AppCompatActivity {
             mdata.question = questions.question;
             mdata.answer = questions.answer;
             mdata.created_at = Date;
-            if(questions.question.equals("Q28a")){
+            if (questions.question.equals("Q28a")) {
                 mdata.parent_question = "Q28";
-            }
-            else if(questions.question.equals("Q31a")){
+            } else if (questions.question.equals("Q31a")) {
                 mdata.parent_question = "Q31";
-            }
-            else{
+            } else {
                 mdata.parent_question = "";
             }
 
-            mdata.created_by =SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
+            mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
             mdata.question_type = questions.type;
             mdata.update_no = "0";
             memberMyselves.add(mdata);
@@ -736,11 +935,11 @@ public class HouseHoldActivity extends AppCompatActivity {
         initDB();
         if (Common.householdRepository.size() < 1) {
             if (Utils.broadcastIntent(HouseHoldActivity.this, relative)) {
-              downloadHousehold();
+                downloadHousehold();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                      downloadWorkingArea();
+                        downloadWorkingArea();
 
                     }
                 }, 500);
@@ -1583,7 +1782,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                             houseHold.VillageName = house.village;
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             downloadSurvey(house.household_uniqe_id);
                             Date date = null;
                             try {
@@ -1591,8 +1789,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            String currentDate = formatter.format(date);
-                            houseHold.DateValue = currentDate;
+                            houseHold.DateValue = house.created_at;
                             houseHold.Date = date;
                             Common.householdRepository.updateHouseHold(houseHold);
                         } else {
@@ -1611,15 +1808,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                             // downloadMember(house.household_uniqe_id);
                             houseHold.FamilyIncome = Double.parseDouble(house.income_per_month);
                             houseHold.FamilyMember = Integer.parseInt(house.family_member);
-                            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                             Date date = null;
                             try {
                                 date = new SimpleDateFormat("yyyy-MM-dd").parse(house.created_at);
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
-                            String currentDate = formatter.format(date);
-                            houseHold.DateValue = currentDate;
+                            houseHold.DateValue = house.created_at;
                             houseHold.Date = date;
                             Common.householdRepository.insertToHouseHold(houseHold);
                         }
@@ -1647,9 +1842,9 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Log.e("HouseholdSurvey", "Household" + new Gson().toJson(memberResponseModel));
 
                 for (HouseholdGetResponseModel.Details khanas : memberResponseModel.khanaSurveys) {
-                    int value=Common.surveyRepository.size();
-                    value=value+1;
-                    DownSurveyList(khanas.details, houseHoldId,String.valueOf(value));
+                    int value = Common.surveyRepository.size();
+                    value = value + 1;
+                    DownSurveyList(khanas.details, houseHoldId, String.valueOf(value));
                 }
                 dismissLoadingProgress();
 
@@ -1666,17 +1861,17 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     String val = "";
 
-    private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas, String houseHoldId,String value) {
+    private void DownSurveyList(ArrayList<HouseholdGetResponseModel.Details.Khana> khanas, String houseHoldId, String value) {
         Survey survey = new Survey();
         survey.UniqueId = houseHoldId;
         Date date11 = null;
 
 
-        for (HouseholdGetResponseModel.Details.Khana khan : khanas)
-        {
+        for (HouseholdGetResponseModel.Details.Khana khan : khanas) {
 
-            survey.CreatedDate = date11;;
-            survey.Date=khan.created_at;
+            survey.CreatedDate = date11;
+            ;
+            survey.Date = khan.created_at;
             val = value;
             if (khan.question.equals("Q28")) {
                 survey.SafeDrinkingYesNo = Integer.parseInt(khan.answer);
@@ -1698,10 +1893,9 @@ public class HouseHoldActivity extends AppCompatActivity {
             }
 
 
-            if (khan.question.equals("Q28"))
-            {
+            if (khan.question.equals("Q28")) {
 
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q28",value);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q28", value);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
@@ -1721,7 +1915,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = String.valueOf(value);
                     questions.answer = khan.answer;
@@ -1743,7 +1937,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     questions.id = questions49.id;
                     questions.type = "survey";
                     questions.question = khan.question;
-                    questions.member_id =value;
+                    questions.member_id = value;
                     questions.answer = khan.answer;
                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
@@ -1777,7 +1971,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = value;
                     questions.answer = khan.answer;
@@ -1793,7 +1987,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = value;
                     questions.answer = khan.answer;
@@ -1813,7 +2007,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = value;
                     questions.answer = khan.answer;
@@ -1829,7 +2023,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = value;
                     questions.answer = khan.answer;
@@ -1849,7 +2043,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = value;
                     questions.answer = khan.answer;
@@ -1865,7 +2059,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = value;
                     questions.answer = khan.answer;
@@ -1881,11 +2075,11 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.insertToQuestions(questions);
                 }
             } else if (khan.question.equals("Q31a")) {
-                Questions questions49 = Common.qustionsRepository.getQuestions("Q31a",value);
+                Questions questions49 = Common.qustionsRepository.getQuestions("Q31a", value);
                 if (questions49 != null) {
                     Questions questions = new Questions();
                     questions.id = questions49.id;
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = value;
                     questions.answer = khan.answer;
@@ -1901,7 +2095,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     Common.qustionsRepository.updateQuestions(questions);
                 } else {
                     Questions questions = new Questions();
-                    questions.type =  "survey";
+                    questions.type = "survey";
                     questions.question = khan.question;
                     questions.member_id = value;
                     questions.answer = khan.answer;
@@ -2047,8 +2241,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                         memberMyself.From = member.referred_to;
                         memberMyself.To = member.refer_to_id;
                         memberMyself.CreatedDate = date2;
-                        downMedicalHistory(member.medical_history_details, member.unique_code, member.household_uniqe_id, member.national_id);
-                        downBehaviorialHistory(member.behavioral_info_details, member.unique_code, member.household_uniqe_id, member.national_id);
+                        downMedicalHistory(member.medical_history_details, member.unique_code, member.household_uniqe_id, member.national_id, member.created_at);
+                        downBehaviorialHistory(member.behavioral_info_details, member.unique_code, member.household_uniqe_id, member.national_id, member.created_at);
                         memberMyself.GenderId = Integer.parseInt(member.sex);
                         memberMyself.BloodGroupId = Integer.parseInt(member.blood_group);
                         memberMyself.ReligionId = Integer.parseInt(member.religion);
@@ -2098,8 +2292,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                             }
                         }
 
-                        downMedicalHistory(member.medical_history_details, member.unique_code, member.household_uniqe_id, member.national_id);
-                        downBehaviorialHistory(member.behavioral_info_details, member.unique_code, member.household_uniqe_id, member.national_id);
+                        downMedicalHistory(member.medical_history_details, member.unique_code, member.household_uniqe_id, member.national_id, member.created_at);
+                        downBehaviorialHistory(member.behavioral_info_details, member.unique_code, member.household_uniqe_id, member.national_id, member.created_at);
                         String birthDate = formatter.format(date1);
                         memberMyself.DateOfBirth = birthDate;
                         memberMyself.created_at = member.created_at;
@@ -2134,7 +2328,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         }));
     }
 
-    private void downMedicalHistory(ArrayList<MemberGetResponseModel.Data.Visit> medical_history, String MemberId, String HouseholdId, String NationalId) {
+    private void downMedicalHistory(ArrayList<MemberGetResponseModel.Data.Visit> medical_history, String MemberId, String HouseholdId, String NationalId, String CreatedDate) {
 
 
         if (medical_history != null) {
@@ -2144,6 +2338,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     MemberMedicine memberMed = Common.memberMedicineRepository.getMemberMedicineNo(MemberId);
                     if (memberMed != null) {
                         memberMedicine.id = memberMed.id;
+                        memberMedicine.CurrentDate = memberMed.CurrentDate;
                         memberMedicine.MemberId = memberMed.MemberId;
                         memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
                         memberMedicine.member_unique_code = memberMed.member_unique_code;
@@ -2151,6 +2346,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         Common.memberMedicineRepository.updateMemberMedicine(memberMedicine);
                     } else {
                         memberMedicine.MemberId = MemberId;
+                        memberMedicine.CurrentDate = CreatedDate;
                         memberMedicine.household_uniqe_id = HouseholdId;
                         memberMedicine.member_unique_code = MemberId;
                         memberMedicine.member_national_id = NationalId;
@@ -2183,7 +2379,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49a != null) {
                             Questions questions = new Questions();
                             questions.id = questions49a.id;
-                            questions.type ="medicine";
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2223,7 +2419,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type ="medicine";
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2294,7 +2490,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type ="medicine";
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2370,7 +2566,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type ="medicine";
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2378,7 +2574,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type ="medicine";
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2735,7 +2931,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type ="medicine";
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2839,7 +3035,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type ="medicine";
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2882,7 +3078,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49c != null) {
                             Questions questions = new Questions();
                             questions.id = questions49c.id;
-                            questions.type ="medicine";
+                            questions.type = "medicine";
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -2928,7 +3124,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     }
 
-    private void downBehaviorialHistory(ArrayList<MemberGetResponseModel.Data.Behavior> behavioral_info, String MemberId, String HouseholdId, String NationalId) {
+    private void downBehaviorialHistory(ArrayList<MemberGetResponseModel.Data.Behavior> behavioral_info, String MemberId, String HouseholdId, String NationalId, String CreatedDate) {
 
         if (behavioral_info != null) {
 
@@ -2938,6 +3134,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     MemberHabit memberMed = Common.memberHabitRepository.getMemberHabitNo(MemberId);
                     if (memberMed != null) {
                         memberMedicine.id = memberMed.id;
+                        memberMedicine.CurrentDate = memberMed.CurrentDate;
                         memberMedicine.MemberId = memberMed.MemberId;
                         memberMedicine.household_uniqe_id = memberMed.household_uniqe_id;
                         memberMedicine.member_unique_code = memberMed.member_unique_code;
@@ -2945,6 +3142,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                         Common.memberHabitRepository.updateMemberHabit(memberMedicine);
                     } else {
                         memberMedicine.MemberId = MemberId;
+                        memberMedicine.CurrentDate = CreatedDate;
                         memberMedicine.household_uniqe_id = HouseholdId;
                         memberMedicine.member_unique_code = MemberId;
                         memberMedicine.member_national_id = NationalId;
@@ -4078,7 +4276,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = "behavioral";;
+                            questions.type = "behavioral";
+                            ;
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -5039,7 +5238,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = "behavioral";;
+                            questions.type = "behavioral";
+                            ;
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -5110,7 +5310,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                             Common.qustionsRepository.updateQuestions(questions);
                         } else {
                             Questions questions = new Questions();
-                            questions.type = "behavioral";;
+                            questions.type = "behavioral";
+                            ;
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -6620,7 +6821,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                         if (questions49 != null) {
                             Questions questions = new Questions();
                             questions.id = questions49.id;
-                            questions.type = "behavioral";;
+                            questions.type = "behavioral";
+                            ;
                             questions.question = visit.question;
                             questions.member_id = visit.member_id;
                             questions.answer = visit.answer;
@@ -6803,8 +7005,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             questions.date = visit.created_at;
                             Common.qustionsRepository.insertToQuestions(questions);
                         }
-                    }
-                    else if (visit.question.equals("Q47")) {
+                    } else if (visit.question.equals("Q47")) {
 
                         Questions questions49 = Common.qustionsRepository.getQuestions("Q47", visit.member_id);
                         if (questions49 != null) {
@@ -7317,7 +7518,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         btn_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               loadHousehold();
+                loadHousehold();
                 loadSurvey();
                 medicineList();
                 getBehaviorialList();

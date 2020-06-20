@@ -27,8 +27,8 @@ public class MemberBehaviorialUploadModel {
         public String status;
         @SerializedName("created_at")
         public String created_at;
-//        @SerializedName("created_by")
-//        public String created_by;
+        @SerializedName("created_by")
+        public String created_by;
 //        @SerializedName("updated_at")
 //        public String updated_at;
         @SerializedName("update_no")
@@ -53,8 +53,8 @@ public class MemberBehaviorialUploadModel {
             public String answer;
             @SerializedName("created_at")
             public String created_at;
-//            @SerializedName("created_by")
-//            public String created_by;
+            @SerializedName("created_by")
+            public String created_by;
 //            @SerializedName("updated_at")
 //            public String updated_at;
             @SerializedName("update_no")

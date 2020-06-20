@@ -12,6 +12,8 @@
     <string name="gobor">গোবড়</string>
     <string name="email">ইমেইল</string>
     <string name="password">পাসওয়ার্ড</string>
+    <string name="logout">লগ আউট</string>
+    <string name="language">ভাষা</string>
     <string name="forgot">পাসওয়ার্ড ভুলে গেসেন</string>
     <string name="kura">কুড়া ভুষি</string>
     <string name="sign">সাইন ইন করুন</string>
