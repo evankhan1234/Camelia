@@ -77,6 +77,7 @@ public class CCRandomGlucoseFragment extends Fragment {
     RadioButton radioRandom;
     String type;
     String message;
+    String result_status;
     String refer;
     String typeGlucose;
     double total;
@@ -225,21 +226,32 @@ public class CCRandomGlucoseFragment extends Fragment {
                     }
                     Measurements measurements = new Measurements();
                     measurements.DateTime=date1;
+                    SimpleDateFormat formatterq = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date12q = new Date(System.currentTimeMillis());
+                    String currentDateq = formatterq.format(date12q);
+                    measurements.created_at=currentDateq;
                     measurements.MemberIds=type;
                     measurements.Message=message;
+                    measurements.ResultStatus=result_status;
                     measurements.Result=total;
                     measurements.Refer=refer;
-                    measurements.Type="Diabetes";
+                    if (typeGlucose.equals("F")){
+                        measurements.Type="Fasting-Diabetes";
+                    }
+                    else if (typeGlucose.equals("R")){
+                        measurements.Type="Random-Diabetes";
+                    }
+
                     Common.measurementsRepository.insertToMeasurements(measurements);
                     int memberId= Common.measurementsRepository.maxValue();
                     MeasurementDetails measurementDetails= new MeasurementDetails();
                     measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;
                     if (typeGlucose.equals("F")){
-                        measurementDetails.Name="Fasting";
+                        measurementDetails.Name="bg_diabetes_fasting";
                     }
                     else if (typeGlucose.equals("R")){
-                        measurementDetails.Name="Random";
+                        measurementDetails.Name="bg_diabetes_random";
                     }
                     SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     measurementDetails.Result= Double.parseDouble(edit_sugar.getText().toString());
@@ -294,35 +306,40 @@ public class CCRandomGlucoseFragment extends Fragment {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Uncontrolled Diabetes = Refer to UHC!");
                             refer="UHC";
-                            message="Uncontrolled Diabetes = Refer to UHC!";
+                            message="HIGH blood sugar, immediately consult with doctor, your medicine may need to be adjusted or changed.";
+                            result_status="Uncontrolled Diabetes = Refer to UHC!";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_1));
 
                         } else if ( (DiabetisYesNo == 1) && ((bg_diabetes_fasting <= 8) || (bg_diabetes_random_1 <= 10)) ) {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Controlled Diabetes = Follow up 6 months.");
                             refer="Follow";
-                            message="Controlled Diabetes = Follow up 6 months.";
+                            message="NORMAL blood sugar level, to maintain this level - do regular physical activity and eat balanced diet — both of which help you look and feel good and keep diabetes in control.";
+                            result_status="Controlled Diabetes = Follow up 6 months.";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_2));
 
                         } else if ( (DiabetisYesNo == 2) && (((bg_diabetes_fasting >= 6.1) && (bg_diabetes_fasting <= 6.9)) || ((bg_diabetes_random_1 >= 8.1) && (bg_diabetes_random_1 <= 11))) ) {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Pre-diabetic = Next week follow-up");
                             refer="Follow";
-                            message="Pre-diabetic = Next week follow-up";
+                            message="You are in PRE-DIABETIC stage, you may develop diabetes at any time, consult with doctor, do regular physical activity and eat balanced diet which will help you to keep blood sugar in control.";
+                            result_status="Pre-diabetic = Next week follow-up";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_5));
 
                         } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting >= 7) || (bg_diabetes_random_1 >= 11.1)) ) {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Diabetes = Refer to UHC!");
                             refer="UHC";
-                            message="Diabetes = Refer to UHC!";
+                            message="You have HIGH blood sugar, you may have diabetes, immediately consult with doctor to confirm your diagnosis.";
+                            result_status="Diabetes = Refer to UHC!";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_3));
 
                         } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting < 6.1) || (bg_diabetes_random_1 < 8)) ) {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Normal");
                             refer="";
-                            message="Normal";
+                            message="You have NORMAL blood sugar level, to maintain this level - do regular physical activity and eat balanced diet which will help you to keep diabetes in control.";
+                            result_status="Normal";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_4));
 
                         } else {
@@ -338,35 +355,40 @@ public class CCRandomGlucoseFragment extends Fragment {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Uncontrolled Diabetes = Refer to UHC!");
                             refer="UHC";
-                            message="Uncontrolled Diabetes = Refer to UHC!";
+                            message="HIGH blood sugar, immediately consult with doctor, your medicine may need to be adjusted or changed.";
+                            result_status="Uncontrolled Diabetes = Refer to UHC!";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_1));
 
                         } else if ( (DiabetisYesNo == 1) && ((bg_diabetes_fasting <= 8) || (bg_diabetes_random_1 <= 10)) ) {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Controlled Diabetes = Follow up 6 months.");
                             refer="Follow";
-                            message="Controlled Diabetes = Follow up 6 months.";
+                            message="NORMAL blood sugar level, to maintain this level - do regular physical activity and eat balanced diet — both of which help you look and feel good and keep diabetes in control.";
+                            result_status="Controlled Diabetes = Follow up 6 months.";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_2));
 
                         } else if ( (DiabetisYesNo == 2) && (((bg_diabetes_fasting >= 6.1) && (bg_diabetes_fasting <= 6.9)) || ((bg_diabetes_random_1 >= 8.1) && (bg_diabetes_random_1 <= 11))) ) {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Pre-diabetic = Next week follow-up");
                             refer="Follow";
-                            message="Pre-diabetic = Next week follow-up";
+                            message="You are in PRE-DIABETIC stage, you may develop diabetes at any time, consult with doctor, do regular physical activity and eat balanced diet which will help you to keep blood sugar in control.";
+                            result_status="Pre-diabetic = Next week follow-up";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_5));
 
                         } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting >= 7) || (bg_diabetes_random_1 >= 11.1)) ) {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_red));
                             text_text.setText("Diabetes = Refer to UHC!");
                             refer="UHC";
-                            message="Diabetes = Refer to UHC!";
+                            message="You have HIGH blood sugar, you may have diabetes, immediately consult with doctor to confirm your diagnosis.";
+                            result_status="Diabetes = Refer to UHC!";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_3));
 
                         } else if ( (DiabetisYesNo == 2) && ((bg_diabetes_fasting < 6.1) || (bg_diabetes_random_1 < 8)) ) {
                             linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
                             text_text.setText("Normal");
                             refer="";
-                            message="Normal";
+                            message="You have NORMAL blood sugar level, to maintain this level - do regular physical activity and eat balanced diet which will help you to keep diabetes in control.";
+                            result_status="Normal";
                             text_message.setText(getActivity().getResources().getString(R.string.diabetis_2));
 
                         } else {

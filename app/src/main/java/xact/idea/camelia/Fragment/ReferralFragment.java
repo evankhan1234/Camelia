@@ -65,7 +65,7 @@ public class ReferralFragment extends Fragment {
         @Override
         public void postion(int position,String Type) {
 
-            ((CCUserHomeActivity) mActivity).openStatusDetails(position,Type,"5");
+            ((CCUserHomeActivity) mActivity).openStatusDetails(position,Type,"3");
         }
     };
     private void updateView(String language) {

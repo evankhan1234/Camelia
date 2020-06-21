@@ -35,6 +35,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Database.DataSource.AuthDataSources;
 import xact.idea.camelia.Database.DataSource.BlockDataSources;
 import xact.idea.camelia.Database.DataSource.BloodGroupDataSources;
@@ -299,7 +300,7 @@ public class CCUserActivity extends AppCompatActivity {
             public void accept(List<Measurements> memberMedicineList) throws Exception {
                 MesaurementUploadModel data = new MesaurementUploadModel();
                 ArrayList<MesaurementUploadModel.Data> medicalHistoryUploadList = new ArrayList<>();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date(System.currentTimeMillis());
                 Date date1 = null;
                 Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
@@ -322,13 +323,16 @@ public class CCUserActivity extends AppCompatActivity {
                     mdata.id = measurements.id;
                     mdata.member_id = measurements.MemberIds;
                     mdata.message = measurements.Message;
-                    memberMyselvesdetails = getAttrDetailsData(measurements.id,currentDate);
+                    memberMyselvesdetails = getAttrDetailsData(measurements.id, measurements.created_at,measurements.Type);
                     mdata.referral_status = measurements.Refer;
+                    mdata.result_status = measurements.ResultStatus;
+                    mdata.measurement_from = "cc";
                     mdata.type = measurements.Type;
-                    mdata.result = String.valueOf(measurements.Result);
+                    mdata.result = String.format("%.2f", measurements.Result);
                     mdata.status = "1";
-                    mdata.update_no = "1";
-                    mdata.created_at = currentDate;
+                    mdata.update_no = "0";
+                    mdata.created_by=  SharedPreferenceUtil.getUserID(CCUserActivity.this);
+                    mdata.created_at = measurements.created_at;
                     mdata.datetime = currentDate;
                     mdata.attr_values = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
@@ -360,7 +364,7 @@ public class CCUserActivity extends AppCompatActivity {
 
     }
 
-    private ArrayList<MesaurementUploadModel.Data.AttrValues> getAttrDetailsData(int id,String Date) {
+    private ArrayList<MesaurementUploadModel.Data.AttrValues> getAttrDetailsData(int id,String Date,String type) {
         final ArrayList<MesaurementUploadModel.Data.AttrValues> memberMyselves = new ArrayList<>();
         showLoadingProgress(CCUserActivity.this);
 
@@ -373,9 +377,11 @@ public class CCUserActivity extends AppCompatActivity {
             mdata.id = questions.id;
             mdata.measurement_id= String.valueOf(questions.id);
             mdata.name= String.valueOf(questions.Name);
-            mdata.value= String.valueOf(questions.Result);
+            mdata.value= String.format("%.2f", questions.Result);;
             mdata.status= "1";
-            mdata.update_no= "1";
+            mdata.update_no= "0";
+            mdata.type= type;
+            mdata.created_by=  SharedPreferenceUtil.getUserID(CCUserActivity.this);
 
             memberMyselves.add(mdata);
             dismissLoadingProgress();
@@ -496,6 +502,7 @@ public class CCUserActivity extends AppCompatActivity {
                         measurements.Message = mdata.message;
                         measurements.Refer = mdata.referral_status;
                         measurements.Type = mdata.type;
+                        measurements.created_at = mdata.created_at;
                         measurements.Result = Double.parseDouble(mdata.result);
                         Date date1 = null;
                         try {
@@ -652,7 +659,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.UpazilaId = Integer.parseInt(house.upazila_id);
                             houseHold.UnionId = Integer.parseInt(house.union_id);
                             houseHold.WordId = Integer.parseInt(house.ward_id);
-                            houseHold.HH = Integer.parseInt(house.hh_number);
+                            houseHold.HH = house.hh_number;
                             //  houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             // downloadMember(house.household_uniqe_id);
@@ -682,7 +689,7 @@ public class CCUserActivity extends AppCompatActivity {
                             houseHold.UpazilaId = Integer.parseInt(house.upazila_id);
                             houseHold.UnionId = Integer.parseInt(house.union_id);
                             houseHold.WordId = Integer.parseInt(house.ward_id);
-                            houseHold.HH = Integer.parseInt(house.hh_number);
+                            houseHold.HH = house.hh_number;
 //                            houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             houseHold.VillageName = house.village;
@@ -6229,24 +6236,22 @@ public class CCUserActivity extends AppCompatActivity {
             }
 
             mdata.member_id = memberId;
-            try {
-                if (questions.answer.equals("")) {
-                    mdata.answer = "2";
-                } else {
-                    mdata.answer = questions.answer;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (questions.answer == null) {
                 mdata.answer = "2";
+            } else if (questions.answer.equals("")) {
+                mdata.answer = "2";
+            } else {
+                mdata.answer = questions.answer;
+                mdata.created_by = SharedPreferenceUtil.getUserID(CCUserActivity.this);
+                //   mdata.answer = questions.answer;
+                mdata.question = questions.question;
+                mdata.question_type = questions.type;
+                mdata.created_at = questions.date;
+                mdata.id = questions.id;
+                mdata.master_id = id;
+                memberMyselves.add(mdata);
+
             }
-            mdata.created_by = SharedPreferenceUtil.getUserID(CCUserActivity.this);
-            mdata.answer = questions.answer;
-            mdata.question = questions.question;
-            mdata.question_type = questions.type;
-            mdata.created_at = questions.date;
-            mdata.id = questions.id;
-            mdata.master_id = id;
-            memberMyselves.add(mdata);
             dismissLoadingProgress();
         }
         return memberMyselves;
@@ -6402,23 +6407,21 @@ public class CCUserActivity extends AppCompatActivity {
             }
 
             mdata.member_id = memberId;
-            try {
-                if (questions.answer.equals("")) {
-                    mdata.answer = "2";
-                } else {
-                    mdata.answer = questions.answer;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (questions.answer == null) {
+                mdata.answer = "2";
+            } else if (questions.answer.equals("")) {
                 mdata.answer = "2";
             }
-            mdata.created_by = SharedPreferenceUtil.getUserID(CCUserActivity.this);
-            mdata.question = questions.question;
-            mdata.created_at = questions.date;
-            mdata.id = questions.id;
-            mdata.question_type = questions.type;
-            mdata.master_id = id;
-            memberMyselves.add(mdata);
+            else{
+                mdata.created_by = SharedPreferenceUtil.getUserID(CCUserActivity.this);
+                mdata.question = questions.question;
+                mdata.created_at = questions.date;
+                mdata.id = questions.id;
+                mdata.question_type = questions.type;
+                mdata.master_id = id;
+                memberMyselves.add(mdata);
+
+            }
             dismissLoadingProgress();
         }
         return memberMyselves;
@@ -7343,6 +7346,7 @@ public class CCUserActivity extends AppCompatActivity {
                 for (UHCModel.Data uhc : uhcModel.data) {
                     UHC uhc1 = new UHC();
                     uhc1.name=uhc.name;
+                    uhc1.UHCId=uhc.id;
                     uhc1.code=uhc.code;
                     uhc1.information=uhc.information;
                     uhc1.district_code=uhc.district_code;
@@ -7384,7 +7388,8 @@ public class CCUserActivity extends AppCompatActivity {
                 Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(CCUserActivity.this));
                 memberPrescriptionResponseModel.user_credential = auth.email;
                 ArrayList<MemberPrescriptionResponseModel.Data> sync = new ArrayList<>();
-                for (ReferHistory referHistory:referHistoryList){
+                for (ReferHistory referHistory:referHistoryList)
+                {
 
                     MemberPrescriptionResponseModel.Data data = new  MemberPrescriptionResponseModel.Data();
                     data.id=referHistory.ids;
@@ -7393,7 +7398,7 @@ public class CCUserActivity extends AppCompatActivity {
                     data.to=referHistory.To;
                     data.to_id=referHistory.ToId;
                     data.household_uniqe_id=referHistory.UniqueId;
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date1 = null;
 
 
@@ -7432,14 +7437,9 @@ public class CCUserActivity extends AppCompatActivity {
                         }
                     }
 
-                    data.created_at = currentDat1;
-                    if (referHistory.UpdateNo!=null){
-                        int value=Integer.parseInt(referHistory.UpdateNo);
-                        data.update_no= String.valueOf(value+1);
-                    }
-                    else{
-                        data.update_no="1";
-                    }
+                    data.created_at = referHistory.created_at;
+                    data.created_by = SharedPreferenceUtil.getUserID(CCUserActivity.this);
+                    data.update_no="0";
 
 
                     data.visits=getVisit(referHistory.ids);
@@ -7519,11 +7519,11 @@ public class CCUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loadMeasurements();
-                loadSurvey();
-                loadHousehold();
-                medicineList();
-                loadReferHistory();
-                getBehaviorialList();
+               // loadSurvey();
+               // loadHousehold();
+               // medicineList();
+                //loadReferHistory();
+               // getBehaviorialList();
                 SharedPreferenceUtil.saveShared(CCUserActivity.this, SharedPreferenceUtil.SYNC, "off");
                 linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
                 infoDialog.dismiss();
@@ -7577,6 +7577,7 @@ public class CCUserActivity extends AppCompatActivity {
                         referHistory.ToId=khanas.to_id;
                         referHistory.Reason=khanas.reason;
                         referHistory.Type=khanas.ref_type;
+                        referHistory.created_at=khanas.created_at;
                         visitDownload(khanas.visits);
                         String s=khanas.created_at.substring(0,10);
                         Date date1 = null;
@@ -7601,6 +7602,8 @@ public class CCUserActivity extends AppCompatActivity {
                         referHistory.ToId=khanas.to_id;
                         referHistory.Reason=khanas.reason;
                         referHistory.Type=khanas.ref_type;
+                        referHistory.created_at=khanas.created_at;
+
                         String s=khanas.created_at.substring(0,10);
                         Date date1 = null;
                         try {

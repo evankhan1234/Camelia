@@ -243,7 +243,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                         houseHold.UpazilaId = UpazilaId;
                         houseHold.UnionId = UnionId;
                         houseHold.WordId = WardId;
-                        houseHold.HH = Integer.parseInt(edit_household.getText().toString());
+                        houseHold.HH = edit_household.getText().toString();
                        // houseHold.SHH = Integer.parseInt(edit_sub_household.getText().toString());
                         houseHold.UniqueId = edit_unique_id.getText().toString();
                         houseHold.VillageName = edit_village.getText().toString();
