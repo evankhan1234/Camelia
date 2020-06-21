@@ -25,5 +25,6 @@ public class MemberMedicine {
     public String note;
     @SerializedName("status")
     public String status;
-
+    @ColumnInfo(name = "CurrentDate")
+    public String CurrentDate;
 }

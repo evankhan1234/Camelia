@@ -12639,6 +12639,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                 memberHabit.household_uniqe_id = memberHabitsFor.household_uniqe_id;
                 memberHabit.MemberId = memberHabitsFor.MemberId;
+                memberHabit.CurrentDate = memberHabitsFor.CurrentDate;
                 memberHabit.member_unique_code = memberHabitsFor.member_unique_code;
                 memberHabit.member_national_id = String.valueOf(memberHabitsFor.member_national_id);
                 Common.memberHabitRepository.updateMemberHabit(memberHabit);
@@ -12654,6 +12655,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                 MemberMyself memberMyself = Common.memberMyselfRepository.getMemberMyselfNo(id);
                 memberHabit.MemberId = memberMyself.MemberId;
                 memberHabit.household_uniqe_id = memberMyself.UniqueId;
+                memberHabit.CurrentDate = memberMyself.created_at;
                 memberHabit.member_unique_code = memberMyself.UniqueCode;
                 memberHabit.member_national_id = String.valueOf(memberMyself.NationalId);
                 MemberHabit memberHabits = Common.memberHabitRepository.getMemberHabitNo(memberMyself.UniqueCode);
@@ -15830,6 +15832,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
                             }
 
                         }
+                        memberHabit.CurrentDate = memberHabits.CurrentDate;
                         memberHabit.household_uniqe_id = memberHabits.household_uniqe_id;
                         memberHabit.member_unique_code = memberHabits.member_unique_code;
                         memberHabit.member_national_id = String.valueOf(memberHabits.member_national_id);

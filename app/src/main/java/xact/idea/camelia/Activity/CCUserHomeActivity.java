@@ -73,6 +73,8 @@ public class CCUserHomeActivity extends AppCompatActivity {
     private RelativeLayout rlt_header;
     private RelativeLayout rlt_header_details;
     private RelativeLayout rlt_header_status_details;
+    private TextView tv_language;
+    private TextView tv_log_out;
     private TextView details_title;
     private TextView details_status_title;
     private View view_header_details;
@@ -118,6 +120,8 @@ public class CCUserHomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        tv_language = findViewById(R.id.tv_language);
+        tv_log_out = findViewById(R.id.tv_log_out);
         relativelayoutLanguage = findViewById(R.id.relativelayoutLanguage);
         relativelayoutLogout = findViewById(R.id.relativelayoutLogout);
         btn_footer_household = findViewById(R.id.btn_footer_household);
@@ -288,6 +292,8 @@ public class CCUserHomeActivity extends AppCompatActivity {
         tv_member_status_menu.setText(resources.getString(R.string.status));
         tv_summary_menu.setText(resources.getString(R.string.summary));
         tv_household_menu.setText(resources.getString(R.string.members));
+        tv_log_out.setText(resources.getString(R.string.logout));
+        tv_language.setText(resources.getString(R.string.language));
     }
     private void back() {
        // Toast.makeText(mContext, "dsfdsf", Toast.LENGTH_SHORT).show();

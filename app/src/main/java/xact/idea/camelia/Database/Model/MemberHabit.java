@@ -21,6 +21,8 @@ public class MemberHabit {
     public String member_unique_code;
     @ColumnInfo(name = "MemberId")
     public String MemberId;
+    @ColumnInfo(name = "CurrentDate")
+    public String CurrentDate;
     @ColumnInfo(name = "SmokeYesNo")
     public int SmokeYesNo;
     @ColumnInfo(name = "SmokeYesYears")

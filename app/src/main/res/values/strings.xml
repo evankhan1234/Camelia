@@ -82,6 +82,8 @@
     <string name="khana">Khana Head</string>
     <string name="number">Phone Number</string>
     <string name="cc_sending">CC Sending</string>
+    <string name="logout">Logout</string>
+    <string name="language">Language</string>
     <string name="household_member">Household Members</string>
     <string name="total_member">Total Members</string>
     <string name="sync_not_sync">SENT BUT NOT SYNCED</string>

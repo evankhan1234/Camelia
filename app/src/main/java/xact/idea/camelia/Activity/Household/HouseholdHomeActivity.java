@@ -107,6 +107,8 @@ public class HouseholdHomeActivity extends AppCompatActivity {
     private FragmentManager mFragManager;
     private FragmentTransaction fragTransaction = null;
     String language="";
+    private TextView tv_language;
+    private TextView tv_log_out;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +122,8 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         setFooter(sessionId);
     }
     private void initView() {
+        tv_language = findViewById(R.id.tv_language);
+        tv_log_out = findViewById(R.id.tv_log_out);
         text_phone_number = findViewById(R.id.text_phone_number);
         rlt_root = findViewById(R.id.rlt_root);
         relativelayoutLanguage = findViewById(R.id.relativelayoutLanguage);
@@ -287,6 +291,8 @@ public class HouseholdHomeActivity extends AppCompatActivity {
         tv_home_menu.setText(resources1.getString(R.string.home));
         tv_member_status_menu.setText(resources1.getString(R.string.members));
         tv_summary_menu.setText(resources1.getString(R.string.cc_sending));
+        tv_log_out.setText(resources1.getString(R.string.logout));
+        tv_language.setText(resources1.getString(R.string.language));
     }
 
     @Override

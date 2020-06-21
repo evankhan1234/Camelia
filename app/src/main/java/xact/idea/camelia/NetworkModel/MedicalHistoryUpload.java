@@ -27,8 +27,8 @@ public class MedicalHistoryUpload {
         public String status;
         @SerializedName("created_at")
         public String created_at;
-//        @SerializedName("created_by")
-//        public String created_by;
+        @SerializedName("created_by")
+        public String created_by;
 //        @SerializedName("updated_at")
 //        public String updated_at;
         @SerializedName("update_no")
@@ -53,8 +53,8 @@ public class MedicalHistoryUpload {
             public String created_at;
             @SerializedName("question_type")
             public String question_type;
-//            @SerializedName("created_by")
-//            public String created_by;
+            @SerializedName("created_by")
+            public String created_by;
 //            @SerializedName("updated_at")
 //            public String updated_at;
 //            @SerializedName("update_no")
