@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,6 +32,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.objectweb.asm.Handle;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -71,6 +74,7 @@ public class CCBMIFragment extends Fragment {
     private Calendar calendar;
     String type;
     String message;
+    String result_status;
     double bmi;
     TextView tv_time;
     TextView tv_date;
@@ -205,28 +209,43 @@ private void updateView(String language) {
                         e.printStackTrace();
                     }
                     Measurements measurements = new Measurements();
+                    SimpleDateFormat formatterq = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date12q = new Date(System.currentTimeMillis());
+                    String currentDateq = formatterq.format(date12q);
+                    measurements.created_at=currentDateq;
                     measurements.DateTime=date1;
+
                     measurements.MemberIds=type;
                     measurements.Type="BMI";
                     measurements.Message=message;
+                    measurements.ResultStatus=result_status;
                     measurements.Result=bmi;
                     measurements.Refer="";
                     Common.measurementsRepository.insertToMeasurements(measurements);
-                    int memberId= Common.measurementsRepository.maxValue();
-                    MeasurementDetails measurementDetails= new MeasurementDetails();
+                    final int memberId= Common.measurementsRepository.maxValue();
+                    final MeasurementDetails measurementDetails= new MeasurementDetails();
                     measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;
-                    measurementDetails.Name="Weight";
+                    measurementDetails.Name="weight";
                     measurementDetails.Result= Double.parseDouble(edit_weight.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
+
+                    final Date finalDate = date1;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            MeasurementDetails measurementDetails1= new MeasurementDetails();
+                            measurementDetails1.DateTime= finalDate;
+                            measurementDetails1.MeasurementId=memberId;
+                            measurementDetails1.Name="height";
+                            measurementDetails1.Result= Double.parseDouble(edit_height.getText().toString());
+                            Common.measurementDetailsRepository.insertToMeasurements(measurementDetails1);
+                            ((CCUserHomeActivity) getActivity()).backForDetails();
+
+                        }
+                    }, 100);
                     SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
-                    MeasurementDetails measurementDetails1= new MeasurementDetails();
-                    measurementDetails.DateTime=date1;
-                    measurementDetails.MeasurementId=memberId;
-                    measurementDetails.Name="Height";
-                    measurementDetails.Result= Double.parseDouble(edit_height.getText().toString());
-                    Common.measurementDetailsRepository.insertToMeasurements(measurementDetails1);
-                    ((CCUserHomeActivity) getActivity()).backForDetails();
+
 
                 }
 
@@ -264,8 +283,10 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("UnderWeight");
-                        message="UnderWeight";
+                        result_status="UnderWeight";
+                        message="You are UNDERWEIGHT, this may cause several health related problems, please consult with physician or nutritionist.";
                         text_message.setText(getActivity().getResources().getString(R.string.underweight_message));
+
                     }
                     else if(bmi>=18.5 && bmi<=24.99){
                         linear.setBackground(mActivity.getResources().getDrawable(R.drawable.background_green));
@@ -274,7 +295,8 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Normal");
-                        message="Normal";
+                        result_status="Normal";
+                        message="Your BMI is in NORMAL, to maintain this level - do regular physical activity and eat balanced diet — both of which help you look and feel good and keep weight off.";
                         text_message.setText(getActivity().getResources().getString(R.string.normal_message));
                     }
                     else if(bmi>=25 && bmi<=29.99){
@@ -284,7 +306,8 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("OverWeight");
-                        message="OverWeight";
+                        message="You are OVERWEIGHT, please consult with nutritionist or physician for weight reduction. Avoid taking oily and fatty food and do regular physical activity.";
+                        result_status="OverWeight";
                         text_message.setText(getActivity().getResources().getString(R.string.overweight_message));
                     }
                     else if(bmi>=30){
@@ -294,7 +317,8 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Obese");
-                        message="Obese";
+                        message="You are OBESE. Being OBESE you are in high risk to develop hypertension, cardiovascular disease, diabetes, please consult with nutritionist or physician for weight reduction.";
+                        result_status="Obese";
                         text_message.setText(getActivity().getResources().getString(R.string.obese_message));
                     }
 
@@ -337,7 +361,8 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("UnderWeight");
-                        message="UnderWeight";
+                        result_status="UnderWeight";
+                        message="You are UNDERWEIGHT, this may cause several health related problems, please consult with physician or nutritionist.";
                         text_message.setText(getActivity().getResources().getString(R.string.underweight_message));
                     }
                     else if(bmi>18.5 && bmi<=24.99){
@@ -347,7 +372,8 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Normal");
-                        message="Normal";
+                        result_status="Normal";
+                        message="Your BMI is in NORMAL, to maintain this level - do regular physical activity and eat balanced diet — both of which help you look and feel good and keep weight off.";
                         text_message.setText(getActivity().getResources().getString(R.string.normal_message));
                     }
                     else if(bmi>25 && bmi<=29.99){
@@ -357,7 +383,8 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("OverWeight");
-                        message="OverWeight";
+                        message="You are OVERWEIGHT, please consult with nutritionist or physician for weight reduction. Avoid taking oily and fatty food and do regular physical activity.";
+                        result_status="OverWeight";
                         text_message.setText(getActivity().getResources().getString(R.string.overweight_message));
                     }
                     else if(bmi>24.99){
@@ -367,7 +394,8 @@ private void updateView(String language) {
                                 R.anim.blink);
                         text_bmi_text.startAnimation(animBlink);
                         text_bmi_text.setText("Obese");
-                        message="Obese";
+                        message="You are OBESE. Being OBESE you are in high risk to develop hypertension, cardiovascular disease, diabetes, please consult with nutritionist or physician for weight reduction.";
+                        result_status="Obese";
                         text_message.setText(getActivity().getResources().getString(R.string.obese_message));
                     }
 

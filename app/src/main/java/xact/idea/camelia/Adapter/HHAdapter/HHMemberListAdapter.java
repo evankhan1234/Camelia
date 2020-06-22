@@ -146,7 +146,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
             holder.text_cc.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showInfoDialog(mActivity, memberMyselfes.get(position).UniqueCode);
+                    showInfoDialog(mActivity, memberMyselfes.get(position).UniqueId, memberMyselfes.get(position).UniqueCode);
                 }
             });
             MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).UniqueCode);
@@ -213,7 +213,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
         }
     }
 
-    public void showInfoDialog(final Context mContext, final String uniqueId) {
+    public void showInfoDialog(final Context mContext, final String uniqueId, final String uniqueCode) {
 
         final CustomDialog infoDialog = new CustomDialog(mContext, R.style.CustomDialogTheme);
         LayoutInflater inflator = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -438,11 +438,11 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 if(history!=null){
                     Common.referRepository.updateReferHistoryFrom(uniqueId);
                 }
-                Common.memberMyselfRepository.updateReciverAgain("CC", String.valueOf(refer[0]), edit_date.getText().toString(), uniqueId);
+                Common.memberMyselfRepository.updateReciverAgain("cc", String.valueOf(refer[0]), edit_date.getText().toString(), uniqueId);
                 ReferHistory referHistory = new ReferHistory();
-                referHistory.From = "HH";
-                referHistory.To ="CC";
-                referHistory.UpdateNo ="1";
+                referHistory.From = "hh";
+                referHistory.To ="cc";
+                referHistory.UpdateNo ="0";
                 referHistory.ToId = String.valueOf(refer[0]);
                 Date date11 = null;
                 try {
@@ -467,7 +467,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 }
                 referHistory.Date = date1;
                 referHistory.Type = "1";
-                referHistory.MemberUniqueCode = uniqueId;
+                referHistory.MemberUniqueCode = uniqueCode;
                 referHistory.UniqueId = uniqueId;
                 Common.referRepository.insertToReferHistory(referHistory);
                 infoDialog.dismiss();

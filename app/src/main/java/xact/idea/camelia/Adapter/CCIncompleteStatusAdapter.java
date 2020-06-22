@@ -202,13 +202,13 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             holder.text_follow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogFollow(mActivity, memberMyself.get(position).UniqueCode);
+                    showInfoDialogFollow(mActivity, memberMyself.get(position).UniqueId, memberMyself.get(position).UniqueCode);
                 }
             });
             holder.text_referral.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogRefer(mActivity, memberMyself.get(position).UniqueCode);
+                    showInfoDialogRefer(mActivity, memberMyself.get(position).UniqueId, memberMyself.get(position).UniqueCode);
                 }
             });
             holder.text_visits.setOnClickListener(new View.OnClickListener() {
@@ -288,13 +288,13 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             holder.text_follow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogFollow(mActivity, memberMyself.get(position).UniqueCode);
+                    showInfoDialogFollow(mActivity, memberMyself.get(position).UniqueId, memberMyself.get(position).UniqueCode);
                 }
             });
             holder.text_referral.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogRefer(mActivity, memberMyself.get(position).UniqueCode);
+                    showInfoDialogRefer(mActivity, memberMyself.get(position).UniqueId, memberMyself.get(position).UniqueCode);
                 }
             });
             holder.text_visits.setOnClickListener(new View.OnClickListener() {
@@ -428,7 +428,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
         infoDialog.show();
     }
 
-    public void showInfoDialogFollow(final Activity mContext,final String uniqueId) {
+    public void showInfoDialogFollow(final Activity mContext,final String uniqueId,  final String uniqueCode) {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         ArrayAdapter<ClinicModel> divisionArrayAdapter;
 //        List<CCModel> clinicModelArrayList = new ArrayList<>();
@@ -522,16 +522,16 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 if (history != null) {
                     Common.referRepository.updateReferHistoryFrom(uniqueId );
                 }
-                Common.memberMyselfRepository.updateReciverAgain("CC", refer[0], edit_date.getText().toString(), uniqueId);
+                Common.memberMyselfRepository.updateReciverAgain("cc", refer[0], edit_date.getText().toString(), uniqueId);
                 ReferHistory referHistory = new ReferHistory();
-                referHistory.From = "CC";
-                referHistory.To = "CC";
+                referHistory.From = "cc";
+                referHistory.To = "cc";
                 //referHistory.UpdateNo ="1";
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = visitDate;
-                referHistory.MemberUniqueCode = uniqueId ;
+                referHistory.MemberUniqueCode = uniqueCode ;
                 referHistory.UniqueId = uniqueId;
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
                 referHistory.FromId = "";
@@ -544,6 +544,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                     e.printStackTrace();
                 }
                 referHistory.Date = date1;
+                referHistory.created_at = currentDate;
                 referHistory.Type = "0";
                 Common.referRepository.insertToReferHistory(referHistory);
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
@@ -575,7 +576,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     static EditText edit_dateq;
     static EditText edit_dates;
 
-    public void showInfoDialogRefer(final Context mContext,  final String uniqueId) {
+    public void showInfoDialogRefer(final Context mContext,  final String uniqueId,  final String uniqueCode) {
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(mActivity));
         showLoadingProgress(mActivity);
 
@@ -637,7 +638,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.e("sp_water", "" + finalCenterModelArrayList.get(position).name);
+                        Log.e("sp_water", "" + finalCenterModelArrayList.get(position).UHCId);
 
                         refer[0] = String.valueOf(finalCenterModelArrayList.get(position).UHCId);
 
@@ -737,16 +738,16 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 if (history != null) {
                     Common.referRepository.updateReferHistoryFrom(uniqueId );
                 }
-                Common.memberMyselfRepository.updateReciverAgain("UHC", refer[0], edit_dates.getText().toString(), uniqueId);
+                Common.memberMyselfRepository.updateReciverAgain("uhc", refer[0], edit_dates.getText().toString(), uniqueId);
                 ReferHistory referHistory = new ReferHistory();
-                referHistory.From = "CC";
-                referHistory.To = "UHC";
+                referHistory.From = "cc";
+                referHistory.To = "uhc";
 //                referHistory.UpdateNo ="1";
                 referHistory.ToId = refer[0];
                 referHistory.VisitDate = visitDate;
-                referHistory.MemberUniqueCode = uniqueId ;
+                referHistory.MemberUniqueCode = uniqueCode ;
                 referHistory.UniqueId = uniqueId;
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
                 referHistory.FromId = "";
@@ -759,6 +760,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                     e.printStackTrace();
                 }
                 referHistory.Date = date1;
+                referHistory.created_at = currentDate;
                 referHistory.Type = "2";
                 Common.referRepository.insertToReferHistory(referHistory);
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");

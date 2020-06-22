@@ -68,6 +68,7 @@ public class CCWHRFragment extends Fragment {
     private Calendar calendar;
     String type;
     String message;
+    String result_status;
     double total;
     TextView tv_time;
     TextView tv_date;
@@ -201,7 +202,12 @@ public class CCWHRFragment extends Fragment {
                     Measurements measurements = new Measurements();
                     measurements.DateTime=date1;
                     measurements.MemberIds=type;
+                    SimpleDateFormat formatterq = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date12q = new Date(System.currentTimeMillis());
+                    String currentDateq = formatterq.format(date12q);
+                    measurements.created_at=currentDateq;
                     measurements.Message=message;
+                    measurements.ResultStatus=result_status;
                     measurements.Type="WHR";
                     measurements.Result=total;
                     measurements.Refer="";
@@ -210,15 +216,15 @@ public class CCWHRFragment extends Fragment {
                     MeasurementDetails measurementDetails= new MeasurementDetails();
                     measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;
-                    measurementDetails.Name="Waist";
+                    measurementDetails.Name="wc";
                     measurementDetails.Result= Double.parseDouble(edit_waist.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
                     SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     MeasurementDetails measurementDetails1= new MeasurementDetails();
-                    measurementDetails.DateTime=date1;
-                    measurementDetails.MeasurementId=memberId;
-                    measurementDetails.Name="Hp";
-                    measurementDetails.Result= Double.parseDouble(edit_hp.getText().toString());
+                    measurementDetails1.DateTime=date1;
+                    measurementDetails1.MeasurementId=memberId;
+                    measurementDetails1.Name="hc";
+                    measurementDetails1.Result= Double.parseDouble(edit_hp.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails1);
                     ((CCUserHomeActivity) getActivity()).backForDetails();
 
@@ -254,7 +260,8 @@ public class CCWHRFragment extends Fragment {
                             R.anim.blink);
                     text_text.startAnimation(animBlink);
                     text_text.setText("Normal");
-                    message="Normal";
+                    message="Your WHR is NORMAL, to maintain this level - do regular physical activity and eat balanced diet.";
+                    result_status="Normal";
                     text_message.setText(getActivity().getResources().getString(R.string.whr_1));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -293,7 +300,8 @@ public class CCWHRFragment extends Fragment {
                             R.anim.blink);
                     text_text.startAnimation(animBlink);
                     text_text.setText("Normal");
-                    message="Normal";
+                    message="Your WHR is NORMAL, to maintain this level - do regular physical activity and eat balanced diet.";
+                    result_status="Normal";
                     text_message.setText(getActivity().getResources().getString(R.string.whr_1));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();

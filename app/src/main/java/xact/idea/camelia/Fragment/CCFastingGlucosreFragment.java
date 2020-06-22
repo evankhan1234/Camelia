@@ -67,6 +67,7 @@ public class CCFastingGlucosreFragment extends Fragment {
     private Calendar calendar;
     String type;
     String message;
+    String result_status;
     double total;
     TextView tv_time;
     TextView tv_date;
@@ -192,8 +193,13 @@ public class CCFastingGlucosreFragment extends Fragment {
                     }
                     Measurements measurements = new Measurements();
                     measurements.DateTime=date1;
+                    SimpleDateFormat formatterq = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date12q = new Date(System.currentTimeMillis());
+                    String currentDateq = formatterq.format(date12q);
+                    measurements.created_at=currentDateq;
                     measurements.MemberIds=type;
                     measurements.Message=message;
+                    measurements.ResultStatus=result_status;
                     measurements.Result=total;
                     measurements.Refer="";
                     measurements.Type="Pulse";
@@ -238,7 +244,8 @@ public class CCFastingGlucosreFragment extends Fragment {
                             R.anim.blink);
                     text_text.startAnimation(animBlink);
                     text_text.setText("Normal");
-                    message="Normal";
+                    message="Your Waist circumference is in NORMAL, to maintain this level - do regular physical activity and eat balanced diet";
+                    result_status="Normal";
                     text_message.setText(getActivity().getResources().getString(R.string.pulse_1));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();

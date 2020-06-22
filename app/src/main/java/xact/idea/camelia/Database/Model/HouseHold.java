@@ -31,7 +31,7 @@ public class HouseHold {
     @ColumnInfo(name = "WordId")
     public int WordId;
     @ColumnInfo(name = "HH")
-    public int HH;
+    public String HH;
     @ColumnInfo(name = "SHH")
     public int SHH;
     @ColumnInfo(name = "UniqueId")

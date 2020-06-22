@@ -31,6 +31,8 @@ public class ReferHistory {
     public String Type;
     @ColumnInfo(name = "Date")
     public Date Date;
+    @ColumnInfo(name = "created_at")
+    public String created_at;
     @ColumnInfo(name = "Reason")
     public String Reason;
     @ColumnInfo(name = "UpdateNo")

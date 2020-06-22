@@ -17,12 +17,16 @@ public class Measurements {
     public String MemberIds;
     @ColumnInfo(name = "DateTime")
     public Date DateTime;
+    @ColumnInfo(name = "created_at")
+    public String created_at;
     @ColumnInfo(name = "Type")
     public String Type;
     @ColumnInfo(name = "Result")
     public double Result;
     @ColumnInfo(name = "Message")
     public String Message;
+    @ColumnInfo(name = "ResultStatus")
+    public String ResultStatus;
     @ColumnInfo(name = "Refer")
     public String Refer;
 

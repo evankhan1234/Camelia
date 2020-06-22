@@ -381,7 +381,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
 
                 ArrayList<MedicalHistoryUpload.Data.Details> memberMyselvesdetails = new ArrayList<>();
-                for (MemberMedicine memberMedicine : memberMedicineList) {
+                for (MemberMedicine memberMedicine : memberMedicineList)
+                {
                     String currentDate = "";
                     String language = SharedPreferenceUtil.getLanguage(HouseHoldActivity.this);
                     if (language.equals("en")) {
@@ -593,7 +594,7 @@ public class HouseHoldActivity extends AppCompatActivity {
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("medicine", memberId);
         for (Questions questions : questionsList.blockingFirst()) {
             MedicalHistoryUpload.Data.Details mdata = new MedicalHistoryUpload.Data.Details();
-
+            String s = questions.question;
             if (questions.question.contains("Q49")) {
                 if (questions.question.equals("Q49")) {
                     mdata.parent_question = "";
@@ -659,25 +660,26 @@ public class HouseHoldActivity extends AppCompatActivity {
             }
 
             mdata.member_id = memberId;
-            try {
-                if (questions.answer.equals("")) {
-                    mdata.answer = "2";
-                } else {
-                    mdata.answer = questions.answer;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+
+
+            if (questions.answer == null) {
                 mdata.answer = "2";
+            } else if (questions.answer.equals("")) {
+                mdata.answer = "2";
+            } else {
+                mdata.answer = questions.answer;
+                mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
+                //   mdata.answer = questions.answer;
+                mdata.question = questions.question;
+                mdata.question_type = questions.type;
+                mdata.created_at = questions.date;
+                mdata.id = questions.id;
+                mdata.master_id = id;
+                memberMyselves.add(mdata);
+
             }
-            mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
-         //   mdata.answer = questions.answer;
-            mdata.question = questions.question;
-            mdata.question_type = questions.type;
-            mdata.created_at = questions.date;
-            mdata.id = questions.id;
-            mdata.master_id = id;
-            memberMyselves.add(mdata);
             dismissLoadingProgress();
+
         }
         return memberMyselves;
     }
@@ -797,22 +799,21 @@ public class HouseHoldActivity extends AppCompatActivity {
             }
 
             mdata.member_id = memberId;
-            try {
-                if (questions.answer.equals("")) {
-                    mdata.answer = "2";
-                } else {
-                    mdata.answer = questions.answer;
-                }
-            } catch (Exception e) {
+            if (questions.answer == null) {
+                mdata.answer = "2";
+            } else if (questions.answer.equals("")) {
                 mdata.answer = "2";
             }
-            mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
-            mdata.question = questions.question;
-            mdata.created_at = questions.date;
-            mdata.id = questions.id;
-            mdata.question_type = questions.type;
-            mdata.master_id = id;
-            memberMyselves.add(mdata);
+            else{
+                mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
+                mdata.question = questions.question;
+                mdata.created_at = questions.date;
+                mdata.id = questions.id;
+                mdata.question_type = questions.type;
+                mdata.master_id = id;
+                memberMyselves.add(mdata);
+
+            }
             dismissLoadingProgress();
         }
         return memberMyselves;
@@ -1775,7 +1776,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             houseHold.UpazilaId = Integer.parseInt(house.upazila_id);
                             houseHold.UnionId = Integer.parseInt(house.union_id);
                             houseHold.WordId = Integer.parseInt(house.ward_id);
-                            houseHold.HH = Integer.parseInt(house.hh_number);
+                            houseHold.HH = house.hh_number;
                             //  houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             // downloadMember(house.household_uniqe_id);
@@ -1801,7 +1802,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                             houseHold.UpazilaId = Integer.parseInt(house.upazila_id);
                             houseHold.UnionId = Integer.parseInt(house.union_id);
                             houseHold.WordId = Integer.parseInt(house.ward_id);
-                            houseHold.HH = Integer.parseInt(house.hh_number);
+                            houseHold.HH = house.hh_number;
 //                            houseHold.SHH = Integer.parseInt(house.sub_hh_number);
                             houseHold.UniqueId = house.household_uniqe_id;
                             houseHold.VillageName = house.village;
@@ -7423,7 +7424,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     data.to = referHistory.To;
                     data.to_id = referHistory.ToId;
                     data.household_uniqe_id = referHistory.UniqueId;
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                     String visitDate = "";
 

@@ -32,6 +32,8 @@ public class MemberPrescriptionResponseModel  {
         public String ref_type;
         @SerializedName("created_at")
         public String created_at;
+        @SerializedName("created_by")
+        public String created_by;
         @SerializedName("update_no")
         public String update_no;
         @SerializedName("member_id")

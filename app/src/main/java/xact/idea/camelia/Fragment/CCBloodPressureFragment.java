@@ -74,6 +74,7 @@ public class CCBloodPressureFragment extends Fragment {
     double total;
     String type;
     String message;
+    String result_status;
     String refer;
 
     TextView tv_time;
@@ -203,8 +204,13 @@ public class CCBloodPressureFragment extends Fragment {
                     }
                     Measurements measurements = new Measurements();
                     measurements.DateTime=date1;
+                    SimpleDateFormat formatterq = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date12q = new Date(System.currentTimeMillis());
+                    String currentDateq = formatterq.format(date12q);
+                    measurements.created_at=currentDateq;
                     measurements.MemberIds=type;
                     measurements.Message=message;
+                    measurements.ResultStatus=result_status;
                     measurements.Type="Systolic";
                     measurements.Result=total;
                     measurements.Refer=refer;
@@ -213,15 +219,15 @@ public class CCBloodPressureFragment extends Fragment {
                     MeasurementDetails measurementDetails= new MeasurementDetails();
                     measurementDetails.DateTime=date1;
                     measurementDetails.MeasurementId=memberId;
-                    measurementDetails.Name="Systolic Reading1";
+                    measurementDetails.Name="bp_systolic_reading_1";
                     measurementDetails.Result= Double.parseDouble(edit_reading1.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails);
                     SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
                     MeasurementDetails measurementDetails1= new MeasurementDetails();
-                    measurementDetails.DateTime=date1;
-                    measurementDetails.MeasurementId=memberId;
-                    measurementDetails.Name="Systolic Reading2";
-                    measurementDetails.Result= Double.parseDouble(edit_reading2.getText().toString());
+                    measurementDetails1.DateTime=date1;
+                    measurementDetails1.MeasurementId=memberId;
+                    measurementDetails1.Name="bp_systolic_reading_2";
+                    measurementDetails1.Result= Double.parseDouble(edit_reading2.getText().toString());
                     Common.measurementDetailsRepository.insertToMeasurements(measurementDetails1);
                     ((CCUserHomeActivity) getActivity()).backForDetails();
 
@@ -271,25 +277,29 @@ public class CCBloodPressureFragment extends Fragment {
                         if ( (DiabetisYesNo == 1) && (total >= 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
-                            message="Hypertension = Refer to UHC!";
+                            message="Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.";
+                            result_status="Hypertension = Refer to UHC!";
                             refer="UHC";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 1) && (total < 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
-                            message="Normal = Follow up 6 months.";
+                            message="NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.";
+                            result_status="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else if ( (DiabetisYesNo == 2) && (total >= 140)  ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
-                            message="Hypertension = Refer to UHC!";
+                            message="Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.";
+                            result_status="Hypertension = Refer to UHC!";
                             refer="UHC";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 2) &&  (total < 140) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
-                            message="Normal = Follow up 6 months.";
+                            message="NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.";
+                            result_status="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else {
@@ -303,25 +313,29 @@ public class CCBloodPressureFragment extends Fragment {
                         if ( (DiabetisYesNo == 1) && (total >= 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
-                            message="Hypertension = Refer to UHC!";
+                            message="Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.";
+                            result_status="Hypertension = Refer to UHC!";
                             refer="UHC";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 1) && (total < 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
-                            message="Normal = Follow up 6 months.";
+                            message="NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.";
+                            result_status="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else if ( (DiabetisYesNo == 2) && (total >= 140)  ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
-                            message="Hypertension = Refer to UHC!";
+                            message="Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.";
+                            result_status="Hypertension = Refer to UHC!";
                             refer="UHC";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 2) &&  (total < 140) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
-                            message="Normal = Follow up 6 months.";
+                            message="NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.";
+                            result_status="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else {
@@ -382,25 +396,29 @@ public class CCBloodPressureFragment extends Fragment {
                         if ( (DiabetisYesNo == 1) && (total >= 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
-                            message="Hypertension = Refer to UHC!";
+                            message="Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.";
+                            result_status="Hypertension = Refer to UHC!";
                             refer="UHC";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 1) && (total < 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
-                            message="Normal = Follow up 6 months.";
+                            message="NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.";
+                            result_status="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else if ( (DiabetisYesNo == 2) && (total >= 140)  ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
-                            message="Hypertension = Refer to UHC!";
+                            message="Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.";
+                            result_status="Hypertension = Refer to UHC!";
                             refer="UHC";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 2) &&  (total < 140) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
-                            message="Normal = Follow up 6 months.";
+                            message="NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.";
+                            result_status="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else {
@@ -414,25 +432,29 @@ public class CCBloodPressureFragment extends Fragment {
                         if ( (DiabetisYesNo == 1) && (total >= 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
-                            message="Hypertension = Refer to UHC!";
+                            message="Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.";
+                            result_status="Hypertension = Refer to UHC!";
                             refer="UHC";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 1) && (total < 130) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
-                            message="Normal = Follow up 6 months.";
+                            message="NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.";
+                            result_status="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else if ( (DiabetisYesNo == 2) && (total >= 140)  ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_red));
                             text_text.setText("Hypertension = Refer to UHC!");
-                            message="Hypertension = Refer to UHC!";
+                            message="Your BP is mild high. It is an At Risk condition, please take precaution to control it at this stage and monitor your blood pressure regularly.";
+                            result_status="Hypertension = Refer to UHC!";
                             refer="UHC";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_1));
                         } else if ( (DiabetisYesNo == 2) &&  (total < 140) ) {
                             linear.setBackground(mActivity.getDrawable(R.drawable.background_green));
                             text_text.setText("Normal = Follow up 6 months.");
-                            message="Normal = Follow up 6 months.";
+                            message="NORMAL blood pressure. Please maintain this pressure by regular physical activity and healthy diet.";
+                            result_status="Normal = Follow up 6 months.";
                             refer="Follow";
                             text_message.setText(getActivity().getResources().getString(R.string.diastolic_2));
                         } else {

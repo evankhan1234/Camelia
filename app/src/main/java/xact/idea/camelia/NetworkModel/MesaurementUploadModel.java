@@ -22,8 +22,8 @@ public class MesaurementUploadModel {
         public String result;
         @SerializedName("referral_status")
         public String referral_status;
-//        @SerializedName("result_status")
-//        public String result_status;
+        @SerializedName("result_status")
+        public String result_status;
         @SerializedName("message")
         public String message;
         @SerializedName("status")
@@ -32,6 +32,11 @@ public class MesaurementUploadModel {
         public String created_at;
         @SerializedName("update_no")
         public String update_no;
+        @SerializedName("created_by")
+        public String created_by;
+        @SerializedName("measurement_from")
+        public String measurement_from;
+
         @SerializedName("attr_values")
         public ArrayList<AttrValues> attr_values;
         public static class AttrValues {
@@ -45,8 +50,12 @@ public class MesaurementUploadModel {
             public String value;
             @SerializedName("status")
             public String status;
+            @SerializedName("type")
+            public String type;
             @SerializedName("created_at")
             public String created_at;
+            @SerializedName("created_by")
+            public String created_by;
             @SerializedName("update_no")
             public String update_no;
         }
