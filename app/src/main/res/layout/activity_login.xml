@@ -104,7 +104,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:paddingRight="20px"
-                            android:src="@drawable/hidden_password" />
+                            android:src="@drawable/show_password" />
                     </RelativeLayout>
 
                     <TextView

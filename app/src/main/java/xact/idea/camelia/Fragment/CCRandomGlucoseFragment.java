@@ -239,7 +239,7 @@ public class CCRandomGlucoseFragment extends Fragment {
                         measurements.Type="Fasting-Diabetes";
                     }
                     else if (typeGlucose.equals("R")){
-                        measurements.Type="Random-Diabetes";
+                        measurements.Type="Fasting-Diabetes";
                     }
 
                     Common.measurementsRepository.insertToMeasurements(measurements);

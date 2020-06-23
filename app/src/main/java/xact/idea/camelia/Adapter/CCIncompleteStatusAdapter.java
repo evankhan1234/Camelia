@@ -129,7 +129,8 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
     public void onBindViewHolder(final CCIncompleteStatusAdapter.CCIncompleteStatusListiewHolder holder, final int position) {
 
 
-        if (memberMyself!=null){
+        if (memberMyself!=null)
+        {
 
             if (row_index == 1 || row_index == 2 || row_index == 3) {
                 holder.text_visits.setVisibility(View.GONE);
@@ -288,13 +289,13 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             holder.text_follow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogFollow(mActivity, memberMyself.get(position).UniqueId, memberMyself.get(position).UniqueCode);
+                    showInfoDialogFollow(mActivity, memberMyselfs.get(position).UniqueId, memberMyselfs.get(position).UniqueCode);
                 }
             });
             holder.text_referral.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInfoDialogRefer(mActivity, memberMyself.get(position).UniqueId, memberMyself.get(position).UniqueCode);
+                    showInfoDialogRefer(mActivity, memberMyselfs.get(position).UniqueId, memberMyselfs.get(position).UniqueCode);
                 }
             });
             holder.text_visits.setOnClickListener(new View.OnClickListener() {
