@@ -62,6 +62,9 @@ import xact.idea.camelia.Database.DataSource.VisitDataSources;
 import xact.idea.camelia.Database.DataSource.WardDatasources;
 import xact.idea.camelia.Database.MainDataBase;
 import xact.idea.camelia.Database.Model.Auth;
+import xact.idea.camelia.Database.Model.CCModel;
+import xact.idea.camelia.Database.Model.Medicine;
+import xact.idea.camelia.Database.Model.UHC;
 import xact.idea.camelia.Database.Repository.AuthRepository;
 import xact.idea.camelia.Database.Repository.BlockRepository;
 import xact.idea.camelia.Database.Repository.BloodGroupRepository;
@@ -92,6 +95,9 @@ import xact.idea.camelia.Helper.LocaleHelper;
 import xact.idea.camelia.Network.IRetrofitApi;
 import xact.idea.camelia.NetworkModel.AuthPost;
 import xact.idea.camelia.NetworkModel.AuthResponse;
+import xact.idea.camelia.NetworkModel.CCModelresponse;
+import xact.idea.camelia.NetworkModel.MedicineResponses;
+import xact.idea.camelia.NetworkModel.UHCModel;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -113,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     IRetrofitApi mService;
     RelativeLayout rlt_root;
+    RelativeLayout relative;
     LinearLayout layoutq;
 
     @Override
@@ -124,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
         CorrectSizeUtil.getInstance(this).correctSize(findViewById(R.id.rlt_root));
         sign_in = findViewById(R.id.sign_in);
         textView13 = findViewById(R.id.textView13);
+        relative = findViewById(R.id.relative);
         forgot = findViewById(R.id.forgot);
         show_pass = findViewById(R.id.show_pass);
         edit_text_email = findViewById(R.id.edit_text_email);
@@ -304,8 +312,130 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         initDB();
+        if (Common.uhcRepository.size() < 1) {
+            if (Utils.broadcastIntent(LoginActivity.this, relative)) {
+                loadUHC();
+
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.ccRepository.size() < 1) {
+            if (Utils.broadcastIntent(LoginActivity.this, relative)) {
+                loadCC();
+
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.medicineRepository.size() < 1) {
+            if (Utils.broadcastIntent(LoginActivity.this, relative)) {
+                loadMedicine();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+    }
+    private void loadCC() {
+        showLoadingProgress(LoginActivity.this);
+        compositeDisposable.add(mService.getCC().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<CCModelresponse>() {
+            @Override
+            public void accept(CCModelresponse ccModelresponse) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(ccModelresponse));
+                for (CCModelresponse.Data cc : ccModelresponse.data) {
+                    CCModel ccModel = new CCModel();
+
+                    ccModel.CCId = cc.id;
+                    ccModel.name = cc.name;
+                    ccModel.short_name = cc.short_name;
+                    ccModel.information = cc.information;
+                    ccModel.district_code = cc.district_code;
+                    ccModel.division_code = cc.division_code;
+                    ccModel.upazila_code = cc.upazila_code;
+                    ccModel.union_code = cc.union_code;
+                    ccModel.block_code = cc.block_code;
+                    ccModel.ward_code = cc.ward_code;
+                    ccModel.status = cc.status;
+                    Common.ccRepository.insertToCCModel(ccModel);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
     }
 
+    private void loadUHC() {
+        showLoadingProgress(LoginActivity.this);
+        compositeDisposable.add(mService.getUHC().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<UHCModel>() {
+            @Override
+            public void accept(UHCModel uhcModel) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(uhcModel));
+                for (UHCModel.Data uhc : uhcModel.data) {
+                    UHC uhc1 = new UHC();
+                    uhc1.name = uhc.name;
+                    uhc1.code = uhc.code;
+                    uhc1.information = uhc.information;
+                    uhc1.district_code = uhc.district_code;
+                    uhc1.division_code = uhc.division_code;
+                    uhc1.upazila_code = uhc.upazila_code;
+                    uhc1.union_code = uhc.union_code;
+                    uhc1.block_code = uhc.block_code;
+                    uhc1.ward_code = uhc.ward_code;
+                    uhc1.status = uhc.status;
+                    Common.uhcRepository.insertToUHC(uhc1);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    private void loadMedicine() {
+        showLoadingProgress(LoginActivity.this);
+        compositeDisposable.add(mService.getMedicines().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MedicineResponses>() {
+            @Override
+            public void accept(MedicineResponses medicineResponses) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(medicineResponses));
+                for (MedicineResponses.Data wards : medicineResponses.data) {
+                    Medicine medicine = new Medicine();
+                    medicine.MedicineId = wards.id;
+                    medicine.group_type_id = wards.group_type_id;
+                    medicine.Name = wards.name;
+                    medicine.short_name = wards.short_name;
+                    medicine.note = wards.note;
+                    medicine.status = wards.status;
+                    medicine.disease = wards.disease;
+                    medicine.group_id = wards.group_type.id;
+                    medicine.group_name = wards.group_type.name;
+                    medicine.group_note = wards.group_type.note;
+                    medicine.short_name = wards.group_type.short_name;
+                    Common.medicineRepository.insertToMedicine(medicine);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
     private void initDB() {
         Common.mainDatabase = MainDataBase.getInstance(this);
         Common.authRepository = AuthRepository.getInstance(AuthDataSources.getInstance(Common.mainDatabase.authDao()));
