@@ -80,7 +80,7 @@ public interface MemberMyselfDao {
     @Query("SELECT  ms.FullName,ms.CreatedDate,ms.MemberId,ms.UniqueId,hs.VillageName FROM  Household as hs inner join   MemberMyself as ms  on hs.UniqueId=ms.UniqueId where ms.Status='0' and ms.CreatedDate BETWEEN :from AND :to order By CreatedDate Desc")
     Flowable<List<SentSyncModel>> getNotSyncMembers(Date from,Date to);
 
-    @Query("SELECT * FROM ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (SELECT ms.MemberIds,ms.Type FROM Measurements ms WHERE ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')GROUP BY ms.MemberIds,ms.type) q GROUP BY q.MemberIds HAVING COUNT(q.MemberIds) > 5 )q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.UniqueCode")
+    @Query("SELECT * FROM ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (SELECT ms.MemberIds,ms.Type FROM Measurements ms WHERE ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')GROUP BY ms.MemberIds,ms.type) q GROUP BY q.MemberIds HAVING COUNT(q.MemberIds) > 5 )q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.UniqueCode")
     Flowable<List<MemberMyself>> getCompleteMembers();
 
     @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.UniqueCode=Measure.MemberIds  Group BY Member.id HAVING  Count(Measure.id)<6")
@@ -97,7 +97,7 @@ public interface MemberMyselfDao {
     Flowable<List<MemberMyself>> getFollowUpMembersFor();
 
 
-    @Query("SELECT Count(*)as Total FROM ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (SELECT ms.MemberIds,ms.Type FROM Measurements ms WHERE ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')GROUP BY ms.MemberIds,ms.type) q GROUP BY q.MemberIds HAVING COUNT(q.MemberIds) > 5 )q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId")
+    @Query("SELECT Count(*)as Total FROM ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (SELECT ms.MemberIds,ms.Type FROM Measurements ms WHERE ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')GROUP BY ms.MemberIds,ms.type) q GROUP BY q.MemberIds HAVING COUNT(q.MemberIds) > 5 )q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.MemberId")
     int CompleteCount();
 
     @Query("SELECT Count(*)as Total FROM(SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.MemberId=Measure.MemberIds  Group BY Member.id HAVING  Count(Measure.id)<6)")
@@ -124,7 +124,7 @@ public interface MemberMyselfDao {
             " \n" +
             "SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements) ms\n" +
             "WHERE\n" +
-            "ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')\n" +
             "GROUP BY ms.MemberIds,ms.type\n" +
             ") q\n" +
             "GROUP BY q.MemberIds\n" +
@@ -138,7 +138,7 @@ public interface MemberMyselfDao {
             " \n" +
             "SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements) ms\n" +
             "WHERE\n" +
-            "ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')\n" +
             "GROUP BY ms.MemberIds,ms.type\n" +
             ") q\n" +
             "GROUP BY q.MemberIds\n" +
@@ -185,7 +185,7 @@ public interface MemberMyselfDao {
             "                        \n" +
             "                        SELECT ms.datetime,ms.MemberIds,ms.Type FROM (select distinct MemberIds,type,datetime from Measurements where datetime between :from and :to) ms\n" +
             "                        WHERE\n" +
-            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')\n" +
             "                        GROUP BY ms.MemberIds,ms.type,ms.datetime\n" +
             "                        ) q\n" +
             "                       GROUP BY q.MemberIds,datetime\n" +
@@ -199,7 +199,7 @@ public interface MemberMyselfDao {
             "                        \n" +
             "                        SELECT datetime,ms.MemberIds,ms.Type FROM (select distinct MemberIds,type,datetime from Measurements where datetime between :from and :to) ms\n" +
             "                        WHERE\n" +
-            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')\n" +
             "                       GROUP BY ms.MemberIds,ms.type,datetime\n" +
             "                        ) q\n" +
             "                        GROUP BY q.MemberIds,datetime\n" +
@@ -219,7 +219,7 @@ public interface MemberMyselfDao {
             "                      \n" +
             "                       SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements where datetime = :from) ms\n" +
             "                       WHERE\n" +
-            "                       ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "                       ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')\n" +
             "                       GROUP BY ms.MemberIds,ms.type\n" +
             "                        ) q\n" +
             "                        GROUP BY q.MemberIds\n" +
@@ -232,7 +232,7 @@ public interface MemberMyselfDao {
             "                        ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (\n" +
             "                        SELECT ms.MemberIds,ms.Type FROM (select distinct MemberIds,type from Measurements where datetime = :from) ms\n" +
             "                        WHERE\n" +
-            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Diabetes')\n" +
+            "                        ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')\n" +
             "                        GROUP BY ms.MemberIds,ms.type\n" +
             "                        ) q\n" +
             "                        GROUP BY q.MemberIds\n" +
@@ -242,23 +242,23 @@ public interface MemberMyselfDao {
 
 
     @Query("SELECT DateTime , sum(Hypertension) Hypertension, sum(Obese) Obese,sum(OverWeight) OverWeight,sum(Diabetes) Diabetes FROM (\n" +
-            "SELECT DateTime ,count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Hypertension = Refer to UHC!' and  Datetime=:from GROUP BY DateTime\n" +
+            "SELECT DateTime ,count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where ResultStatus='Hypertension = Refer to UHC!' and  Datetime=:from GROUP BY DateTime\n" +
             "union all\n" +
-            "SELECT DateTime, 0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Obese' and  Datetime=:from GROUP BY DateTime\n" +
+            "SELECT DateTime, 0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where ResultStatus='Obese' and  Datetime=:from GROUP BY DateTime\n" +
             "union all\n" +
-            "SELECT DateTime, 0 Hypertension, 0 Obese, count(*) OverWeight, 0 Diabetes  FROM Measurements where Message='OverWeight = Refer to UHC!' and  Datetime=:from GROUP BY DateTime\n" +
+            "SELECT DateTime, 0 Hypertension, 0 Obese, count(*) OverWeight, 0 Diabetes  FROM Measurements where ResultStatus='OverWeight = Refer to UHC!' and  Datetime=:from GROUP BY DateTime\n" +
             "union all\n" +
-            "SELECT DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where Message='Diabetes = Refer to UHC!' and  Datetime=:from GROUP BY DateTime) ")
+            "SELECT DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where ResultStatus='Diabetes = Refer to UHC!' and  Datetime=:from GROUP BY DateTime) ")
     SummaryModel TotalSum(Date from);
 
     @Query("SELECT DateTime, sum(Hypertension) Hypertension, sum(Obese) Obese,sum(OverWeight) OverWeight,sum(Diabetes) Diabetes FROM (\n" +
-            "SELECT MemberIds,DateTime, count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Hypertension = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
+            "SELECT MemberIds,DateTime, count(*) Hypertension, 0 Obese,0 OverWeight, 0 Diabetes FROM Measurements where ResultStatus='Hypertension = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
             "union all\n" +
-            "SELECT MemberIds,DateTime, 0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where Message='Obese' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
+            "SELECT MemberIds,DateTime, 0 Hypertension, count(*) Obese,0 OverWeight, 0 Diabetes FROM Measurements where ResultStatus='Obese' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
             "union all\n" +
-            "SELECT MemberIds,DateTime, 0 Hypertension, 0 Obese, count(*) OverWeight, 0 Diabetes  FROM Measurements where Message='OverWeight = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
+            "SELECT MemberIds,DateTime, 0 Hypertension, 0 Obese, count(*) OverWeight, 0 Diabetes  FROM Measurements where ResultStatus='OverWeight = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime\n" +
             "union all\n" +
-            "SELECT MemberIds,DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where Message='Diabetes = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime) where DateTime is not null group by DateTime")
+            "SELECT MemberIds,DateTime, 0 Hypertension, 0 Obese, 0 OverWeight, count(*) Diabetes FROM Measurements where ResultStatus='Diabetes = Refer to UHC!' and  Datetime between :from and :to GROUP BY MemberIds,DateTime) where DateTime is not null group by DateTime")
     Flowable<List<SummaryModel>> TotalListOfSum(Date from ,Date to);
 
 }

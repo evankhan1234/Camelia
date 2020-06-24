@@ -7519,11 +7519,11 @@ public class CCUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 loadMeasurements();
-               // loadSurvey();
-               // loadHousehold();
-               // medicineList();
-                //loadReferHistory();
-               // getBehaviorialList();
+                loadSurvey();
+                loadHousehold();
+                medicineList();
+                loadReferHistory();
+                getBehaviorialList();
                 SharedPreferenceUtil.saveShared(CCUserActivity.this, SharedPreferenceUtil.SYNC, "off");
                 linear_sync.setBackground(getResources().getDrawable(R.drawable.background_black));
                 infoDialog.dismiss();
