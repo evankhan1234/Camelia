@@ -65,6 +65,8 @@ import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.CCModel;
 import xact.idea.camelia.Database.Model.Medicine;
 import xact.idea.camelia.Database.Model.UHC;
+import xact.idea.camelia.Database.Model.Unions;
+import xact.idea.camelia.Database.Model.Ward;
 import xact.idea.camelia.Database.Repository.AuthRepository;
 import xact.idea.camelia.Database.Repository.BlockRepository;
 import xact.idea.camelia.Database.Repository.BloodGroupRepository;
@@ -98,6 +100,8 @@ import xact.idea.camelia.NetworkModel.AuthResponse;
 import xact.idea.camelia.NetworkModel.CCModelresponse;
 import xact.idea.camelia.NetworkModel.MedicineResponses;
 import xact.idea.camelia.NetworkModel.UHCModel;
+import xact.idea.camelia.NetworkModel.UnionResponses;
+import xact.idea.camelia.NetworkModel.WardResponses;
 import xact.idea.camelia.R;
 import xact.idea.camelia.Utils.Common;
 import xact.idea.camelia.Utils.CorrectSizeUtil;
@@ -341,6 +345,116 @@ public class LoginActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
+        if (Common.unionRepository.size() < 1) {
+            if (Utils.broadcastIntent(LoginActivity.this, relative)) {
+                Unions unions1 = new Unions();
+                unions1.UnionId = -1;
+                unions1.upazila_id = -1;
+                unions1.union_name_en = "Select";
+                unions1.union_name_bn = "সিলেক্ট";
+                unions1.union_shortname_en = "";
+                unions1.union_shortname_bn = "";
+                unions1.union_code = "-1";
+                unions1.note_en = "";
+                unions1.note_bn = "";
+                unions1.status = "";
+                String language = SharedPreferenceUtil.getLanguage(LoginActivity.this);
+                unions1.ln = language;
+                Common.unionRepository.insertToUnion(unions1);
+                loadUnion();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.wardRepository.size() < 1) {
+            if (Utils.broadcastIntent(LoginActivity.this, relative)) {
+
+                Ward ward = new Ward();
+                ward.WardId = -1;
+                ward.ward_name_en = "Select";
+                ward.ward_name_bn = "সিলেক্ট";
+                ward.ward_shortname_bn = "";
+                ward.ward_shortname_en = "";
+                ward.ward_code = "-1";
+                ward.note_en = "";
+                ward.note_bn = "";
+                ward.status = "1";
+                String language = SharedPreferenceUtil.getLanguage(LoginActivity.this);
+                ward.ln = language;
+                Common.wardRepository.insertToWard(ward);
+                loadWard();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+    }
+    private void loadWard() {
+        showLoadingProgress(LoginActivity.this);
+        compositeDisposable.add(mService.getWard().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<WardResponses>() {
+            @Override
+            public void accept(WardResponses wardResponses) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(wardResponses));
+                for (WardResponses.Data wards : wardResponses.data) {
+                    Ward ward = new Ward();
+                    ward.WardId = wards.id;
+                    ward.ward_name_en = wards.ward_name_en;
+                    ward.ward_name_bn = wards.ward_name_bn;
+                    ward.ward_shortname_bn = wards.ward_shortname_bn;
+                    ward.ward_shortname_en = wards.ward_shortname_en;
+                    ward.ward_code = String.valueOf(wards.id);
+                    ward.note_en = wards.note_en;
+                    ward.note_bn = wards.note_bn;
+                    ward.status = wards.status;
+                    String language = SharedPreferenceUtil.getLanguage(LoginActivity.this);
+                    ward.ln = language;
+                    Common.wardRepository.insertToWard(ward);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    private void loadUnion() {
+        showLoadingProgress(LoginActivity.this);
+        compositeDisposable.add(mService.getUnion().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<UnionResponses>() {
+            @Override
+            public void accept(UnionResponses unionResponses) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(unionResponses));
+                for (UnionResponses.Data unions : unionResponses.data) {
+                    Unions unions1 = new Unions();
+                    unions1.UnionId = unions.id;
+                    unions1.upazila_id = unions.upazila_id;
+                    unions1.union_name_en = unions.union_name_en;
+                    unions1.union_name_bn = unions.union_name_bn;
+                    unions1.union_shortname_en = unions.union_shortname_en;
+                    unions1.union_shortname_bn = unions.union_shortname_bn;
+                    unions1.union_code = String.valueOf(unions.id);
+                    unions1.code = unions.union_code;
+                    unions1.note_en = unions.note_en;
+                    unions1.note_bn = unions.note_bn;
+                    unions1.status = unions.status;
+                    String language = SharedPreferenceUtil.getLanguage(LoginActivity.this);
+                    unions1.ln = language;
+                    Common.unionRepository.insertToUnion(unions1);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
     }
     private void loadCC() {
         showLoadingProgress(LoginActivity.this);
