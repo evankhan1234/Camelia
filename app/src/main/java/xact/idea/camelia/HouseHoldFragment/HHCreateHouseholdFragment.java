@@ -99,16 +99,16 @@ public class HHCreateHouseholdFragment extends Fragment {
     List<Upazila> upazilaList = new ArrayList<>();
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    int DivisionId;
+    int DivisionId=-1;
     int DivisionCode;
-    int DistrictId;
+    int DistrictId=-1;
     int DistrictCode;
-    int UnionId = 0;
+    int UnionId = -1;
     int UnionCode = 0;
-    int UpazilaId;
+    int UpazilaId=-1;
     int UpazilaCode;
-    int WardId;
-    int BlockId;
+    int WardId=-1;
+    int BlockId=-1;
     String frag;
 
     Auth auth;
@@ -434,19 +434,27 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + districtyList.get(position).DistrictId);
-                DistrictId = Integer.parseInt(districtyList.get(position).district_code);
-                DistrictCode = Integer.parseInt(districtyList.get(position).code);
+                try {
+                    DistrictId = Integer.parseInt(districtyList.get(position).district_code);
+                    DistrictCode = Integer.parseInt(districtyList.get(position).code);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    DistrictId=-1;
+                }
                 Log.e("wwwww2", "wwwww" + DistrictId);
                 compositeDisposable.add(Common.upazilaRepository.getUpazilaItemById(DistrictId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Upazila>>() {
                     @Override
                     public void accept(List<Upazila> customers) throws Exception {
                         Log.e("fsd", "dfsdf" + new Gson().toJson(customers));
                         upazilaList = customers;
+                        if (upazilaList.size()==0){
+                            UpazilaId=-1;
+                        }
                         dismissLoadingProgress();
                         upazilaArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, upazilaList);
                         upazilaArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner_upazila.setAdapter(upazilaArrayAdapter);
-                        if (auth.upazila != null) {
+                        if (auth.upazila != null && !auth.upazila.equals("")) {
                             int div = Integer.parseInt(auth.upazila);
 
                             for (int i = 0; i < upazilaList.size(); i++) {
@@ -474,19 +482,27 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                UpazilaId = Integer.parseInt(upazilaList.get(position).upazila_code);
-                UpazilaCode = Integer.parseInt(upazilaList.get(position).code);
+                try {
+                    UpazilaId = Integer.parseInt(upazilaList.get(position).upazila_code);
+                    UpazilaCode = Integer.parseInt(upazilaList.get(position).code);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    UpazilaId=-1;
+                }
                 Log.e("wwwww3", "wwwww" + upazilaList.get(position).UpazilaId);
                 compositeDisposable.add(Common.unionRepository.getUnionItemById(UpazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Unions>>() {
                     @Override
                     public void accept(List<Unions> customers) throws Exception {
                         Log.e("Union", "UnionFor" + new Gson().toJson(customers));
                         unionList = customers;
+                        if (unionList.size()==0){
+                            UnionId=-1;
+                        }
                         dismissLoadingProgress();
                         unionArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, unionList);
                         unionArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner_union.setAdapter(unionArrayAdapter);
-                        if (auth.union != null) {
+                        if (auth.union != null && !auth.union.equals("")) {
                             int div = Integer.parseInt(auth.union);
 
                             for (int i = 0; i < unionList.size(); i++) {
@@ -509,8 +525,13 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("unionss", "" + unionList.get(position).UnionId);
-                UnionId = Integer.parseInt(unionList.get(position).union_code);
-                UnionCode = Integer.parseInt(unionList.get(position).code);
+                try {
+                    UnionId = Integer.parseInt(unionList.get(position).union_code);
+                    UnionCode = Integer.parseInt(unionList.get(position).code);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    UnionId=1;
+                }
 
             }
 
@@ -635,7 +656,7 @@ public class HHCreateHouseholdFragment extends Fragment {
         wardArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_ward.setAdapter(wardArrayAdapter);
         //spinner_division.setSelection(4);
-        if (auth.division != null) {
+        if (auth.division != null && !auth.division.equals("")) {
             int div = Integer.parseInt(auth.division);
 
             for (int i = 0; i < divisionList.size(); i++) {
@@ -644,6 +665,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                 }
             }
         }
+
 
 //        for(Division division: divisionList){
 //            if (division.DivisionId==div){
@@ -659,8 +681,13 @@ public class HHCreateHouseholdFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                DivisionId = Integer.parseInt(divisionList.get(position).division_code);
-                DivisionCode = Integer.parseInt(divisionList.get(position).code);
+                try {
+                    DivisionId = Integer.parseInt(divisionList.get(position).division_code);
+                    DivisionCode = Integer.parseInt(divisionList.get(position).code);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    DivisionId=-1;
+                }
                 Log.e("wwwww1", "wwwww" + DivisionId);
                 compositeDisposable.add(Common.districtRepository.getDistrictItemById(DivisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<District>>() {
                     @Override
@@ -671,7 +698,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                         districtArrayAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, districtyList);
                         districtArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner_district.setAdapter(districtArrayAdapter);
-                        if (auth.district != null) {
+                        if (auth.district != null && !auth.district.equals("")) {
                             int div = Integer.parseInt(auth.district);
 
                             for (int i = 0; i < districtyList.size(); i++) {
@@ -699,7 +726,7 @@ public class HHCreateHouseholdFragment extends Fragment {
     }
 
     private void data() {
-        if (auth.ward != null) {
+        if (auth.ward != null && !auth.ward.equals("")) {
             int div = Integer.parseInt(auth.ward);
 
             for (int i = 0; i < wardList.size(); i++) {
@@ -708,7 +735,7 @@ public class HHCreateHouseholdFragment extends Fragment {
                 }
             }
         }
-        if (auth.block != null) {
+        if (auth.block != null && !auth.block.equals("")) {
             int div = Integer.parseInt(auth.block);
 
             for (int i = 0; i < blockList.size(); i++) {

@@ -342,9 +342,241 @@ public class LanguageActivity extends AppCompatActivity {
                 snackbar.show();
             }
         }
+        if (Common.uhcRepository.size() < 1) {
+            if (Utils.broadcastIntent(LanguageActivity.this, relative)) {
+                loadUHC();
+
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.ccRepository.size() < 1) {
+            if (Utils.broadcastIntent(LanguageActivity.this, relative)) {
+                loadCC();
+
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.medicineRepository.size() < 1) {
+            if (Utils.broadcastIntent(LanguageActivity.this, relative)) {
+                loadMedicine();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.unionRepository.size() < 1) {
+            if (Utils.broadcastIntent(LanguageActivity.this, relative)) {
+                Unions unions1 = new Unions();
+                unions1.UnionId = -1;
+                unions1.upazila_id = -1;
+                unions1.union_name_en = "Select";
+                unions1.union_name_bn = "সিলেক্ট";
+                unions1.union_shortname_en = "";
+                unions1.union_shortname_bn = "";
+                unions1.union_code = "-1";
+                unions1.note_en = "";
+                unions1.note_bn = "";
+                unions1.status = "";
+                String language = SharedPreferenceUtil.getLanguage(LanguageActivity.this);
+                unions1.ln = language;
+                Common.unionRepository.insertToUnion(unions1);
+                loadUnion();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+        if (Common.wardRepository.size() < 1) {
+            if (Utils.broadcastIntent(LanguageActivity.this, relative)) {
+
+                Ward ward = new Ward();
+                ward.WardId = -1;
+                ward.ward_name_en = "Select";
+                ward.ward_name_bn = "সিলেক্ট";
+                ward.ward_shortname_bn = "";
+                ward.ward_shortname_en = "";
+                ward.ward_code = "-1";
+                ward.note_en = "";
+                ward.note_bn = "";
+                ward.status = "1";
+                String language = SharedPreferenceUtil.getLanguage(LanguageActivity.this);
+                ward.ln = language;
+                Common.wardRepository.insertToWard(ward);
+                loadWard();
+            } else {
+                Snackbar snackbar = Snackbar
+                        .make(relative, "No Internet", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
+
+    }
+    private void loadWard() {
+        showLoadingProgress(LanguageActivity.this);
+        compositeDisposable.add(mService.getWard().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<WardResponses>() {
+            @Override
+            public void accept(WardResponses wardResponses) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(wardResponses));
+                for (WardResponses.Data wards : wardResponses.data) {
+                    Ward ward = new Ward();
+                    ward.WardId = wards.id;
+                    ward.ward_name_en = wards.ward_name_en;
+                    ward.ward_name_bn = wards.ward_name_bn;
+                    ward.ward_shortname_bn = wards.ward_shortname_bn;
+                    ward.ward_shortname_en = wards.ward_shortname_en;
+                    ward.ward_code = String.valueOf(wards.id);
+                    ward.note_en = wards.note_en;
+                    ward.note_bn = wards.note_bn;
+                    ward.status = wards.status;
+                    String language = SharedPreferenceUtil.getLanguage(LanguageActivity.this);
+                    ward.ln = language;
+                    Common.wardRepository.insertToWard(ward);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    private void loadUnion() {
+        showLoadingProgress(LanguageActivity.this);
+        compositeDisposable.add(mService.getUnion().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<UnionResponses>() {
+            @Override
+            public void accept(UnionResponses unionResponses) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(unionResponses));
+                for (UnionResponses.Data unions : unionResponses.data) {
+                    Unions unions1 = new Unions();
+                    unions1.UnionId = unions.id;
+                    unions1.upazila_id = unions.upazila_id;
+                    unions1.union_name_en = unions.union_name_en;
+                    unions1.union_name_bn = unions.union_name_bn;
+                    unions1.union_shortname_en = unions.union_shortname_en;
+                    unions1.union_shortname_bn = unions.union_shortname_bn;
+                    unions1.union_code = String.valueOf(unions.id);
+                    unions1.code = unions.union_code;
+                    unions1.note_en = unions.note_en;
+                    unions1.note_bn = unions.note_bn;
+                    unions1.status = unions.status;
+                    String language = SharedPreferenceUtil.getLanguage(LanguageActivity.this);
+                    unions1.ln = language;
+                    Common.unionRepository.insertToUnion(unions1);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    private void loadCC() {
+        showLoadingProgress(LanguageActivity.this);
+        compositeDisposable.add(mService.getCC().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<CCModelresponse>() {
+            @Override
+            public void accept(CCModelresponse ccModelresponse) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(ccModelresponse));
+                for (CCModelresponse.Data cc : ccModelresponse.data) {
+                    CCModel ccModel = new CCModel();
+
+                    ccModel.CCId = cc.id;
+                    ccModel.name = cc.name;
+                    ccModel.short_name = cc.short_name;
+                    ccModel.information = cc.information;
+                    ccModel.district_code = cc.district_code;
+                    ccModel.division_code = cc.division_code;
+                    ccModel.upazila_code = cc.upazila_code;
+                    ccModel.union_code = cc.union_code;
+                    ccModel.block_code = cc.block_code;
+                    ccModel.ward_code = cc.ward_code;
+                    ccModel.status = cc.status;
+                    Common.ccRepository.insertToCCModel(ccModel);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
 
     }
 
+    private void loadUHC() {
+        showLoadingProgress(LanguageActivity.this);
+        compositeDisposable.add(mService.getUHC().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<UHCModel>() {
+            @Override
+            public void accept(UHCModel uhcModel) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(uhcModel));
+                for (UHCModel.Data uhc : uhcModel.data) {
+                    UHC uhc1 = new UHC();
+                    uhc1.name = uhc.name;
+                    uhc1.code = uhc.code;
+                    uhc1.information = uhc.information;
+                    uhc1.district_code = uhc.district_code;
+                    uhc1.division_code = uhc.division_code;
+                    uhc1.upazila_code = uhc.upazila_code;
+                    uhc1.union_code = uhc.union_code;
+                    uhc1.block_code = uhc.block_code;
+                    uhc1.ward_code = uhc.ward_code;
+                    uhc1.status = uhc.status;
+                    Common.uhcRepository.insertToUHC(uhc1);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
+    private void loadMedicine() {
+        showLoadingProgress(LanguageActivity.this);
+        compositeDisposable.add(mService.getMedicines().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MedicineResponses>() {
+            @Override
+            public void accept(MedicineResponses medicineResponses) throws Exception {
+                Log.e("study", "study" + new Gson().toJson(medicineResponses));
+                for (MedicineResponses.Data wards : medicineResponses.data) {
+                    Medicine medicine = new Medicine();
+                    medicine.MedicineId = wards.id;
+                    medicine.group_type_id = wards.group_type_id;
+                    medicine.Name = wards.name;
+                    medicine.short_name = wards.short_name;
+                    medicine.note = wards.note;
+                    medicine.status = wards.status;
+                    medicine.disease = wards.disease;
+                    medicine.group_id = wards.group_type.id;
+                    medicine.group_name = wards.group_type.name;
+                    medicine.group_note = wards.group_type.note;
+                    medicine.short_name = wards.group_type.short_name;
+                    Common.medicineRepository.insertToMedicine(medicine);
+                }
+                dismissLoadingProgress();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                dismissLoadingProgress();
+            }
+        }));
+
+    }
     private void initDB() {
         Common.mainDatabase = MainDataBase.getInstance(this);
         Common.authRepository = AuthRepository.getInstance(AuthDataSources.getInstance(Common.mainDatabase.authDao()));
