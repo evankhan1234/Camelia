@@ -167,7 +167,7 @@ public class HHListFragment extends Fragment {
         districtId = auth.district;
         upazilaId = auth.upazila;
         unionId = auth.union;
-        if (divisionId != null && districtId != null && upazilaId != null && unionId != null) {
+        if ((divisionId != null && !divisionId.equals(""))  && (districtId != null&& !districtId.equals("")) && (upazilaId != null&& !upazilaId.equals("")) && (unionId != null&& !unionId.equals(""))) {
             compositeDisposable.add(Common.householdRepository.getHouseHoldItemByFour(divisionId,districtId,upazilaId,unionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
@@ -182,7 +182,7 @@ public class HHListFragment extends Fragment {
                 }
             }));
         }
-        else if(divisionId != null && districtId != null && upazilaId != null){
+        else if((divisionId != null && !divisionId.equals("")) && (districtId != null&& !districtId.equals("")) && (upazilaId != null&& !upazilaId.equals(""))){
             compositeDisposable.add(Common.householdRepository.getHouseHoldItemByThree(divisionId,districtId,upazilaId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
@@ -197,7 +197,7 @@ public class HHListFragment extends Fragment {
                 }
             }));
         }
-        else if(divisionId != null && districtId != null ){
+        else if((divisionId != null && !divisionId.equals("")) && (districtId != null&& !districtId.equals(""))){
             compositeDisposable.add(Common.householdRepository.getHouseHoldItemByTwo(divisionId,districtId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
@@ -212,7 +212,7 @@ public class HHListFragment extends Fragment {
                 }
             }));
         }
-        else if(divisionId != null ){
+        else if((divisionId != null && !divisionId.equals("")) ){
             compositeDisposable.add(Common.householdRepository.getHouseHoldItemByOne(divisionId).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<HouseHold>>() {
                 @Override
                 public void accept(List<HouseHold> houseHolds) throws Exception {
