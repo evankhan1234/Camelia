@@ -29,6 +29,7 @@ import java.util.Date;
 
 import io.paperdb.Paper;
 import xact.idea.camelia.Activity.CCUserHomeActivity;
+import xact.idea.camelia.Activity.Household.HouseHoldActivity;
 import xact.idea.camelia.Activity.Household.HouseholdHomeActivity;
 import xact.idea.camelia.Activity.MainActivity;
 import xact.idea.camelia.Database.Model.Questions;
@@ -365,7 +366,7 @@ public class HHCreateSurveyFragment extends Fragment {
                         questions6.answer = String.valueOf(biomasFuelId);
                         questions6.date = currentDate;
                         Common.qustionsRepository.insertToQuestions(questions6);
-
+                        SharedPreferenceUtil.saveShared(getActivity(), SharedPreferenceUtil.SYNC, "on");
                         if (frag.equals("frag")) {
                             ((CCUserHomeActivity) getActivity()).backForDetails();
                         } else {
@@ -523,6 +524,7 @@ public class HHCreateSurveyFragment extends Fragment {
                             questions6.date = currentDate;
                             Common.qustionsRepository.insertToQuestions(questions6);
                         }
+                        SharedPreferenceUtil.saveShared(getActivity(), SharedPreferenceUtil.SYNC, "on");
                         Common.surveyRepository.updateSurvey(survey);
                         if (frag.equals("frag")) {
                             ((CCUserHomeActivity) getActivity()).backForDetails();
