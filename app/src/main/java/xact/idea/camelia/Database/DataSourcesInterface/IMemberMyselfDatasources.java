@@ -14,7 +14,7 @@ import xact.idea.camelia.Database.Model.MemberMyself;
 
 public interface IMemberMyselfDatasources {
     Flowable<List<MemberMyself>> getMemberMyselfItems();
-
+    int valueFor(String MemberMyselfId);
     Flowable<List<MemberMyself>> getMemberMyselfItemById(String MemberMyselfItemId);
 
     MemberMyself getMemberMyself(String MemberMyselfItem);

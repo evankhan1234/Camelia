@@ -33,6 +33,11 @@ public class MemberMyselfDataSources implements IMemberMyselfDatasources {
     }
 
     @Override
+    public int valueFor(String MemberMyselfId) {
+        return MemberMyselfDao.valueFor(MemberMyselfId);
+    }
+
+    @Override
     public Flowable<List<MemberMyself>> getMemberMyselfItemById(String MemberMyselfItemId) {
         return MemberMyselfDao.getMemberMyselfItemById(MemberMyselfItemId);
     }

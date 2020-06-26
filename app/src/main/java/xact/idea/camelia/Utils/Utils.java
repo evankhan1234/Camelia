@@ -573,6 +573,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<SaltModel> saltModelArrayList = new ArrayList<>();
 
+        SaltModel saltModel = new SaltModel(resources.getString(R.string.select), -1);
         SaltModel saltModel05 = new SaltModel(resources.getString(R.string.zero_five_kg), 1);
         SaltModel saltModel1 = new SaltModel(resources.getString(R.string.one_kg), 2);
         SaltModel saltModel15 = new SaltModel(resources.getString(R.string.one_five_kg), 3);
@@ -585,6 +586,7 @@ public class Utils {
         SaltModel saltModel50 = new SaltModel(resources.getString(R.string.five_kg), 10);
         SaltModel saltModel5up = new SaltModel(resources.getString(R.string.more_five_kg), 11);
 
+        saltModelArrayList.add(saltModel);
         saltModelArrayList.add(saltModel05);
         saltModelArrayList.add(saltModel1);
         saltModelArrayList.add(saltModel15);

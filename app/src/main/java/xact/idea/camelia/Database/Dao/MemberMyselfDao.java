@@ -26,6 +26,8 @@ public interface MemberMyselfDao {
 
     @Query("SELECT * FROM MemberMyself WHERE UniqueId=:MemberMyselfId")
     Flowable<List<MemberMyself>> getMemberMyselfItemById(String MemberMyselfId);
+    @Query("Select Count(id)  FROM MemberMyself WHERE UniqueId=:MemberMyselfId")
+    int valueFor(String MemberMyselfId);
     @Query("SELECT * FROM MemberMyself WHERE `From` ='CC'")
     Flowable<List<MemberMyself>> getMemberListCC();
     @Query("SELECT * FROM MemberMyself WHERE NationalId=:MemberMyselfItem")
