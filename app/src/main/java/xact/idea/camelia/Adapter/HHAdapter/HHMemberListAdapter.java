@@ -471,7 +471,6 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 Common.referRepository.insertToReferHistory(referHistory);
                 infoDialog.dismiss();
                 SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
-
             }
         });
         btn_no.setOnClickListener(new View.OnClickListener() {
@@ -486,7 +485,6 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
     static EditText edit_date;
 
     public static class DatePickerDeadFragments extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar calendar = Calendar.getInstance();
