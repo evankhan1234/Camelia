@@ -438,7 +438,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 if(history!=null){
                     Common.referRepository.updateReferHistoryFrom(uniqueId);
                 }
-                Common.memberMyselfRepository.updateReciverAgain("cc", String.valueOf(refer[0]), edit_date.getText().toString(), uniqueId);
+                Common.memberMyselfRepository.updateReciverAgain("cc", String.valueOf(refer[0]), edit_date.getText().toString(), uniqueCode);
                 ReferHistory referHistory = new ReferHistory();
                 referHistory.From = "hh";
                 referHistory.To ="cc";
