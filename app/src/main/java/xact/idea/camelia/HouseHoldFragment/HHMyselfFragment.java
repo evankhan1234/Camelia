@@ -698,7 +698,8 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                 {
 
 
-                    if (memberIn==null){
+                    if (memberIn==null)
+                    {
                         MemberMyself memberIds = Common.memberMyselfRepository.getMemberId(update);
                         if (memberIds != null) {
                             MemberMyself memberMyself = new MemberMyself();
@@ -862,9 +863,11 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
 
                             }
                         }
+                        SharedPreferenceUtil.saveShared(getActivity(), SharedPreferenceUtil.SYNC, "on");
                     }
                     else{
-                        if (headId==2){
+                        if (headId==2)
+                        {
                             MemberMyself memberIds = Common.memberMyselfRepository.getMemberId(update);
                             if (memberIds != null) {
                                 MemberMyself memberMyself = new MemberMyself();
@@ -1030,11 +1033,180 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                             }
                         }
                         else{
-                            Toast.makeText(mActivity, "Already Select Household Head", Toast.LENGTH_SHORT).show();
+
+                            if (memberIn.NationalId.equals(edit_national_id.getText().toString())){
+                                MemberMyself memberIds = Common.memberMyselfRepository.getMemberId(update);
+                                if (memberIds != null) {
+                                    MemberMyself memberMyself = new MemberMyself();
+                                    memberMyself.NationalId = edit_national_id.getText().toString();
+                                    memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                                    memberMyself.FullName = edit_name.getText().toString();
+                                    if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                                        memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                                    } else {
+                                        memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
+                                    }
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = new Date(System.currentTimeMillis());
+                                    Date date1 = null;
+                                    String currentDate = formatter.format(date);
+
+                                    try {
+                                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    memberMyself.CreatedDate = date1;
+                                    String created_at = formatterfor.format(date);
+                                    memberMyself.created_at = created_at;
+                                    memberMyself.id = memberIds.id;
+                                    memberMyself.VisitDate = memberIds.VisitDate;
+                                    memberMyself.GenderId = genderId;
+                                    memberMyself.BloodGroupId = bloodGroupId;
+                                    memberMyself.ReligionId = religionId;
+                                    memberMyself.StudyId = studyId;
+                                    memberMyself.From = memberIds.From;
+                                    memberMyself.To = memberIds.To;
+                                    memberMyself.MaritialId = maritialId;
+                                    memberMyself.OccupationId = occupationId;
+                                    memberMyself.LivingId = livingId;
+                                    memberMyself.HouseHeadId = headId;
+                                    memberMyself.MemberId = memberIds.MemberId;
+                                    memberMyself.UniqueId = uniqueId;
+                                    memberMyself.UniqueCode = uniqueId+memberIds.MemberId;
+                                    memberMyself.Status = memberIds.Status;
+                                    SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
+                                    Common.memberMyselfRepository.updateMemberMyself(memberMyself);
+                                    if (frags.equals("frag")) {
+                                        ((CCUserHomeActivity) getActivity()).backForDetails();
+                                    } else {
+                                        ((HouseholdHomeActivity) getActivity()).backForDetails();
+                                    }
+                                } else {
+                                    MemberMyself myself = Common.memberMyselfRepository.getMemberMyself(edit_national_id.getText().toString());
+
+                                    if (genderId == -1 || bloodGroupId == -1 || religionId == -1 || studyId == -1 || maritialId == -1 || livingId == -1 || headId == -1 || occupationId == -1) {
+                                        Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        if (myself == null) {
+                                            MemberMyself memberMyself = new MemberMyself();
+                                            memberMyself.NationalId = edit_national_id.getText().toString();
+                                            memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                                            memberMyself.FullName = edit_name.getText().toString();
+                                            if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                                                memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                                            } else {
+                                                memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
+                                            }
+                                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                            Date date = new Date(System.currentTimeMillis());
+                                            Date date1 = null;
+                                            String currentDate = formatter.format(date);
+                                            try {
+                                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                                                // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                            memberMyself.CreatedDate = date1;
+                                            String created_at = formatterfor.format(date);
+                                            memberMyself.created_at = created_at;
+                                            memberMyself.GenderId = genderId;
+                                            memberMyself.BloodGroupId = bloodGroupId;
+                                            memberMyself.ReligionId = religionId;
+                                            memberMyself.StudyId = studyId;
+                                            memberMyself.MaritialId = maritialId;
+                                            memberMyself.OccupationId = occupationId;
+                                            memberMyself.LivingId = livingId;
+                                            memberMyself.HouseHeadId = headId;
+                                            memberMyself.UniqueId = uniqueId;
+                                            memberMyself.VisitDate = "";
+
+                                            memberMyself.DateOfDeath = edit_date_of_death.getText().toString();
+
+                                            int  count=Common.memberMyselfRepository.count(uniqueId);
+                                            String countSize=String.valueOf(count+1);
+                                            String memberValue="";
+                                            if (countSize.length()<9){
+                                                memberValue="00"+countSize;
+                                            }
+                                            else if (countSize.length()>10 && countSize.length()<99){
+                                                memberValue="0"+countSize;
+                                            }
+                                            else{
+                                                memberValue=countSize;
+                                            }
+
+                                            memberMyself.MemberId = memberValue;
+                                            memberMyself.UniqueCode = uniqueId+memberValue;
+                                            memberMyself.Status = "0";
+                                            Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+                                            SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
+
+                                            //Common.memberIdRepository.emptyMemberId(memberId);
+                                            showInfoDialog(mActivity, uniqueId+memberValue);
+
+                                        }
+                                        else {
+                                            MemberMyself memberMyself = new MemberMyself();
+                                            memberMyself.NationalId = edit_national_id.getText().toString();
+                                            memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                                            memberMyself.FullName = edit_name.getText().toString();
+                                            if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                                                memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                                            } else {
+                                                memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
+                                            }
+                                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                            Date date = new Date(System.currentTimeMillis());
+                                            Date date1 = null;
+                                            String currentDate = formatter.format(date);
+                                            try {
+                                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                                                // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                            String created_at = formatterfor.format(date);
+                                            memberMyself.created_at = created_at;
+                                            memberMyself.CreatedDate = date1;
+                                            memberMyself.id = myself.id;
+                                            memberMyself.VisitDate = myself.VisitDate;
+                                            memberMyself.Status = myself.Status;
+                                            memberMyself.GenderId = genderId;
+                                            memberMyself.BloodGroupId = bloodGroupId;
+                                            memberMyself.ReligionId = religionId;
+                                            memberMyself.StudyId = studyId;
+                                            memberMyself.MaritialId = maritialId;
+                                            memberMyself.OccupationId = occupationId;
+                                            memberMyself.LivingId = livingId;
+                                            memberMyself.HouseHeadId = headId;
+                                            memberMyself.UniqueId = uniqueId;
+                                            memberMyself.UniqueCode = myself.UniqueCode;
+                                            memberMyself.DateOfDeath = edit_date_of_death.getText().toString();
+                                            memberMyself.MemberId = myself.MemberId;
+                                            Common.memberMyselfRepository.updateMemberMyself(memberMyself);
+                                            if (frags.equals("frag")) {
+                                                ((CCUserHomeActivity) getActivity()).backForDetails();
+                                            } else {
+                                                ((HouseholdHomeActivity) getActivity()).backForDetails();
+                                            }
+
+                                        }
+
+
+                                    }
+                                }
+                            }
+                            else{
+                                Toast.makeText(mActivity, "Already Select Household Head", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
 
                     }
-
+                    SharedPreferenceUtil.saveShared(getActivity(), SharedPreferenceUtil.SYNC, "on");
 
                     ////////Test
                 }
@@ -1189,9 +1361,11 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                 HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
                             }
                         }
+                        SharedPreferenceUtil.saveShared(getActivity(), SharedPreferenceUtil.SYNC, "on");
                     }
                     else{
-                        if (headId==2){
+                        if (headId==2)
+                        {
                             MemberMyself memberIds = Common.memberMyselfRepository.getMemberId(update);
                             if (memberIds != null) {
                                 MemberMyself memberMyself = new MemberMyself();
@@ -1334,7 +1508,7 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                                         memberMyself.UniqueId = uniqueId;
                                         memberMyself.MemberId = myself.MemberId;
                                         Common.memberMyselfRepository.updateMemberMyself(memberMyself);
-
+                                        SharedPreferenceUtil.saveShared(getActivity(), SharedPreferenceUtil.SYNC, "on");
                                         HHCreateMemberFragment.nextPage(1);
                                     }
 
@@ -1343,9 +1517,163 @@ public class HHMyselfFragment extends Fragment implements Handler.Callback {
                             }
                         }
                         else{
-                            Toast.makeText(mActivity, "Already Select Household Head", Toast.LENGTH_SHORT).show();
-                        }
+                            if (memberIn.NationalId.equals(edit_national_id.getText().toString())){
+                                MemberMyself memberIds = Common.memberMyselfRepository.getMemberId(update);
+                                if (memberIds != null) {
+                                    MemberMyself memberMyself = new MemberMyself();
+                                    memberMyself.NationalId = edit_national_id.getText().toString();
+                                    memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                                    memberMyself.FullName = edit_name.getText().toString();
+                                    if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                                        memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                                    } else {
+                                        memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
+                                    }
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date date = new Date(System.currentTimeMillis());
+                                    Date date1 = null;
+                                    String currentDate = formatter.format(date);
+                                    try {
+                                        date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                                        // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    String created_at = formatterfor.format(date);
+                                    memberMyself.created_at = created_at;
+                                    memberMyself.CreatedDate = date1;
+                                    memberMyself.id = memberIds.id;
+                                    memberMyself.VisitDate = memberIds.VisitDate;
+                                    memberMyself.GenderId = genderId;
+                                    memberMyself.BloodGroupId = bloodGroupId;
+                                    memberMyself.ReligionId = religionId;
+                                    memberMyself.StudyId = studyId;
+                                    memberMyself.MaritialId = maritialId;
+                                    memberMyself.OccupationId = occupationId;
+                                    memberMyself.LivingId = livingId;
+                                    memberMyself.HouseHeadId = headId;
+                                    memberMyself.MemberId = memberIds.MemberId;
+                                    memberMyself.UniqueId = uniqueId;
+                                    memberMyself.From = memberIds.From;
+                                    memberMyself.To = memberIds.To;
+                                    memberMyself.UniqueCode = memberIds.UniqueCode;
+                                    memberMyself.Status = memberIds.Status;
+                                    SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
+                                    Common.memberMyselfRepository.updateMemberMyself(memberMyself);
+                                    HHCreateMemberFragment.nextPage(1);
+                                    HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
+                                } else {
+                                    MemberMyself myself = Common.memberMyselfRepository.getMemberMyself(edit_national_id.getText().toString());
 
+                                    if (genderId == -1 || bloodGroupId == -1 || religionId == -1 || studyId == -1 || maritialId == -1 || livingId == -1 || headId == -1 || occupationId == -1) {
+                                        Toast.makeText(mActivity, "Please Select", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        if (myself == null) {
+                                            MemberMyself memberMyself = new MemberMyself();
+                                            memberMyself.NationalId = edit_national_id.getText().toString();
+                                            memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                                            memberMyself.FullName = edit_name.getText().toString();
+                                            if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                                                memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                                            } else {
+                                                memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
+                                            }
+                                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                            Date date = new Date(System.currentTimeMillis());
+                                            Date date1 = null;
+                                            String currentDate = formatter.format(date);
+                                            try {
+                                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                                                // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                            memberMyself.CreatedDate = date1;
+                                            String created_at = formatterfor.format(date);
+                                            memberMyself.created_at = created_at;
+                                            memberMyself.GenderId = genderId;
+                                            memberMyself.BloodGroupId = bloodGroupId;
+                                            memberMyself.ReligionId = religionId;
+                                            memberMyself.StudyId = studyId;
+                                            memberMyself.MaritialId = maritialId;
+                                            memberMyself.OccupationId = occupationId;
+                                            memberMyself.LivingId = livingId;
+                                            memberMyself.HouseHeadId = headId;
+                                            memberMyself.UniqueId = uniqueId;
+                                            memberMyself.VisitDate = "";
+
+                                            int  count=Common.memberMyselfRepository.count(uniqueId);
+                                            String countSize=String.valueOf(count+1);
+                                            String memberValue="";
+                                            if (countSize.length()<9){
+                                                memberValue="00"+countSize;
+                                            }
+                                            else if (countSize.length()>10 && countSize.length()<99){
+                                                memberValue="0"+countSize;
+                                            }
+                                            else{
+                                                memberValue=countSize;
+                                            }
+                                            memberMyself.MemberId = memberValue;
+                                            memberMyself.UniqueCode = uniqueId+memberValue;
+                                            memberMyself.Status = "0";
+                                            Common.memberMyselfRepository.insertToMemberMyself(memberMyself);
+                                            SharedPreferenceUtil.saveShared(mActivity, SharedPreferenceUtil.SYNC, "on");
+
+                                            //  Common.memberIdRepository.emptyMemberId(memberId);
+                                            HHCreateMemberFragment.nextPage(1);
+                                        } else {
+                                            MemberMyself memberMyself = new MemberMyself();
+                                            memberMyself.NationalId = edit_national_id.getText().toString();
+                                            memberMyself.MobileNumber = edit_mobile_number.getText().toString();
+                                            memberMyself.FullName = edit_name.getText().toString();
+                                            if (isNullOrEmpty(edit_birthday_date.getText().toString())) {
+                                                memberMyself.DateOfBirth = edit_birthday_date_again.getText().toString();
+                                            } else {
+                                                memberMyself.DateOfBirth = edit_birthday_date.getText().toString();
+                                            }
+                                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                            Date date = new Date(System.currentTimeMillis());
+                                            Date date1 = null;
+                                            String currentDate = formatter.format(date);
+                                            try {
+                                                date1 = new SimpleDateFormat("yyyy-MM-dd").parse(currentDate);
+                                                // date2= new SimpleDateFormat("yy-MM-dd").parse(edit_date.getText().toString());
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+                                            String created_at = formatterfor.format(date);
+                                            memberMyself.created_at = created_at;
+                                            memberMyself.CreatedDate = date1;
+                                            memberMyself.id = myself.id;
+                                            memberMyself.VisitDate = myself.VisitDate;
+                                            memberMyself.Status = myself.Status;
+                                            memberMyself.GenderId = genderId;
+                                            memberMyself.BloodGroupId = bloodGroupId;
+                                            memberMyself.ReligionId = religionId;
+                                            memberMyself.StudyId = studyId;
+                                            memberMyself.MaritialId = maritialId;
+                                            memberMyself.UniqueCode = myself.UniqueCode;
+                                            memberMyself.OccupationId = occupationId;
+                                            memberMyself.LivingId = livingId;
+                                            memberMyself.HouseHeadId = headId;
+                                            memberMyself.UniqueId = uniqueId;
+                                            memberMyself.MemberId = myself.MemberId;
+                                            Common.memberMyselfRepository.updateMemberMyself(memberMyself);
+                                            SharedPreferenceUtil.saveShared(getActivity(), SharedPreferenceUtil.SYNC, "on");
+                                            HHCreateMemberFragment.nextPage(1);
+                                        }
+
+                                        HHCreateMemberFragment.btn_back.setVisibility(View.VISIBLE);
+                                    }
+                                }
+                            }
+                            else{
+                                Toast.makeText(mActivity, "Already Select Household Head", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                        SharedPreferenceUtil.saveShared(getActivity(), SharedPreferenceUtil.SYNC, "on");
                     }
 
                 }
