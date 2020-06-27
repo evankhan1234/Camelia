@@ -2,6 +2,7 @@ package xact.idea.camelia.Activity.Household;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -327,12 +328,15 @@ public class HouseHoldActivity extends AppCompatActivity {
                 model.data = syncMember;
                 Log.e("sync", "sync" + new Gson().toJson(householdUpload));
                 Log.e("MemberData", "MemberData" + new Gson().toJson(model));
-                showLoadingProgress(HouseHoldActivity.this);
+                final  ProgressDialog progressDoalog ;
+                progressDoalog = new ProgressDialog(HouseHoldActivity.this);
+                progressDoalog.setMessage("Data Syncing....");
+                progressDoalog.show();
                 compositeDisposable.add(mService.postHouseholdUpload(householdUpload).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdResponseModel>() {
                     @Override
                     public void accept(HouseholdResponseModel memberResponseModel) throws Exception {
                         Log.e("Express", "e1" + new Gson().toJson(memberResponseModel));
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
 
 
                     }
@@ -340,17 +344,17 @@ public class HouseHoldActivity extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("Express", "e11" + throwable.getMessage());
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
                     }
                 }));
 
-                showLoadingProgress(HouseHoldActivity.this);
+
                 compositeDisposable.add(mService.postMemberUpload(model).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberResponseModel>() {
                     @Override
                     public void accept(MemberResponseModel memberResponseModel) throws Exception {
                         Log.e("Express", "e2" + new Gson().toJson(memberResponseModel));
                         Common.memberMyselfRepository.updateStatus("1", "0");
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
 
 
                     }
@@ -358,7 +362,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("Express", "e12" + throwable.getMessage());
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
                     }
                 }));
 
@@ -369,7 +373,10 @@ public class HouseHoldActivity extends AppCompatActivity {
 
 
     private void medicineList() {
-        showLoadingProgress(HouseHoldActivity.this);
+        final  ProgressDialog progressDoalog ;
+        progressDoalog = new ProgressDialog(HouseHoldActivity.this);
+        progressDoalog.setMessage("Data Syncing....");
+        progressDoalog.show();
 
         compositeDisposable.add(Common.memberMedicineRepository.getMemberMedicineItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberMedicine>>() {
             @Override
@@ -408,7 +415,6 @@ public class HouseHoldActivity extends AppCompatActivity {
                     mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
                     mdata.details = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
-                    dismissLoadingProgress();
                 }
                 data.data = medicalHistoryUploadList;
                 data.user_credential = auth.email;
@@ -416,13 +422,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                     @Override
                     public void accept(MedicalHistoryResponseModel memberResponseModel) throws Exception {
                         Log.e("Express", "e3" + new Gson().toJson(memberResponseModel));
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("Express", "e13" + throwable.getMessage());
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
 //                        if (medicine=false){
 //                            medicineList();
 //                            medicine=true;
@@ -441,7 +447,10 @@ public class HouseHoldActivity extends AppCompatActivity {
     boolean medicine = false;
 
     private void getBehaviorialList() {
-        showLoadingProgress(HouseHoldActivity.this);
+        final  ProgressDialog progressDoalog ;
+        progressDoalog = new ProgressDialog(HouseHoldActivity.this);
+        progressDoalog.setMessage("Data Syncing....");
+        progressDoalog.show();
 
         compositeDisposable.add(Common.memberHabitRepository.getMemberHabitItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<MemberHabit>>() {
             @Override
@@ -480,16 +489,15 @@ public class HouseHoldActivity extends AppCompatActivity {
                     mdata.created_at = currentDate;
                     mdata.details = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
-                    dismissLoadingProgress();
                 }
                 data.data = medicalHistoryUploadList;
                 data.user_credential = auth.email;
-                showLoadingProgress(HouseHoldActivity.this);
+
                 compositeDisposable.add(mService.postMemberBehaviorialUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberBehaviorialResponseModel>() {
                     @Override
                     public void accept(MemberBehaviorialResponseModel memberResponseModel) throws Exception {
                         Log.e("Express", "e4" + new Gson().toJson(memberResponseModel));
-                        dismissLoadingProgress();
+                       progressDoalog.dismiss();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -499,6 +507,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 //                            getBehaviorialList();
 //                            beahve=true;
 //                        }
+                        progressDoalog.dismiss();
                     }
                 }));
                 Log.e("Behaviorial", "Behaviorial" + new Gson().toJson(data));
@@ -561,7 +570,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             mData.sex = String.valueOf(memberMyself.GenderId);
             mData.head_of_house = String.valueOf(memberMyself.HouseHeadId);
             memberMyselves.add(mData);
-            dismissLoadingProgress();
+
         }
 
         return memberMyselves;
@@ -570,7 +579,7 @@ public class HouseHoldActivity extends AppCompatActivity {
     private ArrayList<MedicalHistoryUpload.Data> getMedicalHistoryData(String date) {
         final ArrayList<MedicalHistoryUpload.Data> memberMyselves = new ArrayList<>();
         final ArrayList<MedicalHistoryUpload.Data.Details> memberMyselvesdetails = new ArrayList<>();
-        showLoadingProgress(HouseHoldActivity.this);
+
         Flowable<List<MemberMedicine>> memberMedicineList = Common.memberMedicineRepository.getMemberMedicineItems();
         for (MemberMedicine memberMedicine : memberMedicineList.blockingFirst()) {
             MedicalHistoryUpload.Data mdata = new MedicalHistoryUpload.Data();
@@ -582,7 +591,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             mdata.created_at = date;
             mdata.details = memberMyselvesdetails;
             memberMyselves.add(mdata);
-            dismissLoadingProgress();
+
         }
         Log.e("sync4", "sync4" + new Gson().toJson(memberMyselves));
         return memberMyselves;
@@ -590,7 +599,6 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     private ArrayList<MedicalHistoryUpload.Data.Details> getMedicalHistoryDetailsData(String memberId, String date, int id) {
         final ArrayList<MedicalHistoryUpload.Data.Details> memberMyselves = new ArrayList<>();
-        showLoadingProgress(HouseHoldActivity.this);
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("medicine", memberId);
         for (Questions questions : questionsList.blockingFirst()) {
             MedicalHistoryUpload.Data.Details mdata = new MedicalHistoryUpload.Data.Details();
@@ -678,7 +686,7 @@ public class HouseHoldActivity extends AppCompatActivity {
                 memberMyselves.add(mdata);
 
             }
-            dismissLoadingProgress();
+
 
         }
         return memberMyselves;
@@ -686,7 +694,6 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     private ArrayList<MemberBehaviorialUploadModel.Data.Details> getBeahviorialHistoryDetailsData(String memberId, String date, int id) {
         final ArrayList<MemberBehaviorialUploadModel.Data.Details> memberMyselves = new ArrayList<>();
-        showLoadingProgress(HouseHoldActivity.this);
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("behavioral", memberId);
         for (Questions questions : questionsList.blockingFirst()) {
             MemberBehaviorialUploadModel.Data.Details mdata = new MemberBehaviorialUploadModel.Data.Details();
@@ -814,14 +821,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                 memberMyselves.add(mdata);
 
             }
-            dismissLoadingProgress();
         }
         return memberMyselves;
     }
 
     private void loadSurvey() {
 
-        showLoadingProgress(HouseHoldActivity.this);
 
         compositeDisposable.add(Common.surveyRepository.getSurveyItems().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Survey>>() {
             @Override
@@ -875,23 +880,26 @@ public class HouseHoldActivity extends AppCompatActivity {
                     mdata.household_uniqe_id = measurements.UniqueId;
                     mdata.khana_details = memberMyselvesdetails;
                     medicalHistoryUploadList.add(mdata);
-                    dismissLoadingProgress();
+
                 }
                 data.data = medicalHistoryUploadList;
                 data.user_credential = auth.email;
                 //medicalHistoryUploadList.clear();
-
+                final  ProgressDialog progressDoalog ;
+                progressDoalog = new ProgressDialog(HouseHoldActivity.this);
+                progressDoalog.setMessage("Data Syncing....");
+                progressDoalog.show();
                 compositeDisposable.add(mService.postKhanaServeyUpload(data).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<KhanaServeyResponseModel>() {
                     @Override
                     public void accept(KhanaServeyResponseModel memberResponseModel) throws Exception {
                         Log.e("KhanaServey", "KhanaServey" + new Gson().toJson(memberResponseModel));
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("KhanaServey", "KhanaServey" + throwable.getMessage());
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
                     }
                 }));
                 Log.e("sync2", "sync2" + new Gson().toJson(data));
@@ -903,7 +911,6 @@ public class HouseHoldActivity extends AppCompatActivity {
 
     private ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> getKhanaDetailsData(String id, String Date) {
         final ArrayList<KhanaServeyUploadModel.Data.KhanaDetails> memberMyselves = new ArrayList<>();
-        showLoadingProgress(HouseHoldActivity.this);
 
         Flowable<List<Questions>> questionsList = Common.qustionsRepository.getQuestionsItemById("survey", id);
 
@@ -925,7 +932,6 @@ public class HouseHoldActivity extends AppCompatActivity {
             mdata.question_type = questions.type;
             mdata.update_no = "0";
             memberMyselves.add(mdata);
-            dismissLoadingProgress();
         }
         return memberMyselves;
     }
@@ -944,7 +950,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 
                     }
                 }, 500);
-                dismissLoadingProgress();
+
             } else {
                 Snackbar snackbar = Snackbar
                         .make(relative, "No Internet", Snackbar.LENGTH_LONG);
@@ -957,7 +963,7 @@ public class HouseHoldActivity extends AppCompatActivity {
 
 
     private void loadMemberId() {
-        showLoadingProgress(HouseHoldActivity.this);
+
         MemberAlocatePostModel memberAlocatePostModel = new MemberAlocatePostModel();
         Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
         int maxValue = Common.memberIdRepository.maxValue();
@@ -986,13 +992,13 @@ public class HouseHoldActivity extends AppCompatActivity {
                     id.From = SharedPreferenceUtil.getUserRole(HouseHoldActivity.this);
                     Common.memberIdRepository.insertToMemberId(id);
                 }
-                dismissLoadingProgress();
+
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
                 Log.e("loadMemberId", "loadMemberId" + throwable.getMessage());
-                dismissLoadingProgress();
+
             }
         }));
 
@@ -1032,8 +1038,10 @@ public class HouseHoldActivity extends AppCompatActivity {
 
 
     private void downloadHousehold() {
-        showLoadingProgress(HouseHoldActivity.this);
-
+      final  ProgressDialog progressDoalog ;
+        progressDoalog = new ProgressDialog(HouseHoldActivity.this);
+        progressDoalog.setMessage("Data Downloading....");
+        progressDoalog.show();
         final Auth auth = Common.authRepository.getAuthNo(SharedPreferenceUtil.getUserRole(HouseHoldActivity.this));
         compositeDisposable.add(mService.getHouseholdList().observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<HouseholdListResponseModel>() {
             @Override
@@ -1102,12 +1110,13 @@ public class HouseHoldActivity extends AppCompatActivity {
 
 
                 }
-                dismissLoadingProgress();
+                progressDoalog.dismiss();
+
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                dismissLoadingProgress();
+                progressDoalog.dismiss();
             }
         }));
     }
@@ -1125,14 +1134,14 @@ public class HouseHoldActivity extends AppCompatActivity {
                     value = value + 1;
                     DownSurveyList(khanas.details, houseHoldId, String.valueOf(value));
                 }
-                dismissLoadingProgress();
+
 
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
                 Log.e("HouseholdSurvey", "Household" + throwable.getMessage());
-                dismissLoadingProgress();
+
             }
         }));
 
@@ -1468,7 +1477,10 @@ public class HouseHoldActivity extends AppCompatActivity {
     }
 
     private void downloadMember(String uniueId) {
-        showLoadingProgress(HouseHoldActivity.this);
+        final  ProgressDialog progressDoalog ;
+        progressDoalog = new ProgressDialog(HouseHoldActivity.this);
+        progressDoalog.setMessage("Data Downloading....");
+        progressDoalog.show();
         Log.e("asdas", "asd" + uniueId);
         ReferallPostModel referallPostModel = new ReferallPostModel();
         referallPostModel.household_uniqe_id = uniueId;
@@ -1596,12 +1608,12 @@ public class HouseHoldActivity extends AppCompatActivity {
                     }
                 }
 
-                dismissLoadingProgress();
+                progressDoalog.dismiss();
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                dismissLoadingProgress();
+                progressDoalog.dismiss();
                 Log.e("evan", "asd" + throwable.getMessage());
             }
         }));
@@ -6743,18 +6755,21 @@ public class HouseHoldActivity extends AppCompatActivity {
 
                 }
                 memberPrescriptionResponseModel.data = sync;
-                showLoadingProgress(HouseHoldActivity.this);
+                final  ProgressDialog progressDoalog ;
+                progressDoalog = new ProgressDialog(HouseHoldActivity.this);
+                progressDoalog.setMessage("Data Syncing....");
+                progressDoalog.show();
                 compositeDisposable.add(mService.postReferral_historyList(memberPrescriptionResponseModel).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Consumer<MemberBehaviorialResponseModel>() {
                     @Override
                     public void accept(MemberBehaviorialResponseModel memberResponseModel) throws Exception {
                         Log.e("Referalla", "Referalla" + new Gson().toJson(memberResponseModel));
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
                     }
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         Log.e("Referalla", "Referalla" + throwable.getMessage());
-                        dismissLoadingProgress();
+                        progressDoalog.dismiss();
                     }
                 }));
                 Log.e("Referalla", "Referalla" + new Gson().toJson(memberPrescriptionResponseModel));
@@ -6783,7 +6798,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 downloadHousehold();
-                loadMemberId();
+               // loadMemberId();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

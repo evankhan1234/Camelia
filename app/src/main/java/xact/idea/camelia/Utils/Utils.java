@@ -225,6 +225,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<ModerateModel> fruitsModelArrayList = new ArrayList<>();
 
+        ModerateModel fruitsModel = new ModerateModel(resources.getString(R.string.select), -1);
         ModerateModel fruitsModelNo0 = new ModerateModel(resources.getString(R.string.zero_week), 1);
         ModerateModel fruitsModelNo1 = new ModerateModel(resources.getString(R.string.one_week), 2);
         ModerateModel fruitsModelNo2 = new ModerateModel(resources.getString(R.string.two_week), 3);
@@ -234,6 +235,7 @@ public class Utils {
         ModerateModel fruitsModelNo6 = new ModerateModel(resources.getString(R.string.six_week), 7);
         ModerateModel fruitsModelNo7 = new ModerateModel(resources.getString(R.string.seven_week), 8);
 
+        fruitsModelArrayList.add(fruitsModel);
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
         fruitsModelArrayList.add(fruitsModelNo2);
@@ -255,6 +257,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<ModerateRecreationalModel> fruitsModelArrayList = new ArrayList<>();
 
+        ModerateRecreationalModel fruitsModel= new ModerateRecreationalModel(resources.getString(R.string.select), -1);
         ModerateRecreationalModel fruitsModelNo0 = new ModerateRecreationalModel(resources.getString(R.string.zero_week), 1);
         ModerateRecreationalModel fruitsModelNo1 = new ModerateRecreationalModel(resources.getString(R.string.one_week), 2);
         ModerateRecreationalModel fruitsModelNo2 = new ModerateRecreationalModel(resources.getString(R.string.two_week), 3);
@@ -264,6 +267,7 @@ public class Utils {
         ModerateRecreationalModel fruitsModelNo6 = new ModerateRecreationalModel(resources.getString(R.string.six_week), 7);
         ModerateRecreationalModel fruitsModelNo7 = new ModerateRecreationalModel(resources.getString(R.string.seven_week), 8);
 
+        fruitsModelArrayList.add(fruitsModel);
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
         fruitsModelArrayList.add(fruitsModelNo2);
@@ -285,6 +289,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<TypicalVigorousModel> fruitsModelArrayList = new ArrayList<>();
 
+        TypicalVigorousModel fruitsModel = new TypicalVigorousModel(resources.getString(R.string.select), -1);
         TypicalVigorousModel fruitsModelNo0 = new TypicalVigorousModel(resources.getString(R.string.zero_week), 1);
         TypicalVigorousModel fruitsModelNo1 = new TypicalVigorousModel(resources.getString(R.string.one_week), 2);
         TypicalVigorousModel fruitsModelNo2 = new TypicalVigorousModel(resources.getString(R.string.two_week), 3);
@@ -294,6 +299,7 @@ public class Utils {
         TypicalVigorousModel fruitsModelNo6 = new TypicalVigorousModel(resources.getString(R.string.six_week), 7);
         TypicalVigorousModel fruitsModelNo7 = new TypicalVigorousModel(resources.getString(R.string.seven_week), 8);
 
+        fruitsModelArrayList.add(fruitsModel);
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
         fruitsModelArrayList.add(fruitsModelNo2);
@@ -315,6 +321,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<TypicalVigorousRecreationModel> fruitsModelArrayList = new ArrayList<>();
 
+        TypicalVigorousRecreationModel fruitsModel= new TypicalVigorousRecreationModel(resources.getString(R.string.select), -1);
         TypicalVigorousRecreationModel fruitsModelNo0 = new TypicalVigorousRecreationModel(resources.getString(R.string.zero_week), 1);
         TypicalVigorousRecreationModel fruitsModelNo1 = new TypicalVigorousRecreationModel(resources.getString(R.string.one_week), 2);
         TypicalVigorousRecreationModel fruitsModelNo2 = new TypicalVigorousRecreationModel(resources.getString(R.string.two_week), 3);
@@ -324,6 +331,7 @@ public class Utils {
         TypicalVigorousRecreationModel fruitsModelNo6 = new TypicalVigorousRecreationModel(resources.getString(R.string.six_week), 7);
         TypicalVigorousRecreationModel fruitsModelNo7 = new TypicalVigorousRecreationModel(resources.getString(R.string.seven_week), 8);
 
+        fruitsModelArrayList.add(fruitsModel);
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
         fruitsModelArrayList.add(fruitsModelNo2);
@@ -612,6 +620,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<FruitsModel> fruitsModelArrayList = new ArrayList<>();
 
+        FruitsModel fruitsModel= new FruitsModel(resources.getString(R.string.select), -1);
         FruitsModel fruitsModelNo0 = new FruitsModel(resources.getString(R.string.zero_week), 1);
         FruitsModel fruitsModelNo1 = new FruitsModel(resources.getString(R.string.one_week), 2);
         FruitsModel fruitsModelNo2 = new FruitsModel(resources.getString(R.string.two_week), 3);
@@ -621,6 +630,7 @@ public class Utils {
         FruitsModel fruitsModelNo6 = new FruitsModel(resources.getString(R.string.six_week), 7);
         FruitsModel fruitsModelNo7 = new FruitsModel(resources.getString(R.string.seven_week), 8);
 
+        fruitsModelArrayList.add(fruitsModel);
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
         fruitsModelArrayList.add(fruitsModelNo2);
@@ -642,6 +652,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<VegetableModel> fruitsModelArrayList = new ArrayList<>();
 
+        VegetableModel fruitsModel = new VegetableModel(resources.getString(R.string.select), -1);
         VegetableModel fruitsModelNo0 = new VegetableModel(resources.getString(R.string.zero_week), 1);
         VegetableModel fruitsModelNo1 = new VegetableModel(resources.getString(R.string.one_week), 2);
         VegetableModel fruitsModelNo2 = new VegetableModel(resources.getString(R.string.two_week), 3);
@@ -651,6 +662,7 @@ public class Utils {
         VegetableModel fruitsModelNo6 = new VegetableModel(resources.getString(R.string.six_week), 7);
         VegetableModel fruitsModelNo7 = new VegetableModel(resources.getString(R.string.seven_week), 8);
 
+        fruitsModelArrayList.add(fruitsModel);
         fruitsModelArrayList.add(fruitsModelNo0);
         fruitsModelArrayList.add(fruitsModelNo1);
         fruitsModelArrayList.add(fruitsModelNo2);
@@ -673,6 +685,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<FruitsCardModel> fruitsCardModelArrayList = new ArrayList<>();
 
+        FruitsCardModel fruitsModel = new FruitsCardModel(resources.getString(R.string.select), -1);
         FruitsCardModel fruitsModelNo0 = new FruitsCardModel(resources.getString(R.string.zero_day), 0);
         FruitsCardModel fruitsModelNo05 = new FruitsCardModel(resources.getString(R.string.zero_five_day), 0.5);
         FruitsCardModel fruitsModelNo1 = new FruitsCardModel(resources.getString(R.string.one_day), 1);
@@ -690,6 +703,7 @@ public class Utils {
         FruitsCardModel fruitsModelNo9 = new FruitsCardModel(resources.getString(R.string.nine_day), 9);
         FruitsCardModel fruitsModelNo10 = new FruitsCardModel(resources.getString(R.string.ten_day), 10);
 
+        fruitsCardModelArrayList.add(fruitsModel);
         fruitsCardModelArrayList.add(fruitsModelNo0);
         fruitsCardModelArrayList.add(fruitsModelNo05);
         fruitsCardModelArrayList.add(fruitsModelNo1);
@@ -719,6 +733,7 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<VegetablesCardModel> fruitsCardModelArrayList = new ArrayList<>();
 
+        VegetablesCardModel fruitsModel = new VegetablesCardModel(resources.getString(R.string.select), -1);
         VegetablesCardModel fruitsModelNo0 = new VegetablesCardModel(resources.getString(R.string.zero_day), 0);
         VegetablesCardModel fruitsModelNo05 = new VegetablesCardModel(resources.getString(R.string.zero_five_day), 0.5);
         VegetablesCardModel fruitsModelNo1 = new VegetablesCardModel(resources.getString(R.string.one_day), 1);
@@ -736,6 +751,7 @@ public class Utils {
         VegetablesCardModel fruitsModelNo9 = new VegetablesCardModel(resources.getString(R.string.nine_day), 9);
         VegetablesCardModel fruitsModelNo10 = new VegetablesCardModel(resources.getString(R.string.ten_day), 10);
 
+        fruitsCardModelArrayList.add(fruitsModel);
         fruitsCardModelArrayList.add(fruitsModelNo0);
         fruitsCardModelArrayList.add(fruitsModelNo05);
         fruitsCardModelArrayList.add(fruitsModelNo1);
