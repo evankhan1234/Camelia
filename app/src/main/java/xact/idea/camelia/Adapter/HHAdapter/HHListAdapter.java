@@ -66,6 +66,7 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
     public void onBindViewHolder(final HHListAdapter.CCDashboardListiewHolder holder, final int position) {
         MemberMyself memberMyself= Common.memberMyselfRepository.getMemberMyselfForHousehold(houseHolds.get(position).UniqueId);
         String head="";
+        String total="";
         String number="";
         Paper.init(mActivity);
         String language= SharedPreferenceUtil.getLanguage(mActivity);
@@ -88,7 +89,11 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
                         holder.img_avatar.setImageDrawable(resource);
                     }
                 });
+        HouseHold houseHold=Common.householdRepository.getHouseHold(houseHolds.get(position).UniqueId);
+        int memberMyself1=Common.memberMyselfRepository.valueFor(houseHolds.get(position).UniqueId);
+        total = "<b><font color=#000 >"+resources.getString(R.string.total_member) +":  </font></b> <font color=#444444> "+memberMyself1+"/" +houseHold.FamilyMember+ "</font>";
         holder.text_khana_head.setText(Html.fromHtml(head));
+        holder.text_total.setText(Html.fromHtml(total));
         holder.text_no.setText(Html.fromHtml(String.valueOf(houseHolds.get(position).UniqueId)));
         holder.text_phone_number.setText(Html.fromHtml(number));
         holder.text_head.setText(Html.fromHtml(houseHolds.get(position).VillageName));
@@ -120,6 +125,7 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
         private TextView text_head;
         private TextView text_khana_head;
         private TextView text_phone_number;
+        private TextView text_total;
         CircleImageView img_avatar;
         ImageView img_next;
 
@@ -133,6 +139,7 @@ public class HHListAdapter extends RecyclerView.Adapter<HHListAdapter.CCDashboar
             text_phone_number=itemView.findViewById(R.id.text_phone_number);
             img_avatar=itemView.findViewById(R.id.img_avatar);
             img_next=itemView.findViewById(R.id.img_next);
+            text_total=itemView.findViewById(R.id.text_total);
         }
     }
 }

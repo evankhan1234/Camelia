@@ -30,8 +30,6 @@ public class SpalashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-
-               // Toast.makeText(SpalashActivity.this, SharedPreferenceUtil.getUserID(SpalashActivity.this), Toast.LENGTH_SHORT).show();
                 goToLoginPage();
             }
         }, 3000);
