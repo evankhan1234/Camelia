@@ -814,6 +814,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             else{
                 mdata.created_by = SharedPreferenceUtil.getUserID(HouseHoldActivity.this);
                 mdata.question = questions.question;
+                mdata.answer=questions.answer;
                 mdata.created_at = questions.date;
                 mdata.id = questions.id;
                 mdata.question_type = questions.type;

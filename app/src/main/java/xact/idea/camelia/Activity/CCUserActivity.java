@@ -6435,6 +6435,7 @@ public class CCUserActivity extends AppCompatActivity {
                 mdata.answer = "2";
             }
             else{
+                mdata.answer=questions.answer;
                 mdata.created_by = SharedPreferenceUtil.getUserID(CCUserActivity.this);
                 mdata.question = questions.question;
                 mdata.created_at = questions.date;
