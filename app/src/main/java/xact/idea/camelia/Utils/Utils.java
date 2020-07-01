@@ -354,11 +354,11 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<ReligionModel> religionModelArrayList = new ArrayList<>();
         ReligionModel religionModelIslam4 = new ReligionModel(resources.getString(R.string.select), -1);
-        ReligionModel religionModelIslam = new ReligionModel(resources.getString(R.string.islam), 1);
+        ReligionModel religionModelIslam = new ReligionModel(resources.getString(R.string.islam), 5);
         ReligionModel religionModelHindu = new ReligionModel(resources.getString(R.string.hindu), 2);
-        ReligionModel religionModelChristan = new ReligionModel(resources.getString(R.string.christain), 3);
-        ReligionModel religionModelBuddhist = new ReligionModel(resources.getString(R.string.buddhist), 4);
-        ReligionModel religionModelOthers = new ReligionModel(resources.getString(R.string.others_region), 99);
+        ReligionModel religionModelChristan = new ReligionModel(resources.getString(R.string.christain), 4);
+        ReligionModel religionModelBuddhist = new ReligionModel(resources.getString(R.string.buddhist), 6);
+        ReligionModel religionModelOthers = new ReligionModel(resources.getString(R.string.others_region), 7);
         religionModelArrayList.add(religionModelIslam4);
         religionModelArrayList.add(religionModelIslam);
         religionModelArrayList.add(religionModelHindu);
