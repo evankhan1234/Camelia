@@ -4,14 +4,7 @@
     android:background="@android:color/transparent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:textStyle="bold"
-        android:textSize="23sp"
-        android:layout_marginTop="70dp"
-        android:layout_centerHorizontal="true"
-        android:text="Synchronizing Data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+
     <ProgressBar
 
         android:layout_width="wrap_content"
