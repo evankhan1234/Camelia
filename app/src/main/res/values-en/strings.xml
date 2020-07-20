@@ -341,4 +341,8 @@
     <string name="normal_message">Your BMI is in NORMAL, to maintain this level - do regular physical activity and eat balanced diet — both of which help you look and feel good and keep weight off.</string>
     <string name="overweight_message">You are OVERWEIGHT, please consult with nutritionist or physician for weight reduction. Avoid taking oily and fatty food and do regular physical activity.</string>
     <string name="obese_message">You are OBESE. Being OBESE you are in high risk to develop hypertension, cardiovascular disease, diabetes, please consult with nutritionist or physician for weight reduction.</string>
+    <string name="wood">Wood</string>
+    <string name="jute_sticks">Jute Sticks</string>
+    <string name="dung">Dung</string>
+    <string name="hard_waste">Hard Waste of Crop</string>
 </resources>
