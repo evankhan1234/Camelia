@@ -434,27 +434,18 @@ public class Utils {
         Resources resources= context.getResources();
         ArrayList<BiomasFuelModel> sexModelArrayList = new ArrayList<>();
         BiomasFuelModel maritialStatusUnmarried1 = new BiomasFuelModel(resources.getString(R.string.Select), -1);
-        BiomasFuelModel maritialStatusUnmarried = new BiomasFuelModel(resources.getString(R.string.kath), 1);
-        BiomasFuelModel maritialStatusMarried = new BiomasFuelModel(resources.getString(R.string.patkhori), 2);
-        BiomasFuelModel maritialStatusDivorced = new BiomasFuelModel(resources.getString(R.string.gobor), 3);
-        BiomasFuelModel maritialStatusWidow = new BiomasFuelModel(resources.getString(R.string.fosol), 4);
+        BiomasFuelModel maritialStatusUnmarried = new BiomasFuelModel(resources.getString(R.string.wood), 1);
+        BiomasFuelModel maritialStatusMarried = new BiomasFuelModel(resources.getString(R.string.jute_sticks), 2);
+        BiomasFuelModel maritialStatusDivorced = new BiomasFuelModel(resources.getString(R.string.dung), 3);
+        BiomasFuelModel maritialStatusWidow = new BiomasFuelModel(resources.getString(R.string.hard_waste), 4);
         BiomasFuelModel maritialStatusWidower1 = new BiomasFuelModel(resources.getString(R.string.kura), 5);
-        BiomasFuelModel maritialStatusWidower2 = new BiomasFuelModel(resources.getString(R.string.alchocol), 6);
-        BiomasFuelModel maritialStatusWidower3 = new BiomasFuelModel(resources.getString(R.string.kerosin_chula), 7);
-        BiomasFuelModel maritialStatusWidower4 = new BiomasFuelModel(resources.getString(R.string.land_fill_gas), 8);
-        BiomasFuelModel maritialStatusWidower5 = new BiomasFuelModel(resources.getString(R.string.electric_chula), 9);
-        BiomasFuelModel maritialStatusWidower6 = new BiomasFuelModel(resources.getString(R.string.ittadi), 10);
         sexModelArrayList.add(maritialStatusUnmarried1);
         sexModelArrayList.add(maritialStatusUnmarried);
         sexModelArrayList.add(maritialStatusMarried);
         sexModelArrayList.add(maritialStatusDivorced);
         sexModelArrayList.add(maritialStatusWidow);
         sexModelArrayList.add(maritialStatusWidower1);
-        sexModelArrayList.add(maritialStatusWidower2);
-        sexModelArrayList.add(maritialStatusWidower3);
-        sexModelArrayList.add(maritialStatusWidower4);
-        sexModelArrayList.add(maritialStatusWidower5);
-        sexModelArrayList.add(maritialStatusWidower6);
+
         return sexModelArrayList;
 
     }
