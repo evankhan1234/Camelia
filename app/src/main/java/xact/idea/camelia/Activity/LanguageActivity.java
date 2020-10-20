@@ -526,6 +526,7 @@ public class LanguageActivity extends AppCompatActivity {
                     UHC uhc1 = new UHC();
                     uhc1.name = uhc.name;
                     uhc1.code = uhc.code;
+                    uhc1.UHCId = uhc.id;
                     uhc1.information = uhc.information;
                     uhc1.district_code = uhc.district_code;
                     uhc1.division_code = uhc.division_code;
