@@ -53,6 +53,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import xact.idea.camelia.Activity.CCUserActivity;
+import xact.idea.camelia.Activity.SpalashActivity;
 import xact.idea.camelia.Database.AnotherModel.VisitMyself;
 import xact.idea.camelia.Database.Model.Auth;
 import xact.idea.camelia.Database.Model.CCModel;
@@ -535,7 +536,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
-                referHistory.FromId = "";
+                referHistory.FromId = SharedPreferenceUtil.getUserID(mActivity);;
                 referHistory.Reason = "1";
                 Date date1 = null;
                 try {
@@ -677,7 +678,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
-                referHistory.FromId = "";
+                referHistory.FromId =SharedPreferenceUtil.getUserID(mActivity);
                 referHistory.Reason = "1";
                 Date date1 = null;
                 try {

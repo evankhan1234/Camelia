@@ -1050,7 +1050,8 @@ public class HouseHoldActivity extends AppCompatActivity {
                 Log.e("study", "study" + new Gson().toJson(uhcModel));
                 for (HouseholdListResponseModel.Data house : uhcModel.data) {
 
-                    if (auth.division.equals(house.division_id) && auth.district.equals(house.district_id)) {
+                    if (auth.division.equals(house.division_id) && auth.district.equals(house.district_id))
+                    {
                         HouseHold houseHold = new HouseHold();
                         HouseHold houseHoldNew = Common.householdRepository.getHouseHold(house.household_uniqe_id);
 
@@ -1615,7 +1616,7 @@ public class HouseHoldActivity extends AppCompatActivity {
             @Override
             public void accept(Throwable throwable) throws Exception {
                 progressDoalog.dismiss();
-                Log.e("evan", "asd" + throwable.getMessage());
+                Log.e("eeeeee", "asd" + throwable.getMessage());
             }
         }));
     }
