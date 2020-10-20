@@ -61,6 +61,8 @@ public class AuthResponse extends ApiResponses {
             public String  ward_id;
             @SerializedName("village")
             public String  village;
+            @SerializedName("work_station")
+            public String  work_station;
 
 
         }

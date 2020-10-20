@@ -206,6 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                                     {
 
                                         SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.TYPE_USER_ID, loginEntity.data.profile.user_id + "");
+                                        SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.WORK, loginEntity.data.workingarea.work_station + "");
                                         SharedPreferenceUtil.saveShared(LoginActivity.this, SharedPreferenceUtil.USER_ROLE, loginEntity.data.role_code + "");
 
 
@@ -923,6 +924,7 @@ public class LoginActivity extends AppCompatActivity {
                     UHC uhc1 = new UHC();
                     uhc1.name = uhc.name;
                     uhc1.code = uhc.code;
+                    uhc1.UHCId = uhc.id;
                     uhc1.information = uhc.information;
                     uhc1.district_code = uhc.district_code;
                     uhc1.division_code = uhc.division_code;

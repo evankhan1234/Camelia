@@ -536,7 +536,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
-                referHistory.FromId = SharedPreferenceUtil.getUserID(mActivity);;
+                referHistory.FromId = SharedPreferenceUtil.getWorkStation(mActivity);;
                 referHistory.Reason = "1";
                 Date date1 = null;
                 try {
@@ -678,7 +678,7 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
-                referHistory.FromId =SharedPreferenceUtil.getUserID(mActivity);
+                referHistory.FromId =SharedPreferenceUtil.getWorkStation(mActivity);
                 referHistory.Reason = "1";
                 Date date1 = null;
                 try {

@@ -15,6 +15,7 @@ public class SharedPreferenceUtil {
     public static final String USER_ROLE = "role";
     public static final String SYNC= "sync";
     public static final String LANG= "lang";
+    public static final String WORK= "work";
     public static void saveShared(Context c, String type, String val) {
         SharedPreferences.Editor ed = c.getSharedPreferences(mSharedName, Context.MODE_PRIVATE).edit();
         ed.putString(type, val);
@@ -55,6 +56,10 @@ public class SharedPreferenceUtil {
         return val;
     }public static String getUserName(Context c) {
         String val = getShared(c, TYPE_USER_NAME);
+        return val;
+    }
+    public static String getWorkStation(Context c) {
+        String val = getShared(c, WORK);
         return val;
     }
     public static String getEmail(Context c) {
