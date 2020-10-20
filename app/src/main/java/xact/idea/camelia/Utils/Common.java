@@ -60,6 +60,7 @@ public abstract class Common {
     public static ReferRepository referRepository;
     public static VisitRepository visitRepository;
 
+ //   public static final String BASE_URL_XACT = "http://camelia-beta.ciprb.org/api/";
     public static final String BASE_URL_XACT = "http://demo.xactidea.com/camelia/api/";
 
     public static IRetrofitApi getApiXact() {
