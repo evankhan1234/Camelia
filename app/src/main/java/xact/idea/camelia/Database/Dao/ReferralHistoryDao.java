@@ -35,4 +35,7 @@ public interface ReferralHistoryDao {
     void updateReferHistory(ReferHistory...ReferHistory);
     @Delete
     void deleteReferHistory(ReferHistory...ReferHistory);
+
+    @Query("Select * from ReferHistory where MemberUniqueCode=:ReferHistoryItem ORDER BY ids DESC LIMIT 1")
+    ReferHistory getMemberReferHistoryNo(String ReferHistoryItem);
 }

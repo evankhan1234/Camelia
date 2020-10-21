@@ -456,7 +456,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date12 = new Date(System.currentTimeMillis());
                 String currentDate = formatter.format(date12);
-                referHistory.FromId = "";
+                referHistory.FromId = null;
                 referHistory.Reason = "1";
                 Date date1 = null;
                 try {
