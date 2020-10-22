@@ -29,7 +29,7 @@ public interface CCDao {
     Flowable<List<CCModel>> getCCModelItemByOne(String DivisionId);
     @Query("SELECT * FROM CCModel WHERE id=:CCModelItem")
     CCModel getCCModel(String CCModelItem);
-    @Query("SELECT * FROM CCModel WHERE id=:CCModelItem")
+    @Query("SELECT * FROM CCModel WHERE CCId=:CCModelItem")
     CCModel getCCModelNo(String CCModelItem);
     @Query("Select Count(id)  FROM CCModel")
     int value();

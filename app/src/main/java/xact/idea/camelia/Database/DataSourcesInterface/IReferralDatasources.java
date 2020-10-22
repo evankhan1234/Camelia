@@ -9,7 +9,7 @@ public interface IReferralDatasources {
     Flowable<List<ReferHistory>> getReferHistoryItems();
 
     Flowable<List<ReferHistory>> getReferHistoryItemById(int ReferHistoryItemId);
-
+    ReferHistory getMemberReferHistoryNo(String ReferHistoryItem);
     ReferHistory getReferHistory(String ReferHistoryItem);
 
     void emptyReferHistory();

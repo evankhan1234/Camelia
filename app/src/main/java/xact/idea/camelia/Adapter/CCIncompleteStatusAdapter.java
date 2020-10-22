@@ -181,7 +181,37 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             String code = "<b><font color=#000 >" + resources.getString(R.string.khana_id) + ":  </font></b> <font color=#444444>" + memberMyself.get(position).UniqueId + "</font>";
             String member_id = "<b><font color=#000 >" + resources.getString(R.string.contact_no) + " :  </font></b> <font color=#444444>" + memberMyself.get(position).MobileNumber + "</font>";
             String village = "<b><font color=#000 >" + resources.getString(R.string.visit_date) + " :  </font></b> <font color=#444444>" + memberMyself.get(position).VisitDate + "</font>";
-            String date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>N/A</font>";
+            ReferHistory  referHistor= Common.referRepository.getMemberReferHistoryNo(memberMyself.get(position).UniqueCode);
+            String date="";
+            if (referHistor!=null){
+                if (referHistor.Type.equals("1")){
+                    CCModel ccModel=Common.ccRepository.getCCModelNo(referHistor.ToId);
+                    date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>"+ccModel.name+"</font>";
+                }
+                else{
+                    if (referHistor.FromId==null){
+                        CCModel ccModel=Common.ccRepository.getCCModelNo("8");
+                        date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>"+ccModel.name+"</font>";
+                    }
+                    else{
+                        if (referHistor.FromId.equals("3")){
+                            CCModel ccModel=Common.ccRepository.getCCModelNo("8");
+                            date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>"+ccModel.name+"</font>";
+                        }
+                        else{
+                            CCModel ccModel=Common.ccRepository.getCCModelNo(referHistor.FromId);
+                            date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>"+ccModel.name+"</font>";
+                        }
+
+                    }
+                }
+
+            }
+            else{
+                date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>N/A</font>";
+            }
+
+
             String block = "<b><font color=#000 >" + resources.getString(R.string.conditions) + ":  </font></b> <font color=#444444> N/A</font>";
             holder.text_name.setText(Html.fromHtml(name));
             holder.text_follow.setText(resources.getString(R.string.follow_));
@@ -264,7 +294,35 @@ public class CCIncompleteStatusAdapter extends RecyclerView.Adapter<CCIncomplete
             String code = "<b><font color=#000 >" + resources.getString(R.string.khana_id) + ":  </font></b> <font color=#444444>" + memberMyselfs.get(position).UniqueId + "</font>";
             String member_id = "<b><font color=#000 >" + resources.getString(R.string.contact_no) + " :  </font></b> <font color=#444444>" + memberMyselfs.get(position).MobileNumber + "</font>";
             String village = "<b><font color=#000 >" + resources.getString(R.string.visit_date) + " :  </font></b> <font color=#444444>" + memberMyselfs.get(position).VisitDate + "</font>";
-            String date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>N/A</font>";
+            ReferHistory  referHistor= Common.referRepository.getMemberReferHistoryNo(memberMyselfs.get(position).UniqueCode);
+            String date="";
+            if (referHistor!=null){
+                if (referHistor.Type.equals("1")){
+                    CCModel ccModel=Common.ccRepository.getCCModelNo(referHistor.ToId);
+                    date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>"+ccModel.name+"</font>";
+                }
+                else{
+                    if (referHistor.FromId==null){
+                        CCModel ccModel=Common.ccRepository.getCCModelNo("8");
+                        date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>"+ccModel.name+"</font>";
+                    }
+                    else{
+                        if (referHistor.FromId.equals("3")){
+                            CCModel ccModel=Common.ccRepository.getCCModelNo("8");
+                            date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>"+ccModel.name+"</font>";
+                        }
+                        else{
+                            CCModel ccModel=Common.ccRepository.getCCModelNo(referHistor.FromId);
+                            date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>"+ccModel.name+"</font>";
+                        }
+
+                    }
+
+                }
+            }
+            else{
+                date = "<b><font color=#000 >" + resources.getString(R.string.ref) + " :  </font></b> <font color=#444444>N/A</font>";
+            }
             String block = "<b><font color=#000 >" + resources.getString(R.string.conditions) + ":  </font></b> <font color=#444444> N/A</font>";
             holder.text_name.setText(Html.fromHtml(name));
             holder.text_follow.setText(resources.getString(R.string.follow_));
