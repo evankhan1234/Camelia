@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -291,7 +292,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     double fruitsShowCard;
     int typicalVegetables;
     double vegetablesShowCard;
-    int saltyBuy;
+    double saltyBuy;
     int takingSalt;
     int vigorousIntensity;
     int vigorousIntensityTypical;
@@ -3810,6 +3811,34 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             }
         }
     }
+    private void initSpinnerFruitsShowCard() {
+        int YesNo = 0;
+        Questions questions1 = Common.qustionsRepository.getQuestions("Q33", update);
+        try {
+            YesNo = Integer.parseInt(questions1.answer);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            YesNo = -1;
+        }
+        if (YesNo != 0) {
+            int div = YesNo;
+
+            if (div == 1) {
+                try {
+                    Questions questions1a = Common.qustionsRepository.getQuestions("Q33a", update);
+                    edit_jorda.setText(questions1a.answer);
+                } catch (Exception e) {
+                    edit_jorda.setText("");
+                }
+            }
+
+            for (int i = 0; i < yesNoArrayListForJorda.size(); i++) {
+                if (yesNoArrayListForJorda.get(i).getId() == div) {
+                    spinner_jorda.setSelection(i);
+                }
+            }
+        }
+    }
 
     private void initWorkPlaceSmoke() {
         int YesNo = 0;
@@ -3891,24 +3920,25 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     }
 
     private void initFruitsShowCard() {
-        int YesNo = 0;
+        double YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q37", update);
-        try {
-            YesNo = Integer.parseInt(questions1.answer);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            YesNo = -1;
-        }
-        if (YesNo != 0) {
-            int div = YesNo;
+
+        if (questions1!=null){
+            YesNo = Double.parseDouble(questions1.answer);
+            if (YesNo != 0) {
+                double div = YesNo;
 
 
-            for (int i = 0; i < yesNoArrayListForFruitsCard.size(); i++) {
-                if (yesNoArrayListForFruitsCard.get(i).getId() == div) {
-                    spinner_fruits_card.setSelection(i);
+                for (int i = 0; i < yesNoArrayListForFruitsCard.size(); i++) {
+                    if (yesNoArrayListForFruitsCard.get(i).getId() == div) {
+                        spinner_fruits_card.setSelection(i);
+                    }
                 }
             }
         }
+
+
+
     }
 
     private void initTypicalVegetable() {
@@ -3918,7 +3948,7 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             YesNo = Integer.parseInt(questions1.answer);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            YesNo = -1;
+            YesNo = 0;
         }
         if (YesNo != 0) {
             int div = YesNo;
@@ -3933,37 +3963,40 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
     }
 
     private void initVegetablesShowCard() {
-        int YesNo = 0;
+        double YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q39", update);
-        try {
-            YesNo = Integer.parseInt(questions1.answer);
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            YesNo = -1;
-        }
-        if (YesNo != 0) {
-            int div = YesNo;
+        if (questions1!=null){
+            try {
+                YesNo = Double.parseDouble(questions1.answer);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                YesNo = 0;
+            }
+            if (YesNo != 0) {
+                double div = YesNo;
 
 
-            for (int i = 0; i < yesNoArrayListForVegetablesCard.size(); i++) {
-                if (yesNoArrayListForVegetablesCard.get(i).getId() == div) {
-                    spinner_vegetables_card.setSelection(i);
+                for (int i = 0; i < yesNoArrayListForVegetablesCard.size(); i++) {
+                    if (yesNoArrayListForVegetablesCard.get(i).getId() == div) {
+                        spinner_vegetables_card.setSelection(i);
+                    }
                 }
             }
         }
+
     }
 
     private void initSaltBuy() {
-        int YesNo = 0;
+        double YesNo = 0;
         Questions questions1 = Common.qustionsRepository.getQuestions("Q41", update);
         try {
-            YesNo = Integer.parseInt(questions1.answer);
+            YesNo = Double.parseDouble(questions1.answer);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             YesNo = -1;
         }
         if (YesNo != 0) {
-            int div = YesNo;
+            double div = YesNo;
 
 
             for (int i = 0; i < yesNoArrayListForSaltBuy.size(); i++) {
@@ -6790,6 +6823,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForFruitsCard.get(position).getId());
                 fruitsShowCard = yesNoArrayListForFruitsCard.get(position).getId();
+                double sum=fruitsShowCard+vegetablesShowCard;
+                edit_plus.setText(String.valueOf(sum));
                 linear_plus.setVisibility(View.GONE);
                 checkbox_plus.setChecked(false);
             }
@@ -6831,6 +6866,8 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("sp_water", "" + yesNoArrayListForVegetablesCard.get(position).getId());
                 vegetablesShowCard = yesNoArrayListForVegetablesCard.get(position).getId();
+                double sum=fruitsShowCard+vegetablesShowCard;
+                edit_plus.setText(String.valueOf(sum));
                 linear_plus.setVisibility(View.GONE);
                 checkbox_plus.setChecked(false);
 
@@ -11989,26 +12026,26 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
                 ///
 
-                Questions questionsFor45 = Common.qustionsRepository.getQuestions("Q39", update);
-                if (questionsFor45 == null) {
-                    Questions questions9 = new Questions();
-                    questions9.type = "behavioral";
-                    questions9.question = "Q39";
-                    questions9.member_id = memberHabitsFor.member_unique_code;
-                    questions9.answer = String.valueOf(vegetablesShowCard);
-                    questions9.date = currentDate;
-                    questions9.master_id = memberHabitsFor.id;
-                    Common.qustionsRepository.insertToQuestions(questions9);
+                Questions questionsFor401 = Common.qustionsRepository.getQuestions("Q40", update);
+                if (questionsFor401 == null) {
+                    Questions questions10 = new Questions();
+                    questions10.type = "behavioral";
+                    questions10.question = "Q40";
+                    questions10.member_id = memberHabitsFor.member_unique_code;
+                    questions10.answer = String.valueOf(edit_plus.getText().toString());
+                    questions10.date = currentDate;
+                    questions10.master_id = memberHabitsFor.id;
+                    Common.qustionsRepository.insertToQuestions(questions10);
                 } else {
-                    Questions questions9 = new Questions();
-                    questions9.type = "behavioral";
-                    questions9.question = "Q39";
-                    questions9.member_id = memberHabitsFor.member_unique_code;
-                    questions9.answer = String.valueOf(vegetablesShowCard);
-                    questions9.date = currentDate;
-                    questions9.master_id = memberHabitsFor.id;
-                    questions9.id = questionsFor45.id;
-                    Common.qustionsRepository.updateQuestions(questions9);
+                    Questions questions10 = new Questions();
+                    questions10.type = "behavioral";
+                    questions10.question = "Q40";
+                    questions10.member_id = memberHabitsFor.member_unique_code;
+                    questions10.answer = String.valueOf(edit_plus.getText().toString());
+                    questions10.date = currentDate;
+                    questions10.master_id = memberHabitsFor.id;
+                    questions10.id = questionsFor401.id;
+                    Common.qustionsRepository.updateQuestions(questions10);
                 }
 
 
@@ -12879,15 +12916,15 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
                         ///
 
-//
-//                        Questions questions9 = new Questions();
-//                        questions9.type = "behavioral";
-//                        questions9.question = "Q40";
-//                        questions9.member_id = memberMyself.MemberId;
-//                        questions9.answer = String.valueOf(vegetablesShowCard);
-//                        questions9.date = currentDate;
-//                        questions9.master_id = memberMyself.id;
-//                        Common.qustionsRepository.insertToQuestions(questions9);
+
+                        Questions questions9 = new Questions();
+                        questions9.type = "behavioral";
+                        questions9.question = "Q40";
+                        questions9.member_id = memberMyself.UniqueCode;
+                        questions9.answer = String.valueOf(edit_plus.getText().toString());
+                        questions9.date = currentDate;
+                        questions9.master_id = memberMyself.id;
+                        Common.qustionsRepository.insertToQuestions(questions9);
 
 
                         ///
@@ -15228,6 +15265,28 @@ public class HHHabitFragment extends Fragment implements Handler.Callback {
 
 
                         ///
+                        Questions questionsFor401 = Common.qustionsRepository.getQuestions("Q40", update);
+                        if (questionsFor401 == null) {
+                            Questions questions10 = new Questions();
+                            questions10.type = "behavioral";
+                            questions10.question = "Q40";
+                            questions10.member_id = memberHabits.member_unique_code;
+                            questions10.answer = String.valueOf(edit_plus.getText().toString());
+                            questions10.date = currentDate;
+                            questions10.master_id = memberHabits.id;
+                            Common.qustionsRepository.insertToQuestions(questions10);
+                        } else {
+                            Questions questions10 = new Questions();
+                            questions10.type = "behavioral";
+                            questions10.question = "Q40";
+                            questions10.member_id = memberHabits.member_unique_code;
+                            questions10.answer = String.valueOf(edit_plus.getText().toString());
+                            questions10.date = currentDate;
+                            questions10.master_id = memberHabits.id;
+                            questions10.id = questionsFor401.id;
+                            Common.qustionsRepository.updateQuestions(questions10);
+                        }
+
 
                         Questions questionsFor41 = Common.qustionsRepository.getQuestions("Q41", update);
                         if (questionsFor41 == null) {
