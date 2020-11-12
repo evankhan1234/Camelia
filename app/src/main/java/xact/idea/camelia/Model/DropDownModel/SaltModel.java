@@ -6,9 +6,9 @@ public class SaltModel {
     @SerializedName("Name")
     private String Name;
     @SerializedName("Id")
-    private int Id;
+    private double Id;
 
-    public SaltModel(String name, int id) {
+    public SaltModel(String name, double id) {
         Name = name;
         Id = id;
     }
@@ -26,7 +26,7 @@ public class SaltModel {
         Name = name;
     }
 
-    public int getId() {
+    public double getId() {
         return Id;
     }
 
