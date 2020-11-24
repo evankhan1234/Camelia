@@ -150,7 +150,7 @@ public class HHMemberListAdapter extends RecyclerView.Adapter<HHMemberListAdapte
                 }
             });
             MemberMyself myself =Common.memberMyselfRepository.getMemberId(memberMyselfes.get(position).UniqueCode);
-            if (myself.VisitDate==null || myself.VisitDate.equals("")) {
+            if (myself.VisitDate==null || myself.VisitDate.equals("") ||myself.VisitDate.equals("1970-01-01")) {
                 holder.text_cc.setVisibility(View.VISIBLE);
             }
 
