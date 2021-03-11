@@ -85,10 +85,10 @@ public interface MemberMyselfDao {
     @Query("SELECT * FROM ( SELECT q.MemberIds, COUNT(q.MemberIds) TypeCount FROM (SELECT ms.MemberIds,ms.Type FROM Measurements ms WHERE ms.type IN ('BMI','Diastolic','WHR','Systolic','Pulse','Fasting-Diabetes')GROUP BY ms.MemberIds,ms.type) q GROUP BY q.MemberIds HAVING COUNT(q.MemberIds) > 5 )q2 INNER JOIN MemberMyself members ON q2.MemberIds = members.UniqueCode")
     Flowable<List<MemberMyself>> getCompleteMembers();
 
-    @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.UniqueCode=Measure.MemberIds  Group BY Member.id HAVING  Count(Measure.id)<6")
+    @Query("SELECT  * FROM MemberMyself as Member inner join Measurements as Measure ON Member.UniqueCode=Measure.MemberIds WHERE VisitDate <>'1970-01-01' Group BY Member.id HAVING  Count(Measure.id)<6")
     Flowable<List<MemberMyself>> getInCompleteMembers();
 
-    @Query("SELECT  * FROM MemberMyself as Member left join Measurements as Measure ON Member.UniqueCode=Measure.MemberIds  WHERE Measure.id  IS NULL")
+    @Query("SELECT  * FROM MemberMyself as Member left join Measurements as Measure ON Member.UniqueCode=Measure.MemberIds  WHERE Measure.id  IS NULL AND VisitDate <>'1970-01-01'")
     Flowable<List<MemberMyself>> getInCompleteMembersFor();
 
 
